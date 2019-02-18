@@ -4,9 +4,8 @@
 \alias{FPBKoutput}
 \title{Create maps and summaries from FPBK results.}
 \usage{
-FPBKoutput(pred_info, conf_level = c(0.8, 0.9, 0.95),
-  get_krigmap = FALSE, get_sampdetails = FALSE,
-  get_variogram = FALSE, get_report = FALSE,
+FPBKoutput(pred_info, conf_level = c(0.8, 0.9, 0.95), get_krigmap = FALSE,
+  get_sampdetails = FALSE, get_variogram = FALSE, get_report = FALSE,
   CorModel = "Exponential")
 }
 \arguments{
