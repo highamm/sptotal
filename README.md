@@ -1,12 +1,12 @@
-FPBKPack2 implements finite population block kriging (Ver Hoef (2008)), a geostatistical approach to estimating means and totals of count data for finite populations. FPBKPack2 is currently under development.
+\code{sptotal} implements finite population block kriging (Ver Hoef (2008)), a geostatistical approach to predicting means and totals of count data for finite populations. \code{sptotal} is currently under development.
 
 ## Installation
 
-FPBKPack2 can be installed using `devtools`
+\code{sptotal} can be installed using `devtools`
 
 ```{r}
 library(devtools)
-install_git("https://github.com/highamm/FPBKPack2.git")
+install_git("https://github.com/highamm/sptotal.git")
 ```
 
 
