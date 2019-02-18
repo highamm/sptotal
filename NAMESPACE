@@ -2,6 +2,7 @@
 
 export(FPBKoutput)
 export(FPBKpred)
+export(GR2)
 export(LLtoUTM)
 export(corModelExponential)
 export(corModelGaussian)

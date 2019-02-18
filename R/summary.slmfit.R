@@ -9,7 +9,7 @@
 #' @import stats
 #' @export summary.slmfit
 
-summary.slmfit <- function(object, ...) {
+summary.slmfit <- function(object) {
 
   predictornames <- object$PredictorNames
   NAvec <- rep(NA, times = length(predictornames))
@@ -40,10 +40,19 @@ summary.slmfit <- function(object, ...) {
   covmodels <- object$SpatialParmEsts
   covmodelout <- data.frame(covmodels)
   colnames(covmodelout) <- paste(object$CovarianceMod, "Model")
-  outpt = list(fixed.effects.estimates = fixed.effects.estimates,
-    covariance.parameters = covmodelout)
 
-  class("summary.slmfit")
+  resid_vec <- object$resids
+  ##residualsum <- c(min(residuals), quantile(residuals, c(0.25, 0.5,
+  ##  0.75)), max(residuals))
+  generalizedr2 <- GR2(object)
+
+  outpt <- list(fixed.effects.estimates = fixed.effects.estimates,
+    covariance.parameters = covmodelout,
+    resid_vec,
+    generalizedr2)
+  names(outpt) <- c("FixedEffects", "CovarianceParms",
+    "Residuals", "GeneralizedR2")
   return(outpt)
+  class("summary.slmfit")
 
 }

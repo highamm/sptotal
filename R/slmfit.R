@@ -137,6 +137,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   muhats <- Xs %*% betahat
   muhatu <- Xu %*% betahat
 
+  resids <- z.sa - muhats
 
   muhat <- rep(NA, nrow(data))
   muhat[ind.sa == TRUE] <- muhats
@@ -159,13 +160,14 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   names(FPBKpredobj) <- c("formula", "data", "xcoordsUTM",
     "ycoordsUTM", "correlationmod", "covmat", "covmatsampi")
   obj <- list(covparms, betahatest, covest, prednames,
-    n, CorModel, FPBKpredobj)
+    n, CorModel, resids, Xs, z.sa, FPBKpredobj)
 
   names(obj) <- c("SpatialParmEsts", "CoefficientEsts",
     "BetaCov", "PredictorNames", "SampSize", "CovarianceMod",
+    "resids", "DesignMat", "Density",
     "FPBKPredobj")
 
-  class("slmfit")
+  class(obj) <- "slmfit"
   return(obj)
 
   }
@@ -177,8 +179,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 ##formula <- counts ~ pred1 + pred2
 
 ##slm_info <- slmfit(counts ~ pred1 + pred2, data = exampledataset,
-##  xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM")
-##summary.slmfit(slm_info)
+##xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM")
+##summary.slmfit(object = slm_info)
 ##pred_info <- FPBKpred(slmfitobj = slm_info, FPBKwts = NULL)
 ##str(slm_info)
 
