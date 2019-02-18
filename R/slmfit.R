@@ -159,10 +159,10 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   names(FPBKpredobj) <- c("formula", "data", "xcoordsUTM",
     "ycoordsUTM", "correlationmod", "covmat", "covmatsampi")
   obj <- list(covparms, betahatest, covest, prednames,
-    n, FPBKpredobj)
+    n, CorModel, FPBKpredobj)
 
   names(obj) <- c("SpatialParmEsts", "CoefficientEsts",
-    "BetaCov", "PredictorNames", "SampSize",
+    "BetaCov", "PredictorNames", "SampSize", "CovarianceMod",
     "FPBKPredobj")
 
   class("slmfit")

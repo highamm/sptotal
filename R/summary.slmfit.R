@@ -1,3 +1,14 @@
+#' Summarizes a fitted spatial linear model
+#'
+#' @param object is an object generated from \code{slmfit}.
+#' @return a list with \itemize{
+#'   \item a table of fixed effects estimates and associated standard errors
+#'   \item estimated spatial covariance parameter estimates.
+#'        }
+#' }
+#' @import stats
+#' @export summary.slmfit
+
 summary.slmfit <- function(object, ...) {
 
   predictornames <- object$PredictorNames
@@ -25,7 +36,13 @@ summary.slmfit <- function(object, ...) {
     ## dataXY issue
   ##  stop(cat("glmssn has computed estimates for",rownames(b.hat),"but the summary command expects estimates for",effnames,collapse=" "))
 ##  }
-  outpt = list(fixed.effects.estimates = fixed.effects.estimates)
+
+  covmodels <- object$SpatialParmEsts
+  covmodelout <- data.frame(covmodels)
+  colnames(covmodelout) <- paste(object$CovarianceMod, "Model")
+  outpt = list(fixed.effects.estimates = fixed.effects.estimates,
+    covariance.parameters = covmodelout)
+
   class("summary.slmfit")
   return(outpt)
 
