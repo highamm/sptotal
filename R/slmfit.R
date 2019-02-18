@@ -27,7 +27,6 @@
 #' }
 #' @import stats
 #' @export slmfit
-#'
 
 slmfit <- function(formula, data, xcoordcol, ycoordcol,
   CorModel = "Exponential",
