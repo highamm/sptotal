@@ -89,6 +89,9 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   z.sa <- stats::model.response(m.sa)
   Xs <- stats::model.matrix(formula, m.sa)
   z.density <- z.sa
+  n <- nrow(Xs)
+
+  prednames <- colnames(Xs)
 
   ## x and y coordinates for sampled and unsampled sites
   x.sa <- xcoordsUTM[ind.sa]
@@ -134,6 +137,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   muhats <- Xs %*% betahat
   muhatu <- Xu %*% betahat
 
+
   muhat <- rep(NA, nrow(data))
   muhat[ind.sa == TRUE] <- muhats
   muhat[ind.sa == FALSE] <- muhatu
@@ -146,26 +150,37 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
   covparms <- as.vector(c(nugget.effect, parsil.effect, range.effect))
   betahatest <- as.vector(betahat)
+  covest <- solve((t(Xs) %*% Sigma.ssi %*% Xs))
+
   names(covparms) <- c("Nugget", "Partial Sill", "Range")
 
   FPBKpredobj <- list(formula, data, xcoordsUTM, ycoordsUTM,
     CorModel, Sigma, Sigma.ssi)
   names(FPBKpredobj) <- c("formula", "data", "xcoordsUTM",
     "ycoordsUTM", "correlationmod", "covmat", "covmatsampi")
-  obj <- list(covparms, betahatest, FPBKpredobj)
+  obj <- list(covparms, betahatest, covest, prednames,
+    n, FPBKpredobj)
 
   names(obj) <- c("SpatialParmEsts", "CoefficientEsts",
+    "BetaCov", "PredictorNames", "SampSize",
     "FPBKPredobj")
 
-
+  class("slmfit")
   return(obj)
 
   }
 
+##counts <- 1:10
+##pred1 <- runif(10, 0, 1)
+##pred2 <- runif(10, 0, 2)
+##data <- data.frame(cbind(counts, pred1, pred2))
+##formula <- counts ~ pred1 + pred2
 
 ##slm_info <- slmfit(counts ~ pred1 + pred2, data = exampledataset,
 ##  xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM")
+##summary.slmfit(slm_info)
 ##pred_info <- FPBKpred(slmfitobj = slm_info, FPBKwts = NULL)
+##str(slm_info)
 
 ##FPBKoutput(pred_info = pred_info, get_variogram = TRUE,
 ##  get_sampdetails = TRUE,
