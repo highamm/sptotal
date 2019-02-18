@@ -4,6 +4,7 @@
 #' The column with the counts should have numeric values for the observed counts
 #' on the sampled sites and `NA` for any site that was not sampled.
 #'
+#'
 #' @param slmfitobj is an object generated from \code{slmfit}
 #' @param FPBKwts is a vector that contains the weights for
 #' prediction. The default setting predicts the population total
