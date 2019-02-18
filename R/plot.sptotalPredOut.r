@@ -34,8 +34,6 @@ plot.sptotalPredOut = function(predictions, nbreaks = 4,
   cuts = cut(predictions$Pred_df$preddensity, breaks = brks)
   # create a color palette
   palette = viridis(length(levels(cuts)))
-  # store current par() values
-  par.orig = par()
   # create plot of predictions colored by their prediction values
   par(mar = c(5,5,1,1))
   plot(predictions$Pred_df$xcoords, predictions$Pred_df$ycoords, pch = 19,
@@ -47,5 +45,4 @@ plot.sptotalPredOut = function(predictions, nbreaks = 4,
     yaxt = 'n', bty='n')
   legend(.1, .9, legend = levels(cuts), col = palette,
     pch = rep(19, times = length(palette)), cex = legend.cex)
-  return(invisible(par(par.orig)))
 }
