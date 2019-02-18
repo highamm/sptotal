@@ -4,27 +4,13 @@
 \alias{FPBKpred}
 \title{Perform Finite Population Block Kriging}
 \usage{
-FPBKpred(formula, data, xcoordcol, ycoordcol, CorModel = "Exponential",
-  FPBKcol = NULL, coordtype = "LatLon")
+FPBKpred(slmfitobj, FPBKwts = NULL)
 }
 \arguments{
-\item{formula}{is an R linear model formula specifying density as the
-response variable as well as covariates for predicting densities on the unsampled sites.}
+\item{slmfitobj}{is an object generated from \code{slmfit}}
 
-\item{data}{is the data set with the response column of counts, the covariates to
-be used for the block kriging, and the spatial coordinates for all of the sites.}
-
-\item{xcoordcol}{is the name of the column in the data frame with x coordinates or longitudinal coordinates}
-
-\item{ycoordcol}{is the name of the column in the data frame with y coordinates or latitudinal coordinates}
-
-\item{CorModel}{is the covariance structure. By default, \code{CorModel} is
-Exponential but other options include the Spherical and Gaussian.}
-
-\item{FPBKcol}{is a vector in the data set that contains the weights for
+\item{FPBKwts}{is a vector that contains the weights for
 prediction. The default setting predicts the population total}
-
-\item{coordtype}{specifies whether spatial coordinates are in latitude, longitude (\code{LatLon}) form or UTM (\code{UTM}) form.}
 }
 \value{
 a list with \itemize{
@@ -34,7 +20,6 @@ a list with \itemize{
        \item x-coordinates
        \item y-coordinates
        \item density predictions
-       \item count predictions
        \item indicator variable for whether or not the each site was sampled
        \item estimated mean for each site
        }
@@ -42,7 +27,7 @@ a list with \itemize{
 }
 }
 \description{
-Takes sample data and uses FPBK to predict the counts on the unsampled sites.
+Takes the output of \code{slmfit} and uses FPBK to predict the counts on the unsampled sites.
 The column with the counts should have numeric values for the observed counts
 on the sampled sites and `NA` for any site that was not sampled.
 }

@@ -188,10 +188,4 @@ if (get_krigmap == TRUE) {
 
 }
 
-##pred_info <- FPBKpred(formula = formula, data = data, xcoordcol = xcoordcol,
-##   ycoordcol = ycoordcol, CorModel = "Gaussian",
-##  coordtype = "UTM", areacol = "areavar", FPBKcol = NULL)
-# pred_info$Pred_df[ ,5]
-#
-# FPBKoutput(pred_info = pred_info, get_variogram = TRUE)
-# conf_level <- 0.95
+

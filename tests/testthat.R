@@ -1,4 +1,4 @@
 library(testthat)
-library(FPBKForestPack)
+library(sptotal)
 
-test_check("FPBKForestPack")
+test_check("sptotal")
