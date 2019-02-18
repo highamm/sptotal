@@ -32,10 +32,10 @@ FPBKpred <- function(slmfitobj, FPBKwts = NULL) {
   ## of 1's and 0's for predicting the total of the sites marked with 1's)
 
 
-  formula <- slmfitobj$FPBKPredobj$formula
-  data <- slmfitobj$FPBKPredobj$data
-  xcoordsUTM <- slmfitobj$FPBKPredobj$xcoordsUTM
-  ycoordsUTM <- slmfitobj$FPBKPredobj$ycoordsUTM
+  formula <- slmfitobj$FPBKpredobj$formula
+  data <- slmfitobj$FPBKpredobj$data
+  xcoordsUTM <- slmfitobj$FPBKpredobj$xcoordsUTM
+  ycoordsUTM <- slmfitobj$FPBKpredobj$ycoordsUTM
   covparmests <- slmfitobj$SpatialParmEsts
 
    if (is.null(FPBKwts) == TRUE) {
@@ -80,7 +80,7 @@ FPBKpred <- function(slmfitobj, FPBKwts = NULL) {
   z.density <- z.sa
 
 
-  Sigma <- slmfitobj$FPBKPredobj$covmat
+  Sigma <- slmfitobj$FPBKpredobj$covmat
 
   ## used in the Kriging formulas
   Sigma.us <- Sigma[ind.un, ind.sa]
@@ -93,7 +93,7 @@ FPBKpred <- function(slmfitobj, FPBKwts = NULL) {
           cannot be inverted")
       }
 
-  Sigma.ssi <- slmfitobj$FPBKPredobj$covmatsampi
+  Sigma.ssi <- slmfitobj$FPBKpredobj$covmatsampi
 
   ## the generalized least squares regression coefficient estimates
   betahat <- slmfitobj$CoefficientEsts

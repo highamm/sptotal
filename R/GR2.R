@@ -9,7 +9,7 @@
 GR2 <- function(object) {
  if (class(object) != "slmfit") return("Not a slmfit object")
   W <- object$DesignMat
-  Vi <- object$FPBKPredobj$covmatsampi
+  Vi <- object$FPBKpredobj$covmatsampi
   z <- object$Density
   betahat <- object$CoefficientEsts
   muhat <- sum(Vi %*% z) / sum(Vi)

@@ -2,14 +2,19 @@
 #'
 #' @param object is an object generated from \code{slmfit}.
 #' @return a list with \itemize{
+#'   \item model formula
 #'   \item a table of fixed effects estimates and associated standard errors
-#'   \item estimated spatial covariance parameter estimates.
+#'   \item estimated spatial covariance parameter estimates
+#'   \item residuals
+#'   \item generalized r-squared.
 #'        }
 #' }
 #' @import stats
 #' @export summary.slmfit
 
 summary.slmfit <- function(object) {
+
+  catcall <- object$FPBKpredobj$formula
 
   predictornames <- object$PredictorNames
   NAvec <- rep(NA, times = length(predictornames))
@@ -46,11 +51,12 @@ summary.slmfit <- function(object) {
   ##  0.75)), max(residuals))
   generalizedr2 <- GR2(object)
 
-  outpt <- list(fixed.effects.estimates = fixed.effects.estimates,
+  outpt <- list(catcall = catcall,
+    fixed.effects.estimates = fixed.effects.estimates,
     covariance.parameters = covmodelout,
     resid_vec,
     generalizedr2)
-  names(outpt) <- c("FixedEffects", "CovarianceParms",
+  names(outpt) <- c("catCall", "FixedEffects", "CovarianceParms",
     "Residuals", "GeneralizedR2")
   return(outpt)
   class("summary.slmfit")

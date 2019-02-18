@@ -165,7 +165,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   names(obj) <- c("SpatialParmEsts", "CoefficientEsts",
     "BetaCov", "PredictorNames", "SampSize", "CovarianceMod",
     "resids", "DesignMat", "Density",
-    "FPBKPredobj")
+    "FPBKpredobj")
 
   class(obj) <- "slmfit"
   return(obj)
@@ -181,6 +181,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 ##slm_info <- slmfit(counts ~ pred1 + pred2, data = exampledataset,
 ##xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM")
 ##summary.slmfit(object = slm_info)
+##print.summary.slmfit(x = summary.slmfit(object = slm_info))
 ##pred_info <- FPBKpred(slmfitobj = slm_info, FPBKwts = NULL)
 ##str(slm_info)
 
