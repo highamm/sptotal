@@ -1,8 +1,8 @@
-\code{sptotal} implements finite population block kriging (Ver Hoef (2008)), a geostatistical approach to predicting means and totals of count data for finite populations. \code{sptotal} is currently under development.
+`sptotal` implements finite population block kriging (Ver Hoef (2008)), a geostatistical approach to predicting means and totals of count data for finite populations. `sptotal` is currently under development.
 
 ## Installation
 
-\code{sptotal} can be installed using `devtools`
+`sptotal` can be installed using `devtools`
 
 ```{r}
 library(devtools)
