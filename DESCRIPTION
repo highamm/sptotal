@@ -18,7 +18,8 @@ RoxygenNote: 6.1.1
 Imports: matrixcalc,
     mvtnorm,
     ggplot2,
-    stats
+    stats,
+    viridis,
 Suggests: 
     gstat,
     rmarkdown,

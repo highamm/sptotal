@@ -160,7 +160,7 @@ FPBKpred <- function(slmfitobj, FPBKwts = NULL) {
     "Pred_df", "SpatialParms")
 
 
-
+  class(obj) <- "sptotalPredOut"
 
   return(obj)
 
