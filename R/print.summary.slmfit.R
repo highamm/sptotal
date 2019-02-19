@@ -16,6 +16,7 @@
 #' }
 #' @import stats
 #' @export print.summary.slmfit
+#' @export print.slmfit
 
 print.summary.slmfit <- function(x,
   digits = max(3L, getOption("digits") - 3L),
@@ -44,6 +45,8 @@ print.summary.slmfit <- function(x,
 
   cat("\nGeneralized R-squared:", x$GeneralizedR2)
 
+}
 
-
+print.slmfit <- function(x,...) {
+  print(summary(x,...))
 }
