@@ -157,11 +157,27 @@ FPBKpred <- function(slmfitobj, FPBKcol = NULL) {
   ## 2.) a matrix with x and y coordinates, kriged predctions, and
   ## indicators for whether sites were sampled or not
   ## 3.) a vector of the estimated spatial parameters
-  df_out <- data.frame(cbind(xcoordsUTM, ycoordsUTM,
-    preddensity, sampind, muhat, densvar))
-  colnames(df_out) <- c("xcoords", "ycoords",
-    "preddensity",
-    "sampind", "muhat", "predvariance")
+
+
+
+
+  df_out <- data.frame(cbind(data, xcoordsUTM, ycoordsUTM,
+    preddensity, densvar, sampind, muhat))
+
+  # data <- data.frame(y = 1:10, x = 2:11)
+  #
+  # fullmf <- stats::model.frame(formula, na.action =
+  #   stats::na.pass, data = data)
+
+  colnames(df_out) <- c(colnames(data), "_xcoordsUTM_", "_ycoordsUTM_",
+    paste(base::all.vars(formula)[1], "_pred",
+      sep = ""),
+    paste(base::all.vars(formula)[1], "_predvar",
+      sep = ""),
+    paste(base::all.vars(formula)[1], "_sampind",
+      sep = ""),
+    paste(base::all.vars(formula)[1], "_muhat",
+      sep = ""))
   obj <- list(FPBKpredictor, pred.var.obs,
     df_out,
     as.vector(covparmests))
