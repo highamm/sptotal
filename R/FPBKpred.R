@@ -21,10 +21,10 @@
 #'    \item vector with estimated covariance parameters
 #' }
 #' @import stats
-#' @export FPBKpred
+#' @export predict.slmfit
 
 
-FPBKpred <- function(slmfitobj, FPBKcol = NULL) {
+predict.slmfit <- function(slmfitobj, FPBKcol = NULL) {
 
   ## if FPBKcol is left out, we are predicting the population total.
   ## Otherwise, FPBKcol is the name of the column in the data set

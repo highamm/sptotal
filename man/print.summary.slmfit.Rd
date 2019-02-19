@@ -4,8 +4,8 @@
 \alias{print.summary.slmfit}
 \title{Prints the summary of a fitted spatial linear model}
 \usage{
-\method{print}{summary.slmfit}(x, digits = max(3L, getOption("digits") -
-  3L), signif.stars = getOption("show.signif.stars"), ...)
+\method{print}{summary.slmfit}(x, digits = max(3L, getOption("digits") - 3L),
+  signif.stars = getOption("show.signif.stars"), ...)
 }
 \arguments{
 \item{x}{is an summary object generated from}

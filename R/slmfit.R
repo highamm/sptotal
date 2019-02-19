@@ -186,7 +186,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 ##summary(slm_info)
 ##print(slm_info)
 
-##pred_info <- FPBKpred(slmfitobj = slm_info, FPBKcol = NULL)
+##pred_info <- predict(slmfitobj = slm_info, FPBKcol = NULL)
+
 ##pred_info
 
 ##FPBKoutput(pred_info = pred_info, get_variogram = TRUE,
