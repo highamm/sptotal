@@ -86,6 +86,7 @@ FPBKpred <- function(slmfitobj, FPBKcol = NULL) {
   Sigma.us <- Sigma[ind.un, ind.sa]
   Sigma.su <- t(Sigma.us)
   Sigma.ss <- Sigma[ind.sa, ind.sa]
+  Sigma.uu <- Sigma[ind.un, ind.un]
 
        ## give warning if covariance matrix cannot be inverted
       if(abs(det(Sigma.ss)) <= .Machine$double.eps) {
@@ -127,7 +128,16 @@ FPBKpred <- function(slmfitobj, FPBKcol = NULL) {
   sampind <- rep(1, length(yvar))
   sampind[is.na(yvar) == TRUE] <- 0
 
+  ## adding the site-by-site predictions
 
+  W <- t(Xu) - t(Xs) %*% Sigma.ssi %*% Sigma.su
+  sitecov <- Sigma.uu - Sigma.us %*% Sigma.ssi %*% Sigma.su +
+    t(W) %*% Vmat %*% W
+  sitevar <- diag(sitecov)
+
+  densvar <- rep(NA, nrow(data))
+  densvar[sampind == 1] <- 0
+  densvar[sampind == 0] <- sitevar
 
   ## the FPBK predictor
   FPBKpredictor <- (t(B) %*% preddensity)
@@ -148,10 +158,10 @@ FPBKpred <- function(slmfitobj, FPBKcol = NULL) {
   ## indicators for whether sites were sampled or not
   ## 3.) a vector of the estimated spatial parameters
   df_out <- data.frame(cbind(xcoordsUTM, ycoordsUTM,
-    preddensity, sampind, muhat))
+    preddensity, sampind, muhat, densvar))
   colnames(df_out) <- c("xcoords", "ycoords",
     "preddensity",
-    "sampind", "muhat")
+    "sampind", "muhat", "predvariance")
   obj <- list(FPBKpredictor, pred.var.obs,
     df_out,
     as.vector(covparmests))
