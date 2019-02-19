@@ -6,7 +6,7 @@
 #'
 #'
 #' @param slmfitobj is an object generated from \code{slmfit}
-#' @param FPBKwts is a vector that contains the weights for
+#' @param FPBKcol is the name of the column that contains the weights for
 #' prediction. The default setting predicts the population total
 #' @return a list with \itemize{
 #'   \item the estimated population total
@@ -24,7 +24,7 @@
 #' @export FPBKpred
 
 
-FPBKpred <- function(slmfitobj, FPBKwts = NULL) {
+FPBKpred <- function(slmfitobj, FPBKcol = NULL) {
 
   ## if FPBKcol is left out, we are predicting the population total.
   ## Otherwise, FPBKcol is the name of the column in the data set
@@ -38,10 +38,10 @@ FPBKpred <- function(slmfitobj, FPBKwts = NULL) {
   ycoordsUTM <- slmfitobj$FPBKpredobj$ycoordsUTM
   covparmests <- slmfitobj$SpatialParmEsts
 
-   if (is.null(FPBKwts) == TRUE) {
+   if (is.null(FPBKcol) == TRUE) {
     predwts <- rep(1, nrow(data))
-  } else if (is.character(FPBKwts) == TRUE) {
-    predwts <- FPBKwts
+  } else if (is.character(FPBKcol) == TRUE) {
+    predwts <- data[ ,FPBKcol]
   } else{
     stop("FPBKcol must be a character specifying the name of the
       column of
