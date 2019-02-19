@@ -12,7 +12,7 @@
 #' @import stats
 #' @export summary.slmfit
 
-summary.slmfit <- function(object) {
+summary.slmfit <- function(object, ...) {
 
   catcall <- object$FPBKpredobj$formula
 
@@ -58,7 +58,7 @@ summary.slmfit <- function(object) {
     generalizedr2)
   names(outpt) <- c("catCall", "FixedEffects", "CovarianceParms",
     "Residuals", "GeneralizedR2")
+  class(outpt) <- "summary.slmfit"
   return(outpt)
-  class("summary.slmfit")
 
 }

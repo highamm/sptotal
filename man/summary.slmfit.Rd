@@ -4,7 +4,7 @@
 \alias{summary.slmfit}
 \title{Summarizes a fitted spatial linear model}
 \usage{
-\method{summary}{slmfit}(object)
+\method{summary}{slmfit}(object, ...)
 }
 \arguments{
 \item{object}{is an object generated from \code{slmfit}.}

@@ -4,12 +4,12 @@
 \alias{FPBKpred}
 \title{Perform Finite Population Block Kriging}
 \usage{
-FPBKpred(slmfitobj, FPBKwts = NULL)
+FPBKpred(slmfitobj, FPBKcol = NULL)
 }
 \arguments{
 \item{slmfitobj}{is an object generated from \code{slmfit}}
 
-\item{FPBKwts}{is a vector that contains the weights for
+\item{FPBKcol}{is the name of the column that contains the weights for
 prediction. The default setting predicts the population total}
 }
 \value{

@@ -181,8 +181,12 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 ##slm_info <- slmfit(counts ~ pred1 + pred2, data = exampledataset,
 ##xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM")
 ##summary.slmfit(object = slm_info)
+
 ##print.summary.slmfit(x = summary.slmfit(object = slm_info))
-##pred_info <- FPBKpred(slmfitobj = slm_info, FPBKwts = NULL)
+##summary(slm_info)
+##print(slm_info)
+
+##pred_info <- FPBKpred(slmfitobj = slm_info, FPBKcol = NULL)
 ##str(slm_info)
 
 ##FPBKoutput(pred_info = pred_info, get_variogram = TRUE,
