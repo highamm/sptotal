@@ -89,10 +89,10 @@ predict.slmfit <- function(slmfitobj, FPBKcol = NULL) {
   Sigma.uu <- Sigma[ind.un, ind.un]
 
        ## give warning if covariance matrix cannot be inverted
-      if(abs(det(Sigma.ss)) <= .Machine$double.eps) {
-        warning("Covariance matrix is compulationally singular and
-          cannot be inverted")
-      }
+      # if(abs(det(Sigma.ss)) <= 1e-21) {
+      #   warning("Covariance matrix is compulationally singular and
+      #     cannot be inverted")
+      # }
 
   Sigma.ssi <- slmfitobj$FPBKpredobj$covmatsampi
 

@@ -131,12 +131,12 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   Sigma.ss <- Sigma[ind.sa, ind.sa]
 
   ## give warning if covariance matrix cannot be inverted
-  if(abs(determinant(Sigma.ss)) <= .Machine$double.eps) {
-    warning("Covariance matrix is compulationally singular and
-      cannot be inverted")
-  }
+  # if(abs(determinant(Sigma.ss)) <= 1e-21) {
+  #   warning("Covariance matrix is compulationally singular and
+  #     cannot be inverted")
+  # }
 
-  Sigma.ssi <- solve(Sigma.ss, tol = .Machine$double.eps)
+  Sigma.ssi <- solve(Sigma.ss, tol = 1e-21)
 
   ## the generalized least squares regression coefficient estimates
 
