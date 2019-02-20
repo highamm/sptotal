@@ -12,6 +12,10 @@
 #' @param xcoordsvec is a vector of x coordinates
 #' @param ycoordsvec is a vector of y coordinates
 #' @param CorModel is the covariance structure. By default, \code{covstruct} is
+#' @param estmethod is either the default \code{"REML"} for restricted
+#' maximum likelihood to estimate the covariance parameters and
+#' regression coefficients or \code{"ML"} to estimate the covariance
+#' parameters and regression coefficients.
 #' Exponential but other options include the Spherical and the Gaussian.
 #' @return a list with \itemize{
 #'    \item a vector of estimated covariance parameters
@@ -20,10 +24,10 @@
 #' @export estcovparm
 
 estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
-  CorModel = "Exponential") {
+  CorModel = "Exponential", estmethod = "REML") {
 
   ## only estimate parameters using sampled sites only
-  
+
   ind.sa <- !is.na(response)
   designmatrixsa <- designmatrix[ind.sa, ]
 
@@ -68,6 +72,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
   possible.range <- c(max(distmat), max(distmat) / 2, max(distmat) / 4)
   possible.theta3 <- log(possible.range)
 
+  if (estmethod == "REML") {
   theta <- expand.grid(possible.theta1, possible.theta2, possible.theta3)
 
 
@@ -95,31 +100,87 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
     ## extract the covariance parameter estimates. When we deal with covariance
     ## functions with more than 3 parameters, this section will need to be modified
     min2loglik <- parmest$value
-
+    loglik <- -min2loglik  ## Jay added 19 Feb 2019  Make sure this is right
+    
     nugget.effect <- exp(parmest$par[1])
     parsil.effect <- exp(parmest$par[2])
     range.effect <- exp(parmest$par[3])
     parms.est <- c(nugget.effect, parsil.effect, range.effect)
 
+  } else if (estmethod == "ML") {
+
+    possible.thetarest <- as.vector(solve(t(as.matrix(designmatrixsa)) %*%
+      as.matrix(designmatrixsa)) %*% t(as.matrix(designmatrixsa)) %*%
+      response[ind.sa])
+
+
+    theta <- expand.grid(possible.theta1, possible.theta2,
+      possible.theta3)
+    possible.thetaresttab <- matrix(possible.thetarest,
+      nrow = nrow(theta), ncol = length(possible.thetarest),
+      byrow = TRUE)
+
+    theta <- cbind(theta, possible.thetaresttab)
+
+
+    m2loglik <- rep(NA, nrow(theta))
+
+    for (i in 1:nrow(theta)) {
+      m2loglik[i] <- m2LL.FPBK.nodet.ML(theta = theta[i, ],
+        zcol = response[ind.sa],
+        XDesign = as.matrix(designmatrixsa),
+        xcoord = xcoordsvec[ind.sa], ycoord = ycoordsvec[ind.sa],
+        CorModel = CorModel)
+    }
+
+    max.lik.obs <- which(m2loglik == min(m2loglik))
+
+    ## optimize using Nelder-Mead
+    parmest <- optim(theta[max.lik.obs, ], m2LL.FPBK.nodet.ML,
+      zcol = response[ind.sa],
+      XDesign = as.matrix(designmatrixsa),
+      xcoord = xcoordsvec[ind.sa], ycoord = ycoordsvec[ind.sa],
+      method = "Nelder-Mead",
+      CorModel = CorModel)
+
+    ## extract the covariance parameter estimates. When we deal with covariance
+    ## functions with more than 3 parameters, this section will need to be modified
+    minloglik <- parmest$value
+    loglik <- -minloglik
+
+    nugget.effect <- exp(parmest$par[1])
+    parsil.effect <- exp(parmest$par[2])
+    range.effect <- exp(parmest$par[3])
+    regcoefs <- parmest$par[4:length(theta)]
+    parms.est <- c(nugget.effect, parsil.effect, range.effect,
+      regcoefs)
+
+
+
+
+  } else {
+    stop("estmethod must be either `REML` or `ML` ")
+  }
+
     if (CorModel == "Exponential") {
       Sigma <- parsil.effect *
         corModelExponential(distmatall, range.effect) +
-        diag(nugget.effect, nrow = nrow(distmatall)) 
+        diag(nugget.effect, nrow = nrow(distmatall))
     } else if (CorModel == "Gaussian") {
-      Sigma <- parsil.effect * 
-        (corModelGaussian(distmatall, range.effect)) + 
+      Sigma <- parsil.effect *
+        (corModelGaussian(distmatall, range.effect)) +
         diag(nugget.effect, nrow = nrow(distmatall))
     } else if (CorModel == "Spherical") {
       Sigma <-  parsil.effect *
         corModelSpherical(distmatall, range.effect) +
-        diag(nugget.effect, nrow = nrow(distmatall)) 
+        diag(nugget.effect, nrow = nrow(distmatall))
     }
 
     ## diagonalization to stabilize the resulting covariance matrix
     if (nugget.effect / parsil.effect < 0.001) {
       Sigma <- Sigma + diag(0.1, nrow = nrow(Sigma))
     }
-    
+
    # Sigmai <- solve(Sigma)
     ## spherical code
 
@@ -128,33 +189,33 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
   #     XDesign = XDesign,
   #     xcoord = data.sa$xcoordsUTM, ycoord = data.sa$ycoordsUTM)
   # }
-  # 
+  #
   # max.lik.obs <- which(m2loglik == min(m2loglik))
-  # 
+  #
   # ## optimize using Nelder-Mead
   # parmest <- optim(theta[max.lik.obs, ], m2LL.FPBK.nodet.sph,
   #   zcol = data.sa$counts,
   #   XDesign = XDesign,
   #   xcoord = data.sa$xcoordsUTM, ycoord = data.sa$ycoordsUTM,
   #   method = "Nelder-Mead")
-  # 
+  #
   # min2loglik <- parmest$value
-  # 
+  #
   # nugget.effect <- exp(parmest$par[1])
   # parsil.effect <- exp(parmest$par[2])
   # range.effect <- exp(parmest$par[3])
   # parms.est <- c(nugget.effect, parsil.effect, range.effect)
-  # 
+  #
   # cormatSpher <- 1 - (3 / 2) * (distmat / range.effect) +
   #   (1 / 2) * (distmat / range.effect) ^ 3
   # cormatSpher[distmat > range.effect] <- 0
   # Sigma <- diag(nugget.effect, nrow = nrow(distmat)) +
   #   parsil.effect * cormatSpher
-  # 
+  #
   # Sigmai <- solve(Sigma)
 
 
-  return(list(parms.est, Sigma))
+  return(list(parms.est, Sigma, loglik))
 }
 
 # counts <- c(1, NA, NA, NA, 3, 1:13, 21, 30)
@@ -165,7 +226,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
 # xcoordssamp <- xcoords[is.na(counts) == FALSE]
 # ycoordssamp <- ycoords[is.na(counts) == FALSE]
 # data <- as.data.frame(cbind(counts, pred1, pred2, xcoords, ycoords, dummyvar))
-# 
+#
 # Xdesigntest <- model.matrix(formula)
 # formula <- counts ~ pred1 + pred2
 

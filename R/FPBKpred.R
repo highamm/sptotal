@@ -6,7 +6,7 @@
 #'
 #'
 #' @param slmfitobj is an object generated from \code{slmfit}
-#' @param FPBKwts is a vector that contains the weights for
+#' @param FPBKcol is the name of the column that contains the weights for
 #' prediction. The default setting predicts the population total
 #' @return a list with \itemize{
 #'   \item the estimated population total
@@ -21,10 +21,10 @@
 #'    \item vector with estimated covariance parameters
 #' }
 #' @import stats
-#' @export FPBKpred
+#' @export predict.slmfit
 
 
-FPBKpred <- function(slmfitobj, FPBKwts = NULL) {
+predict.slmfit <- function(slmfitobj, FPBKcol = NULL) {
 
   ## if FPBKcol is left out, we are predicting the population total.
   ## Otherwise, FPBKcol is the name of the column in the data set
@@ -38,10 +38,10 @@ FPBKpred <- function(slmfitobj, FPBKwts = NULL) {
   ycoordsUTM <- slmfitobj$FPBKpredobj$ycoordsUTM
   covparmests <- slmfitobj$SpatialParmEsts
 
-   if (is.null(FPBKwts) == TRUE) {
+   if (is.null(FPBKcol) == TRUE) {
     predwts <- rep(1, nrow(data))
-  } else if (is.character(FPBKwts) == TRUE) {
-    predwts <- FPBKwts
+  } else if (is.character(FPBKcol) == TRUE) {
+    predwts <- data[ ,FPBKcol]
   } else{
     stop("FPBKcol must be a character specifying the name of the
       column of
@@ -86,12 +86,13 @@ FPBKpred <- function(slmfitobj, FPBKwts = NULL) {
   Sigma.us <- Sigma[ind.un, ind.sa]
   Sigma.su <- t(Sigma.us)
   Sigma.ss <- Sigma[ind.sa, ind.sa]
+  Sigma.uu <- Sigma[ind.un, ind.un]
 
        ## give warning if covariance matrix cannot be inverted
-      if(abs(det(Sigma.ss)) <= .Machine$double.eps) {
-        warning("Covariance matrix is compulationally singular and
-          cannot be inverted")
-      }
+      # if(abs(det(Sigma.ss)) <= 1e-21) {
+      #   warning("Covariance matrix is compulationally singular and
+      #     cannot be inverted")
+      # }
 
   Sigma.ssi <- slmfitobj$FPBKpredobj$covmatsampi
 
@@ -127,7 +128,16 @@ FPBKpred <- function(slmfitobj, FPBKwts = NULL) {
   sampind <- rep(1, length(yvar))
   sampind[is.na(yvar) == TRUE] <- 0
 
+  ## adding the site-by-site predictions
 
+  W <- t(Xu) - t(Xs) %*% Sigma.ssi %*% Sigma.su
+  sitecov <- Sigma.uu - Sigma.us %*% Sigma.ssi %*% Sigma.su +
+    t(W) %*% Vmat %*% W
+  sitevar <- diag(sitecov)
+
+  densvar <- rep(NA, nrow(data))
+  densvar[sampind == 1] <- 0
+  densvar[sampind == 0] <- sitevar
 
   ## the FPBK predictor
   FPBKpredictor <- (t(B) %*% preddensity)
@@ -147,18 +157,34 @@ FPBKpred <- function(slmfitobj, FPBKwts = NULL) {
   ## 2.) a matrix with x and y coordinates, kriged predctions, and
   ## indicators for whether sites were sampled or not
   ## 3.) a vector of the estimated spatial parameters
-  df_out <- data.frame(cbind(xcoordsUTM, ycoordsUTM,
-    preddensity, sampind, muhat))
-  colnames(df_out) <- c("xcoords", "ycoords",
-    "preddensity",
-    "sampind", "muhat")
+
+
+
+
+  df_out <- data.frame(cbind(data, xcoordsUTM, ycoordsUTM,
+    preddensity, densvar, sampind, muhat))
+
+  # data <- data.frame(y = 1:10, x = 2:11)
+  #
+  # fullmf <- stats::model.frame(formula, na.action =
+  #   stats::na.pass, data = data)
+
+  colnames(df_out) <- c(colnames(data), "_xcoordsUTM_", "_ycoordsUTM_",
+    paste(base::all.vars(formula)[1], "_pred",
+      sep = ""),
+    paste(base::all.vars(formula)[1], "_predvar",
+      sep = ""),
+    paste(base::all.vars(formula)[1], "_sampind",
+      sep = ""),
+    paste(base::all.vars(formula)[1], "_muhat",
+      sep = ""))
   obj <- list(FPBKpredictor, pred.var.obs,
     df_out,
-    as.vector(covparmests))
+    as.vector(covparmests),
+    formula = formula)
 
   names(obj) <- c("FPBK_Prediction", "PredVar",
-    "Pred_df", "SpatialParms")
-
+    "Pred_df", "SpatialParms", "formula")
 
   class(obj) <- "sptotalPredOut"
 

@@ -10,7 +10,7 @@ FPBKoutput(pred_info, conf_level = c(0.8, 0.9, 0.95),
   CorModel = "Exponential")
 }
 \arguments{
-\item{pred_info}{is the output from \code{FPBK.pred} in this package.}
+\item{pred_info}{is the output from \code{predict.slmfit} in this package.}
 
 \item{conf_level}{is the desired confidence level for the prediction. If \code{conf_level} is a vector, then confidence intervals for
 each element of the vector will be produced.}

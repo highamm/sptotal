@@ -12,6 +12,10 @@
 #' @param CorModel is the covariance structure. By default, \code{CorModel} is
 #' Exponential but other options include the Spherical and Gaussian.
 #' @param coordtype specifies whether spatial coordinates are in latitude, longitude (\code{LatLon}) form or UTM (\code{UTM}) form.
+#' @param estmethod is either the default \code{"REML"} for restricted
+#' maximum likelihood to estimate the covariance parameters and
+#' regression coefficients or \code{"ML"} to estimate the covariance
+#' parameters and regression coefficients.
 #' @return a list with \itemize{
 #'   \item the spatial covariance estimates
 #'   \item the regression coefficient estimates
@@ -30,7 +34,7 @@
 
 slmfit <- function(formula, data, xcoordcol, ycoordcol,
   CorModel = "Exponential",
-  coordtype = "LatLon") {
+  coordtype = "LatLon", estmethod = "REML") {
 
   ## ASSUME that coordinates are lat/lon. Convert these to UTM
   if (coordtype != "LatLon" & coordtype != "UTM") {
@@ -107,12 +111,17 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
   ## estimate the spatial parameters, the covariance matrix, and
   ## the inverse of the covariance matrix
+
   spat.est <- estcovparm(response = density,
     designmatrix = as.matrix(X),
     xcoordsvec = xcoordsUTM,
-    ycoordsvec = ycoordsUTM, CorModel = CorModel)
+    ycoordsvec = ycoordsUTM, CorModel = CorModel,
+    estmethod = estmethod)
+
   parms.est <- spat.est[[1]]
   Sigma <- spat.est[[2]]
+  loglik <- spat.est[[3]]
+
   nugget.effect <- parms.est[1]; parsil.effect <- parms.est[2]
   range.effect <- parms.est[3]
 
@@ -122,17 +131,23 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   Sigma.ss <- Sigma[ind.sa, ind.sa]
 
   ## give warning if covariance matrix cannot be inverted
-  if(abs(det(Sigma.ss)) <= .Machine$double.eps) {
-    warning("Covariance matrix is compulationally singular and
-      cannot be inverted")
-  }
+  # if(abs(determinant(Sigma.ss)) <= 1e-21) {
+  #   warning("Covariance matrix is compulationally singular and
+  #     cannot be inverted")
+  # }
 
-  Sigma.ssi <- solve(Sigma.ss, tol = .Machine$double.eps)
+  Sigma.ssi <- solve(Sigma.ss, tol = 1e-21)
 
   ## the generalized least squares regression coefficient estimates
+
+  if (estmethod == "REML") {
   betahat <- solve((t(Xs) %*% Sigma.ssi %*% Xs)) %*%
     (t(Xs) %*% Sigma.ssi %*% as.matrix(z.density))
-
+  aic_crit <- NA
+  } else if (estmethod == "ML") {
+  betahat <- matrix(parms.est[4:length(parms.est)])
+  aic_crit <- 2 * length(parms.est) - 2 * loglik
+}
   ## estimator for the mean vector
   muhats <- Xs %*% betahat
   muhatu <- Xu %*% betahat
@@ -159,11 +174,12 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     CorModel, Sigma, Sigma.ssi)
   names(FPBKpredobj) <- c("formula", "data", "xcoordsUTM",
     "ycoordsUTM", "correlationmod", "covmat", "covmatsampi")
-  obj <- list(covparms, betahatest, covest, prednames,
+  obj <- list(covparms, betahatest, covest, aic_crit, prednames,
     n, CorModel, resids, Xs, z.sa, FPBKpredobj)
 
   names(obj) <- c("SpatialParmEsts", "CoefficientEsts",
-    "BetaCov", "PredictorNames", "SampSize", "CovarianceMod",
+    "BetaCov", "AICvalue", "PredictorNames", "SampSize",
+    "CovarianceMod",
     "resids", "DesignMat", "Density",
     "FPBKpredobj")
 
@@ -178,12 +194,25 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 ##data <- data.frame(cbind(counts, pred1, pred2))
 ##formula <- counts ~ pred1 + pred2
 
-##slm_info <- slmfit(counts ~ pred1 + pred2, data = exampledataset,
-##xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM")
+##slm_info <- slmfit(counts ~ 1 , data = exampledataset,
+##xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM",
+##  estmethod = "ML")
 ##summary.slmfit(object = slm_info)
+##slm_info$AICvalue
+## similar resulting covariance structures.
+
+##designmatrixsa <- with(exampledataset, model.matrix(counts ~ pred1 + pred2))
+##ind.sa <- is.na(exampledataset$counts) == FALSE
+##response <- exampledataset$counts
+# solve(t(Xtest) %*% Xtest) %*% t(Xtest) %*% matrix(exampledataset$counts[is.na(exampledataset$counts) == FALSE])
+
 ##print.summary.slmfit(x = summary.slmfit(object = slm_info))
-##pred_info <- FPBKpred(slmfitobj = slm_info, FPBKwts = NULL)
-##str(slm_info)
+##summary(slm_info)
+##print(slm_info)
+
+##pred_info <- predict(slmfitobj = slm_info, FPBKcol = NULL)
+
+##pred_info
 
 ##FPBKoutput(pred_info = pred_info, get_variogram = TRUE,
 ##  get_sampdetails = TRUE,

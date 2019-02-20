@@ -3,7 +3,7 @@
 #' The main purpose of this function is to take the results from FPBK and make
 #' readable maps, a fitted variogram plot, and normal-based prediction intervals. The main input for this function is the output from the \code{FPBK.pred} function.
 #'
-#' @param pred_info is the output from \code{FPBK.pred} in this package.
+#' @param pred_info is the output from \code{predict.slmfit} in this package.
 #' @param conf_level is the desired confidence level for the prediction. If \code{conf_level} is a vector, then confidence intervals for
 #' each element of the vector will be produced.
 #' @param get_krigmap is an indicator for whether or not a grid of
