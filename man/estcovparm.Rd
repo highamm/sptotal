@@ -5,7 +5,7 @@
 \title{Estimate Covariance Parameters}
 \usage{
 estcovparm(response, designmatrix, xcoordsvec, ycoordsvec,
-  CorModel = "Exponential")
+  CorModel = "Exponential", estmethod = "REML")
 }
 \arguments{
 \item{response}{a vector of a response variable, possibly with
@@ -18,7 +18,12 @@ the response on.}
 
 \item{ycoordsvec}{is a vector of y coordinates}
 
-\item{CorModel}{is the covariance structure. By default, \code{covstruct} is
+\item{CorModel}{is the covariance structure. By default, \code{covstruct} is}
+
+\item{estmethod}{is either the default \code{"REML"} for restricted
+maximum likelihood to estimate the covariance parameters and
+regression coefficients or \code{"ML"} to estimate the covariance
+parameters and regression coefficients.
 Exponential but other options include the Spherical and the Gaussian.}
 }
 \value{

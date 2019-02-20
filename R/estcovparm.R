@@ -100,7 +100,8 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
     ## extract the covariance parameter estimates. When we deal with covariance
     ## functions with more than 3 parameters, this section will need to be modified
     min2loglik <- parmest$value
-
+    loglik <- -min2loglik  ## Jay added 19 Feb 2019  Make sure this is right
+    
     nugget.effect <- exp(parmest$par[1])
     parsil.effect <- exp(parmest$par[2])
     range.effect <- exp(parmest$par[3])
