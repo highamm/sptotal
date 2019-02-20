@@ -44,9 +44,9 @@ m2LL.FPBK.nodet.ML <- function(theta, zcol, XDesign, xcoord, ycoord,
   }
 
   Ci <- mginv(Cmat.nodet)
-  minusloglik <- (1 / 2) * log(det(2 * pi * Cmat.nodet)) +
-    (1 / 2) * (t(as.matrix(zcol) - as.matrix(XDesign %*% beta))) %*%
+  minus2loglik <- log(det(2 * pi * Cmat.nodet)) +
+    (t(as.matrix(zcol) - as.matrix(XDesign %*% beta))) %*%
     Ci %*%
     (as.matrix(zcol) - as.matrix(XDesign %*% beta))
-  return(as.numeric(minusloglik))
+  return(as.numeric(minus2loglik))
 }

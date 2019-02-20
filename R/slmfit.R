@@ -120,7 +120,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
   parms.est <- spat.est[[1]]
   Sigma <- spat.est[[2]]
-  loglik <- spat.est[[3]]
+  loglik2 <- spat.est[[3]]
 
   nugget.effect <- parms.est[1]; parsil.effect <- parms.est[2]
   range.effect <- parms.est[3]
@@ -146,7 +146,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   aic_crit <- NA
   } else if (estmethod == "ML") {
   betahat <- matrix(parms.est[4:length(parms.est)])
-  aic_crit <- 2 * length(parms.est) - 2 * loglik
+  aic_crit <- 2 * length(parms.est) - loglik2
 }
   ## estimator for the mean vector
   muhats <- Xs %*% betahat
