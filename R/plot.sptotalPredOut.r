@@ -13,30 +13,33 @@
 plot.sptotalPredOut = function(predictions, nbreaks = 4, 
   breakMethod = 'quantile', legend.cex = 1, ...)
 {
+  # name of column with predictions
+  pcolname = paste(base::all.vars(predictions$formula)[1], "_pred",
+      sep = "")
   # use layout to create partitioned plot so we can add color legend to left
   layout(matrix(1:2, nrow = 1), width = c(3,1))
   # create breaks according to user-specified breakMethod
   if(breakMethod == 'quantile') {
     probs = (1:nbreaks)/(nbreaks + 1)
-    brks = c(min(predictions$Pred_df$preddensity) - 1e-10,
-      quantile(predictions$Pred_df$preddensity, probs = probs),
-      max(predictions$Pred_df$preddensity) + 1e-10)
+    brks = c(min(predictions$Pred_df[,pcolname]) - 1e-10,
+      quantile(predictions$Pred_df[,pcolname], probs = probs),
+      max(predictions$Pred_df[,pcolname]) + 1e-10)
   }
   if(breakMethod == 'even') {
-    rang = max(predictions$Pred_df$preddensity) + 1e-10 -
-    min(predictions$Pred_df$preddensity) - 1e-10
-    brks = c(min(predictions$Pred_df$preddensity) - 1e-10,
-      min(predictions$Pred_df$preddensity) - 1e-10 + 
+    rang = max(predictions$Pred_df[,pcolname]) + 1e-10 -
+    min(predictions$Pred_df[,pcolname]) - 1e-10
+    brks = c(min(predictions$Pred_df[,pcolname]) - 1e-10,
+      min(predictions$Pred_df[,pcolname]) - 1e-10 + 
         rang*(1:nbreaks)/(nbreaks + 1),
-      max(predictions$Pred_df$preddensity) + 1e-10)
+      max(predictions$Pred_df[,pcolname]) + 1e-10)
   }
   # cut predictions at breakpoints to create a vector of factors and labels
-  cuts = cut(predictions$Pred_df$preddensity, breaks = brks)
+  cuts = cut(predictions$Pred_df[,pcolname], breaks = brks)
   # create a color palette
   palette = viridis(length(levels(cuts)))
   # create plot of predictions colored by their prediction values
   par(mar = c(5,5,1,1))
-  plot(predictions$Pred_df$xcoords, predictions$Pred_df$ycoords, pch = 19,
+  plot(predictions$Pred_df[,'_xcoordsUTM_'], predictions$Pred_df[,'_ycoordsUTM_'], pch = 19,
     col = palette[as.integer(cuts)], xlab = 'xcoords',
     ylab = 'ycoords', ...)
   par(mar = c(5,0,1,1))

@@ -180,11 +180,11 @@ predict.slmfit <- function(slmfitobj, FPBKcol = NULL) {
       sep = ""))
   obj <- list(FPBKpredictor, pred.var.obs,
     df_out,
-    as.vector(covparmests))
+    as.vector(covparmests),
+    formula = formula)
 
   names(obj) <- c("FPBK_Prediction", "PredVar",
-    "Pred_df", "SpatialParms")
-
+    "Pred_df", "SpatialParms", "formula")
 
   class(obj) <- "sptotalPredOut"
 
