@@ -56,7 +56,7 @@ predout1$FPBK_Prediction
 sqrt(predout1$PredVar)
 # Truth
 sum(simdata$Z)
-
+plot(predout1)
 
 #-------------------
 # DO IT AGAIN
