@@ -18,3 +18,5 @@
 ## Show sptotal has approximate covergae and unbiasedness for
 ## an example
 ## Compare to yimpute, spsurvey, simple random sample
+##
+## Test functions
