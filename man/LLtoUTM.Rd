@@ -5,7 +5,8 @@
 \title{Convert Latitude and Longitude spatial coordinates to TM projection coordinates
 with a user-defined central meridian.}
 \usage{
-LLtoUTM(cm, lat, lon, xcol = "x", ycol = "y", minx = NULL, miny = NULL)
+LLtoUTM(cm, lat, lon, xcol = "x", ycol = "y", minx = NULL,
+  miny = NULL)
 }
 \arguments{
 \item{cm}{is the user defined central median, often taken to be the mean of the

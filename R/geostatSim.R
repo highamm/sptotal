@@ -55,7 +55,7 @@ geostatSim <- function(loc.data, xcol = "x", ycol = "y",
 	n <- length(xcoord)
 	dismat <- distGeoAni(xcoord, ycoord, xcoord, ycoord, rotate, range, minorp)
 	# compute correlation matrix for scaled distance matrix
-		if(CorModel == "Exponential") CovMat <- corModelExponential(dismat)
+		if(CorModel == "Exponential") CovMat <- corModelExponential(dismat, 1)
 #		if(CorModel == "ExpRadon2") CovMat <- CorModel.ExpRadon2(dismat)
 #		if(CorModel == "ExpRadon4") CovMat <- CorModel.ExpRadon4(dismat)
 #		if(CorModel == "Gaussian") CovMat <- CorModel.Gaussian(dismat)

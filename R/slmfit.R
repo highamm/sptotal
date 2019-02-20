@@ -122,7 +122,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   Sigma.ss <- Sigma[ind.sa, ind.sa]
 
   ## give warning if covariance matrix cannot be inverted
-  if(abs(det(Sigma.ss)) <= .Machine$double.eps) {
+  if(abs(determinant(Sigma.ss)) <= .Machine$double.eps) {
     warning("Covariance matrix is compulationally singular and
       cannot be inverted")
   }
