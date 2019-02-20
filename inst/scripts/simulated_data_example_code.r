@@ -28,9 +28,6 @@ sqrt(predout1$PredVar)
 # Truth
 sum(simdata$Z)
 
-#undebug(plot.sptotalPredOut)
-plot(predout1)
-
 #-------------------
 # DO IT AGAIN
 #-------------------
