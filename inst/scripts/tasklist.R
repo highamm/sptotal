@@ -1,6 +1,6 @@
 ## Task List
 ##
-## Create AIC.slmfit function
+## Create AIC.slmfit function  (done by Jay, 22 Feb)
 ## Imput covariance parameters
 ## helper function to get coordinates from sp objects
 ## helper function to change coordinates from latlon to UTM
