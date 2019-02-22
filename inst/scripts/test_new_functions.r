@@ -28,6 +28,7 @@ slmfit_out2 = slmfit_jay(Z ~ X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2,
 
 
 summary(slmfit_out1)
+summary(slmfit_out2)
 GR2(slmfit_out1)
 logLik(slmfit_out1)
 AIC(slmfit_out1)
