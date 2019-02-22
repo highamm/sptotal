@@ -90,7 +90,6 @@ estcovparm_jay <- function(response, designmatrix, xcoordsvec, ycoordsvec,
 
     ## extract the covariance parameter estimates. When we deal with covariance
     ## functions with more than 3 parameters, this section will need to be modified
-    min2loglik <- parmest$value
     
     nug_prop <- exp(parmest$par[1])/(1 + exp(parmest$par[1]))
     range.effect <- exp(parmest$par[2])
@@ -111,8 +110,10 @@ estcovparm_jay <- function(response, designmatrix, xcoordsvec, ycoordsvec,
     }
     
     ## diagonalization to stabilize the resulting covariance matrix
-    if (nug_prop < 0.001) {
-      Sigma <- Sigma + diag(0.1, nrow = nrow(Sigma))
+    ## Jay notes: I changed this so not quite so much nugget added.  1e-6
+    ## is recommended in some literature
+    if (nug_prop < 0.0001) {
+      Sigma <- Sigma + diag(1e-6, nrow = nrow(Sigma))
     }
     # get Sigma for sampled sites only
     Sigma_samp = Sigma[ind.sa, ind.sa]
@@ -130,6 +131,14 @@ estcovparm_jay <- function(response, designmatrix, xcoordsvec, ycoordsvec,
     sill = as.numeric(crossprod(r, solve(qrV,r)))/n
     if(estmethod == 'REML') sill = n*sill/(n - p)
     
+    if(estmethod == 'ML')
+      min2loglik = n*log(sill) + sum(log(abs(diag(qr.R(qrV))))) + 
+        as.numeric(crossprod(r, solve(qrV,r)))/sill + n*log(2*pi)
+    if(estmethod == 'REML')
+      min2loglik = (n - p)*log(sill) + sum(log(abs(diag(qr.R(qrV))))) + 
+        as.numeric(crossprod(r, solve(qrV,r)))/sill + (n - p)*log(2*pi) + 
+        sum(log(svd(covbi)$d))
+        
     Sigma = sill*Sigma
 
     parms.est <- c(nug_prop*sill, (1-nug_prop)*sill, range.effect)

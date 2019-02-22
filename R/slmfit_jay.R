@@ -127,7 +127,7 @@ slmfit_jay <- function(formula, data, xcoordcol, ycoordcol,
   range.effect <- parms.est[3]
 
 
-  Sigma.ssi <- solve(spat.est$qrV)
+  Sigma.ssi <- solve(spat.est$qrV)/(nugget.effect + parsil.effect)
 
   ## the generalized least squares regression coefficient estimates
 
@@ -155,10 +155,10 @@ slmfit_jay <- function(formula, data, xcoordcol, ycoordcol,
 
   names(covparms) <- c("Nugget", "Partial Sill", "Range")
 
-  FPBKpredobj <- list(formula, data, xcoordsUTM, ycoordsUTM,
+  FPBKpredobj <- list(formula, data, xcoordsUTM, ycoordsUTM, estmethod,
     CorModel, Sigma, Sigma.ssi)
-  names(FPBKpredobj) <- c("formula", "data", "xcoordsUTM",
-    "ycoordsUTM", "correlationmod", "covmat", "covmatsampi")
+  names(FPBKpredobj) <- c("formula", "data", "xcoordsUTM", "ycoordsUTM", 
+    "estmethod","correlationmod", "covmat", "covmatsampi")
   obj <- list(covparms, betahatest, covest, min2loglik, prednames,
     n, CorModel, resids, Xs, z.sa, FPBKpredobj)
 
