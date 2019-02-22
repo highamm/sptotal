@@ -12,7 +12,7 @@
 \value{
 The AIC value of the slmfit object.  Here, AIC is computed as 2 times the 
 negative log-likelihood plus 2 times the number of model parameters.  Thus,
-lower AIC values mean are preferred models.
+lower AIC values are preferred models.
 }
 \description{
 Extract AIC
