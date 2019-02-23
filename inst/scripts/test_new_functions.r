@@ -61,22 +61,32 @@ pout5$FPBK_Prediction
 pout5$PredVar
 sum(simdata$Z)
 
+library(splmm)
+library(sp)
 set.seed(3)
 # take a new random sample of 100, just to make sure
 obsID = sample(1:nrow(simdata), 100)
 simobs = simdata
 simobs[!(1:nrow(simdata) %in% obsID),'Z'] = NA
+d2 = simobs
+coordinates(d2) <- ~ x + y
 slmfit_out6 = slmfit_jay(Z ~ X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
-  CorModel = "Exponential", estmeth = 'REML',
+  CorModel = "Exponential", estmeth = 'ML',
   coordtype = "UTM")
 slmfit_out7 = slmfit(Z ~ X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
-  CorModel = "Exponential", estmeth = 'REML',
+  CorModel = "Exponential", estmeth = 'ML',
   coordtype = "UTM")
+slmfit_out8 = splmm(Z ~ X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+  d2, estMeth = 'ML')
 summary(slmfit_out6)
 summary(slmfit_out7)
+summary(slmfit_out8)
 
+slmfit_out6$minus2loglik
+slmfit_out7$minus2loglik
+slmfit_out8$m2LL
 # check, does predict still work?
 pout6 = predict(slmfit_out6)
 pout6$FPBK_Prediction
@@ -85,3 +95,16 @@ pout7 = predict(slmfit_out7)
 pout7$FPBK_Prediction
 pout7$PredVar
 sum(simdata$Z)
+
+library(splmm)
+d2 = d1
+d2L = d2[d2$STRAT=='L',]
+d2M = d2[d2$STRAT=='M',]
+coordinates(d2) <- ~ x + y
+coordinates(d2L) <- ~ x + y
+coordinates(d2M) <- ~ x + y
+
+splmmout1 = splmm(TOTAL ~ 1, d2) 
+splmmout2 = splmm(TOTAL ~ STRAT, d2) 
+splmmout3 = splmm(TOTAL ~ 1, d2L) 
+splmmout4 = splmm(TOTAL ~ 1, d2M) 
