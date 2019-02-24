@@ -5,6 +5,7 @@
 ## helper function to get coordinates from sp objects
 ## helper function to change coordinates from latlon to UTM
 ## Residual function and Empricial Variogram
+## put residuals into data.frame so they are matched with original records
 ##
 ## Vignette
 ## Background and Introduction of Method (Matt)
