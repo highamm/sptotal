@@ -12,7 +12,7 @@ simobs[!(1:nrow(simdata) %in% obsID),'Z'] = NA
 # fit the model with all covariates
 #undebug(slmfit) 
 #undebug(estcovparm)
-slmfit_out1 = slmfit(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+slmfit_out1 = slmfit_jay(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential",
   coordtype = "UTM")
@@ -71,7 +71,7 @@ simobs[!(1:nrow(simdata) %in% obsID),'Z'] = NA
 # fit the model with all covariates
 #undebug(slmfit) 
 #undebug(estcovparm)
-slmfit_out2 = slmfit(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+slmfit_out2 = slmfit_jay(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential",
   coordtype = "UTM")
@@ -119,18 +119,18 @@ sum(simdata$Z)
 sum(simdata$Z) > SRSI['lower'] & sum(simdata$Z) < SRSI['upper']
 
 #-------------------
-# DO IT AGAIN, SAMPLE SIZE OF 500
+# DO IT AGAIN, SAMPLE SIZE OF 300
 #-------------------
 
-# take a new random sample of 500
-obsID = sample(1:nrow(simdata), 500)
+# take a new random sample of 300
+obsID = sample(1:nrow(simdata), 300)
 simobs = simdata
 simobs[!(1:nrow(simdata) %in% obsID),'Z'] = NA
 
 # fit the model with all covariates
 #undebug(slmfit) 
 #undebug(estcovparm)
-slmfit_out3 = slmfit(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+slmfit_out3 = slmfit_jay(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential",
   coordtype = "UTM")

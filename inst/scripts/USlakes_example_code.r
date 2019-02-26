@@ -47,7 +47,8 @@ lakes$RVFCGNDWOODY_gt0 = (lakes$RVFCGNDWOODY_RIP != 0)*1
 # try classical regression without log of DOC_RESULT
 # note use of binary variable for covariates with 0's
 # and use of interaction with non-zero values
-lmout = lm(DOC_RESULT ~ ELEVATION + RVFPUNDWOODY_RIP + 
+lmout = lm(DOC_RESULT ~ I((lakes$ELEVATION+min(lakes$ELEVATION))^.33) +
+  RVFPUNDWOODY_RIP + 
   FCIBIG_gt0 + FCIBIG_gt0:I(FCIBIG_LIT^.33) + 
   RVFCGNDBARE_gt0 + RVFCGNDBARE_gt0:I(RVFCGNDBARE_RIP^.33) +
   RVFCGNDWOODY_gt0 + RVFCGNDWOODY_gt0:I(RVFCGNDWOODY_RIP^.33),
@@ -70,7 +71,8 @@ lakes_samp = lakes
 lakes_samp[!(1:nrow(simdata) %in% obsID),'DOC_RESULT'] = NA
 
 # fit the model with all covariates
-slmfit_out1 = slmfit_jay(DOC_RESULT ~ ELEVATION + RVFPUNDWOODY_RIP + 
+slmfit_out1 = slmfit_jay(
+  DOC_RESULT ~ I((lakes$ELEVATION+min(lakes$ELEVATION))^.33) + RVFPUNDWOODY_RIP + 
   FCIBIG_gt0 + FCIBIG_gt0:I(FCIBIG_LIT^.33) + 
   RVFCGNDBARE_gt0 + RVFCGNDBARE_gt0:I(RVFCGNDBARE_RIP^.33) +
   RVFCGNDWOODY_gt0 + RVFCGNDWOODY_gt0:I(RVFCGNDWOODY_RIP^.33), 
@@ -99,7 +101,7 @@ sum(lakes$DOC_RESULT)
 # Is the truth in the prediction interval?
 sum(lakes$DOC_RESULT) > PI['lower'] & sum(lakes$DOC_RESULT) < PI['upper']
 
-# Simple random sampling estimate
+# Simple random sampling estimate of total
 SRS_est = mean(lakes_samp$DOC_RESULT, na.rm = TRUE)*nrow(lakes)
 SRS_est
 # Simple random sample standard error
