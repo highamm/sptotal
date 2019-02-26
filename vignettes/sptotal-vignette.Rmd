@@ -1,5 +1,5 @@
 ---
-title: "Using the sptotal Package -- Weighted Sums from Finite Spatial Populations"
+title: "Using the sptotal Package -- Inference for Weighted Sums from Finite Spatial Populations"
 author:
   - Matthew Higham, Jay M.Ver Hoef, Bryce M. Frank, Francisco M. Gutierrez 
 date: "`r Sys.Date()`"
@@ -7,7 +7,7 @@ output:
   prettydoc::html_pretty:
     theme: architect
 vignette: >
-  %\VignetteIndexEntry{Using the sptotal Package -- Weighted Sums from Finite Spatial Populations}
+  %\VignetteIndexEntry{Using the sptotal Package -- Inference for Weighted Sums from Finite Spatial Populations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -113,7 +113,7 @@ and then `simdata` sill be available in your workspace.  To see structure of `si
 ```{r}
 str(simdata)
 ```
-Here, we see that `simdata` is a data.frame with 900 records. The spatial coordinates are `numeric` variables in columns named `x` and `y`.  We created 7 continuous covariates, `X1` through `X5`.  The variables `X1` through `X5` were all created using the `rnorm()` function, so they are all standard normal variates that are independent between and within variable.  Variables `X6` and `X7` were independent from each other, but spatially autocorrelated within, each with a variance parameter of 1, an autocorrelation range parameter of 0.2 from an exponential model, and a small nugget effect of 0.01.  The variables `F1` and `F2` are factor variables with 3 and 5 levels, respectively. The variable `Z` is the response. Data were simulated from the model
+Here, we see that `simdata` is a data.frame with 400 records. The spatial coordinates are `numeric` variables in columns named `x` and `y`.  We created 7 continuous covariates, `X1` through `X5`.  The variables `X1` through `X5` were all created using the `rnorm()` function, so they are all standard normal variates that are independent between and within variable.  Variables `X6` and `X7` were independent from each other, but spatially autocorrelated within, each with a variance parameter of 1, an autocorrelation range parameter of 0.2 from an exponential model, and a small nugget effect of 0.01.  The variables `F1` and `F2` are factor variables with 3 and 5 levels, respectively. The variable `Z` is the response. Data were simulated from the model
 \begin{align*}
 Z_i = 10 + &0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i + 0.4 \cdot X5_i + \\
     &0.4 \cdot X6_i + 0.1 \cdot X7_i + F1_i + F2_i + \delta_i + \varepsilon_i
@@ -122,14 +122,32 @@ where factor levels for `F1` have effects $0, 0.4, 0.8$, and factor levels for `
 $$
 \textrm{cov}(\delta_i,\delta_j) = 2*\exp(-d_{i,j})
 $$  
-where $d_{i,j}$ is Euclidean distance between locations $i$ and $j$.  In geostatistics terminology, this model has a partial sill of 2, and a range of 1.  The random errors $\{\varepsilon_i\}$ are independent with variance 0.02, and this variance is called the nugget effect.
+where $d_{i,j}$ is Euclidean distance between locations $i$ and $j$.  In geostatistics terminology, this model has a partial sill of 2, and a range of 1.  The random errors $\{\varepsilon_i\}$ are independent with variance 0.02, and this variance is called the nugget effect.  Two columns with weights are included, `wts1` contains 1/200 for each row, so the weighted sum will yield a prediction of the overall mean. The column `wts2` contains a 1 for 25 locations, and 0 elsewhere, so the weighted sum will be a prediction of a total in the subset of 25 locations.
 
-The spatial locations of `simdata` are in a $30 \times 30$ grid uniformly spaced in a box with sides of length 1,
+The spatial locations of `simdata` are in a $20 \times 20$ grid uniformly spaced in a box with sides of length 1,
 ```{r, fig.width = 5, fig.height = 5, fig.align="center", cache = TRUE}
 plot(simdata$x, simdata$y, pch = 19)
+points(simdata[simdata$wts2 == 1, c('x','y')], pch = 19, col = 'red')
 ```
+The locations of the 25 sites where `wts2` is equal to one, are shown in red.
 
-
+We have simulated the data for the whole population.  This is convenient, because we know the true means and totals.  However, we will now sample from this population to provide a more realistic setting where we can measure only a part of the whole population.  In order to make results reproducible, we use the `set.seed` command, along with `sample'
+```{r}
+set.seed(1)
+# take a random sample of 100
+obsID = sample(1:nrow(simdata), 100)
+simobs = simdata
+simobs$Z = NA
+simobs[obsID,'Z'] = simdata[obsID,'Z']
+```
+We now have a data set where the whole population is known, `simdata`, and another one, `simobs`, where 75% of the population has been replaced by `NA`.  Next we show the sampled sites solid circles, while the missing values are shown as open circles, and we use red again to show sampled site within the small area of 25 locations.
+```{r, fig.width = 5, fig.height = 5, fig.align="center", cache = TRUE}
+plot(simobs$x, simobs$y, pch = 1)
+points(simobs[!is.na(simobs$Z), c('x','y')], pch = 19)
+points(simobs[!is.na(simobs$Z) & simdata$wts2 == 1, c('x','y')], 
+  pch = 19, col = 'red')
+```
+We will use the `simobs` data to illustrate use of `sptotal` package.
 
 ## Working with Spatial Coordinate Systems
 
@@ -145,9 +163,11 @@ plot(simdata$x, simdata$y, pch = 19)
 
 # Using the `sptotal` Package
 
-After data preparation, using the sptotal package occurs in two primary stages.  In the first, you fit a spatial linear model.  This stage estimates spatial regression coefficients and spatial autocorrelation parameters.  In the second stage, we predict the missing values for the response value, and create a prediction for the weigthed sum of all response variable values, both observed and predicted.  To show how the package works, we demonstrate on ideal, simulated data.  Then, we give three realistic examples to provide further insight and documentation.
+After data preparation, using the `sptotal` package occurs in two primary stages.  In the first, you fit a spatial linear model.  This stage estimates spatial regression coefficients and spatial autocorrelation parameters.  In the second stage, we predict the missing values for the response value, and create a prediction for the weighted sum of all response variable values, both observed and predicted.  To show how the package works, we demonstrate on ideal, simulated data.  Then, we give three realistic examples to provide further insight and documentation.
 
 ## Fitting a Spatial Linear Model
+
+We continue with our use of the simulated data, `simobs1, to illustrate fitting the spatial linear model.
 
 ## Prediction
 

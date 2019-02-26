@@ -7,7 +7,8 @@ set.seed(1)
 # take a random sample of 100
 obsID = sample(1:nrow(simdata), 100)
 simobs = simdata
-simobs[!(1:nrow(simdata) %in% obsID),'Z'] = NA
+simobs$Z = NA
+simobs[obsID,'Z'] = simdata[obsID,'Z']
 
 # fit the model with all covariates
 #undebug(slmfit) 
@@ -21,7 +22,7 @@ summary(slmfit_out1)
 # function to get R^2
 GR2(slmfit_out1)
 
-# predictions
+# predictions for default total for whole population
 predout1 = predict(slmfit_out1)
 # prediction of total
 predout1$FPBK_Prediction
@@ -58,6 +59,86 @@ SRSI
 sum(simdata$Z)
 # Is the truth in the prediction interval?
 sum(simdata$Z) > SRSI['lower'] & sum(simdata$Z) < SRSI['upper']
+
+# predictions for mean over whole population
+predout1 = predict(slmfit_out1, FPBKcol = 'wts1')
+# prediction of total
+predout1$FPBK_Prediction
+# standard error of prediction
+sqrt(predout1$PredVar)
+# coefficient of variation of prediction
+sqrt(predout1$PredVar)/predout1$FPBK_Prediction
+# 95% prediction interval
+PI = c(lower = predout1$FPBK_Prediction - 1.96*sqrt(predout1$PredVar),
+  upper = predout1$FPBK_Prediction + 1.96*sqrt(predout1$PredVar))
+PI
+# Truth
+mean(simdata$Z)
+# Is the truth in the prediction interval?
+mean(simdata$Z) > PI['lower'] & mean(simdata$Z) < PI['upper']
+
+# Simple random sampling estimate
+SRS_est = mean(simobs$Z, na.rm = TRUE)
+SRS_est
+# Simple random sample standard error
+SRS_var = 
+  var(simobs$Z, na.rm = TRUE)/
+  sum(!is.na(simobs$Z))*
+  (1 - sum(!is.na(simobs$Z))/length(simobs$Z))
+# standard error of SRS
+sqrt(SRS_var)
+# coefficient of variation of SRS
+sqrt(SRS_var)/SRS_est
+# 95% prediction interval
+SRSI = c(lower = SRS_est - 1.96*sqrt(SRS_var),
+  upper = SRS_est + 1.96*sqrt(SRS_var))
+SRSI
+# Truth
+mean(simdata$Z)
+# Is the truth in the prediction interval?
+mean(simdata$Z) > SRSI['lower'] & mean(simdata$Z) < SRSI['upper']
+
+# predictions for small area of 25 plots
+predout1 = predict(slmfit_out1, FPBKcol = 'wts2')
+# prediction of total
+predout1$FPBK_Prediction
+# standard error of prediction
+sqrt(predout1$PredVar)
+# coefficient of variation of prediction
+sqrt(predout1$PredVar)/predout1$FPBK_Prediction
+# 95% prediction interval
+PI = c(lower = predout1$FPBK_Prediction - 1.96*sqrt(predout1$PredVar),
+  upper = predout1$FPBK_Prediction + 1.96*sqrt(predout1$PredVar))
+PI
+# Truth
+Truth = sum(simdata[simdata$wts2 == 1,'Z'])
+Truth
+# Is the truth in the prediction interval?
+Truth > PI['lower'] & Truth < PI['upper']
+
+# Simple random sampling estimate
+SRS_est = mean(simobs[simobs$wts2 == 1,'Z'], na.rm = TRUE)*
+  sum(simobs$wts2 == 1)
+SRS_est
+# Simple random sample standard error
+SRS_var = sum(simobs$wts2 == 1)^2*
+  var(simobs[simobs$wts2 == 1,'Z'], na.rm = TRUE)/
+  sum(!is.na(simobs[simobs$wts2 == 1,'Z']))*
+  (1 - sum(!is.na(simobs[simobs$wts2 == 1,'Z']))/
+    sum(simobs$wts2 == 1))
+# standard error of SRS
+sqrt(SRS_var)
+# coefficient of variation of SRS
+sqrt(SRS_var)/SRS_est
+# 95% prediction interval
+SRSI = c(lower = SRS_est - 1.96*sqrt(SRS_var),
+  upper = SRS_est + 1.96*sqrt(SRS_var))
+SRSI
+# Truth
+Truth = sum(simdata[simdata$wts2 == 1,'Z'])
+Truth
+# Is the truth in the prediction interval?
+Truth > SRSI['lower'] & Truth < SRSI['upper']
 
 #-------------------
 # DO IT AGAIN  WITH A DIFFERENT SAMPLE

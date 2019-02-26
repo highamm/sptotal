@@ -43,7 +43,7 @@ print.summary.slmfit <- function(x,
   cat("\nCovariance Parameters:\n")
   print(x$CovarianceParms)
 
-  cat("\nGeneralized R-squared:", x$GeneralizedR2)
+  cat("\nGeneralized R-squared:", x$GeneralizedR2,"\n")
 
 }
 
