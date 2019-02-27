@@ -180,10 +180,15 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 ##data <- data.frame(cbind(counts, pred1, pred2))
 ##formula <- counts ~ pred1 + pred2
 
-##slm_info <- slmfit(counts ~ pred1 + pred2 , data = exampledataset,
-##xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM",
-##  estmethod = "ML")
-##summary.slmfit(object = slm_info)
+# slm_info <- slmfit(counts ~ pred1 + pred2 , data = exampledataset,
+# xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM",
+#   estmethod = "ML")
+# summary.slmfit(object = slm_info)
+# print.summary.slmfit(x = summary.slmfit(object = slm_info))
+# print.slmfit(x = summary.slmfit(object = slm_info))
+# print(slm_info)
+# summary(slm_info)
+
 
 #designmatrixsa <- with(exampledataset, model.matrix(counts ~ pred1 + pred2))
 ##ind.sa <- is.na(exampledataset$counts) == FALSE

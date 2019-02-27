@@ -18,6 +18,8 @@ m2LL.FPBK.nodet(theta, zcol, XDesign, xcoord, ycoord, CorModel, estmethod)
 \item{ycoord}{is a vector of the y spatial coordinates (in UTM)}
 
 \item{CorModel}{is the geostatistical spatial correlation model to be used. See the \code{corModels} documentation for possible models to use.}
+
+\item{estmethod}{is either "REML" for restricted maximum likelihood or "ML" for maximum likelihood.}
 }
 \value{
 A numeric output of minus 2 times the restricted log likelihood to be minimized by `optim` to obtain spatial parameter estimates.

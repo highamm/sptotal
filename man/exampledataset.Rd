@@ -19,7 +19,7 @@
 exampledataset
 }
 \description{
-A data set that can be used with the \code{FPBKForestPack} package. In
+A data set that can be used with the \code{sptotal} package. In
 this example, the counts are uncorrelated, the covariates are
 generated as uniform random variables, and the sites fall on a
 regular grid.

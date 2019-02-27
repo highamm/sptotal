@@ -4,12 +4,14 @@
 \alias{predict.slmfit}
 \title{Perform Finite Population Block Kriging}
 \usage{
-\method{predict}{slmfit}(slmfitobj, FPBKcol = NULL)
+\method{predict}{slmfit}(object, FPBKcol = NULL, ...)
 }
 \arguments{
-\item{slmfitobj}{is an object generated from \code{slmfit}}
+\item{object}{is an object generated from \code{slmfit}}
 
-\item{FPBKcol}{is the name of the column that contains the weights for
+\item{FPBKcol}{is the name of the column that contains the weights for}
+
+\item{...}{Additional arguments
 prediction. The default setting predicts the population total}
 }
 \value{

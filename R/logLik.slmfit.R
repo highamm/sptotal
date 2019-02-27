@@ -1,13 +1,14 @@
 #' Extract Log-Likelihood
 #'
-#' @param object is a slmfit object 
+#' @param object is a slmfit object
+#' @param ... additional argurments
 #' @return the log-likelihood of the slmfit object
-#' @export 
+#' @export
 
-logLik.slmfit <- function(object) 
+logLik.slmfit <- function(object, ...)
 {
 
-  0.5*(-object$minus2loglike) 
+  0.5*(-object$minus2loglike)
 
 }
 

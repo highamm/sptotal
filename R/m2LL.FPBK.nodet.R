@@ -9,6 +9,7 @@
 #' @param xcoord is a vector of the x spatial coordinates (in UTM)
 #' @param ycoord is a vector of the y spatial coordinates (in UTM)
 #' @param CorModel is the geostatistical spatial correlation model to be used. See the \code{corModels} documentation for possible models to use.
+#' @param estmethod is either "REML" for restricted maximum likelihood or "ML" for maximum likelihood.
 
 #' @return A numeric output of minus 2 times the restricted log likelihood to be minimized by `optim` to obtain spatial parameter estimates.
 #' @importFrom stats optim

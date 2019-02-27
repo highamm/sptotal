@@ -5,8 +5,9 @@
 #' on the sampled sites and `NA` for any site that was not sampled.
 #'
 #'
-#' @param slmfitobj is an object generated from \code{slmfit}
+#' @param object is an object generated from \code{slmfit}
 #' @param FPBKcol is the name of the column that contains the weights for
+#' @param ... Additional arguments
 #' prediction. The default setting predicts the population total
 #' @return a list with \itemize{
 #'   \item the estimated population total
@@ -21,10 +22,10 @@
 #'    \item vector with estimated covariance parameters
 #' }
 #' @import stats
-#' @export predict.slmfit
+#' @export
 
 
-predict.slmfit <- function(slmfitobj, FPBKcol = NULL) {
+predict.slmfit <- function(object, FPBKcol = NULL, ...) {
 
   ## if FPBKcol is left out, we are predicting the population total.
   ## Otherwise, FPBKcol is the name of the column in the data set
@@ -32,11 +33,11 @@ predict.slmfit <- function(slmfitobj, FPBKcol = NULL) {
   ## of 1's and 0's for predicting the total of the sites marked with 1's)
 
 
-  formula <- slmfitobj$FPBKpredobj$formula
-  data <- slmfitobj$FPBKpredobj$data
-  xcoordsUTM <- slmfitobj$FPBKpredobj$xcoordsUTM
-  ycoordsUTM <- slmfitobj$FPBKpredobj$ycoordsUTM
-  covparmests <- slmfitobj$SpatialParmEsts
+  formula <- object$FPBKpredobj$formula
+  data <- object$FPBKpredobj$data
+  xcoordsUTM <- object$FPBKpredobj$xcoordsUTM
+  ycoordsUTM <- object$FPBKpredobj$ycoordsUTM
+  covparmests <- object$SpatialParmEsts
 
    if (is.null(FPBKcol) == TRUE) {
     predwts <- rep(1, nrow(data))
@@ -80,7 +81,7 @@ predict.slmfit <- function(slmfitobj, FPBKcol = NULL) {
   z.density <- z.sa
 
 
-  Sigma <- slmfitobj$FPBKpredobj$covmat
+  Sigma <- object$FPBKpredobj$covmat
 
   ## used in the Kriging formulas
   Sigma.us <- Sigma[ind.un, ind.sa]
@@ -94,10 +95,10 @@ predict.slmfit <- function(slmfitobj, FPBKcol = NULL) {
       #     cannot be inverted")
       # }
 
-  Sigma.ssi <- slmfitobj$FPBKpredobj$covmatsampi
+  Sigma.ssi <- object$FPBKpredobj$covmatsampi
 
   ## the generalized least squares regression coefficient estimates
-  betahat <- slmfitobj$CoefficientEsts
+  betahat <- object$CoefficientEsts
 
   ## estimator for the mean vector
   muhats <- Xs %*% betahat

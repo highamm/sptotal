@@ -8,7 +8,7 @@
 #'
 #' simulates a completely spatially random point patterns
 #'
-#' @param npoints number of points to add that are completely spatially random (CSR), default = 100 
+#' @param npoints number of points to add that are completely spatially random (CSR), default = 100
 #' @param lower_x_lim left limit of boundary, default = 0
 #' @param upper_x_lim right limit of boundary, default = 1
 #' @param lower_y_lim lower limit of boundary, default = 0
@@ -24,7 +24,7 @@ function(npoints = 100, lower_x_lim = 0, upper_x_lim = 1,
 {
 	x_range <- upper_x_lim - lower_x_lim
 	y_range <- upper_y_lim - lower_y_lim
-	data_frame(x=lower_x_lim + runif(npoints)*x_range,
+	tibble::data_frame(x=lower_x_lim + runif(npoints)*x_range,
 		y=lower_y_lim + runif(npoints)*y_range)
 }
 

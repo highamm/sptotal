@@ -4,20 +4,22 @@
 \alias{plot.sptotalPredOut}
 \title{Creates a default map from predictions}
 \usage{
-\method{plot}{sptotalPredOut}(predictions, nbreaks = 4,
-  breakMethod = "quantile", legend.cex = 1, ...)
+\method{plot}{sptotalPredOut}(x, nbreaks = 4, breakMethod = "quantile",
+  legend.cex = 1, ...)
 }
 \arguments{
-\item{predictions}{the output of the prediction function, of class sptotalPredOut}
+\item{x}{the output of the prediction function, of class sptotalPredOut}
 
 \item{nbreaks}{number of breaks for coloring predictions.  Default is 4. Note, breaks at endpoints are automatically added, so nbreaks = 4 creates 5 levels.}
 
 \item{breakMethod}{method to create breaks.  Currently, there are two options, 'quantile' creates breaks at evenly spaced quantiles of the predictions, while 'even' creates breaks evenly between the minimum and maximum prediction values.}
 
 \item{legend.cex}{expansion factor for legend}
+
+\item{...}{are additional arguments to be passed on to \code{plot}}
 }
 \value{
-a plot
+a plot with predictions
 }
 \description{
 Creates a default map from predictions

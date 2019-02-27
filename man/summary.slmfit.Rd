@@ -8,6 +8,17 @@
 }
 \arguments{
 \item{object}{is an object generated from \code{slmfit}.}
+
+\item{...}{are options to be passed to \code{print}}
+}
+\value{
+a list with \itemize{
+  \item model formula
+  \item a table of fixed effects estimates and associated standard errors
+  \item estimated spatial covariance parameter estimates
+  \item residuals
+  \item generalized r-squared.
+       }
 }
 \description{
 Summarizes a fitted spatial linear model

@@ -4,13 +4,15 @@
 \alias{AIC.slmfit}
 \title{Extract AIC}
 \usage{
-\method{AIC}{slmfit}(object)
+\method{AIC}{slmfit}(object, ...)
 }
 \arguments{
 \item{object}{a slmfit object}
+
+\item{...}{additional arguments}
 }
 \value{
-The AIC value of the slmfit object.  Here, AIC is computed as 2 times the 
+The AIC value of the slmfit object.  Here, AIC is computed as 2 times the
 negative log-likelihood plus 2 times the number of model parameters.  Thus,
 lower AIC values are preferred models.
 }

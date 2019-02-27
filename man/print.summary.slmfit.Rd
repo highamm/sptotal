@@ -4,8 +4,8 @@
 \alias{print.summary.slmfit}
 \title{Prints the summary of a fitted spatial linear model}
 \usage{
-\method{print}{summary.slmfit}(x, digits = max(3L, getOption("digits") - 3L),
-  signif.stars = getOption("show.signif.stars"), ...)
+\method{print}{summary.slmfit}(x, digits = max(3L, getOption("digits") -
+  3L), signif.stars = getOption("show.signif.stars"), ...)
 }
 \arguments{
 \item{x}{is an summary object generated from}
@@ -14,8 +14,19 @@
 model output}
 
 \item{signif.stars}{is an option to show which predictors
-are significant.
- \code{summary.slmfit}.}
+are significant.}
+
+\item{...}{are options passed on to \code{printCoefmat}
+\code{summary.slmfit}.}
+}
+\value{
+a list with \itemize{
+  \item model formula
+  \item summary statistics for the residuals.
+  \item a table of fixed effects estimates and associated standard errors.
+  \item estimated spatial covariance parameter estimates.
+  \item generalized r-squared value.
+}
 }
 \description{
 Prints the summary of a fitted spatial linear model

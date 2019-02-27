@@ -20,6 +20,8 @@ Imports: matrixcalc,
     ggplot2,
     stats,
     viridis,
+    graphics,
+    tibble
 Suggests: 
     gstat,
     rmarkdown,

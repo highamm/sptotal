@@ -4,10 +4,12 @@
 \alias{logLik.slmfit}
 \title{Extract Log-Likelihood}
 \usage{
-\method{logLik}{slmfit}(object)
+\method{logLik}{slmfit}(object, ...)
 }
 \arguments{
 \item{object}{is a slmfit object}
+
+\item{...}{additional argurments}
 }
 \value{
 the log-likelihood of the slmfit object

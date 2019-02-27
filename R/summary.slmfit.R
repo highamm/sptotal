@@ -1,6 +1,7 @@
 #' Summarizes a fitted spatial linear model
 #'
 #' @param object is an object generated from \code{slmfit}.
+#' @param ... are options to be passed to \code{print}
 #' @return a list with \itemize{
 #'   \item model formula
 #'   \item a table of fixed effects estimates and associated standard errors
@@ -8,9 +9,8 @@
 #'   \item residuals
 #'   \item generalized r-squared.
 #'        }
-#' }
 #' @import stats
-#' @export summary.slmfit
+#' @export
 
 summary.slmfit <- function(object, ...) {
 
@@ -36,11 +36,6 @@ summary.slmfit <- function(object, ...) {
     Estimate = regcoefs,
     std.err = sereg, t.value = tvec, prob.t = pvec)
   fixed.effects.estimates = fixed.eff.est
-
- ## if(any(rownames(b.hat) %in% effnames == FALSE)) {
-    ## dataXY issue
-  ##  stop(cat("glmssn has computed estimates for",rownames(b.hat),"but the summary command expects estimates for",effnames,collapse=" "))
-##  }
 
   covmodels <- object$SpatialParmEsts
   covmodelout <- data.frame(covmodels)

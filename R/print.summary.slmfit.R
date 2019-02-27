@@ -5,6 +5,7 @@
 #' model output
 #' @param signif.stars is an option to show which predictors
 #' are significant.
+#' @param ... are options passed on to \code{printCoefmat}
 #'  \code{summary.slmfit}.
 #' @return a list with \itemize{
 #'   \item model formula
@@ -12,11 +13,9 @@
 #'   \item a table of fixed effects estimates and associated standard errors.
 #'   \item estimated spatial covariance parameter estimates.
 #'   \item generalized r-squared value.
-#'        }
 #' }
 #' @import stats
-#' @export print.summary.slmfit
-#' @export print.slmfit
+#' @export
 
 print.summary.slmfit <- function(x,
   digits = max(3L, getOption("digits") - 3L),

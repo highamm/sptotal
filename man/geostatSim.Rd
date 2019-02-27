@@ -25,6 +25,8 @@ geostatSim(loc.data, xcol = "x", ycol = "y", parsil = 1, range = 1,
 
 \item{rotate}{rotation of anisotropic axes, default = 90}
 
+\item{extrap}{extra covariance paramter}
+
 \item{CorModel}{autocorrelation model, default = "Exponential".  Other possibilities are "Spherical".}
 }
 \value{
