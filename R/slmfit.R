@@ -118,36 +118,20 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     ycoordsvec = ycoordsUTM, CorModel = CorModel,
     estmethod = estmethod)
 
-  parms.est <- spat.est[[1]]
-  Sigma <- spat.est[[2]]
-  loglik2 <- spat.est[[3]]
+  parms.est <- spat.est$parms.est
+  Sigma <- spat.est$Sigma
+  min2loglik <- spat.est$min2loglik
 
   nugget.effect <- parms.est[1]; parsil.effect <- parms.est[2]
   range.effect <- parms.est[3]
 
-  ## used in the Kriging formulas
-  Sigma.us <- Sigma[ind.un, ind.sa]
-  Sigma.su <- t(Sigma.us)
-  Sigma.ss <- Sigma[ind.sa, ind.sa]
 
-  ## give warning if covariance matrix cannot be inverted
-  # if(abs(determinant(Sigma.ss)) <= 1e-21) {
-  #   warning("Covariance matrix is compulationally singular and
-  #     cannot be inverted")
-  # }
-
-  Sigma.ssi <- solve(Sigma.ss, tol = 1e-21)
+  Sigma.ssi <- solve(spat.est$qrV) / (nugget.effect + parsil.effect)
 
   ## the generalized least squares regression coefficient estimates
 
-  if (estmethod == "REML") {
-  betahat <- solve((t(Xs) %*% Sigma.ssi %*% Xs)) %*%
-    (t(Xs) %*% Sigma.ssi %*% as.matrix(z.density))
-  aic_crit <- NA
-  } else if (estmethod == "ML") {
-  betahat <- matrix(parms.est[4:length(parms.est)])
-  aic_crit <- 2 * length(parms.est) - loglik2
-}
+  betahat <- spat.est$b.hat
+
   ## estimator for the mean vector
   muhats <- Xs %*% betahat
   muhatu <- Xu %*% betahat
@@ -166,19 +150,21 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
   covparms <- as.vector(c(nugget.effect, parsil.effect, range.effect))
   betahatest <- as.vector(betahat)
-  covest <- solve((t(Xs) %*% Sigma.ssi %*% Xs))
+  covest <- spat.est$covb
+
 
   names(covparms) <- c("Nugget", "Partial Sill", "Range")
 
   FPBKpredobj <- list(formula, data, xcoordsUTM, ycoordsUTM,
-    CorModel, Sigma, Sigma.ssi)
+    estmethod, CorModel, Sigma, Sigma.ssi)
   names(FPBKpredobj) <- c("formula", "data", "xcoordsUTM",
-    "ycoordsUTM", "correlationmod", "covmat", "covmatsampi")
-  obj <- list(covparms, betahatest, covest, aic_crit, prednames,
+    "ycoordsUTM",
+    "estmethod","correlationmod", "covmat", "covmatsampi")
+  obj <- list(covparms, betahatest, covest, min2loglik, prednames,
     n, CorModel, resids, Xs, z.sa, FPBKpredobj)
 
   names(obj) <- c("SpatialParmEsts", "CoefficientEsts",
-    "BetaCov", "AICvalue", "PredictorNames", "SampSize",
+    "BetaCov", "minus2loglike", "PredictorNames", "SampSize",
     "CovarianceMod",
     "resids", "DesignMat", "Density",
     "FPBKpredobj")
@@ -194,14 +180,12 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 ##data <- data.frame(cbind(counts, pred1, pred2))
 ##formula <- counts ~ pred1 + pred2
 
-##slm_info <- slmfit(counts ~ 1 , data = exampledataset,
+##slm_info <- slmfit(counts ~ pred1 + pred2 , data = exampledataset,
 ##xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM",
 ##  estmethod = "ML")
 ##summary.slmfit(object = slm_info)
-##slm_info$AICvalue
-## similar resulting covariance structures.
 
-##designmatrixsa <- with(exampledataset, model.matrix(counts ~ pred1 + pred2))
+#designmatrixsa <- with(exampledataset, model.matrix(counts ~ pred1 + pred2))
 ##ind.sa <- is.na(exampledataset$counts) == FALSE
 ##response <- exampledataset$counts
 # solve(t(Xtest) %*% Xtest) %*% t(Xtest) %*% matrix(exampledataset$counts[is.na(exampledataset$counts) == FALSE])

@@ -4,7 +4,7 @@
 \alias{m2LL.FPBK.nodet}
 \title{Covariance Parameter Estimation Function.}
 \usage{
-m2LL.FPBK.nodet(theta, zcol, XDesign, xcoord, ycoord, CorModel)
+m2LL.FPBK.nodet(theta, zcol, XDesign, xcoord, ycoord, CorModel, estmethod)
 }
 \arguments{
 \item{theta}{is the parameter vector of (nugget, partialsill, range)}
