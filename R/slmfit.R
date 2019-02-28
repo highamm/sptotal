@@ -36,34 +36,6 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   CorModel = "Exponential",
   coordtype = "LatLon", estmethod = "REML") {
 
-  ## ASSUME that coordinates are lat/lon. Convert these to UTM
-  if (coordtype != "LatLon" & coordtype != "UTM") {
-    stop("coordtype must be a character string LatLon or UTM")
-  } else if (coordtype == "LatLon") {
-    xcoordsUTM <- LLtoUTM(cm = base::mean(data[ ,xcoordcol]),
-      lat = data[ ,ycoordcol], lon = data[ ,xcoordcol])$xy[ ,1]
-    ycoordsUTM <- LLtoUTM(cm = base::mean(data[ ,xcoordcol]),
-      lat = data[ ,ycoordcol], lon = data[ ,xcoordcol])$xy[ ,2]
-  } else if (coordtype == "UTM") {
-    xcoordsUTM <- data[ ,xcoordcol]
-    ycoordsUTM <- data[ ,ycoordcol]
-  }
-
-
-  ## divide data set into sampled sites and unsampled sites based
-  ## on whether the response variable has a number (for sampled sites)
-  ## or NA (for unsampled sites)
-
-
-  fullmf <- stats::model.frame(formula, na.action =
-      stats::na.pass, data = data)
-  yvar <- stats::model.response(fullmf, "numeric")
-  density <- yvar
-
-  ind.sa <- !is.na(yvar)
-  ind.un <- is.na(yvar)
-  data.sa <- data[ind.sa, ]
-  data.un <- data[ind.un, ]
 
 
   ## display some warnings if the user, for example tries to input the
@@ -80,12 +52,62 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   }
 
 
-  ## create the design matrix for unsampled sites, for all of the sites,  and for the sampled sites, respectively.
+  Xall <- model.matrix(formula, model.frame(formula, data,
+    na.action = stats::na.pass))
+
+  missingind <- base::apply(is.na(Xall), MARGIN = 1, FUN = sum)
+  nmissing <- sum(missingind >= 1)
+
+  datanomiss <- data[missingind == 0, ]
+
+  ## give a warning if some of the predictors have missing values.
+  if (nmissing >= 1) {
+    warning(paste("There were", nmissing, "sites with predictors with missing values. These will be removed from the data set and further analysis will be completed without these observations."))
+  }
+
+  ## ASSUME that coordinates are lat/lon. Convert these to UTM
+  if (coordtype != "LatLon" & coordtype != "UTM") {
+    stop("coordtype must be a character string LatLon or UTM")
+  } else if (coordtype == "LatLon") {
+    xcoordsUTM <- LLtoUTM(cm = base::mean(datanomiss[ ,xcoordcol]),
+      lat = datanomiss[ ,ycoordcol], lon = datanomiss[ ,xcoordcol])$xy[ ,1]
+    ycoordsUTM <- LLtoUTM(cm = base::mean(datanomiss[ ,xcoordcol]),
+      lat = datanomiss[ ,ycoordcol], lon = datanomiss[ ,xcoordcol])$xy[ ,2]
+  } else if (coordtype == "UTM") {
+    xcoordsUTM <- datanomiss[ ,xcoordcol]
+    ycoordsUTM <- datanomiss[ ,ycoordcol]
+  }
+
+  ## create the design matrix for unsampled sites, for all of the sites, and for the sampled sites, respectively.
+
+  fullmf <- stats::model.frame(formula, na.action =
+      stats::na.pass, data = datanomiss)
+  yvar <- stats::model.response(fullmf, "numeric")
+  density <- yvar
+
+
+  X <- model.matrix(formula.onlypreds,
+    model.frame(formula.onlypreds, datanomiss,
+      na.action = stats::na.omit))
+
+  ## divide data set into sampled sites and unsampled sites based
+  ## on whether the response variable has a number (for sampled sites)
+  ## or NA (for unsampled sites)
+
+  ind.sa <- !is.na(yvar)
+  ind.un <- is.na(yvar)
+  data.sa <- datanomiss[ind.sa, ]
+  data.un <- datanomiss[ind.un, ]
 
   m.un <- stats::model.frame(formula, data.un, na.action =
       stats::na.pass)
-  Xu <- stats::model.matrix(formula, m.un)
-  X <- stats::model.matrix(formula, fullmf)
+
+  ## remove any rows with missing values in any of the predictors
+  formula.onlypreds <- formula[-2]
+  Xu <- model.matrix(formula.onlypreds,
+    model.frame(formula.onlypreds, data.un,
+    na.action = stats::na.omit))
+
 
   ## sampled response values and design matrix
   m.sa <- stats::model.frame(formula, data.sa, na.action =
@@ -94,6 +116,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   Xs <- stats::model.matrix(formula, m.sa)
   z.density <- z.sa
   n <- nrow(Xs)
+
 
   prednames <- colnames(Xs)
 
@@ -138,7 +161,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
   resids <- z.sa - muhats
 
-  muhat <- rep(NA, nrow(data))
+  muhat <- rep(NA, nrow(datanomiss))
   muhat[ind.sa == TRUE] <- muhats
   muhat[ind.sa == FALSE] <- muhatu
 
@@ -155,7 +178,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
   names(covparms) <- c("Nugget", "Partial Sill", "Range")
 
-  FPBKpredobj <- list(formula, data, xcoordsUTM, ycoordsUTM,
+  FPBKpredobj <- list(formula, datanomiss, xcoordsUTM, ycoordsUTM,
     estmethod, CorModel, Sigma, Sigma.ssi)
   names(FPBKpredobj) <- c("formula", "data", "xcoordsUTM",
     "ycoordsUTM",
@@ -190,6 +213,19 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 # summary(slm_info)
 
 
+# missingind <- sample(1:length(simdata$X5), size = 40)
+#
+# X5mis <- simdata$X5
+# X5mis[missingind] <- NA
+# simdata$X5mis <- X5mis
+# zmis <- simdata$Z
+# zmis[sample(1:400, size = 71)] <- NA
+# simdata$zmis <- zmis
+# slm_info <- slmfit(zmis ~ X1 + X2 + X5mis, data = simdata,
+#  xcoordcol = "x", ycoordcol = "y",  coordtype = "UTM",
+#    estmethod = "ML")
+
+
 #designmatrixsa <- with(exampledataset, model.matrix(counts ~ pred1 + pred2))
 ##ind.sa <- is.na(exampledataset$counts) == FALSE
 ##response <- exampledataset$counts
@@ -199,7 +235,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 ##summary(slm_info)
 ##print(slm_info)
 
-##pred_info <- predict(slmfitobj = slm_info, FPBKcol = NULL)
+##pred_info <- predict(object = slm_info, FPBKcol = NULL)
 
 ##pred_info
 
