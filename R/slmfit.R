@@ -16,6 +16,7 @@
 #' maximum likelihood to estimate the covariance parameters and
 #' regression coefficients or \code{"ML"} to estimate the covariance
 #' parameters and regression coefficients.
+#' @param covestimates is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and \code{estmethod = "None"}, the the provided vector are treated as the estimators to create the covariance structure.
 #' @return a list with \itemize{
 #'   \item the spatial covariance estimates
 #'   \item the regression coefficient estimates
@@ -34,9 +35,24 @@
 
 slmfit <- function(formula, data, xcoordcol, ycoordcol,
   CorModel = "Exponential",
-  coordtype = "LatLon", estmethod = "REML") {
+  coordtype = "LatLon", estmethod = "REML",
+  covestimates = c(NA, NA, NA)) {
 
 
+  ## display error message if estmethod is set to None and the user
+  ## does not input covariance estimates
+
+  if (estmethod == "None" & sum(is.na(covestimates) > 0) > 0) {
+    stop("If estmethod is set to None, then covestimates must
+      be a vector without missing values
+      with the estimated (nugget, partial sill, range)")
+  }
+
+  if (estmethod == "None" & length(covestimates) != 3) {
+    stop("If estmethod is set to None, then covestimates must
+      be a vector of length 3 with the estimated
+      (nugget, partial sill, range)")
+  }
 
   ## display some warnings if the user, for example tries to input the
   ## vector of xcoordinates as the input instead of the name of the column
@@ -139,7 +155,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     designmatrix = as.matrix(X),
     xcoordsvec = xcoordsUTM,
     ycoordsvec = ycoordsUTM, CorModel = CorModel,
-    estmethod = estmethod)
+    estmethod = estmethod,
+    covestimates = covestimates)
 
   parms.est <- spat.est$parms.est
   Sigma <- spat.est$Sigma
@@ -203,12 +220,12 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 ##data <- data.frame(cbind(counts, pred1, pred2))
 ##formula <- counts ~ pred1 + pred2
 
-# slm_info <- slmfit(counts ~ pred1 + pred2 , data = exampledataset,
-# xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM",
-#   estmethod = "ML")
-# summary.slmfit(object = slm_info)
-# print.summary.slmfit(x = summary.slmfit(object = slm_info))
-# print.slmfit(x = summary.slmfit(object = slm_info))
+# slm_info <- slmfit(formula = counts ~ pred1 + pred2,
+#  data = exampledataset,
+#  xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM",
+#    estmethod = "None")
+#  summary(object = slm_info)
+# print(x = summary(object = slm_info))
 # print(slm_info)
 # summary(slm_info)
 

@@ -5,7 +5,8 @@
 \title{Estimate Covariance Parameters}
 \usage{
 estcovparm(response, designmatrix, xcoordsvec, ycoordsvec,
-  CorModel = "Exponential", estmethod = "REML")
+  CorModel = "Exponential", estmethod = "REML", covestimates = c(NA,
+  NA, NA))
 }
 \arguments{
 \item{response}{a vector of a response variable, possibly with
@@ -25,6 +26,8 @@ maximum likelihood to estimate the covariance parameters and
 regression coefficients or \code{"ML"} to estimate the covariance
 parameters and regression coefficients.
 Exponential but other options include the Spherical and the Gaussian.}
+
+\item{covestimates}{is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and \code{estmethod = "None"}, the the provided vector are treated as the estimators to create the covariance structure.}
 }
 \value{
 a list with \itemize{

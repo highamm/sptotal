@@ -5,7 +5,8 @@
 \title{Fits a Spatial Linear Model}
 \usage{
 slmfit(formula, data, xcoordcol, ycoordcol, CorModel = "Exponential",
-  coordtype = "LatLon", estmethod = "REML")
+  coordtype = "LatLon", estmethod = "REML", covestimates = c(NA, NA,
+  NA))
 }
 \arguments{
 \item{formula}{is an R linear model formula specifying density as the
@@ -27,6 +28,8 @@ Exponential but other options include the Spherical and Gaussian.}
 maximum likelihood to estimate the covariance parameters and
 regression coefficients or \code{"ML"} to estimate the covariance
 parameters and regression coefficients.}
+
+\item{covestimates}{is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and \code{estmethod = "None"}, the the provided vector are treated as the estimators to create the covariance structure.}
 }
 \value{
 a list with \itemize{

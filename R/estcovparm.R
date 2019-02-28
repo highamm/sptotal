@@ -17,6 +17,7 @@
 #' regression coefficients or \code{"ML"} to estimate the covariance
 #' parameters and regression coefficients.
 #' Exponential but other options include the Spherical and the Gaussian.
+#' @param covestimates is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and \code{estmethod = "None"}, the the provided vector are treated as the estimators to create the covariance structure.
 #' @return a list with \itemize{
 #'    \item a vector of estimated covariance parameters
 #'    \item the fitted covariance matrix for all of the sites
@@ -24,7 +25,8 @@
 #' @export estcovparm
 
 estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
-  CorModel = "Exponential", estmethod = "REML") {
+  CorModel = "Exponential", estmethod = "REML",
+  covestimates = c(NA, NA, NA)) {
 
   ## only estimate parameters using sampled sites only
 
@@ -56,25 +58,28 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
   sampdistmat[lower.tri(sampdistmat)] <- stats::dist(as.matrix(cbind(xcoordsvec[ind.sa], ycoordsvec[ind.sa])))
   distmat <- sampdistmat + t(sampdistmat)
 
+  if (estmethod == "None") {
 
+    possible_nug_prop <- covestimates[1] /
+      (covestimates[1] + covestimates[2])
+    possible.theta1 <- log(possible_nug_prop /
+        (1 - possible_nug_prop))
+    possible.range <- covestimates[3]
+    possible.theta2 <- log(possible.range)
+    theta <- c(possible.theta1, possible.theta2)
 
-  # possible.nugget <- c(stats::var(response[ind.sa]),
-  #   stats::var(response[ind.sa]) / 2,
-  #   stats::var(response[ind.sa]) / 4)
-  # possible.theta1 <- log(possible.nugget)
-  # possible.parsil <- c(stats::var(response[ind.sa]),
-  #   stats::var(response[ind.sa]) / 2,
-  #   stats::var(response[ind.sa]) / 4)
-  # possible.theta2 <- log(possible.parsil)
-  # possible.range <- c(max(distmat), max(distmat) / 2, max(distmat) / 4)
-  # possible.theta3 <- log(possible.range)
-  #  theta <- expand.grid(possible.theta1, possible.theta2, possible.theta3)
+    m2loglik <- m2LL.FPBK.nodet(theta = theta,
+      zcol = response[ind.sa],
+      XDesign = as.matrix(designmatrixsa),
+      xcoord = xcoordsvec[ind.sa], ycoord = ycoordsvec[ind.sa],
+      CorModel = CorModel,
+      estmethod = "ML")
 
-  ## perform a grid search on log scale to find an appropriate
-  ## starting value for optim. The grid search covers a variety
-  ## of nugget to partial sill ratios as well as a few different
-  ## range parameters spanning the maximum distance of the distance
-  ## matrix
+    loglik <- -min2loglik
+
+    nug_prop <- possible_nug_prop
+    range.effect <- possible.range
+  } else {
 
   possible_nug_prop <- c(0.25, 0.5, 0.75)
   possible.theta1 <- log(possible_nug_prop /
@@ -108,7 +113,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
     ## extract the covariance parameter estimates. When we deal with covariance
     ## functions with more than 3 parameters, this section will need to be modified
     min2loglik <- parmest$value
-    loglik <- -min2loglik  ## Jay added 19 Feb 2019  Make sure this is right
+    loglik <- -min2loglik
 
     # nugget.effect <- exp(parmest$par[1])
     # parsil.effect <- exp(parmest$par[2])
@@ -118,7 +123,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
     nug_prop <- exp(parmest$par[1]) / (1 + exp(parmest$par[1]))
     range.effect <- exp(parmest$par[2])
 
-
+}
    ## ALL THINGS PERTAINING TO ML BEFORE JAY'S UPDATES
     # possible.thetarest <- as.vector(solve(t(as.matrix(designmatrixsa)) %*%
     #   as.matrix(designmatrixsa)) %*% t(as.matrix(designmatrixsa)) %*%
@@ -202,7 +207,11 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
 
     sill <- as.numeric(crossprod(r, solve(qrV, r))) / n
 
-    if(estmethod == "ML") {
+    if (estmethod == "None") {
+      sill <- covestimates[1] + covestimates[2]
+    }
+
+    if(estmethod == "ML" | estmethod == "None") {
       min2loglik <- n * log(sill) + sum(log(abs(diag(qr.R(qrV))))) +
       as.numeric(crossprod(r, solve(qrV, r))) / sill + n * log(2 * pi)
     }
@@ -216,6 +225,8 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
         (n - p) * log(2 * pi) +
       sum(log(svd(covbi)$d))
     }
+
+
 
     Sigma <- sill * Sigma
     parms.est <- c(nug_prop * sill, (1 - nug_prop) * sill,
