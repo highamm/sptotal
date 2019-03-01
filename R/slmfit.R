@@ -101,6 +101,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   yvar <- stats::model.response(fullmf, "numeric")
   density <- yvar
 
+  ## remove any rows with missing values in any of the predictors
+  formula.onlypreds <- formula[-2]
 
   X <- model.matrix(formula.onlypreds,
     model.frame(formula.onlypreds, datanomiss,
@@ -118,8 +120,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   m.un <- stats::model.frame(formula, data.un, na.action =
       stats::na.pass)
 
-  ## remove any rows with missing values in any of the predictors
-  formula.onlypreds <- formula[-2]
+
   Xu <- model.matrix(formula.onlypreds,
     model.frame(formula.onlypreds, data.un,
     na.action = stats::na.omit))
@@ -219,11 +220,11 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 ##pred2 <- runif(10, 0, 2)
 ##data <- data.frame(cbind(counts, pred1, pred2))
 ##formula <- counts ~ pred1 + pred2
-
+#
 # slm_info <- slmfit(formula = counts ~ pred1 + pred2,
 #  data = exampledataset,
 #  xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM",
-#    estmethod = "None")
+#    estmethod = "ML", covestimates = c(2, 2, 0.5))
 #  summary(object = slm_info)
 # print(x = summary(object = slm_info))
 # print(slm_info)

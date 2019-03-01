@@ -75,7 +75,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
       CorModel = CorModel,
       estmethod = "ML")
 
-    loglik <- -min2loglik
+    loglik <- -m2loglik
 
     nug_prop <- possible_nug_prop
     range.effect <- possible.range
