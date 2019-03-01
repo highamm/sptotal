@@ -1,6 +1,6 @@
 Package: sptotal
 Type: Package
-Title: Predicting Weighted Sums from Spatial Data
+Title: Predicting Totals and Weighted Sums from Spatial Data
 Version: 0.1.0
 Authors@R: c(
     person("Higham", "Matt", email = "highamm@oregonstate.edu", role = "cre"),
@@ -10,7 +10,7 @@ Authors@R: c(
     person("Madsen", "Lisa", email = "lisa.madsen@oregonstate.edu", role = "aut"))
 Depends: R (>= 2.10)
 Maintainer: Matt Higham <highamm@oregonstate.edu>
-Description: This package performs predictions of weighted sums, or finite population block kriging, on spatial  data. The primary outputs are an estimate of the total, mean, or weighted sum, in the region, an estimated prediction variance, and a map of the predicted and observed values.
+Description: This package performs predictions of totals and weighted sums, or finite population block kriging, on spatial  data. The primary outputs are an estimate of the total, mean, or weighted sum, in the region, an estimated prediction variance, and a map of the predicted and observed values.
 License: CC0
 Encoding: UTF-8
 LazyData: true
