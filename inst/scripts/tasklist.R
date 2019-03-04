@@ -21,3 +21,7 @@
 ## Compare to yimpute, spsurvey, simple random sample
 ##
 ## Test functions
+##
+## Add variogram plot
+## Add check for isotropy
+## Possibly add split variogram plots by region

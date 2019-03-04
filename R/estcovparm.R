@@ -31,7 +31,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
   ## only estimate parameters using sampled sites only
 
   ind.sa <- !is.na(response)
-  designmatrixsa <- designmatrix[ind.sa, ]
+  designmatrixsa <- as.matrix(designmatrix[ind.sa, ])
 
 
   names.theta <- c("nugget", "parsil", "range")
