@@ -28,7 +28,7 @@ m2LL.FPBK.nodet <- function(theta, zcol, XDesign, xcoord, ycoord,
 
   ## we can use profiled likelihood to optimize likelihood,
   ## proportion of nugget to nugget + partial sill (overall variance)
-  nug_prop <- as.numeric(exp(theta[1])/(1 + exp(theta[1])))
+  nug_prop <- as.numeric(exp(theta[1]) / (1 + exp(theta[1])))
   range <- as.numeric(exp(theta[2]))
 
   ## construct the distance matrix
@@ -52,7 +52,12 @@ m2LL.FPBK.nodet <- function(theta, zcol, XDesign, xcoord, ycoord,
   ## use QR decomposition, it is more stable and faster
   ## ViX is the same as the slower method of directly calculating
   ## solve(Cmat.nodet) %*% XDesign (can verify using algebra)
-  qrV <- qr(Cmat.nodet + diag(1e-6, nrow = nrow(Cmat.nodet)))
+
+  if (nug_prop < 0.001) {
+    Cmat.nodet <- Cmat.nodet + diag(1e-6, nrow = nrow(Cmat.nodet))
+  }
+
+  qrV <- qr(Cmat.nodet)
   ViX <- solve(qrV, XDesign)
 
   covbi <- crossprod(XDesign, ViX) ## Computationally more efficient than covbi <- t(X) %*% ViX
