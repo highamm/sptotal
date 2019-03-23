@@ -52,7 +52,7 @@ m2LL.FPBK.nodet <- function(theta, zcol, XDesign, xcoord, ycoord,
   ## use QR decomposition, it is more stable and faster
   ## ViX is the same as the slower method of directly calculating
   ## solve(Cmat.nodet) %*% XDesign (can verify using algebra)
-  qrV <- qr(Cmat.nodet)
+  qrV <- qr(Cmat.nodet + diag(1e-6, nrow = nrow(Cmat.nodet)))
   ViX <- solve(qrV, XDesign)
 
   covbi <- crossprod(XDesign, ViX) ## Computationally more efficient than covbi <- t(X) %*% ViX
