@@ -11,7 +11,6 @@
 #' @param ycoordcol is the name of the column in the data frame with y coordinates or latitudinal coordinates
 #' @param CorModel is the covariance structure. By default, \code{CorModel} is
 #' Exponential but other options include the Spherical and Gaussian.
-#' @param coordtype specifies whether spatial coordinates are in latitude, longitude (\code{LatLon}) form or UTM (\code{UTM}) form.
 #' @param estmethod is either the default \code{"REML"} for restricted
 #' maximum likelihood to estimate the covariance parameters and
 #' regression coefficients or \code{"ML"} to estimate the covariance
@@ -34,8 +33,7 @@
 #' @export slmfit
 
 slmfit <- function(formula, data, xcoordcol, ycoordcol,
-  CorModel = "Exponential",
-  coordtype = "LatLon", estmethod = "REML",
+  CorModel = "Exponential", estmethod = "REML",
   covestimates = c(NA, NA, NA)) {
 
 
@@ -81,18 +79,11 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     warning(paste("There were", nmissing, "sites with predictors with missing values. These will be removed from the data set and further analysis will be completed without these observations."))
   }
 
-  ## ASSUME that coordinates are lat/lon. Convert these to UTM
-  if (coordtype != "LatLon" & coordtype != "UTM") {
-    stop("coordtype must be a character string LatLon or UTM")
-  } else if (coordtype == "LatLon") {
-    xcoordsUTM <- LLtoUTM(cm = base::mean(datanomiss[ ,xcoordcol]),
-      lat = datanomiss[ ,ycoordcol], lon = datanomiss[ ,xcoordcol])$xy[ ,1]
-    ycoordsUTM <- LLtoUTM(cm = base::mean(datanomiss[ ,xcoordcol]),
-      lat = datanomiss[ ,ycoordcol], lon = datanomiss[ ,xcoordcol])$xy[ ,2]
-  } else if (coordtype == "UTM") {
+  ## ASSUME that coordinates are TM
+
     xcoordsUTM <- datanomiss[ ,xcoordcol]
     ycoordsUTM <- datanomiss[ ,ycoordcol]
-  }
+
 
   ## create the design matrix for unsampled sites, for all of the sites, and for the sampled sites, respectively.
 

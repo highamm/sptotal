@@ -5,8 +5,7 @@
 \title{Fits a Spatial Linear Model}
 \usage{
 slmfit(formula, data, xcoordcol, ycoordcol, CorModel = "Exponential",
-  coordtype = "LatLon", estmethod = "REML", covestimates = c(NA, NA,
-  NA))
+  estmethod = "REML", covestimates = c(NA, NA, NA))
 }
 \arguments{
 \item{formula}{is an R linear model formula specifying density as the
@@ -21,8 +20,6 @@ be used for the block kriging, and the spatial coordinates for all of the sites.
 
 \item{CorModel}{is the covariance structure. By default, \code{CorModel} is
 Exponential but other options include the Spherical and Gaussian.}
-
-\item{coordtype}{specifies whether spatial coordinates are in latitude, longitude (\code{LatLon}) form or UTM (\code{UTM}) form.}
 
 \item{estmethod}{is either the default \code{"REML"} for restricted
 maximum likelihood to estimate the covariance parameters and

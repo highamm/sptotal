@@ -35,3 +35,13 @@ This function only needs to be used if the coordinates supplied by the
 user are latitude and longitude. If the coordinates are UTM, then
 we should not use this function.
 }
+\examples{
+## Add TM x and y coordinates to a data frame with
+## latitude/longitude coordinates
+exampledataset$xc_TM_ <- LLtoUTM(cm = base::mean(exampledataset[ ,"xcoords"]),
+ lat = exampledataset[ ,"ycoords"],
+ lon = exampledataset[ ,"xcoords"])$xy[ ,1]
+exampledataset$yc_TM_ <- LLtoUTM(cm = base::mean(exampledataset[ ,"xcoords"]),
+ lat = exampledataset[ ,"ycoords"],
+ lon = exampledataset[ ,"xcoords"])$xy[ ,2]
+}
