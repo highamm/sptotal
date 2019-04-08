@@ -44,6 +44,14 @@ pred.total <- pred_info$FPBK_Prediction
 pred.total.var <- pred_info$PredVar
 pred.vals <- data.frame(pred_info$Pred_df)
 covparmests <- pred_info$SpatialParms
+predvalcol <- noquote(paste(base::all.vars(pred_info$formula)[1],
+  "_pred", sep = ""))
+predvarcol <- noquote(paste(base::all.vars(pred_info$formula)[1], "_predvar",
+  sep = ""))
+sampindcol <- noquote(paste(base::all.vars(pred_info$formula)[1], "_sampind",
+  sep = ""))
+muhatcol <- noquote(paste(base::all.vars(pred_info$formula)[1], "_muhat",
+  sep = ""))
 
 confbounds <- matrix(NA, nrow = length(conf_level), ncol = 3)
 
@@ -70,9 +78,9 @@ basicpred <- t(matrix(round(c(pred.total, sqrt(pred.total.var)))))
 colnames(basicpred) <- c("Predicted Total", "SE(Total)")
 
 if (get_sampdetails == TRUE) {
-  nsitessampled <- sum(pred.vals$counts_sampind)
+  nsitessampled <- sum(pred.vals[ ,sampindcol])
   nsitestotal <- nrow(pred.vals)
-  animalscounted <- sum(pred.vals$counts_pred[pred.vals$counts_sampind == 1])
+  animalscounted <- sum(pred.vals[ ,predvalcol][pred.vals[ ,sampindcol] == 1])
   outptmat <- t(matrix(c(nsitessampled, nsitestotal, animalscounted)))
   colnames(outptmat) <- c("Numb. Sites Sampled", "Total Numb. Sites",
     "Numb. Units Counted")
@@ -81,13 +89,12 @@ if (get_sampdetails == TRUE) {
   }
 
 if (get_variogram == TRUE) {
-  sampled_df <- data.frame(subset(pred.vals, pred.vals$counts_sampind == 1))
-  sampled_df$resids <- as.vector(sampled_df$counts_pred -
-      sampled_df$counts_muhat)
-
-  ## code for empirical variogram
+  sampled_df <- data.frame(subset(pred.vals, pred.vals[ ,sampindcol] == 1))
+  sampled_df$resids <- as.vector(sampled_df[ ,predvalcol] -
+      sampled_df[ ,muhatcol])
+    ## code for empirical variogram
   g_obj <- gstat::gstat(formula = resids ~ 1,
-    locations = ~ xcoords + ycoords,
+    locations = ~ `xcoordsUTM_` + `ycoordsUTM_`,
     data = sampled_df)
   vario_out <- gstat::variogram(g_obj)
   maxy <- max(vario_out$gamma)
@@ -154,15 +161,15 @@ spacefun <- function() {
   ## make rectangles based on minimum distance
   ## this will only work if data form a grid
 
-  minxdist <- min(dist(alldata$`_xcoordsUTM_`)[dist(alldata$`_xcoordsUTM_`) != 0])
-  minydist <- min(dist(alldata$`_ycoordsUTM_`)[dist(alldata$`_ycoordsUTM_`) != 0])
+  minxdist <- min(dist(alldata$`xcoordsUTM_`)[dist(alldata$`xcoordsUTM_`) != 0])
+  minydist <- min(dist(alldata$`ycoordsUTM_`)[dist(alldata$`ycoordsUTM_`) != 0])
 
-  p3 <- ggplot2::ggplot(data = alldata, aes_(x = ~`_xcoordsUTM_`, y = ~`_ycoordsUTM_`,
+  p3 <- ggplot2::ggplot(data = alldata, aes_(x = ~`xcoordsUTM_`, y = ~`ycoordsUTM_`,
     colour = ~counts_pred, shape = ~as.factor(counts_sampind))) +
-      geom_rect(aes_(xmin = ~ (`_xcoordsUTM_` - minxdist / 2),
-        xmax = ~(`_xcoordsUTM_` + minxdist / 2),
-        ymin = ~(`_ycoordsUTM_` - minydist / 2),
-        ymax = ~(`_ycoordsUTM_` + minydist / 2),
+      geom_rect(aes_(xmin = ~ (`xcoordsUTM_` - minxdist / 2),
+        xmax = ~(`xcoordsUTM_` + minxdist / 2),
+        ymin = ~(`ycoordsUTM_` - minydist / 2),
+        ymax = ~(`ycoordsUTM_` + minydist / 2),
         fill = ~counts_pred)) +
       scale_fill_viridis_c() +
       scale_colour_viridis_c() +

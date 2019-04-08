@@ -170,7 +170,7 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
   # fullmf <- stats::model.frame(formula, na.action =
   #   stats::na.pass, data = data)
 
-  colnames(df_out) <- c(colnames(data), "_xcoordsUTM_", "_ycoordsUTM_",
+  colnames(df_out) <- c(colnames(data), "xcoordsUTM_", "ycoordsUTM_",
     paste(base::all.vars(formula)[1], "_pred",
       sep = ""),
     paste(base::all.vars(formula)[1], "_predvar",
