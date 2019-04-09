@@ -36,7 +36,6 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   CorModel = "Exponential", estmethod = "REML",
   covestimates = c(NA, NA, NA)) {
 
-
   ## display error message if estmethod is set to None and the user
   ## does not input covariance estimates
 
@@ -54,15 +53,21 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
   ## display some warnings if the user, for example tries to input the
   ## vector of xcoordinates as the input instead of the name of the column
-  if(is.character(xcoordcol) == FALSE) {
+  if (is.character(xcoordcol) == FALSE) {
     stop("xcoords must be a string giving the
       name of the column in the data set
       with the x coordinates")
   }
-  if(is.character(ycoordcol) == FALSE) {
+  if (is.character(ycoordcol) == FALSE) {
     stop("ycoords must be a string giving the
       name of the column in the data set
       with the y coordinates")
+  }
+
+  if (length(data[ ,xcoordcol]) != nrow(data) |
+      length(data[ ,ycoordcol]) != nrow(data)) {
+    stop("xcoordcol and ycoordcol must be the names of the columns
+      in the data set (in quotes) that specify the x and y coordinates.")
   }
 
 
@@ -91,6 +96,10 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
       stats::na.pass, data = datanomiss)
   yvar <- stats::model.response(fullmf, "numeric")
   density <- yvar
+
+  if (is.numeric(yvar) == FALSE) {
+    stop("Check to make sure response variable is numeric, not a factor or character.")
+  }
 
   ## remove any rows with missing values in any of the predictors
   formula.onlypreds <- formula[-2]
