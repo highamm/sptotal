@@ -64,8 +64,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
       with the y coordinates")
   }
 
-  if (length(data[ ,xcoordcol]) != nrow(data) |
-      length(data[ ,ycoordcol]) != nrow(data)) {
+  if (sum(names(data) == xcoordcol) == 0 |
+      sum(names(data) == ycoordcol) == 0) {
     stop("xcoordcol and ycoordcol must be the names of the columns
       in the data set (in quotes) that specify the x and y coordinates.")
   }
