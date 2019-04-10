@@ -16,8 +16,9 @@ simobs[obsID,'Z'] = simdata[obsID,'Z']
 simobs$Z
 simobs$Z2 <- factor(simobs$Z)
 slmfit_out1 = slmfit(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2,
-  data = simobs, xcoordcol = 'q', ycoordcol = 'y',
-  CorModel = "Exponential")
+  data = simobs, xcoordcol = 'x', ycoordcol = 'y',
+  CorModel = "Exponential", estmethod = "None",
+  covestimates = c(9, 4, 4))
 # summary of fitted model
 summary(slmfit_out1)
 # function to get R^2

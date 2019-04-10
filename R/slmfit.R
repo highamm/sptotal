@@ -36,19 +36,40 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   CorModel = "Exponential", estmethod = "REML",
   covestimates = c(NA, NA, NA)) {
 
+  ## make sure estmethod is either REML, ML, or None
+
+  if (estmethod != "REML" & estmethod != "ML" &
+      estmethod != "None") {
+    stop("estmethod must be either 'REML' for restricted maximum
+      likelihood, 'ML' for maximum likelihood, or 'None' with
+      covariance parameters specified in the covestimates
+      argument.")
+  }
+  ## make sure CorModel is one of the options we have set-up
+  if (CorModel != "Exponential" & CorModel != "Spherical" &
+      CorModel != "Gaussian") {
+    stop("'CorModel' must be either 'Exponential', 'Spherical', or
+      'Gaussian'")
+  }
+
   ## display error message if estmethod is set to None and the user
   ## does not input covariance estimates
 
   if (estmethod == "None" & sum(is.na(covestimates) > 0) > 0) {
-    stop("If estmethod is set to None, then covestimates must
+    stop("If 'estmethod' is set to None, then 'covestimates' must
       be a vector without missing values
       with the estimated (nugget, partial sill, range)")
   }
 
   if (estmethod == "None" & length(covestimates) != 3) {
-    stop("If estmethod is set to None, then covestimates must
+    stop("If 'estmethod' is set to None, then 'covestimates' must
       be a vector of length 3 with the estimated
       (nugget, partial sill, range)")
+  }
+
+  if (estmethod == "None" & sum(covestimates < 0) > 0) {
+    stop("'covestimates' must be a vector of positive values with
+      the (nugget, partial sill, range) specified.")
   }
 
   ## display some warnings if the user, for example tries to input the
@@ -70,6 +91,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
       in the data set (in quotes) that specify the x and y coordinates.")
   }
 
+  match(names(data), names(formula))
 
   Xall <- model.matrix(formula, model.frame(formula, data,
     na.action = stats::na.pass))
@@ -84,6 +106,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     warning(paste("There were", nmissing, "sites with predictors with missing values. These will be removed from the data set and further analysis will be completed without these observations."))
   }
 
+
   ## ASSUME that coordinates are TM
 
     xcoordsUTM <- datanomiss[ ,xcoordcol]
@@ -91,6 +114,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
 
   ## create the design matrix for unsampled sites, for all of the sites, and for the sampled sites, respectively.
+
 
   fullmf <- stats::model.frame(formula, na.action =
       stats::na.pass, data = datanomiss)
