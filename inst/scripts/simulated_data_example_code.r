@@ -25,6 +25,7 @@ summary(slmfit_out1)
 GR2(slmfit_out1)
 
 # predictions for default total for whole population
+class(slmfit_out1)
 pred_info = predict(slmfit_out1)
 FPBKoutput(pred_info, get_variogram = TRUE)
 

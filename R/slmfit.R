@@ -91,8 +91,6 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
       in the data set (in quotes) that specify the x and y coordinates.")
   }
 
-  match(names(data), names(formula))
-
   Xall <- model.matrix(formula, model.frame(formula, data,
     na.action = stats::na.pass))
 
