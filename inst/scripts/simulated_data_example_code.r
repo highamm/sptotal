@@ -15,6 +15,9 @@ simobs[obsID,'Z'] = simdata[obsID,'Z']
 #undebug(estcovparm)
 simobs$Z
 simobs$Z2 <- factor(simobs$Z)
+simobs$XChar <- c(rep("idk", 50), rep("idc", 50), rep("idk", 150),
+  rep("idc", 150))
+str(simobs$XChar)
 slmfit_out1 = slmfit(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2,
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential", estmethod = "None",
