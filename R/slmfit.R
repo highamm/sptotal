@@ -101,9 +101,10 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
   if (sum(sapply(datapredsonly, is.character)) > 0) {
     warning("At least one predictor variable is a character, which has been converted into a factor.")
-  }
 
   data[ ,sapply(data, is.character) & is.na(predictormatch) == FALSE] <- factor(data[ ,which(sapply(data, is.character))])
+
+  }
 
 
   ## check to make sure number of factor levels is somewhat small.

@@ -167,7 +167,16 @@ After data preparation, using the `sptotal` package occurs in two primary stages
 
 ## Fitting a Spatial Linear Model
 
-We continue with our use of the simulated data, `simobs1, to illustrate fitting the spatial linear model.
+We continue with our use of the simulated data, `simobs`, to illustrate fitting the spatial linear model. The spatial model-fitting function is `slmfit`, which uses a formula like many other model-fitting functions in `R` (e.g., the `lm()` function).  To fit a basic spatial linear model we use
+```{r}
+slmfit_out1 = slmfit(formula = Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+  data = simobs, xcoordcol = 'x', ycoordcol = 'y',
+  CorModel = "Exponential")
+```
+The documentation describes the arguments in more detail, but as mentioned earlier, the linear model includes a formula argument, and the `data.frame` that is being used as a data set.  We need tell it which columns contain the $x$- and $y$-coordinates, which are arguments `xcoordcol` and `ycoordcol`, respectively.  We also need to specify which spatial autocorrelation model that is fitted, which is given by the `CorModel` argument. As with many other linear model fits, we can obtain a summary of the model fit,
+```{r}
+summary(slmfit_out1) 
+```
 
 ## Prediction
 
