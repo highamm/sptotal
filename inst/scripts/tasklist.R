@@ -1,7 +1,13 @@
+## Task List from May 6th meeting
+## We agreed to work on the following by the next meeting, May 20th
+## Paco agreed to do the coordinates function
+## Matt agreed to do the residuals and coefficients functions
+## Bryce agreed to write more tests for the package
+## Jay agreed to continue working on the Vignette, adding examples
+## from SRS, knn, and GRTS.
+
 ## Task List
 ##
-## Create AIC.slmfit function  (done by Jay, 22 Feb)
-## Imput covariance parameters
 ## helper function to get coordinates from sp objects
 ## helper function to change coordinates from latlon to UTM
 ## Residual function and Empricial Variogram
