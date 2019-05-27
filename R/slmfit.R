@@ -32,12 +32,9 @@
 #' @import stats
 #' @export slmfit
 
-slmfit <- function(formula, data, xcoordcol, ycoordcol,
-  CorModel = "Exponential", estmethod = "REML",
-  covestimates = c(NA, NA, NA)) {
 
-  ## make sure estmethod is either REML, ML, or None
-
+#' Make sure estmethod is either REML, ML, or None
+validate_estmethod <- function(estmethod) {
   if (estmethod != "REML" & estmethod != "ML" &
       estmethod != "None") {
     stop("estmethod must be either 'REML' for restricted maximum
@@ -45,16 +42,20 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
       covariance parameters specified in the covestimates
       argument.")
   }
-  ## make sure CorModel is one of the options we have set-up
+}
+
+#' Make sure CorModel is one of the options we have set-up
+validate_cormodel <- function(CorModel) {
   if (CorModel != "Exponential" & CorModel != "Spherical" &
       CorModel != "Gaussian") {
     stop("'CorModel' must be either 'Exponential', 'Spherical', or
       'Gaussian'")
   }
+}
 
-  ## display error message if estmethod is set to None and the user
-  ## does not input covariance estimates
-
+## display error message if estmethod is set to None and the user
+## does not input covariance estimates
+validate_covariance_inputs <- function(estmethod, covestimates) {
   if (estmethod == "None" & sum(is.na(covestimates) > 0) > 0) {
     stop("If 'estmethod' is set to None, then 'covestimates' must
       be a vector without missing values
@@ -71,9 +72,11 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     stop("'covestimates' must be a vector of positive values with
       the (nugget, partial sill, range) specified.")
   }
+}
 
-  ## display some warnings if the user, for example tries to input the
-  ## vector of xcoordinates as the input instead of the name of the column
+## display some warnings if the user, for example tries to input the
+## vector of xcoordinates as the input instead of the name of the column
+validate_col_char <- function() {
   if (is.character(xcoordcol) == FALSE) {
     stop("xcoords must be a string giving the
       name of the column in the data set
@@ -84,12 +87,24 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
       name of the column in the data set
       with the y coordinates")
   }
+}
 
+validate_data_length <- function(xcoordcol, ycoordcol, data) {
   if (sum(names(data) == xcoordcol) == 0 |
       sum(names(data) == ycoordcol) == 0) {
     stop("xcoordcol and ycoordcol must be the names of the columns
       in the data set (in quotes) that specify the x and y coordinates.")
   }
+}
+
+slmfit <- function(formula, data, xcoordcol, ycoordcol,
+  CorModel = "Exponential", estmethod = "REML",
+  covestimates = c(NA, NA, NA)) {
+
+  validate_estmethod(estmethod)
+  validate_cormodel(CorModel)
+  validate_covariance_inputs(estmethod, covestimates)
+  validate_data_length(xcoordcol, ycoordcol, data)
 
   ## convert all character predictor variables into factors,
   ## with a warning message.
