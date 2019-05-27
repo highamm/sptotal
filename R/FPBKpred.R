@@ -27,6 +27,11 @@
 
 predict.slmfit <- function(object, FPBKcol = NULL, ...) {
 
+  ## check to make sure object is of class `slmfit`
+
+  if (class(object) != "slmfit") {
+    stop("object must be of class 'slmfit' generated from the 'slmfit' function")
+  }
   ## if FPBKcol is left out, we are predicting the population total.
   ## Otherwise, FPBKcol is the name of the column in the data set
   ## with the weights for the sites that we are predicting (eg. a vector
@@ -38,6 +43,13 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
   xcoordsUTM <- object$FPBKpredobj$xcoordsUTM
   ycoordsUTM <- object$FPBKpredobj$ycoordsUTM
   covparmests <- object$SpatialParmEsts
+
+  if (is.null(FPBKcol) == FALSE) {
+    if (sum(names(data) == FPBKcol) == 0) {
+    stop("FPBKcol must be the name of the column (in quotes) in the data used in 'slmfit' that specifies the column with the prediction weights. ")
+    }
+  }
+
 
    if (is.null(FPBKcol) == TRUE) {
     predwts <- rep(1, nrow(data))
@@ -61,6 +73,12 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
 
   ind.sa <- !is.na(yvar)
   ind.un <- is.na(yvar)
+
+  ## make sure that some of the response values are missing
+  if (sum(ind.un) == 0) {
+    stop("None of the values for the response variable are missing (NA). Therefore, prediction cannot be performed for any values of the response.")
+  }
+
   data.sa <- data[ind.sa, ]
   data.un <- data[ind.un, ]
 

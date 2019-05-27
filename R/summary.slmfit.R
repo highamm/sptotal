@@ -24,7 +24,7 @@ summary.slmfit <- function(object, ...) {
   p <- length(regcoefs)
   n <- object$SampSize
 
-  sereg <- sqrt(diag(regvar))
+  sereg <- sqrt(diag(as.matrix(regvar)))
 
   tvec <- NAvec
   tvec <- regcoefs / sereg
