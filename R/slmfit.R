@@ -33,13 +33,13 @@
 #' @export slmfit
 
 
-#' Make sure estmethod is either REML, ML, or None
+#' Validates if estmethod is either REML, ML, or None
 validate_estmethod <- function(estmethod) {
   if (estmethod != "REML" & estmethod != "ML" &
       estmethod != "None") {
-    stop("estmethod must be either 'REML' for restricted maximum
-      likelihood, 'ML' for maximum likelihood, or 'None' with
-      covariance parameters specified in the covestimates
+    stop("estmethod must be either 'REML' for restricted maximum \
+      likelihood, 'ML' for maximum likelihood, or 'None' with \
+      covariance parameters specified in the covestimates \
       argument.")
   }
 }
@@ -48,7 +48,7 @@ validate_estmethod <- function(estmethod) {
 validate_cormodel <- function(CorModel) {
   if (CorModel != "Exponential" & CorModel != "Spherical" &
       CorModel != "Gaussian") {
-    stop("'CorModel' must be either 'Exponential', 'Spherical', or
+    stop("'CorModel' must be either 'Exponential', 'Spherical', or \
       'Gaussian'")
   }
 }
@@ -57,42 +57,39 @@ validate_cormodel <- function(CorModel) {
 ## does not input covariance estimates
 validate_covariance_inputs <- function(estmethod, covestimates) {
   if (estmethod == "None" & sum(is.na(covestimates) > 0) > 0) {
-    stop("If 'estmethod' is set to None, then 'covestimates' must
-      be a vector without missing values
+    stop("If 'estmethod' is set to None, then 'covestimates' must \
+      be a vector without missing values \
       with the estimated (nugget, partial sill, range)")
   }
 
   if (estmethod == "None" & length(covestimates) != 3) {
-    stop("If 'estmethod' is set to None, then 'covestimates' must
-      be a vector of length 3 with the estimated
+    stop("If 'estmethod' is set to None, then 'covestimates' must \
+      be a vector of length 3 with the estimated \
       (nugget, partial sill, range)")
   }
 
   if (estmethod == "None" & sum(covestimates < 0) > 0) {
-    stop("'covestimates' must be a vector of positive values with
+    stop("'covestimates' must be a vector of positive values with \
       the (nugget, partial sill, range) specified.")
   }
 }
 
 ## display some warnings if the user, for example tries to input the
 ## vector of xcoordinates as the input instead of the name of the column
-validate_col_char <- function() {
+validate_col_char <- function(xcoordcol, ycoordcol, data) {
   if (is.character(xcoordcol) == FALSE) {
-    stop("xcoords must be a string giving the
-      name of the column in the data set
+    stop("xcoords must be a string giving the \
+      name of the column in the data set \
       with the x coordinates")
   }
   if (is.character(ycoordcol) == FALSE) {
-    stop("ycoords must be a string giving the
-      name of the column in the data set
+    stop("ycoords must be a string giving the \
+      name of the column in the data set \
       with the y coordinates")
   }
-}
-
-validate_data_length <- function(xcoordcol, ycoordcol, data) {
   if (sum(names(data) == xcoordcol) == 0 |
       sum(names(data) == ycoordcol) == 0) {
-    stop("xcoordcol and ycoordcol must be the names of the columns
+    stop("xcoordcol and ycoordcol must be the names of the columns \
       in the data set (in quotes) that specify the x and y coordinates.")
   }
 }
@@ -104,7 +101,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   validate_estmethod(estmethod)
   validate_cormodel(CorModel)
   validate_covariance_inputs(estmethod, covestimates)
-  validate_data_length(xcoordcol, ycoordcol, data)
+  validate_col_char(xcoordcol, ycoordcol, data)
 
   ## convert all character predictor variables into factors,
   ## with a warning message.
