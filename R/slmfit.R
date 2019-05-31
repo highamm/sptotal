@@ -109,8 +109,12 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
   ## check to make sure number of factor levels is somewhat small.
   ## If not, return a warning.
+
+  if (sum(sapply(datapredsonly, is.factor)) >= 1) { ## check to
+    ## see if  there are any factors
   if (max(sapply(datapredsonly[ ,sapply(datapredsonly, is.factor)], nlevels)) > 20) {
     warning("At least one predictor variable has more than 20 factor levels.")
+  }
   }
 
   }
