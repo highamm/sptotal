@@ -15,7 +15,6 @@
 #' @importFrom stats optim
 #' @importFrom stats glm
 #' @importFrom stats rbinom
-#' @export m2LL.FPBK.nodet
 
 ## split into different functions for different covariance matrix structures
 
