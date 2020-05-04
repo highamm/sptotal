@@ -131,7 +131,8 @@ points(simdata[simdata$wts2 == 1, c('x','y')], pch = 19, col = 'red')
 ```
 The locations of the 25 sites where `wts2` is equal to one, are shown in red.
 
-We have simulated the data for the whole population.  This is convenient, because we know the true means and totals.  However, we will now sample from this population to provide a more realistic setting where we can measure only a part of the whole population.  In order to make results reproducible, we use the `set.seed` command, along with `sample'
+We have simulated the data for the whole population.  This is convenient, because we know the true means and totals.  However, we will now sample from this population to provide a more realistic setting where we can measure only a part of the whole population.  In order to make results reproducible, we use the `set.seed` command, along with `sample`
+
 ```{r}
 set.seed(1)
 # take a random sample of 100
@@ -147,7 +148,8 @@ points(simobs[!is.na(simobs$Z), c('x','y')], pch = 19)
 points(simobs[!is.na(simobs$Z) & simdata$wts2 == 1, c('x','y')], 
   pch = 19, col = 'red')
 ```
-We will use the `simobs` data to illustrate use of `sptotal` package.
+
+We will use the `simobs` data to illustrate use of the `sptotal` package.
 
 ## Working with Spatial Coordinate Systems
 
@@ -168,17 +170,42 @@ After data preparation, using the `sptotal` package occurs in two primary stages
 ## Fitting a Spatial Linear Model
 
 We continue with our use of the simulated data, `simobs`, to illustrate fitting the spatial linear model. The spatial model-fitting function is `slmfit`, which uses a formula like many other model-fitting functions in `R` (e.g., the `lm()` function).  To fit a basic spatial linear model we use
+
 ```{r}
 slmfit_out1 = slmfit(formula = Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential")
 ```
+
 The documentation describes the arguments in more detail, but as mentioned earlier, the linear model includes a formula argument, and the `data.frame` that is being used as a data set.  We need tell it which columns contain the $x$- and $y$-coordinates, which are arguments `xcoordcol` and `ycoordcol`, respectively.  We also need to specify which spatial autocorrelation model that is fitted, which is given by the `CorModel` argument. As with many other linear model fits, we can obtain a summary of the model fit,
 ```{r}
 summary(slmfit_out1) 
 ```
 
 ## Prediction
+
+After we have obtained a fitted spatail linear model, we can use the `predict.slmfit` function to construct a data frame of predictions for the unsampled sites. By default, the `predict` function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, as well as the original data frame input into `slmfit` appended with site-by-site predictions and site-by-site prediction variances. We name this object `pred_obj` in the chunk below.
+
+```{r, results = "hide"}
+pred_obj <- predict(slmfit_out1)
+```
+
+The output of the `predict` function is too lengthy to fit on this page and can be a bit cumbersome to read anyway. Therefore, we would typically use the `FPBKoutput` function to create a nicer looking report. 
+
+THIS NEEDS TO BE FIXED....NEED TO MAKE THE KRIGMAP PART
+
+```{r}
+## FPBKoutput(pred_obj, get_sampdetails = TRUE, get_variogram = TRUE, 
+##  get_krigmap = TRUE, get_report = TRUE)
+## fix this issue! get_report only works if all of the other options
+## are set to TRUE
+```
+
+If we want to predict a quantity other than the population total, then we need to specify the column in our data set that has the appropriate prediction weights. For example, if we want to predict the total for the 25 sites in coloured in red, then we can use
+
+```{r}
+pred_obj2 <- predict(slmfit_out1, FPBKcol = "wts2")
+```
 
 # Examples
 

@@ -47,6 +47,8 @@ slmfit_out1 = slmfit(totalnum ~ strat, data = d1, xcoordcol = 'x', ycoordcol = '
 summary(slmfit_out1)
 # function to get R^2
 GR2(slmfit_out1)
+residuals(slmfit_out1)
+coef(slmfit_out1)
 
 # predictions
 predout1 = predict(slmfit_out1)

@@ -11,18 +11,28 @@ simobs$Z = NA
 simobs[obsID,'Z'] = simdata[obsID,'Z']
 
 # fit the model with all covariates
-#undebug(slmfit) 
+#undebug(slmfit)
 #undebug(estcovparm)
-slmfit_out1 = slmfit(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+slmfit_out1 = slmfit(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2,
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential")
 # summary of fitted model
+simobs
 summary(slmfit_out1)
+
+residuals(slmfit_out1)
+## would need to obtain the sampled x and y coordinates only
+## in order to construct the semi-variogram plot
+
+## qqnorm(residuals(slmfit_out1))
+## can also get a histogram of the residuals
+
 # function to get R^2
 GR2(slmfit_out1)
 
 # predictions for default total for whole population
 predout1 = predict(slmfit_out1)
+
 # prediction of total
 predout1$FPBK_Prediction
 # standard error of prediction
@@ -80,7 +90,7 @@ mean(simdata$Z) > PI['lower'] & mean(simdata$Z) < PI['upper']
 SRS_est = mean(simobs$Z, na.rm = TRUE)
 SRS_est
 # Simple random sample standard error
-SRS_var = 
+SRS_var =
   var(simobs$Z, na.rm = TRUE)/
   sum(!is.na(simobs$Z))*
   (1 - sum(!is.na(simobs$Z))/length(simobs$Z))
@@ -149,9 +159,9 @@ simobs = simdata
 simobs[!(1:nrow(simdata) %in% obsID),'Z'] = NA
 
 # fit the model with all covariates
-#undebug(slmfit) 
+#undebug(slmfit)
 #undebug(estcovparm)
-slmfit_out2 = slmfit_jay(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+slmfit_out2 = slmfit_jay(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2,
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential",
   coordtype = "UTM")
@@ -208,9 +218,9 @@ simobs = simdata
 simobs[!(1:nrow(simdata) %in% obsID),'Z'] = NA
 
 # fit the model with all covariates
-#undebug(slmfit) 
+#undebug(slmfit)
 #undebug(estcovparm)
-slmfit_out3 = slmfit_jay(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+slmfit_out3 = slmfit_jay(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2,
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential",
   coordtype = "UTM")
@@ -268,7 +278,7 @@ simobs = simdata
 simobs[!(1:nrow(simdata) %in% obsID),'Z'] = NA
 
 # fit the model with all covariates
-slmfit_out4 = slmfit(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+slmfit_out4 = slmfit(Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2,
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential", estmethod = 'ML',
   coordtype = "UTM")
@@ -277,7 +287,7 @@ summary(slmfit_out4)
 slmfit_out4$AICvalue
 
 #X1 does not appear to be significant, so fit another model without it.
-slmfit_out5 = slmfit(Z ~ X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+slmfit_out5 = slmfit(Z ~ X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2,
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential", estmethod = 'ML',
   coordtype = "UTM")
@@ -300,13 +310,13 @@ simobs[!(1:nrow(simdata) %in% obsID),'Z'] = NA
 #undebug(estcovparm_jay)
 #undebug(m2LL_jay)
 start5 = Sys.time()
-slmfit_out5 = slmfit_jay(Z ~ X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+slmfit_out5 = slmfit_jay(Z ~ X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2,
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential", estmeth = 'REML',
   coordtype = "UTM")
 end5 = Sys.time()
 start6 = Sys.time()
-slmfit_out6 = slmfit(Z ~ X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
+slmfit_out6 = slmfit(Z ~ X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2,
   data = simobs, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential", estmeth = 'REML',
   coordtype = "UTM")
