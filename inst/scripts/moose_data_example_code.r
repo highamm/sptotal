@@ -9,6 +9,7 @@ data(AKmoose)
 plot(AKmoose)
 
 AKmoose@proj4string
+gCentroid(AKmoose,byid=TRUE)@coords[,'x']
 # see http://spatialreference.org/ref/epsg/nad83-alaska-albers/
 
 # transform the projection to lat/lon
