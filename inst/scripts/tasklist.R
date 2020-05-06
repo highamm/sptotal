@@ -1,3 +1,14 @@
+## next steps:
+##
+## 1. update the prediction plotting function
+## 2. add the variogram check to the vignette
+## 3. add the other methods to the simulated data in the vignette
+## 4. update the FPBKoutput function, possibly separating this into predictions,
+## plots, cis, etc.
+
+
+
+
 ## Task List from May 6th meeting
 ## We agreed to work on the following by the next meeting, May 20th
 ## Paco agreed to do the coordinates function
@@ -10,7 +21,6 @@
 ##
 ## helper function to get coordinates from sp objects
 ## helper function to change coordinates from latlon to UTM
-## Residual function and Empricial Variogram
 ## put residuals into data.frame so they are matched with original records
 ##
 ## Vignette
