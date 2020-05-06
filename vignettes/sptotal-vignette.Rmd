@@ -191,16 +191,37 @@ After we have obtained a fitted spatail linear model, we can use the `predict.sl
 pred_obj <- predict(slmfit_out1)
 ```
 
-The output of the `predict` function is too lengthy to fit on this page and can be a bit cumbersome to read anyway. Therefore, we would typically use the `FPBKoutput` function to create a nicer looking report. 
-
-THIS NEEDS TO BE FIXED....NEED TO MAKE THE KRIGMAP PART
+The output of the `predict` function is too lengthy to fit on this page and can be a bit cumbersome to read anyway. To obtain useful output, the user has a couple of choices. If the user is familiar with `R`, then he or she might want to construct his or her own summary output, maps, variograms, etc. One of the outputs of `predict` is a data frame that is appended with the site by site predictions that would facilitate construction of, for example, a map with predictions. This is particularly useful if we have a shapefile.
 
 ```{r}
-## FPBKoutput(pred_obj, get_sampdetails = TRUE, get_variogram = TRUE, 
-##  get_krigmap = TRUE, get_report = TRUE)
-## fix this issue! get_report only works if all of the other options
-## are set to TRUE
+prediction_df <- pred_obj$Pred_df
 ```
+
+Alternatively, the user could take advantage of some pre-specified package output functions `check.variogram`, `get.predinfo`, and `get.predplot`. 
+
+First, `check.variogram` constructs an empirical variogram of the model residuals and overlays the fitted variogram model with a line:
+
+```{r}
+check.variogram(slmfit_out1)
+```
+
+Note that the fitted line may not appear to fit the empirical variogram perfectly for a couple of reasons. First, only pairs of points that have a distance between 0 and one-half the maximum distance are shown. Second, the fitted model is estimated using REML, which may give different results than using weighted least squares.
+
+If we are satisfied with the fit of the variogram, we can examine our prediction and obtain a confidence interval for this prediction using `get.predinfo`. While the `check.variogram` function takes the fitted spatial linear model as input, the `get.predinfo` function uses the object from the `predict` function.
+
+```{r}
+get.predinfo(pred_obj)
+```
+
+Finally, to get a basic "map" of the predictions, we can use the `get.predplot` function. 
+
+```{r}
+get.predplot(pred_obj)
+```
+
+The map shows the distribution of counts across sampled and unsampled sites. Its purpose is simply to give the user a quick idea of the distribution of counts. However, using the prediction data frame generated from the `predict` function, the user can use `ggplot2` or any other plotting package to construct their own map that may be more useful in their context.
+
+#####Prediction for a Quantity Other Than the Total
 
 If we want to predict a quantity other than the population total, then we need to specify the column in our data set that has the appropriate prediction weights. For example, if we want to predict the total for the 25 sites in coloured in red, then we can use
 

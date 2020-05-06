@@ -14,6 +14,8 @@
 get.predinfo <- function(x, conf_level = 0.90) {
   pred.total <- x$FPBK_Prediction
   pred.total.var <- x$PredVar
+  formula <- x$formula
+
   responsevar <- x$Pred_df[ ,base::all.vars(formula)[1]]
   sampind <- x$Pred_df[ ,paste(base::all.vars(formula)[1], "_sampind",
     sep = "")]
