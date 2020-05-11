@@ -251,7 +251,7 @@ Next, we want to get the centroids of each of the sites and combine the centroid
 ADD rgeos to package dependencies/options
 
 ```{r}
-require(rgeos)
+require(rgeos); require(rgdal)
 centroids <- data.frame(ID = latlon@data,
   x = gCentroid(latlon, byid=TRUE)@coords[ ,'x'],
   y = gCentroid(latlon, byid=TRUE)@coords[ ,'y'])
