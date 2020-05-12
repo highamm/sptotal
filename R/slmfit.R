@@ -93,8 +93,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
   ## convert all character predictor variables into factors,
   ## with a warning message.
-  datapredsonly <- data.frame(data[ ,attr(terms(formula), "term.labels")])
-  colnames(datapredsonly) <- attr(terms(formula), "term.labels")
+  datapredsonly <- data.frame(data[ ,all.vars(formula)[-1]])
+  colnames(datapredsonly) <- all.vars(formula)[-1]
   predictormatch <- match(names(data), names(datapredsonly))
 
   if (ncol(datapredsonly) >= 1) {
@@ -271,9 +271,9 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 ##pred1 <- runif(10, 0, 1)
 ##pred2 <- runif(10, 0, 2)
 ##data <- data.frame(cbind(counts, pred1, pred2))
-##formula <- counts ~ pred1 + pred2
+##formula <- counts ~ pred1 + pred2 + pred1:pred2
 #
-# slm_info <- slmfit(formula = counts ~ pred1 + pred2,
+# slm_info <- slmfit(formula = counts ~ pred1 + pred2 + pred1:pred2,
 #  data = exampledataset,
 #  xcoordcol = "xcoords", ycoordcol = "ycoords",  coordtype = "UTM",
 #    estmethod = "ML", covestimates = c(2, 2, 0.5))

@@ -6,7 +6,7 @@ data(USlakes)
 hist(log(USlakes$DOC_RESULT))
 # plot locations
 plot(USlakes[,'XCOORD'], USlakes[,'YCOORD'])
-  
+
 # make a graph showing outliers on map
 png('/media/jay/ExtraDrive1/sptotal_pack/sptotal/inst/scripts/lakes.png')
 plot(USlakes$XCOORD, USlakes$YCOORD)
@@ -17,7 +17,7 @@ dev.off()
 # create a data set to work with
 lakes = USlakes
 lakes = lakes[lakes$DOC_RESULT < 200,]
-lakes = lakes[!(lakes$YCOORD < -1000000 & lakes$XCOORD < 0),] 
+lakes = lakes[!(lakes$YCOORD < -1000000 & lakes$XCOORD < 0),]
 hist(lakes$DOC_RESULT)
 plot(lakes$XCOORD, lakes$YCOORD)
 
@@ -48,21 +48,21 @@ lakes$RVFCGNDWOODY_gt0 = (lakes$RVFCGNDWOODY_RIP != 0)*1
 # note use of binary variable for covariates with 0's
 # and use of interaction with non-zero values
 lmout = lm(DOC_RESULT ~ I((lakes$ELEVATION+min(lakes$ELEVATION))^.33) +
-  RVFPUNDWOODY_RIP + 
-  FCIBIG_gt0 + FCIBIG_gt0:I(FCIBIG_LIT^.33) + 
+  RVFPUNDWOODY_RIP +
+  FCIBIG_gt0 + FCIBIG_gt0:I(FCIBIG_LIT^.33) +
   RVFCGNDBARE_gt0 + RVFCGNDBARE_gt0:I(RVFCGNDBARE_RIP^.33) +
   RVFCGNDWOODY_gt0 + RVFCGNDWOODY_gt0:I(RVFCGNDWOODY_RIP^.33),
   data = lakes)
 summary(lmout)
 hist(residuals(lmout))
-  
+
 # Even though data are skewed, let's try it without taking
 # log of response variable. Note that the mean of log-tranformed
 # variables is not equal to the log of the mean of set of variables.
-# So if we want a total on the untransformed scale, it would be a 
+# So if we want a total on the untransformed scale, it would be a
 # mistake to transform the data first, model it, make predictions,
 # sum the predictions, and then exponentiate.  It is much simpler
-# to leave the data untransformed and rely on robustness of the 
+# to leave the data untransformed and rely on robustness of the
 # method.
 set.seed(1)
 # take a random sample of 100
@@ -71,14 +71,14 @@ lakes_samp = lakes
 lakes_samp[!(1:nrow(simdata) %in% obsID),'DOC_RESULT'] = NA
 
 # fit the model with all covariates
-slmfit_out1 = slmfit_jay(
-  DOC_RESULT ~ I((lakes$ELEVATION+min(lakes$ELEVATION))^.33) + RVFPUNDWOODY_RIP + 
-  FCIBIG_gt0 + FCIBIG_gt0:I(FCIBIG_LIT^.33) + 
-  RVFCGNDBARE_gt0 + RVFCGNDBARE_gt0:I(RVFCGNDBARE_RIP^.33) +
-  RVFCGNDWOODY_gt0 + RVFCGNDWOODY_gt0:I(RVFCGNDWOODY_RIP^.33), 
+slmfit_out1 = slmfit(
+  DOC_RESULT ~ ##I((lakes$ELEVATION+min(lakes$ELEVATION))^.33) +
+    RVFPUNDWOODY_RIP +
+  FCIBIG_gt0, ##+ FCIBIG_gt0:I(FCIBIG_LIT^.33) +
+ ## RVFCGNDBARE_gt0 + RVFCGNDBARE_gt0:I(RVFCGNDBARE_RIP^.33) +
+ ## RVFCGNDWOODY_gt0 + RVFCGNDWOODY_gt0:I(RVFCGNDWOODY_RIP^.33),
   data = lakes_samp, xcoordcol = 'XCOORD', ycoordcol = 'YCOORD',
-  CorModel = "Exponential",
-  coordtype = "UTM")
+  CorModel = "Exponential")
 # summary of fitted model
 summary(slmfit_out1)
 # function to get R^2
@@ -109,6 +109,7 @@ SRS_var = length(lakes_samp$DOC_RESULT)^2*
   var(lakes_samp$DOC_RESULT, na.rm = TRUE)/
   sum(!is.na(lakes_samp$DOC_RESULT))*
   (1 - sum(!is.na(lakes_samp$DOC_RESULT))/length(lakes_samp$DOC_RESULT))
+
 # standard error of SRS
 sqrt(SRS_var)
 # coefficient of variation of SRS

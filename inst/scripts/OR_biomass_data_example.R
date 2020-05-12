@@ -4,8 +4,8 @@
 ###############################################################################
 
 library(sptotal)
-library(sp)
-library(rgeos)
+require(sp)
+require(rgeos)
 library(rgdal)
 
 # use Oregon biomass data
