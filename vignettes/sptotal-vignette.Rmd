@@ -151,8 +151,6 @@ points(simobs[!is.na(simobs$Z) & simdata$wts2 == 1, c('x','y')],
 
 We will use the `simobs` data to illustrate use of the `sptotal` package.
 
-## Working with Spatial Coordinate Systems
-
 ```{r, echo = FALSE, message = FALSE}
 ########################################################################
 ########################################################################
@@ -235,14 +233,15 @@ pred_obj2 <- predict(slmfit_out1, FPBKcol = "wts2")
 
 For an example with real data, we first consider a data set on moose abundance in Alaska. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
 
-##### Issue 1: Dealing with Coordinates
+##### Issue 1: Dealing with Spatial Coordinates
 
 Our goal is to append the x and y-coordinates to the data frame with the survey data. Specifically, we want the _centroid_ coordinates for each site. We first want to convert the projection into Latitude/Longitude coordinates.
 
 ```{r}
+require(rgeos); require(sp)
 AKmoose@proj4string ## note that the projection is __not__ currently in lat/lon
 
-latlon <- spTransform(AKmoose, CRS("+init=epsg:4326")) 
+latlon <- sp::spTransform(AKmoose, CRS("+init=epsg:4326")) 
 ## 4326 is the code for conversion into the standard lat/lon system
 ```
 
@@ -251,7 +250,6 @@ Next, we want to get the centroids of each of the sites and combine the centroid
 ADD rgeos to package dependencies/options
 
 ```{r}
-require(rgeos); require(rgdal)
 centroids <- data.frame(ID = latlon@data,
   x = gCentroid(latlon, byid=TRUE)@coords[ ,'x'],
   y = gCentroid(latlon, byid=TRUE)@coords[ ,'y'])
@@ -329,36 +327,8 @@ summary(slmfit_out_moose)
 predict(slmfit_out_moose)$FPBK_Prediction
 ```
 
-Let's check to make sure the prediction is in the same ballpark as what we would get by simply scaling up the sample mean count in each stratum:
-
-```{r}
-testdf <- predict(slmfit_out_moose)$Pred_df
-sum(testdf$total_pred[testdf$strat == "M"], na.rm = TRUE)
-sum(testdf$total_pred[testdf$strat == "L"], na.rm = TRUE)
-## it's the low stratum that's really off....... 
-## need to consider this once a map is made to see if it can be explained
-## spatially
-
-low_strat <- subset(moose_df, strat == "L")
-med_strat <- subset(moose_df, strat == "M")
-mean(low_strat$total, na.rm = TRUE) * nrow(low_strat) +
-  mean(med_strat$total, na.rm = TRUE) * nrow(med_strat)
-
-## try doing this twice: once for each stratum.
-slm_out_low <- slmfit(formula = total ~ 1, xcoordcol = 'x',
-  ycoordcol = 'y', data = low_strat)
-pred_low <- predict(slm_out_low)
-slm_out_med <- slmfit(formula = total ~ 1, xcoordcol = 'x',
-  ycoordcol = 'y', data = med_strat)
-pred_med <- predict(slm_out_med)
-pred_low$FPBK_Prediction + pred_med$FPBK_Prediction
-```
-
-
-
-
-
 ## Tree Biomass from Forest Inventories
+
 
 ## Dissolved Organic Carbon from Lakes
 
@@ -373,44 +343,4 @@ It is assumed that $\mathbf{z}$ is a realization of a spatial stochastic process
 Ver Hoef, J. M. 2008. Spatial Methods for Plot-Based Sampling of Wildlife Popula
 tions. *Environmental and Ecological Statistics* **15**: 3-13.
 
-## Vignette Info
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
-```
-
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))

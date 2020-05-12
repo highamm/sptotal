@@ -44,7 +44,6 @@ get.predinfo <- function(x, conf_level = 0.90) {
 
   tabs <- list(simptab, confbounds, outptmat)
   names(tabs) <- c("Prediction", "Confidence_Interval", "Sampling_Information")
-  print(tabs)
   return(tabs)
 
 }

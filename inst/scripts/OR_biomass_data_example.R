@@ -1,5 +1,5 @@
 # TODO: Add comment
-# 
+#
 # Author: Paco
 ###############################################################################
 
@@ -13,16 +13,17 @@ data(ORbiomass)
 # plot data, which are in points in Oregon  Lambert Conformal Conic projection
 plot(ORbiomass)
 ORbiomass@proj4string
-ORbiomass_df<-slot(cbind(ORbiomass,coordinates(ORbiomass)),"data")
+
+ORbiomass_df <- slot(cbind(ORbiomass, coordinates(ORbiomass)), "data")
 #http://spatialreference.org/ref/epsg/nad83harn-oregon-lambert/
 
-sampled_rows<-sample(dim(ORbiomass_df)[1],2000)
-ORbiomass_df_subsample<-ORbiomass_df
+sampled_rows<-sample(dim(ORbiomass_df)[1], 2000)
+ORbiomass_df_subsample <- ORbiomass_df
 ORbiomass_df_subsample[c(1:dim(ORbiomass_df)[1])%in%sampled_rows,]$BIOT_ha<-NA
+
 slmfit_OR = slmfit(BIOT_ha ~ temp_mean_30yr + precip_mean_30yr,
 		data = ORbiomass_df_subsample, xcoordcol = 'LON', ycoordcol = 'LAT',
-		CorModel = "Exponential",
-		coordtype = "UTM")
+		CorModel = "Exponential")
 # summary of fitted model
 summary(slmfit_OR)
 # function to get R^2
