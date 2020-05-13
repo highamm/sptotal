@@ -239,10 +239,10 @@ The map shows the distribution of counts across sampled and unsampled sites. Its
 
 #####Prediction for a Quantity Other Than the Total
 
-If we want to predict a quantity other than the population total, then we need to specify the column in our data set that has the appropriate prediction weights in an `FPBKcol` argument. For example, if we want to predict the total for the 25 sites in coloured in red, then we can use
+If we want to predict a quantity other than the population total, then we need to specify the column in our data set that has the appropriate prediction weights in a `wtscol` argument. For example, if we want to predict the total for the 25 sites in coloured in red, then we can use
 
 ```{r}
-pred_obj2 <- predict(slmfit_out1, FPBKcol = "wts2")
+pred_obj2 <- predict(slmfit_out1, wtscol = "wts2")
 ```
 
 ## Moose Abundance from Aerial Surveys

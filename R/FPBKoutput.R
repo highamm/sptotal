@@ -31,7 +31,6 @@
 
 ## next steps: write up delta method
 ## consider scaling the nugget variance for the stratified sites
-## add option to input shapefile
 ## make sure maps show counts, not densities
 
 FPBKoutput <- function(pred_info, conf_level = c(0.80,

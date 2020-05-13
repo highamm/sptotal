@@ -4,9 +4,8 @@
 #' The column with the counts should have numeric values for the observed counts
 #' on the sampled sites and `NA` for any site that was not sampled.
 #'
-#'
 #' @param object is an object generated from \code{slmfit}
-#' @param FPBKcol is the name of the column that contains the weights for
+#' @param wtscol is the name of the column that contains the weights for
 #' @param ... Additional arguments
 #' prediction. The default setting predicts the population total
 #' @return a list with \itemize{
@@ -21,19 +20,24 @@
 #'        }
 #'    \item vector with estimated covariance parameters
 #' }
+#' @examples
+#' data(exampledataset) ## load a toy data set
+#' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+#' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+#' predict(slmobj)
 #' @import stats
 #' @export
 
 
-predict.slmfit <- function(object, FPBKcol = NULL, ...) {
+predict.slmfit <- function(object, wtscol = NULL, ...) {
 
   ## check to make sure object is of class `slmfit`
 
   if (class(object) != "slmfit") {
     stop("object must be of class 'slmfit' generated from the 'slmfit' function")
   }
-  ## if FPBKcol is left out, we are predicting the population total.
-  ## Otherwise, FPBKcol is the name of the column in the data set
+  ## if wtscol is left out, we are predicting the population total.
+  ## Otherwise, wtscol is the name of the column in the data set
   ## with the weights for the sites that we are predicting (eg. a vector
   ## of 1's and 0's for predicting the total of the sites marked with 1's)
 
@@ -45,19 +49,19 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
   covparmests <- object$SpatialParmEsts
   areavar <- object$FPBKpredobj$areavar
 
-  if (is.null(FPBKcol) == FALSE) {
-    if (sum(names(data) == FPBKcol) == 0) {
-    stop("FPBKcol must be the name of the column (in quotes) in the data used in 'slmfit' that specifies the column with the prediction weights. ")
+  if (is.null(wtscol) == FALSE) {
+    if (sum(names(data) == wtscol) == 0) {
+    stop("wtscol must be the name of the column (in quotes) in the data used in 'slmfit' that specifies the column with the prediction weights. ")
     }
   }
 
 
-   if (is.null(FPBKcol) == TRUE) {
+   if (is.null(wtscol) == TRUE) {
     predwts <- rep(1, nrow(data))
-  } else if (is.character(FPBKcol) == TRUE) {
-    predwts <- data[ ,FPBKcol]
+  } else if (is.character(wtscol) == TRUE) {
+    predwts <- data[ ,wtscol]
   } else{
-    stop("FPBKcol must be a character specifying the name of the
+    stop("wtscol must be a character specifying the name of the
       column of
       prediction weights in the data set")
   }
@@ -200,7 +204,7 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
 
 
   df_out <- data.frame(cbind(data, xcoordsUTM, ycoordsUTM,
-    preddensity, densvar, sampind, muhat, areavar))
+    preddensity, pred.persite, densvar, countvar, sampind, muhat, areavar))
 
   # data <- data.frame(y = 1:10, x = 2:11)
   #
@@ -208,9 +212,13 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
   #   stats::na.pass, data = data)
 
   colnames(df_out) <- c(colnames(data), "xcoordsUTM_", "ycoordsUTM_",
-    paste(base::all.vars(formula)[1], "_pred",
+    paste(base::all.vars(formula)[1], "_pred_density",
       sep = ""),
-    paste(base::all.vars(formula)[1], "_predvar",
+    paste(base::all.vars(formula)[1], "_pred_count",
+      sep = ""),
+    paste(base::all.vars(formula)[1], "_predvar_density",
+      sep = ""),
+    paste(base::all.vars(formula)[1], "_predvar_count",
       sep = ""),
     paste(base::all.vars(formula)[1], "_sampind",
       sep = ""),
