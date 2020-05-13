@@ -1,7 +1,7 @@
 #' Data Set with Uncorrelated Poisson Counts.
 #'
-#' A data set that can be used with the \code{sptotal} package. In
-#' this example, the counts are uncorrelated, the covariates are
+#' A toy data set that can be used with the \code{sptotal} package. In
+#' this example, the true counts are actually uncorrelated, the covariates are
 #' generated as uniform random variables, and the sites fall on a
 #' regular grid.
 #'
@@ -24,7 +24,7 @@
 #' A data set that can be used with the \code{sptotal} package. In
 #' this example, the counts are of moose on 860 sites of equal area.
 #'
-#' @format A spatial polygons object inclding:
+#' @format A spatial polygons (\code{sp}) object inclding:
 #' \describe{
 #'   \item{CENTRLAT}{The latitude of the centroid for each site}
 #'   \item{CENTRLON}{The latitude of the centroid for each site}

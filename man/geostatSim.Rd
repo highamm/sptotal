@@ -30,10 +30,11 @@ geostatSim(loc.data, xcol = "x", ycol = "y", parsil = 1, range = 1,
 \item{CorModel}{autocorrelation model, default = "Exponential".  Other possibilities are "Spherical".}
 }
 \value{
-data.frame of three columns, the original loc.data appended with a 3rd column of simulated geostatistical data
+data.frame of three columns, the original location data appended with a 3rd column of simulated geostatistical data
 }
 \description{
-simulates geostatistical data on set of given locations
+Spatially correlated data are simulated assuming a multivariate normal
+random error vector. For simplicity, only \code{"Exponential"} and \code{"Spherical"} simulation options are given here.
 }
 \author{
 Jay Ver Hoef

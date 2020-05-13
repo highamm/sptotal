@@ -1,12 +1,7 @@
-#-------------------------------------------------------------------------------
-#
-#           geostatSim
-#
-#-------------------------------------------------------------------------------
-
 #' Simulate geostatistical data on set of given locations
 #'
-#' simulates geostatistical data on set of given locations
+#' Spatially correlated data are simulated assuming a multivariate normal
+#' random error vector. For simplicity, only \code{"Exponential"} and \code{"Spherical"} simulation options are given here.
 #'
 #' @param loc.data data.frame with x- and y-coordinates of locations for simulated data
 #' @param xcol name of the column in loc.data with x-coordinates, default is "x"
@@ -19,7 +14,7 @@
 #' @param extrap extra covariance paramter
 #' @param CorModel autocorrelation model, default = "Exponential".  Other possibilities are "Spherical".
 #'
-#' @return data.frame of three columns, the original loc.data appended with a 3rd column of simulated geostatistical data
+#' @return data.frame of three columns, the original location data appended with a 3rd column of simulated geostatistical data
 #'
 #' @author Jay Ver Hoef
 #' @export
@@ -72,7 +67,7 @@ geostatSim <- function(loc.data, xcol = "x", ycol = "y",
 #		if(CorModel == "CardinalSine") CovMat <- CorModel.CardinalSine(dismat)
 #		if(CorModel == "BesselK") CovMat <- CorModel.BesselK(dismat, extrap)
 #		if(CorModel == "BesselJ") CovMat <- CorModel.BesselJ(dismat, extrap)
-	CovMat <- parsil*CovMat + diag(nugget, nrow = n, ncol = n)
-	data.frame(loc.data, z = t(chol(CovMat))%*%rnorm(n))
+	CovMat <- parsil * CovMat + diag(nugget, nrow = n, ncol = n)
+	data.frame(loc.data, z = t(chol(CovMat)) %*% rnorm(n))
 }
 

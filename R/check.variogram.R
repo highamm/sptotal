@@ -2,11 +2,15 @@
 #'
 #' Plots an empirical variogram of the residuals from the spatial linear model
 #' with the fitted parametric model as a curve overtop of the
-#' binned points.
+#' binned points. By default, the empirical variogram only shows distances
+#' that are less than or equal to the maximum distance in the data
+#' set divided by 2. Therefore, it's possible that the REML-fitted model
+#' will not "fit" the points perfectly.
 #'
 #' @param object is an object of class \code{slmfit}.
 #' @return a plot of the empirical variogram with the fitted model overlayed.
 #' @import stats
+#' @import ggplot2
 #' @export
 
 check.variogram <- function(object) {
@@ -57,6 +61,7 @@ check.variogram <- function(object) {
     v.modfit <- nugget + parms[2] -
       parms[2] * corModelSpherical(x.dist.plot, parms[3])
   }
+
   tab2 <- cbind(x.dist.plot, v.modfit)
   df.plot <- as.data.frame(tab2)
 
@@ -72,7 +77,6 @@ check.variogram <- function(object) {
     scale_size_continuous("Number of Pairs")
 
   print(plot_out)
-
 }
 
 

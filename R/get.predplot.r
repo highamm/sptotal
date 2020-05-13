@@ -9,6 +9,7 @@
 #' @return a plot with predictions, with points filled by whether or not a site was sampled.
 #' @importFrom viridis viridis
 #' @import graphics
+#' @import ggplot2
 #' @export
 
 get.predplot = function(x) {

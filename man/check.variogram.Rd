@@ -15,5 +15,8 @@ a plot of the empirical variogram with the fitted model overlayed.
 \description{
 Plots an empirical variogram of the residuals from the spatial linear model
 with the fitted parametric model as a curve overtop of the
-binned points.
+binned points. By default, the empirical variogram only shows distances
+that are less than or equal to the maximum distance in the data
+set divided by 2. Therefore, it's possible that the REML-fitted model
+will not "fit" the points perfectly.
 }

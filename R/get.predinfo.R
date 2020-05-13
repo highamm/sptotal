@@ -1,17 +1,22 @@
 #' Display basic summary information in a tabular form.
 #'
-#' Creates a table that shows the prediction, standard error, and
+#' Creates a list of tables that shows the prediction, standard error, and
 #' confidence interval for the prediction, as well as some summary information
 #' about the sample.
 #'
-#' @param x the output of the prediction function, of class sptotalPredOut
+#' @param x the output of the \code{predict.slmfit} function, of class \code{sptotalPredOut}
 #' @param conf_level is the confidence level for a normal-based
-#' confidence interval (default = 0.90)
-#' @return a list of tables with summary information about the predictions
+#' confidence interval (default = 0.90).
+#' @return a list of three tables, including \itemize{
+#' \item \code{simptab}, which contains the prediction and its standard error,
+#' \item \code{confbounds}, which contains a confidence interval for the prediction, and
+#' \item \code{outptmat}, a table of sampling information, including the number of sites sampled, the total number of sites, and the total observed count.
+#' }
 #' @export
 
 
 get.predinfo <- function(x, conf_level = 0.90) {
+
   pred.total <- x$FPBK_Prediction
   pred.total.var <- x$PredVar
   formula <- x$formula
@@ -22,7 +27,6 @@ get.predinfo <- function(x, conf_level = 0.90) {
 
   simptab <- t(matrix(c(pred.total, sqrt(pred.total.var))))
   colnames(simptab) <- c("Prediction", "SE(Prediction)")
-  ##print(simptab)
 
   confbounds <- matrix(c(round(as.numeric(pred.total) + c(1, -1) *
       stats::qnorm((1 - conf_level) / 2) *
@@ -31,7 +35,6 @@ get.predinfo <- function(x, conf_level = 0.90) {
         sqrt(as.numeric(pred.total.var)) / pred.total, 2))), nrow = 1)
   labs <- c("Lower Bound", "Upper Bound", "Proportion of Mean")
   colnames(confbounds) <- labs
-  ##print(confbounds)
 
   nsitessampled <- sum(sampind)
   nsitestotal <- nrow(x$Pred_df)
@@ -40,7 +43,6 @@ get.predinfo <- function(x, conf_level = 0.90) {
   outptmat <- t(matrix(c(nsitessampled, nsitestotal, animalscounted)))
   colnames(outptmat) <- c("Numb. Sites Sampled", "Total Numb. Sites",
     "Total Observed Count")
-  ##print(outptmat)
 
   tabs <- list(simptab, confbounds, outptmat)
   names(tabs) <- c("Prediction", paste(conf_level * 100, "% Confidence_Interval", sep = ""), "Sampling_Information")

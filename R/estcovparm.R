@@ -1,9 +1,9 @@
 #' Estimate Covariance Parameters
 #'
 #' Used to estimate spatial covariance parameters for a few different spatial models.
-#' Estimated parameters can then be used in \code{FPBKpred} to predict unobserved values.
+#' Estimated parameters can then be used in \code{predict.slmfit} to predict values at unobserved locations.
 #'
-#' The function is used internally in \code{FPBKpred}.
+#' The function is a helper function used internally in \code{predict.slmfit}.
 #'
 #' @param response a vector of a response variable, possibly with
 #' missing values.
@@ -11,16 +11,22 @@
 #' the response on.
 #' @param xcoordsvec is a vector of x coordinates
 #' @param ycoordsvec is a vector of y coordinates
-#' @param CorModel is the covariance structure. By default, \code{covstruct} is
+#' @param CorModel is the covariance structure. By default,
+#'  \code{CorModel} is \code{"Exponential"} but other options are
+#'  \code{"Spherical"} and \code{"Gaussian"}.
 #' @param estmethod is either the default \code{"REML"} for restricted
 #' maximum likelihood to estimate the covariance parameters and
 #' regression coefficients or \code{"ML"} to estimate the covariance
 #' parameters and regression coefficients.
-#' Exponential but other options include the Spherical and the Gaussian.
 #' @param covestimates is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and \code{estmethod = "None"}, the the provided vector are treated as the estimators to create the covariance structure.
 #' @return a list with \itemize{
-#'    \item a vector of estimated covariance parameters
-#'    \item the fitted covariance matrix for all of the sites
+#'    \item \code{parms.est}, a vector of estimated covariance parameters
+#'    \item \code{Sigma}, the fitted covariance matrix for all of the sites
+#'    \item \code{qrV}, the qr decomposition
+#'    \item \code{b.hat}, the vector of estimated fixed effect coefficients
+#'    \item \code{covbi}, the inverse of the covariance matrix for the fixed effects
+#'    \item \code{covb}, the covariance matrix for the fixed effects
+#'    \item \code{min2loglik}, minus two times the loglikelihood
 #' }
 #' @export estcovparm
 
@@ -237,18 +243,3 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
       min2loglik = min2loglik))
     }
 
-# counts <- c(1, NA, NA, NA, 3, 1:13, 21, 30)
-# pred1 <- runif(20, 0, 1); pred2 <- rnorm(20, 0, 1)
-# xcoords <- runif(20, 0, 1); ycoords <- runif(20, 0, 1)
-# dummyvar <- runif(20, 0, 1)
-# CorModel = "Exponential"
-# xcoordssamp <- xcoords[is.na(counts) == FALSE]
-# ycoordssamp <- ycoords[is.na(counts) == FALSE]
-# data <- as.data.frame(cbind(counts, pred1, pred2, xcoords, ycoords, dummyvar))
-#
-# Xdesigntest <- model.matrix(~ pred1 + pred2, data = data, na.rm = FALSE)
-# formula <- counts ~ pred1 + pred2
-
-##estcovparm(response = counts, designmatrix = Xdesigntest,
-## xcoordsvec = xcoords,
-##  ycoordsvec = ycoords, CorModel = "Gaussian")[[3]]

@@ -7,16 +7,20 @@
 get.predinfo(x, conf_level = 0.9)
 }
 \arguments{
-\item{x}{the output of the prediction function, of class sptotalPredOut}
+\item{x}{the output of the \code{predict.slmfit} function, of class \code{sptotalPredOut}}
 
 \item{conf_level}{is the confidence level for a normal-based
-confidence interval (default = 0.90)}
+confidence interval (default = 0.90).}
 }
 \value{
-a list of tables with summary information about the predictions
+a list of three tables, including \itemize{
+\item \code{simptab}, which contains the prediction and its standard error,
+\item \code{confbounds}, which contains a confidence interval for the prediction, and
+\item \code{outptmat}, a table of sampling information, including the number of sites sampled, the total number of sites, and the total observed count.
+}
 }
 \description{
-Creates a table that shows the prediction, standard error, and
+Creates a list of tables that shows the prediction, standard error, and
 confidence interval for the prediction, as well as some summary information
 about the sample.
 }
