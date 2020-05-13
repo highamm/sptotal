@@ -2,12 +2,12 @@
 % Please edit documentation in R/coef.slmfit.R
 \name{coef.slmfit}
 \alias{coef.slmfit}
-\title{Extract Model Coefficients}
+\title{Extract Model Coefficients from a \code{slmfit} object}
 \usage{
 \method{coef}{slmfit}(object, ...)
 }
 \arguments{
-\item{object}{a slmfit object}
+\item{object}{a \code{slmfit} object}
 
 \item{...}{additional arguments}
 }
@@ -15,5 +15,11 @@
 a vector of fitted model coefficients.
 }
 \description{
-Extract Model Coefficients
+Extract Model Coefficients from a \code{slmfit} object
+}
+\examples{
+data(exampledataset) ## load a toy data set
+slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+coef(slmobj)
 }

@@ -2,12 +2,12 @@
 % Please edit documentation in R/AIC.slmfit.R
 \name{AIC.slmfit}
 \alias{AIC.slmfit}
-\title{Extract AIC}
+\title{Extract the AIC from a \code{slmfit} object for comparing models.}
 \usage{
 \method{AIC}{slmfit}(object, ...)
 }
 \arguments{
-\item{object}{a slmfit object}
+\item{object}{a \code{slmfit} object}
 
 \item{...}{additional arguments}
 }
@@ -17,5 +17,11 @@ negative log-likelihood plus 2 times the number of model parameters.  Thus,
 lower AIC values are preferred models.
 }
 \description{
-Extract AIC
+Extract the AIC from a \code{slmfit} object for comparing models.
+}
+\examples{
+data(exampledataset) ## load a toy data set
+slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+AIC(slmobj)
 }
