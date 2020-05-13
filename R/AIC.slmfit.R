@@ -11,9 +11,9 @@ AIC.slmfit <- function(object, ...)
 {
 
   if(object$FPBKpredobj$estmethod == 'ML')
-    return(object$minus2loglike + 2*length(object$SpatialParmEsts) +
-      2*ncol(object$DesignMat))
+    return(object$minus2loglike + 2 * length(object$SpatialParmEsts) +
+      2 * ncol(object$DesignMat))
   if(object$FPBKpredobj$estmethod == 'REML')
-    return(object$minus2loglike + 2*length(object$SpatialParmEsts))
+    return(object$minus2loglike + 2 * length(object$SpatialParmEsts))
 
 }

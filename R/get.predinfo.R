@@ -43,7 +43,7 @@ get.predinfo <- function(x, conf_level = 0.90) {
   ##print(outptmat)
 
   tabs <- list(simptab, confbounds, outptmat)
-  names(tabs) <- c("Prediction", "Confidence_Interval", "Sampling_Information")
+  names(tabs) <- c("Prediction", paste(conf_level * 100, "% Confidence_Interval", sep = ""), "Sampling_Information")
   return(tabs)
 
 }

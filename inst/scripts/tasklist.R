@@ -1,10 +1,6 @@
-## next steps:
-##
-## 1. update the prediction plotting function
-## 2. add the variogram check to the vignette
+
 ## 3. add the other methods to the simulated data in the vignette
-## 4. update the FPBKoutput function, possibly separating this into predictions,
-## plots, cis, etc.
+
 
 
 
@@ -38,6 +34,5 @@
 ##
 ## Test functions
 ##
-## Add variogram plot
 ## Add check for isotropy
 ## Possibly add split variogram plots by region

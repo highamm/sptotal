@@ -9,6 +9,8 @@
 #' be used for the block kriging, and the spatial coordinates for all of the sites.
 #' @param xcoordcol is the name of the column in the data frame with x coordinates or longitudinal coordinates
 #' @param ycoordcol is the name of the column in the data frame with y coordinates or latitudinal coordinates
+#' @param areacol is the name of the column with the areas of the sites. By default, we assume that all sites have equal area, in which
+#' case a vector of 1's is used as the areas.
 #' @param CorModel is the covariance structure. By default, \code{CorModel} is
 #' Exponential but other options include the Spherical and Gaussian.
 #' @param estmethod is either the default \code{"REML"} for restricted
@@ -29,10 +31,15 @@
 #'        \item Covariance matrix on all sites
 #'        }
 #' }
+#' @examples
+#' data(exampledataset) ## load a toy data set
+#' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+#' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+#' summary(slmobj)
 #' @import stats
 #' @export slmfit
 
-slmfit <- function(formula, data, xcoordcol, ycoordcol,
+slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
   CorModel = "Exponential", estmethod = "REML",
   covestimates = c(NA, NA, NA)) {
 
@@ -91,6 +98,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
       in the data set (in quotes) that specify the x and y coordinates.")
   }
 
+
+
   ## convert all character predictor variables into factors,
   ## with a warning message.
   datapredsonly <- data.frame(data[ ,all.vars(formula)[-1]])
@@ -133,6 +142,16 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     warning(paste("There were", nmissing, "sites with predictors with missing values. These will be removed from the data set and further analysis will be completed without these observations."))
   }
 
+  ## display error if any values in the area col are missing
+  if (is.null(areacol) == FALSE) {
+    if (is.numeric(datanomiss[ ,areacol]) == FALSE |
+        sum(is.na(datanomiss[ ,areacol])) > 0) {
+      stop("'areacol' must specify the name of the column in the data set with the areas for each site. This column must be numeric
+        without any missing values.")
+    }
+  }
+
+
 
   ## ASSUME that coordinates are TM
 
@@ -143,11 +162,17 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   ## create the design matrix for unsampled sites, for all of the sites, and for the sampled sites, respectively.
 
 
+    if (is.null(areacol) == TRUE) {
+      areavar <- rep(1, nrow(datanomiss))
+    } else {
+      areavar <- datanomiss[ ,areacol]
+    }
+
   fullmf <- stats::model.frame(formula, na.action =
       stats::na.pass, data = datanomiss)
 
   yvar <- stats::model.response(fullmf, "numeric")
-  density <- yvar
+  density <- yvar / areavar
 
   if (is.numeric(yvar) == FALSE) {
     stop("Check to make sure response variable is numeric, not a factor or character.")
@@ -183,7 +208,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
       stats::na.omit)
   z.sa <- stats::model.response(m.sa)
   Xs <- stats::model.matrix(formula, m.sa)
-  z.density <- z.sa
+  z.density <- z.sa / areavar[ind.sa]
   n <- nrow(Xs)
 
 
@@ -229,7 +254,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   muhats <- Xs %*% betahat
   muhatu <- Xu %*% betahat
 
-  resids <- z.sa - muhats
+  resids <- z.density - muhats
 
   muhat <- rep(NA, nrow(datanomiss))
   muhat[ind.sa == TRUE] <- muhats
@@ -249,12 +274,12 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
   names(covparms) <- c("Nugget", "Partial Sill", "Range")
 
   FPBKpredobj <- list(formula, datanomiss, xcoordsUTM, ycoordsUTM,
-    estmethod, CorModel, Sigma, Sigma.ssi)
+    estmethod, CorModel, Sigma, Sigma.ssi, areavar)
   names(FPBKpredobj) <- c("formula", "data", "xcoordsUTM",
     "ycoordsUTM",
-    "estmethod","correlationmod", "covmat", "covmatsampi")
+    "estmethod","correlationmod", "covmat", "covmatsampi", "areavar")
   obj <- list(covparms, betahatest, covest, min2loglik, prednames,
-    n, CorModel, resids, Xs, z.sa, FPBKpredobj)
+    n, CorModel, resids, Xs, z.density, FPBKpredobj)
 
   names(obj) <- c("SpatialParmEsts", "CoefficientEsts",
     "BetaCov", "minus2loglike", "PredictorNames", "SampSize",

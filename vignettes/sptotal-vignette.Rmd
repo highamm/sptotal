@@ -62,7 +62,6 @@ In the sptotal package, our goal is to estimate some linear function of all of t
 
 The vector $\mathbf{b}$ contains the weights that we would apply if we could measure or count every observation, but, because of cost consideration, we usually only have a sample. Let us divide our population into those that we sampled (measured or counted), denoted $\mathbf{z}_s$, and those that are unsampled, denoted $\mathbf{z}_u$.
 
-
 ```{r, echo = FALSE, message = FALSE}
 ########################################################################
 ########################################################################
@@ -138,7 +137,8 @@ where $d_{i,j}$ is Euclidean distance between locations $i$ and $j$.  In geostat
 
 The spatial locations of `simdata` are in a $20 \times 20$ grid uniformly spaced in a box with sides of length 1,
 
-```{r, fig.width = 5, fig.height = 5, fig.align="center", cache = FALSE}
+```{r, fig.width = 5, fig.height = 5, fig.align = "center", cache = FALSE}
+require(ggplot2)
 ggplot(data = simdata, aes(x = x, y = y)) + geom_point() +
   geom_point(data = subset(simdata, wts2 == 1), colour = "red")
 ```
@@ -153,7 +153,7 @@ set.seed(1)
 obsID <- sample(1:nrow(simdata), 100)
 simobs <- simdata
 simobs$Z <- NA
-simobs[obsID,'Z'] = simdata[obsID, 'Z']
+simobs[obsID,'Z'] <- simdata[obsID, 'Z']
 ```
 
 We now have a data set where the whole population is known, `simdata`, and another one, `simobs`, where 75% of the population has been replaced by `NA`.  Next we show the sampled sites solid circles, while the missing values are shown as open circles, and we use red again to show sampled site within the small area of 25 locations.
@@ -183,7 +183,7 @@ After data preparation, using the `sptotal` package occurs in two primary stages
 
 ## Fitting a Spatial Linear Model
 
-We continue with our use of the simulated data, `simobs`, to illustrate fitting the spatial linear model. The spatial model-fitting function is `slmfit` (spatial-linear-model-fit), which uses a formula like many other model-fitting functions in `R` (e.g., the `lm()` function).  To fit a basic spatial linear model we use
+We continue with our use of the simulated data, `simobs`, to illustrate fitting the spatial linear model. The spatial model-fitting function is `slmfit` (spatial-linear-model-fit), which uses a formula like many other model-fitting functions in `R` (e.g., the `lm()` function). To fit a basic spatial linear model we use
 
 ```{r}
 slmfit_out1 = slmfit(formula = Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
@@ -215,7 +215,7 @@ prediction_df <- pred_obj$Pred_df
 
 Alternatively, the user could take advantage of some pre-specified package output functions `check.variogram`, `get.predinfo`, and `get.predplot`. 
 
-First, `check.variogram` constructs an empirical variogram of the model residuals and overlays the fitted variogram model with a line:
+First, `check.variogram` constructs an empirical variogram of the model residuals and overlays the REML-fitted variogram model with a line:
 
 ```{r}
 check.variogram(slmfit_out1)
@@ -223,7 +223,7 @@ check.variogram(slmfit_out1)
 
 Note that the fitted line may not appear to fit the empirical variogram perfectly for a couple of reasons. First, only pairs of points that have a distance between 0 and one-half the maximum distance are shown. Second, the fitted model is estimated using REML, which may give different results than using weighted least squares.
 
-If we are satisfied with the fit of the variogram, we can examine our prediction and obtain a confidence interval for this prediction using `get.predinfo`. While the `check.variogram` function takes the fitted spatial linear model as input, the `get.predinfo` function uses the object from the `predict` function.
+If we are satisfied with the fit of the variogram, we can examine our prediction and obtain a confidence interval for this prediction using `get.predinfo`. While the `check.variogram` function takes the fitted spatial linear model as input, the `get.predinfo` function uses the object from the `predict` function, which we previously named `pred_obj`.
 
 ```{r}
 get.predinfo(pred_obj)
@@ -239,13 +239,11 @@ The map shows the distribution of counts across sampled and unsampled sites. Its
 
 #####Prediction for a Quantity Other Than the Total
 
-If we want to predict a quantity other than the population total, then we need to specify the column in our data set that has the appropriate prediction weights. For example, if we want to predict the total for the 25 sites in coloured in red, then we can use
+If we want to predict a quantity other than the population total, then we need to specify the column in our data set that has the appropriate prediction weights in an `FPBKcol` argument. For example, if we want to predict the total for the 25 sites in coloured in red, then we can use
 
 ```{r}
 pred_obj2 <- predict(slmfit_out1, FPBKcol = "wts2")
 ```
-
-# Examples
 
 ## Moose Abundance from Aerial Surveys
 
@@ -253,7 +251,7 @@ For an example with real data, we first consider a data set on moose abundance i
 
 ##### Issue 1: Dealing with Spatial Coordinates
 
-Our goal is to append the x and y-coordinates to the data frame with the survey data. Specifically, we want the _centroid_ coordinates for each site. We first want to convert the projection into Latitude/Longitude coordinates.
+Our goal is to append the x and y-coordinates to the data frame with the survey data. Specifically, we want the _centroid_ coordinates for each site. We first want to convert the projection into standard Latitude/Longitude coordinates.
 
 ```{r}
 require(rgeos); require(sp)
@@ -269,8 +267,8 @@ ADD rgeos to package dependencies/options
 
 ```{r}
 centroids <- data.frame(ID = latlon@data,
-  x = gCentroid(latlon, byid=TRUE)@coords[ ,'x'],
-  y = gCentroid(latlon, byid=TRUE)@coords[ ,'y'])
+  x = rgeos::gCentroid(latlon, byid=TRUE)@coords[ ,'x'],
+  y = rgeos::gCentroid(latlon, byid=TRUE)@coords[ ,'y'])
 ```
 
 Finally, for most spatial prediction, we want to use a trans-mercator projection instead of latitude-longitude so that physical distance between two sites is accurately represented.
@@ -279,12 +277,12 @@ Finally, for most spatial prediction, we want to use a trans-mercator projection
 xy <- LLtoUTM(mean(centroids$x), centroids$y, centroids$x)$xy
 ```
 
-Finally, we add the trans-mercator coordinates to our data frame with the survey data. We can examine extract the survey data by
+Finally, we add the trans-mercator coordinates to our data frame with the survey data. We first extract the survey data from our `sp` object using
 
 ```{r}
-data(AKmoose)
-moose_df <- AKmoose@data
-head(moose_df)
+data(AKmoose) ## load the data set into the package
+moose_df <- AKmoose@data ## name the data set moose_df
+head(moose_df) ## look at the first 6 observations
 ```
 
 We see that, in addition to the `total` column, which has counts of moose, the data set also has `strat`, a covariate that is either `L` for Low or `M` for medium, and `surveyed`, which is a `0` if the site wasn't sampled and a `1` if the site was sampled. 
@@ -302,7 +300,7 @@ It might be helpful to compare the lat/lon coordinates of the original data fram
 cbind(moose_df$x, moose_df$y, centroids$x, centroids$y)
 ```
 
-Now, the `moose_df` data frame is in a more workable form for the `sptotal` package. However, there is still an issue that may be somewhat common in real data sets, which we address next.
+Now, the `moose_df` data frame is in a more workable form for the `sptotal` package. However, there are still a couple of issues involving how the count data is stored and which sites were sampled that may be somewhat common in real data sets, which we address next.
 
 ##### Issue 2: Dealing with Count Vector Specifications
 
@@ -313,7 +311,15 @@ head(moose_df)
 str(moose_df$total)
 ```
 
-The first issue is that our `sp` object has `total` as a factor, which `R` treats as a categorical variable. `total` should be numeric, and, in fact, `surveyed` as the same issue. We first want to convert these two columns into numeric variables instead of factors.
+The first issue is that our original `sp` object had `total` as a factor, which `R` treats as a categorical variable. `total` should be numeric, and, in fact, the variable `surveyed` has the same issue. If we were to keep `total` as a factor and try to run `slmfit`, we would get a convenient error message, reminding us to make sure that our response variable is numeric, not a factor or character:
+
+```{r, error = TRUE}
+slmfit_out_moose <- slmfit(formula = total ~ strat, 
+  data = moose_df, xcoordcol = 'x', ycoordcol = 'y',
+  CorModel = "Exponential")
+```
+
+We first want to convert these two columns into numeric variables instead of factors. There are packages that can help with this conversion, like `dplyr` and `forcats`, but we opt for base `R` functions here.
 
 ```{r}
 moose_df$surveyed <- as.numeric(levels(moose_df$surveyed))[moose_df$surveyed]
@@ -322,7 +328,7 @@ moose_df$total <- as.numeric(levels(moose_df$total))[moose_df$total]
 
 This may not be an issue with the data frame you are working with, in which case you can ignore the above code. The `str()` command will tell you whether your variables are coded as factors or numeric.
 
-After conversion to numeric variables, note that the first 6 observations for the `total` variable are all 0, but, the first two sites and the fourth, fifth, and sixth sites weren't actually sampled. Without some modification to this variable, `sptotal` wouldn't be able to differentiate between zeroes that were zero due to there not being any animal counts at the site and zeroes that were zero due to the site not being sampled. The following code converts the `total` variable on sites that were __not__ surveyed (`surveyed` = `0`) to `NA`.
+After conversion to numeric variables, note that the first 6 observations for the `total` variable are all 0, but, the first two sites and the fourth, fifth, and sixth sites weren't actually sampled. Without some modification to this variable, `sptotal` wouldn't be able to differentiate between zeroes that were zero due to a site really having 0 counts or 0 density at the site and zeroes that were zero due to the site not being sampled. The following code converts the `total` variable on sites that were __not__ surveyed (`surveyed` = `0`) to `NA`.
 
 ```{r}
 moose_df$total[moose_df$surveyed == 0] <- NA
@@ -331,7 +337,9 @@ head(moose_df)
 
 Now that
 
-* we have x and y coordinates in TM format and
+* we have x and y coordinates in TM format,
+
+* our response variable is numeric and not a factor, and
 
 * the column with our counts has `NA` values for sites that were not surveyed,
 
@@ -342,8 +350,14 @@ slmfit_out_moose <- slmfit(formula = total ~ strat,
   data = moose_df, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential")
 summary(slmfit_out_moose)
-predict(slmfit_out_moose)$FPBK_Prediction
+check.variogram(slmfit_out_moose)
+
+pred_moose <- predict(slmfit_out_moose)
+get.predinfo(pred_moose)
+get.predplot(pred_moose)
 ```
+
+We obtain a predicted total of 1596 animals with 90% lower and upper confidence bounds of 921 and 2271 animals, respectively. Unlike the simulation setting, there is no "true total" we can compare our prediction to, because, in reality, not all sites were sampled!
 
 ## Tree Biomass from Forest Inventories
 
@@ -365,4 +379,10 @@ It is assumed that $\mathbf{z}$ is a realization of a spatial stochastic process
 Ver Hoef, J. M. 2008. Spatial Methods for Plot-Based Sampling of Wildlife Popula
 tions. *Environmental and Ecological Statistics* **15**: 3-13.
 
+QUESTIONS: neither data set has area and length of vignette issue
 
+coordinates functions? do we have to?
+
+comparison to other methods....
+
+any other major output function?

@@ -4,8 +4,9 @@
 \alias{slmfit}
 \title{Fits a Spatial Linear Model}
 \usage{
-slmfit(formula, data, xcoordcol, ycoordcol, CorModel = "Exponential",
-  estmethod = "REML", covestimates = c(NA, NA, NA))
+slmfit(formula, data, xcoordcol, ycoordcol, areacol = NULL,
+  CorModel = "Exponential", estmethod = "REML", covestimates = c(NA,
+  NA, NA))
 }
 \arguments{
 \item{formula}{is an R linear model formula specifying density as the
@@ -17,6 +18,9 @@ be used for the block kriging, and the spatial coordinates for all of the sites.
 \item{xcoordcol}{is the name of the column in the data frame with x coordinates or longitudinal coordinates}
 
 \item{ycoordcol}{is the name of the column in the data frame with y coordinates or latitudinal coordinates}
+
+\item{areacol}{is the name of the column with the areas of the sites. By default, we assume that all sites have equal area, in which
+case a vector of 1's is used as the areas.}
 
 \item{CorModel}{is the covariance structure. By default, \code{CorModel} is
 Exponential but other options include the Spherical and Gaussian.}
@@ -46,4 +50,10 @@ a list with \itemize{
 \description{
 Estimates regression coefficients and spatial autocorrelation
 parameters.
+}
+\examples{
+data(exampledataset) ## load a toy data set
+slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+summary(slmobj)
 }

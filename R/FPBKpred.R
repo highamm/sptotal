@@ -43,6 +43,7 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
   xcoordsUTM <- object$FPBKpredobj$xcoordsUTM
   ycoordsUTM <- object$FPBKpredobj$ycoordsUTM
   covparmests <- object$SpatialParmEsts
+  areavar <- object$FPBKpredobj$areavar
 
   if (is.null(FPBKcol) == FALSE) {
     if (sum(names(data) == FPBKcol) == 0) {
@@ -69,7 +70,7 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
   fullmf <- stats::model.frame(formula, na.action =
       stats::na.pass, data = data)
   yvar <- stats::model.response(fullmf, "numeric")
-  density <- yvar
+  density <- yvar / areavar
 
   ind.sa <- !is.na(yvar)
   ind.un <- is.na(yvar)
@@ -96,7 +97,7 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
       stats::na.omit)
   z.sa <- stats::model.response(m.sa)
   Xs <- stats::model.matrix(formula, m.sa)
-  z.density <- z.sa
+  z.density <- z.sa / areavar[ind.sa]
 
 
   Sigma <- object$FPBKpredobj$covmat
@@ -137,12 +138,17 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
   ## the predicted values for the sites that were not sampled
   zhatu <- Sigma.us %*% Sigma.ssi %*% (z.density -
       muhats) + muhatu
+  zhatucount <- zhatu * areavar[ind.un]
+
 
   ## creating a column in the outgoing data set for predicted counts as
   ## well as a column indicating whether or not the observation was sampled
   ## or predicted
   preddensity <- density
   preddensity[is.na(preddensity) == TRUE] <- zhatu
+
+  pred.persite <- preddensity * areavar
+
 
   sampind <- rep(1, length(yvar))
   sampind[is.na(yvar) == TRUE] <- 0
@@ -158,8 +164,17 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
   densvar[sampind == 1] <- 0
   densvar[sampind == 0] <- sitevar
 
+  countcov <- areavar[ind.un] *
+    sitevar * areavar[ind.un]
+  countcovnodet <- countcov
+
+  countvar <- rep(NA, nrow(data))
+  countvar[sampind == 1] <- 0
+  countvar[sampind == 0] <- countcov
+
   ## the FPBK predictor
-  FPBKpredictor <- (t(B) %*% preddensity)
+  FPBKpredictor <- (t(B) %*% preddensity) ## density
+  FPBKpredictorcount <- (t(B) %*% pred.persite) ## count
 
   ## the prediction variance for the FPBK predictor
   ## if detectionest is left as the default, we assume
@@ -168,7 +183,11 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
   pred.var.obs <- (t(as.matrix(B)) %*% Sigma %*%
     as.matrix(B) -
     t(Cmat) %*% Sigma.ssi %*% Cmat +
-    t(Dmat) %*% Vmat %*% Dmat)
+    t(Dmat) %*% Vmat %*% Dmat) ## density
+  pred.var.count <- (t(as.matrix(B * areavar)) %*% Sigma %*%
+      as.matrix(B * areavar) -
+      t(Cmat) %*% Sigma.ssi %*% Cmat +
+      t(Dmat) %*% Vmat %*% Dmat)
 
 
   ## returns a list with 3 components:
@@ -181,7 +200,7 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
 
 
   df_out <- data.frame(cbind(data, xcoordsUTM, ycoordsUTM,
-    preddensity, densvar, sampind, muhat))
+    preddensity, densvar, sampind, muhat, areavar))
 
   # data <- data.frame(y = 1:10, x = 2:11)
   #
@@ -196,8 +215,11 @@ predict.slmfit <- function(object, FPBKcol = NULL, ...) {
     paste(base::all.vars(formula)[1], "_sampind",
       sep = ""),
     paste(base::all.vars(formula)[1], "_muhat",
+      sep = ""),
+    paste(base::all.vars(formula)[1], "_areas",
       sep = ""))
-  obj <- list(FPBKpredictor, pred.var.obs,
+
+  obj <- list(FPBKpredictorcount, pred.var.count,
     df_out,
     as.vector(covparmests),
     formula = formula)
