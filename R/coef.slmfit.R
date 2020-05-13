@@ -10,8 +10,7 @@
 #' coef(slmobj)
 #' @export
 
-coef.slmfit <- function(object, ...)
-{
+coef.slmfit <- function(object, ...) {
   coef.vec <- object$CoefficientEsts
   return(coef.vec)
 }

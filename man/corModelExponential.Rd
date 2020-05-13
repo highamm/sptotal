@@ -30,10 +30,14 @@ among sites tapers}
 Correlation Matrix
 }
 \description{
-Spatial Correlation Models
+Note that, currently, only three of these models are implemented
+in the \code{sptotal} package: \code{corModelExponential},
+ \code{corModelGaussian}, and \code{corModelSpherical}.
 }
 \section{Functions}{
 \itemize{
+\item \code{corModelExponential}: Exponential Correlation Structure
+
 \item \code{corModelGaussian}: Gaussian Correlation Structure
 
 \item \code{corModelCauchy}: Cauchy Correlation Structure
