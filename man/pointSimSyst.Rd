@@ -2,7 +2,7 @@
 % Please edit documentation in R/pointSimSyst.R
 \name{pointSimSyst}
 \alias{pointSimSyst}
-\title{Creates a systematic grid of points}
+\title{Creates a systematic grid of points.}
 \usage{
 pointSimSyst(nrow = 10, ncol = 10, lower_x_lim = 0,
   upper_x_lim = 1, lower_y_lim = 0, upper_y_lim = 1)
@@ -24,8 +24,9 @@ pointSimSyst(nrow = 10, ncol = 10, lower_x_lim = 0,
 A data.frame with x- and y-coordinates of simulated locations
 }
 \description{
-Creates a systematic grid of points
+Creates a systematic grid of points. This function is only used
+in simulating data sets.
 }
 \author{
-Jay Ver Hoef \email{jay.verhoef@noaa.gov}
+Jay Ver Hoef
 }

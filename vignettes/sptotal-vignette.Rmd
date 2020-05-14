@@ -271,7 +271,7 @@ centroids <- data.frame(ID = latlon@data,
   y = rgeos::gCentroid(latlon, byid=TRUE)@coords[ ,'y'])
 ```
 
-Finally, for most spatial prediction, we want to use a trans-mercator projection instead of latitude-longitude so that physical distance between two sites is accurately represented.
+Finally, for most spatial prediction, we want to use a trans-mercator projection instead of latitude-longitude so that physical distance between two sites is accurately represented. The `LLtoUTM()` function in this package provides a convenient way to convert latitude/longitude coordinates into user-defined transmercator coordinates. 
 
 ```{r}
 xy <- LLtoUTM(mean(centroids$x), centroids$y, centroids$x)$xy

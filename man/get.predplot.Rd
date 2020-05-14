@@ -2,19 +2,26 @@
 % Please edit documentation in R/get.predplot.r
 \name{get.predplot}
 \alias{get.predplot}
-\title{Creates a default map from predictions}
+\title{Create a default map from predictions}
 \usage{
 get.predplot(x)
 }
 \arguments{
-\item{x}{the output of the prediction function, of class sptotalPredOut}
+\item{x}{the output of the \code{predict.slmfit} function, of class \code{sptotalPredOut}}
 }
 \value{
-a plot with predictions, with points filled by whether or not a site was sampled.
+a plot with x-coordinates on the x-axis and y-coordinates on the y-axis that is coloured by predictions, with points filled by whether or not a site was sampled.
 }
 \description{
-Creates a default map from predictions. Note that all predictions are stored
-in a data frame in the output of \code{predict}. Therefore, if a user
+Creates a default map for the predictions of unobserved sites. Note that all predictions are stored
+in a data frame in the output of \code{predict.slmfit}. Therefore, if a user
 would like to create his or her own plot, he or she can easily do so using
 this data frame.
+}
+\examples{
+data(exampledataset) ## load a toy data set
+slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+predobj <- predict(slmobj)
+get.predplot(predobj)
 }

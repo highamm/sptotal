@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.slmfit.R
 \name{summary.slmfit}
 \alias{summary.slmfit}
-\title{Summarizes a fitted spatial linear model}
+\title{Summarizes a fitted spatial linear model.}
 \usage{
 \method{summary}{slmfit}(object, ...)
 }
@@ -21,5 +21,12 @@ a list with \itemize{
        }
 }
 \description{
-Summarizes a fitted spatial linear model
+In conjunction with \code{print.summary.slmfit}, the output looks similar
+to output from \code{R}'s standard \code{lm} function.
+}
+\examples{
+data(exampledataset) ## load a toy data set
+slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+summary(slmobj)
 }

@@ -1,8 +1,7 @@
 #' Constructing the generalized inverse of a matrix
 #'
-#' Computes the generalized inverse of a matrix X
-#'
-#' This function is used in the \code{m2LL.FPBK.nodet} functions in order
+#' Computes the generalized inverse of a matrix X. This function is used in
+#' the \code{m2LL.FPBK.nodet} functions in order
 #' to estimate the spatial covariance parameters
 #'
 #' @param X The matrix to be inverted

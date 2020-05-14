@@ -20,3 +20,9 @@ that are less than or equal to the maximum distance in the data
 set divided by 2. Therefore, it's possible that the REML-fitted model
 will not "fit" the points perfectly.
 }
+\examples{
+data(exampledataset) ## load a toy data set
+slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+check.variogram(slmobj)
+}

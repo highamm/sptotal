@@ -1,4 +1,6 @@
-#' Prints the summary of a fitted spatial linear model
+#' Prints the summary of a fitted spatial linear model.
+#'
+#' This function uses the object that is output from \code{summary.slmfit}.
 #'
 #' @param x is an summary object generated from
 #' @param digits is the number of digits to be displayed in the
@@ -14,6 +16,11 @@
 #'   \item estimated spatial covariance parameter estimates.
 #'   \item generalized r-squared value.
 #' }
+#' @examples
+#' data(exampledataset) ## load a toy data set
+#' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+#' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+#' print(summary(slmobj))
 #' @import stats
 #' @export
 

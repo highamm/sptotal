@@ -1,7 +1,7 @@
 #' Covariance Parameter Estimation Function.
 #'
 #' The primary purpose of \code{m2LL.FPBK.nodet} is to estimate the spatial
-#' covariance parameters using REML.
+#' covariance parameters using REML. This is a helper function to \code{slmfit}.
 #'
 #' @param theta is the parameter vector of (nugget, partialsill, range)
 #' @param zcol is the response vector of densities
@@ -15,8 +15,6 @@
 #' @importFrom stats optim
 #' @importFrom stats glm
 #' @importFrom stats rbinom
-
-## split into different functions for different covariance matrix structures
 
 m2LL.FPBK.nodet <- function(theta, zcol, XDesign, xcoord, ycoord,
   CorModel, estmethod) {
@@ -85,58 +83,47 @@ m2LL.FPBK.nodet <- function(theta, zcol, XDesign, xcoord, ycoord,
     ## add log(det(t(X)V(theta)^-1 X)) to REML
      LLcommon <- LLcommon + sum(log(svd(covbi)$d))
   }
+
+  ## OLD ML CODE: this code is slower but a bit easier to follow.
+
+  # m2LL.FPBK.nodet.ML <- function(theta, zcol, XDesign, xcoord, ycoord,
+  #   CorModel)
+  # {
+  #   n <- length(zcol)
+  #   p <- length(XDesign[1,])
+  #   nugget <- as.numeric(exp(theta[1]))
+  #   parsil <- as.numeric(exp(theta[2]))
+  #   range <- as.numeric(exp(theta[3]))
+  #   beta <- matrix(as.numeric(theta[4:length(theta)]))
+  #
+  #   DM <- matrix(0, n, n)
+  #   DM[lower.tri(DM)] <- stats::dist(as.matrix(cbind(xcoord, ycoord)))
+  #   Dismat <- DM + t(DM)
+  #
+  #   if (CorModel == "Exponential") {
+  #     Sigmat <- parsil * corModelExponential(Dismat, range)
+  #     Cmat.nodet <- diag(nugget, nrow = nrow(Sigmat)) + Sigmat
+  #   } else if (CorModel == "Gaussian") {
+  #     Sigmat <- parsil * (corModelGaussian(Dismat, range))
+  #     Cmat.nodet <- diag(nugget, nrow = nrow(Sigmat)) + Sigmat
+  #   } else if (CorModel == "Spherical") {
+  #     Sigmat <- parsil * corModelSpherical(Dismat, range)
+  #     Cmat.nodet <- diag(nugget, nrow = nrow(Sigmat)) +
+  #       Sigmat
+  #   }
+  #
+  #   Ci <- mginv(Cmat.nodet)
+  #
+  #   minus2loglik <- log(det(Cmat.nodet)) +
+  #     (t(as.matrix(zcol) - as.matrix(XDesign %*% beta))) %*%
+  #     Ci %*%
+  #     (as.matrix(zcol) - as.matrix(XDesign %*% beta)) +
+  #     n * log(2 * pi)
+  #
+  #   return(as.numeric(minus2loglik))
+
   return(LLcommon)
+
 }
 
-
-#  theta <- c(2, 1, 0.5)
-#  zcol <- runif(40, 0, 15);
-#  pred1 <- runif(40, 0, 1); pred2 <- rnorm(40, 0, 1)
-#  XDesign <- as.matrix(cbind(rep(1, 40), pred1, pred2))
-#  xcoord <- runif(40, 0, 1); ycoord <- runif(40, 0, 1)
-#
-# m2LL.FPBK.nodet(theta = theta, zcol = zcol, XDesign = XDesign,
-#   xcoord = xcoord, ycoord = ycoord, CorModel = "Exponential")
-# m2LL_jay(theta = theta, zcol = zcol, XDesign = XDesign,
-#   xcoord = xcoord, ycoord = ycoord, CorModel = "Exponential",
-#   estmethod = "REML")
-
-## OLD ML CODE
-
-# m2LL.FPBK.nodet.ML <- function(theta, zcol, XDesign, xcoord, ycoord,
-#   CorModel)
-# {
-#   n <- length(zcol)
-#   p <- length(XDesign[1,])
-#   nugget <- as.numeric(exp(theta[1]))
-#   parsil <- as.numeric(exp(theta[2]))
-#   range <- as.numeric(exp(theta[3]))
-#   beta <- matrix(as.numeric(theta[4:length(theta)]))
-#
-#   DM <- matrix(0, n, n)
-#   DM[lower.tri(DM)] <- stats::dist(as.matrix(cbind(xcoord, ycoord)))
-#   Dismat <- DM + t(DM)
-#
-#   if (CorModel == "Exponential") {
-#     Sigmat <- parsil * corModelExponential(Dismat, range)
-#     Cmat.nodet <- diag(nugget, nrow = nrow(Sigmat)) + Sigmat
-#   } else if (CorModel == "Gaussian") {
-#     Sigmat <- parsil * (corModelGaussian(Dismat, range))
-#     Cmat.nodet <- diag(nugget, nrow = nrow(Sigmat)) + Sigmat
-#   } else if (CorModel == "Spherical") {
-#     Sigmat <- parsil * corModelSpherical(Dismat, range)
-#     Cmat.nodet <- diag(nugget, nrow = nrow(Sigmat)) +
-#       Sigmat
-#   }
-#
-#   Ci <- mginv(Cmat.nodet)
-#
-#   minus2loglik <- log(det(Cmat.nodet)) +
-#     (t(as.matrix(zcol) - as.matrix(XDesign %*% beta))) %*%
-#     Ci %*%
-#     (as.matrix(zcol) - as.matrix(XDesign %*% beta)) +
-#     n * log(2 * pi)
-#
-#   return(as.numeric(minus2loglik))
-# }
 

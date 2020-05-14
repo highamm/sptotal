@@ -21,14 +21,24 @@
 #' @return a list with \itemize{
 #'   \item the spatial covariance estimates
 #'   \item the regression coefficient estimates
+#'   \item the covariance matrix of the fixed effects
+#'   \item minus two times the log-likeihood of the model
+#'   \item the names of the predictors
+#'   \item the sample size
+#'   \item the name of the covariance model used
+#'   \item a vector of residuals
+#'   \item the design matrix
+#'   \item a vector of the sampled densities
 #'   \item a list containing \enumerate{
-#'        \item formula
-#'        \item data
-#'        \item xcoordcol
-#'        \item ycoordcol
-#'        \item CorModel
+#'        \item formula, the model formula
+#'        \item data, the data set input as the \code{data} argument
+#'        \item xcoordcol, the name of the x-coordinate column
+#'        \item ycoordcol, the name of the y-coordinate column
+#'        \item estmethod, either REML or ML
+#'        \item CorModel, the correlation model used
+#'        \item estimated covariance matrix of all sites
 #'        \item Inverted covariance matrix on the sampled sites
-#'        \item Covariance matrix on all sites
+#'        \item the vector of areas.
 #'        }
 #' }
 #' @examples
@@ -38,6 +48,7 @@
 #' summary(slmobj)
 #' @import stats
 #' @export slmfit
+
 
 slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
   CorModel = "Exponential", estmethod = "REML",

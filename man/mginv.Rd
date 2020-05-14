@@ -15,9 +15,7 @@ mginv(X, tol = sqrt(.Machine$double.eps))
 The generalized inverse matrix
 }
 \description{
-Computes the generalized inverse of a matrix X
-}
-\details{
-This function is used in the \code{m2LL.FPBK.nodet} functions in order
+Computes the generalized inverse of a matrix X. This function is used in
+the \code{m2LL.FPBK.nodet} functions in order
 to estimate the spatial covariance parameters
 }

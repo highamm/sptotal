@@ -26,5 +26,5 @@ A numeric output of minus 2 times the restricted log likelihood to be minimized 
 }
 \description{
 The primary purpose of \code{m2LL.FPBK.nodet} is to estimate the spatial
-covariance parameters using REML.
+covariance parameters using REML. This is a helper function to \code{slmfit}.
 }

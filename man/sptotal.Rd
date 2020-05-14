@@ -8,14 +8,26 @@
 kriging on polygonal count data.}
 \description{
 The package provides an option to perform FPBK on counts assuming
-perfect detection.
+perfect detection of counts on the sites that were in the survey sample.
 }
 \details{
 \code{sptotal} Main Functions:
 
-\code{FPBKpred} is the function used to generate the kriged predictions
-on the unsampled sites.
+\code{slmfit} fits a spatial linear model to the response on the
+observed/sampled sites. \code{check.variogram} can be used to construct
+an empirical variogram of the residuals of the spatial linear model.
 
-\code{FPBKoutput} takes the resulting object from FPBKpred to construct
-confidence intervals, variograms, and maps.
+\code{FPBKpred} uses the spatial linear model in \code{slmfit} and finite
+population block kriging to predict counts/densities at unobserved locations.
+A prediction for the total count as well as a prediction variance
+are given by default.
+
+\code{get.predinfo} and \code{get.predplot} take the resulting object from
+ \code{FPBKpred} to construct (1) summary information, including the
+ prediction, prediction variance, and a prediction interval as well as
+ (2) a plot of the site-wise predictions.
+
+Most of the remaining functions in the package are either helper functions
+or extra optional functions to extract various specific things from an
+\code{slmfit} object, such as residuals, AIC, log-likelihood, etc.
 }

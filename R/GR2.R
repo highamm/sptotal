@@ -3,6 +3,11 @@
 #' @param object is an object of class \code{slmfit}.
 #' @return the value for generalized R-squared
 #' @import stats
+#' @examples
+#' data(exampledataset) ## load a toy data set
+#' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+#' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+#' GR2(slmobj)
 #' @export GR2
 
 

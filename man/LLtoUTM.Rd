@@ -9,23 +9,23 @@ LLtoUTM(cm, lat, lon, xcol = "x", ycol = "y", minx = NULL,
   miny = NULL)
 }
 \arguments{
-\item{cm}{is the user defined central median, often taken to be the mean of the
-longitude values}
+\item{cm}{is the user defined central median. Use the mean of the
+longitude values in your data set, if unsure what to use here.}
 
 \item{lat}{is the vector of latitudes}
 
 \item{lon}{is the vector of longitudes}
 
-\item{xcol}{is the name of the output column of x coordinates}
+\item{xcol}{is the name of the output TM column of x coordinates}
 
-\item{ycol}{is the name of the output column of y coordinates}
+\item{ycol}{is the name of the output TM column of y coordinates}
 
-\item{minx}{is `NULL` by default}
+\item{minx}{is `NULL` by default. This is an optional minimum value for the x-coordinate vector.}
 
-\item{miny}{is `NULL` by default}
+\item{miny}{is `NULL` by default. This is an optional minimum value for the y-coordinate vector.}
 }
 \value{
-A list with the TM coordinates as the first component of the list. The first component of the list contains x coordinates in the first column and y coordinates in the second column
+A list with the TM coordinates as the first component of the list. The first component of the list contains x coordinates in the first column and y coordinates in the second column. The remaining elements of the list are the \code{cm}, \code{minx}, and \code{miny} values that were input.
 }
 \description{
 The resulting units from applying the function are kilometers.
@@ -33,11 +33,11 @@ The resulting units from applying the function are kilometers.
 \details{
 This function only needs to be used if the coordinates supplied by the
 user are latitude and longitude. If the coordinates are UTM, then
-we should not use this function.
+this function should not be used.
 }
 \examples{
 ## Add TM x and y coordinates to a data frame with
-## latitude/longitude coordinates
+## latitude/longitude coordinates. Name these \\code{xc_TM_} and \\code{yc_TM_}.
 exampledataset$xc_TM_ <- LLtoUTM(cm = base::mean(exampledataset[ ,"xcoords"]),
  lat = exampledataset[ ,"ycoords"],
  lon = exampledataset[ ,"xcoords"])$xy[ ,1]

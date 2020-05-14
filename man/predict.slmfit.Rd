@@ -22,10 +22,15 @@ a list with \itemize{
        \item x-coordinates
        \item y-coordinates
        \item density predictions
+       \item count predictions
+       \item site-by-site density prediction variances
+       \item site-by-site count prediction variances
        \item indicator variable for whether or not the each site was sampled
        \item estimated mean for each site
+       \item area of each site
        }
    \item vector with estimated covariance parameters
+   \item the formula used to fit the model in \code{slmfit}
 }
 }
 \description{

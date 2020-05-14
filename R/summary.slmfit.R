@@ -1,4 +1,7 @@
-#' Summarizes a fitted spatial linear model
+#' Summarizes a fitted spatial linear model.
+#'
+#' In conjunction with \code{print.summary.slmfit}, the output looks similar
+#' to output from \code{R}'s standard \code{lm} function.
 #'
 #' @param object is an object generated from \code{slmfit}.
 #' @param ... are options to be passed to \code{print}
@@ -9,6 +12,11 @@
 #'   \item residuals
 #'   \item generalized r-squared.
 #'        }
+#' @examples
+#' data(exampledataset) ## load a toy data set
+#' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+#' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+#' summary(slmobj)
 #' @import stats
 #' @export
 

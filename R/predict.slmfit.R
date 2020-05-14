@@ -15,10 +15,15 @@
 #'        \item x-coordinates
 #'        \item y-coordinates
 #'        \item density predictions
+#'        \item count predictions
+#'        \item site-by-site density prediction variances
+#'        \item site-by-site count prediction variances
 #'        \item indicator variable for whether or not the each site was sampled
 #'        \item estimated mean for each site
+#'        \item area of each site
 #'        }
 #'    \item vector with estimated covariance parameters
+#'    \item the formula used to fit the model in \code{slmfit}
 #' }
 #' @examples
 #' data(exampledataset) ## load a toy data set
@@ -134,9 +139,9 @@ predict.slmfit <- function(object, wtscol = NULL, ...) {
 
   ## matrices used in the kriging equations
   ## notation follow Ver Hoef (2008)
-  Cmat <- Sigma.ss %*% as.matrix(Bs) +
-    Sigma.su %*% as.matrix(Bu)
-  Dmat <- t(X) %*% matrix(B) - t(Xs) %*% Sigma.ssi %*% Cmat
+  Cmat <- Sigma.ss %*% as.matrix(Bs * areavar[ind.sa]) +
+    Sigma.su %*% as.matrix(Bu * areavar[ind.un])
+  Dmat <- t(X) %*% matrix(B * areavar) - t(Xs) %*% Sigma.ssi %*% Cmat
   Vmat <- solve(t(Xs) %*% Sigma.ssi %*% Xs)
 
   ## the predicted values for the sites that were not sampled
@@ -180,28 +185,20 @@ predict.slmfit <- function(object, wtscol = NULL, ...) {
   FPBKpredictor <- (t(B) %*% preddensity) ## density
   FPBKpredictorcount <- (t(B) %*% pred.persite) ## count
 
-  ## the prediction variance for the FPBK predictor
-  ## if detectionest is left as the default, we assume
-  ## perfect detection with no variability in the detection estimate
-
-  pred.var.obs <- (t(as.matrix(B)) %*% Sigma %*%
-    as.matrix(B) -
-    t(Cmat) %*% Sigma.ssi %*% Cmat +
-    t(Dmat) %*% Vmat %*% Dmat) ## density
+##  pred.var.obs <- (t(as.matrix(B)) %*% Sigma %*%
+##    as.matrix(B) -
+##    t(Cmat) %*% Sigma.ssi %*% Cmat +
+##    t(Dmat) %*% Vmat %*% Dmat) ## density
   pred.var.count <- (t(as.matrix(B * areavar)) %*% Sigma %*%
       as.matrix(B * areavar) -
       t(Cmat) %*% Sigma.ssi %*% Cmat +
       t(Dmat) %*% Vmat %*% Dmat)
-
 
   ## returns a list with 3 components:
   ## 1.) the kriging predictor and prediction variance
   ## 2.) a matrix with x and y coordinates, kriged predctions, and
   ## indicators for whether sites were sampled or not
   ## 3.) a vector of the estimated spatial parameters
-
-
-
 
   df_out <- data.frame(cbind(data, xcoordsUTM, ycoordsUTM,
     preddensity, pred.persite, densvar, countvar, sampind, muhat, areavar))
@@ -238,7 +235,6 @@ predict.slmfit <- function(object, wtscol = NULL, ...) {
   class(obj) <- "sptotalPredOut"
 
   return(obj)
-
 }
 
 

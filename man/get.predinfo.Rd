@@ -18,6 +18,11 @@ a list of three tables, including \itemize{
 \item \code{confbounds}, which contains a confidence interval for the prediction, and
 \item \code{outptmat}, a table of sampling information, including the number of sites sampled, the total number of sites, and the total observed count.
 }
+data(exampledataset) ## load a toy data set
+slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+predobj <- predict.slmfit(slmobj)
+get.predinfo(predobj)
 }
 \description{
 Creates a list of tables that shows the prediction, standard error, and

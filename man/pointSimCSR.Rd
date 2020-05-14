@@ -2,7 +2,7 @@
 % Please edit documentation in R/pointSimCSR.R
 \name{pointSimCSR}
 \alias{pointSimCSR}
-\title{simulate completely spatially random point patterns}
+\title{simulate completely spatially random point patterns.}
 \usage{
 pointSimCSR(npoints = 100, lower_x_lim = 0, upper_x_lim = 1,
   lower_y_lim = 0, upper_y_lim = 1)
@@ -19,10 +19,11 @@ pointSimCSR(npoints = 100, lower_x_lim = 0, upper_x_lim = 1,
 \item{upper_y_lim}{upper limit of boundary, default = 1}
 }
 \value{
-data.frame of two columns, x-coordinate in the first, and y-coordinate in the second
+data.frame of two columns, x-coordinate in the first, and y-coordinate in the second.
 }
 \description{
-simulates a completely spatially random point patterns
+simulates a completely spatially random point patterns. This function is
+only used in simulating data sets.
 }
 \author{
 Jay Ver Hoef

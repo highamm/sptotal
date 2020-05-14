@@ -18,6 +18,7 @@
 #'
 #' @author Jay Ver Hoef
 #' @export
+
 geostatSim <- function(loc.data, xcol = "x", ycol = "y",
 	parsil = 1, range = 1, nugget = 0,
 	minorp = 1, rotate = 90, extrap = NULL,

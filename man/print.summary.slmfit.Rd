@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.summary.slmfit.R
 \name{print.summary.slmfit}
 \alias{print.summary.slmfit}
-\title{Prints the summary of a fitted spatial linear model}
+\title{Prints the summary of a fitted spatial linear model.}
 \usage{
 \method{print}{summary.slmfit}(x, digits = max(3L, getOption("digits") -
   3L), signif.stars = getOption("show.signif.stars"), ...)
@@ -29,5 +29,11 @@ a list with \itemize{
 }
 }
 \description{
-Prints the summary of a fitted spatial linear model
+This function uses the object that is output from \code{summary.slmfit}.
+}
+\examples{
+data(exampledataset) ## load a toy data set
+slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+print(summary(slmobj))
 }
