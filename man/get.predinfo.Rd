@@ -7,7 +7,7 @@
 get.predinfo(x, conf_level = 0.9)
 }
 \arguments{
-\item{x}{the output of the \code{predict.slmfit} function, of class \code{sptotalPredOut}}
+\item{x}{the output of the \code{predict.slmfit()} function, of class \code{sptotalPredOut}}
 
 \item{conf_level}{is the confidence level for a normal-based
 confidence interval (default = 0.90).}

@@ -1,4 +1,4 @@
-#' Extract Log-Likelihood from a fitted \code{slmfit} object
+#' Extract Log-Likelihood from a fitted \code{slmfit()} object
 #'
 #' @param object is a slmfit object
 #' @param ... additional argurments

@@ -31,8 +31,8 @@ Correlation Matrix
 }
 \description{
 Note that, currently, only three of these models are implemented
-in the \code{sptotal} package: \code{corModelExponential},
- \code{corModelGaussian}, and \code{corModelSpherical}.
+in the \code{sptotal} package: \code{corModelExponential()},
+ \code{corModelGaussian()}, and \code{corModelSpherical()}.
 }
 \section{Functions}{
 \itemize{

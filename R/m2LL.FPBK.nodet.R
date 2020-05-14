@@ -1,7 +1,7 @@
 #' Covariance Parameter Estimation Function.
 #'
-#' The primary purpose of \code{m2LL.FPBK.nodet} is to estimate the spatial
-#' covariance parameters using REML. This is a helper function to \code{slmfit}.
+#' The primary purpose of \code{m2LL.FPBK.nodet()} is to estimate the spatial
+#' covariance parameters using REML. This is a helper function to \code{slmfit()}.
 #'
 #' @param theta is the parameter vector of (nugget, partialsill, range)
 #' @param zcol is the response vector of densities

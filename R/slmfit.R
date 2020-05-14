@@ -1,7 +1,7 @@
 #' Fits a Spatial Linear Model
 #'
 #' Estimates regression coefficients and spatial autocorrelation
-#' parameters.
+#' parameters, given spatial coordinates and a model formula..
 #'
 #' @param formula is an R linear model formula specifying density as the
 #' response variable as well as covariates for predicting densities on the unsampled sites.

@@ -1,10 +1,10 @@
 #' Perform Finite Population Block Kriging
 #'
-#' Takes the output of \code{slmfit} and uses FPBK to predict the counts on the unsampled sites.
+#' Takes the output of \code{slmfit()} and uses FPBK to predict the counts on the unsampled sites.
 #' The column with the counts should have numeric values for the observed counts
 #' on the sampled sites and `NA` for any site that was not sampled.
 #'
-#' @param object is an object generated from \code{slmfit}
+#' @param object is an object generated from \code{slmfit()}
 #' @param wtscol is the name of the column that contains the weights for
 #' @param ... Additional arguments
 #' prediction. The default setting predicts the population total
@@ -23,7 +23,7 @@
 #'        \item area of each site
 #'        }
 #'    \item vector with estimated covariance parameters
-#'    \item the formula used to fit the model in \code{slmfit}
+#'    \item the formula used to fit the model in \code{slmfit()}
 #' }
 #' @examples
 #' data(exampledataset) ## load a toy data set

@@ -2,7 +2,7 @@
 % Please edit documentation in R/residuals.slmfit.R
 \name{residuals.slmfit}
 \alias{residuals.slmfit}
-\title{Extract Model Residuals from an \code{slmfit} object.}
+\title{Extract Model Residuals from an \code{slmfit()} object.}
 \usage{
 \method{residuals}{slmfit}(object, ...)
 }
@@ -15,7 +15,7 @@
 a vector of residuals, consisting of each observed count minus the estimated mean.
 }
 \description{
-Extract Model Residuals from an \code{slmfit} object.
+Extract Model Residuals from an \code{slmfit()} object.
 }
 \examples{
 data(exampledataset) ## load a toy data set

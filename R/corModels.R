@@ -1,8 +1,8 @@
 #' Spatial Correlation Models
 #'
 #' Note that, currently, only three of these models are implemented
-#' in the \code{sptotal} package: \code{corModelExponential},
-#'  \code{corModelGaussian}, and \code{corModelSpherical}.
+#' in the \code{sptotal} package: \code{corModelExponential()},
+#'  \code{corModelGaussian()}, and \code{corModelSpherical()}.
 #'
 #' @param distance.matrix The distance matrix for sampled sites
 #' @param range The range that determines how quickly covariance

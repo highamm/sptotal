@@ -2,7 +2,7 @@
 % Please edit documentation in R/logLik.slmfit.R
 \name{loglik.slmfit}
 \alias{loglik.slmfit}
-\title{Extract Log-Likelihood from a fitted \code{slmfit} object}
+\title{Extract Log-Likelihood from a fitted \code{slmfit()} object}
 \usage{
 loglik.slmfit(object, ...)
 }
@@ -15,7 +15,7 @@ loglik.slmfit(object, ...)
 the log-likelihood of the slmfit object
 }
 \description{
-Extract Log-Likelihood from a fitted \code{slmfit} object
+Extract Log-Likelihood from a fitted \code{slmfit()} object
 }
 \examples{
 data(exampledataset) ## load a toy data set

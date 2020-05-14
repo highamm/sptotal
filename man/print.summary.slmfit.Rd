@@ -29,7 +29,7 @@ a list with \itemize{
 }
 }
 \description{
-This function uses the object that is output from \code{summary.slmfit}.
+This function uses the object that is output from \code{summary.slmfit()}.
 }
 \examples{
 data(exampledataset) ## load a toy data set

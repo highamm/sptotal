@@ -1,6 +1,6 @@
-#' Extract Model Coefficients from a \code{slmfit} object
+#' Extract Model Coefficients from a \code{slmfit()} object
 #'
-#' @param object a \code{slmfit} object
+#' @param object a \code{slmfit()} object
 #' @param ... additional arguments
 #' @return a vector of fitted model coefficients.
 #' @examples

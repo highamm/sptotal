@@ -1,6 +1,6 @@
 #' Prints the summary of a fitted spatial linear model.
 #'
-#' This function uses the object that is output from \code{summary.slmfit}.
+#' This function uses the object that is output from \code{summary.slmfit()}.
 #'
 #' @param x is an summary object generated from
 #' @param digits is the number of digits to be displayed in the

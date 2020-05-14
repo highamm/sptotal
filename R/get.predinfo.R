@@ -4,7 +4,7 @@
 #' confidence interval for the prediction, as well as some summary information
 #' about the sample.
 #'
-#' @param x the output of the \code{predict.slmfit} function, of class \code{sptotalPredOut}
+#' @param x the output of the \code{predict.slmfit()} function, of class \code{sptotalPredOut}
 #' @param conf_level is the confidence level for a normal-based
 #' confidence interval (default = 0.90).
 #' @return a list of three tables, including \itemize{

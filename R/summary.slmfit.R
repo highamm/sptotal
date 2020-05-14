@@ -1,10 +1,10 @@
 #' Summarizes a fitted spatial linear model.
 #'
-#' In conjunction with \code{print.summary.slmfit}, the output looks similar
-#' to output from \code{R}'s standard \code{lm} function.
+#' In conjunction with \code{print.summary.slmfit()}, the output looks similar
+#' to output from \code{R}'s standard \code{lm()} function.
 #'
-#' @param object is an object generated from \code{slmfit}.
-#' @param ... are options to be passed to \code{print}
+#' @param object is an object generated from \code{slmfit()}.
+#' @param ... are options to be passed to \code{print()}
 #' @return a list with \itemize{
 #'   \item model formula
 #'   \item a table of fixed effects estimates and associated standard errors

@@ -59,7 +59,7 @@ a list with \itemize{
 }
 \description{
 Estimates regression coefficients and spatial autocorrelation
-parameters.
+parameters, given spatial coordinates and a model formula..
 }
 \examples{
 data(exampledataset) ## load a toy data set

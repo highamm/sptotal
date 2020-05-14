@@ -7,9 +7,9 @@
 \method{summary}{slmfit}(object, ...)
 }
 \arguments{
-\item{object}{is an object generated from \code{slmfit}.}
+\item{object}{is an object generated from \code{slmfit()}.}
 
-\item{...}{are options to be passed to \code{print}}
+\item{...}{are options to be passed to \code{print()}}
 }
 \value{
 a list with \itemize{
@@ -21,8 +21,8 @@ a list with \itemize{
        }
 }
 \description{
-In conjunction with \code{print.summary.slmfit}, the output looks similar
-to output from \code{R}'s standard \code{lm} function.
+In conjunction with \code{print.summary.slmfit()}, the output looks similar
+to output from \code{R}'s standard \code{lm()} function.
 }
 \examples{
 data(exampledataset) ## load a toy data set

@@ -43,8 +43,8 @@ a list with \itemize{
 }
 \description{
 Used to estimate spatial covariance parameters for a few different spatial models.
-Estimated parameters can then be used in \code{predict.slmfit} to predict values at unobserved locations.
+Estimated parameters can then be used in \code{predict.slmfit()} to predict values at unobserved locations.
 }
 \details{
-The function is a helper function used internally in \code{predict.slmfit}.
+The function is a helper function used internally in \code{predict.slmfit()}.
 }

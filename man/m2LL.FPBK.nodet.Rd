@@ -25,6 +25,6 @@ m2LL.FPBK.nodet(theta, zcol, XDesign, xcoord, ycoord, CorModel, estmethod)
 A numeric output of minus 2 times the restricted log likelihood to be minimized by `optim` to obtain spatial parameter estimates.
 }
 \description{
-The primary purpose of \code{m2LL.FPBK.nodet} is to estimate the spatial
-covariance parameters using REML. This is a helper function to \code{slmfit}.
+The primary purpose of \code{m2LL.FPBK.nodet()} is to estimate the spatial
+covariance parameters using REML. This is a helper function to \code{slmfit()}.
 }

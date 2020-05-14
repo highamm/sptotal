@@ -7,7 +7,7 @@
 GR2(object)
 }
 \arguments{
-\item{object}{is an object of class \code{slmfit}.}
+\item{object}{is an object of class \code{slmfit()}.}
 }
 \value{
 the value for generalized R-squared

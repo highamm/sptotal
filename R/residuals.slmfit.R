@@ -1,4 +1,4 @@
-#' Extract Model Residuals from an \code{slmfit} object.
+#' Extract Model Residuals from an \code{slmfit()} object.
 #'
 #' @param object a slmfit object
 #' @param ... additional arguments

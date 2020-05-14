@@ -1,6 +1,6 @@
-#' Extract the AIC from a \code{slmfit} object for comparing models.
+#' Extract the AIC from a \code{slmfit()} object for comparing models.
 #'
-#' @param object a \code{slmfit} object
+#' @param object a \code{slmfit()} object
 #' @param ... additional arguments
 #' @return The AIC value of the slmfit object.  Here, AIC is computed as 2 times the
 #' negative log-likelihood plus 2 times the number of model parameters.  Thus,
