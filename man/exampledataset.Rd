@@ -4,7 +4,8 @@
 \name{exampledataset}
 \alias{exampledataset}
 \title{Data Set with Uncorrelated Poisson Counts.}
-\format{A data frame with 40  rows and 7 variables:
+\format{
+A data frame with 40  rows and 7 variables:
 \describe{
   \item{counts}{counts, with NA values for unsampled sites}
   \item{pred1}{a possible predictor}
@@ -14,7 +15,8 @@
   \item{dummyvar}{an extra variable}
   \item{areavar}{Variable for the area of each plot}
   ...
-}}
+}
+}
 \usage{
 exampledataset
 }

@@ -4,7 +4,8 @@
 \name{simdata}
 \alias{simdata}
 \title{Simulated Spatially Autocorrelated Data.}
-\format{A data frame object inclding:
+\format{
+A data frame object inclding:
 \describe{
   \item{x}{The x-coordinate of the centroid for each site}
   \item{y}{The y-coordinate of the centroid for each site}
@@ -21,7 +22,8 @@
   \item{wts1}{Possible Weighting Column to be used as the prediction weights}
   \item{wts2}{Possible Weighting Column to be used as the prediction weights}
   ...
-}}
+}
+}
 \usage{
 simdata
 }

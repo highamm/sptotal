@@ -4,9 +4,15 @@
 \alias{estcovparm}
 \title{Estimate Covariance Parameters}
 \usage{
-estcovparm(response, designmatrix, xcoordsvec, ycoordsvec,
-  CorModel = "Exponential", estmethod = "REML", covestimates = c(NA,
-  NA, NA))
+estcovparm(
+  response,
+  designmatrix,
+  xcoordsvec,
+  ycoordsvec,
+  CorModel = "Exponential",
+  estmethod = "REML",
+  covestimates = c(NA, NA, NA)
+)
 }
 \arguments{
 \item{response}{a vector of a response variable, possibly with

@@ -4,7 +4,8 @@
 \name{USlakes}
 \alias{USlakes}
 \title{U.S. Lakes Data}
-\format{A data frame object inclding:
+\format{
+A data frame object inclding:
 \describe{
   \item{XCOORD}{The x spatial cooredinate for the centroid for each site}
   \item{YCOORD}{The y spatial cooredinate for the centroid for each site}
@@ -16,7 +17,8 @@
   \item{RVFPUNDWOODY_RIP}{Variable that is a candidate for prediction}
   \item{UID}{Lake Identification Number}
   ...
-}}
+}
+}
 \usage{
 USlakes
 }

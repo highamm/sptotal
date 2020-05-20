@@ -3,7 +3,6 @@
 \docType{package}
 \name{sptotal}
 \alias{sptotal}
-\alias{sptotal-package}
 \title{sptotal: A package used for performing finite population block
 kriging on polygonal count data.}
 \description{

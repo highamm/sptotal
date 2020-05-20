@@ -5,8 +5,7 @@
 \title{Convert Latitude and Longitude spatial coordinates to TM projection coordinates
 with a user-defined central meridian.}
 \usage{
-LLtoUTM(cm, lat, lon, xcol = "x", ycol = "y", minx = NULL,
-  miny = NULL)
+LLtoUTM(cm, lat, lon, xcol = "x", ycol = "y", minx = NULL, miny = NULL)
 }
 \arguments{
 \item{cm}{is the user defined central median. Use the mean of the
@@ -37,7 +36,7 @@ this function should not be used.
 }
 \examples{
 ## Add TM x and y coordinates to a data frame with
-## latitude/longitude coordinates. Name these \\code{xc_TM_} and \\code{yc_TM_}.
+## latitude/longitude coordinates. Name these \code{xc_TM_} and \code{yc_TM_}.
 exampledataset$xc_TM_ <- LLtoUTM(cm = base::mean(exampledataset[ ,"xcoords"]),
  lat = exampledataset[ ,"ycoords"],
  lon = exampledataset[ ,"xcoords"])$xy[ ,1]

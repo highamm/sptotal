@@ -4,14 +4,16 @@
 \name{AKmoose}
 \alias{AKmoose}
 \title{Data Set with Alaska Moose Observations.}
-\format{A spatial polygons (\code{sp}) object inclding:
+\format{
+A spatial polygons (\code{sp}) object inclding:
 \describe{
   \item{CENTRLAT}{The latitude of the centroid for each site}
   \item{CENTRLON}{The latitude of the centroid for each site}
   \item{STRAT}{A stratification variable}
   \item{TOTAL}{The total moose count on each site}
   ...
-}}
+}
+}
 \usage{
 AKmoose
 }

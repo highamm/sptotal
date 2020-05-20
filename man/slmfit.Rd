@@ -4,9 +4,16 @@
 \alias{slmfit}
 \title{Fits a Spatial Linear Model}
 \usage{
-slmfit(formula, data, xcoordcol, ycoordcol, areacol = NULL,
-  CorModel = "Exponential", estmethod = "REML", covestimates = c(NA,
-  NA, NA))
+slmfit(
+  formula,
+  data,
+  xcoordcol,
+  ycoordcol,
+  areacol = NULL,
+  CorModel = "Exponential",
+  estmethod = "REML",
+  covestimates = c(NA, NA, NA)
+)
 }
 \arguments{
 \item{formula}{is an R linear model formula specifying density as the

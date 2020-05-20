@@ -4,9 +4,18 @@
 \alias{geostatSim}
 \title{Simulate geostatistical data on set of given locations}
 \usage{
-geostatSim(loc.data, xcol = "x", ycol = "y", parsil = 1, range = 1,
-  nugget = 0, minorp = 1, rotate = 90, extrap = NULL,
-  CorModel = "Exponential")
+geostatSim(
+  loc.data,
+  xcol = "x",
+  ycol = "y",
+  parsil = 1,
+  range = 1,
+  nugget = 0,
+  minorp = 1,
+  rotate = 90,
+  extrap = NULL,
+  CorModel = "Exponential"
+)
 }
 \arguments{
 \item{loc.data}{data.frame with x- and y-coordinates of locations for simulated data}

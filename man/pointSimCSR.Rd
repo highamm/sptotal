@@ -4,8 +4,13 @@
 \alias{pointSimCSR}
 \title{simulate completely spatially random point patterns.}
 \usage{
-pointSimCSR(npoints = 100, lower_x_lim = 0, upper_x_lim = 1,
-  lower_y_lim = 0, upper_y_lim = 1)
+pointSimCSR(
+  npoints = 100,
+  lower_x_lim = 0,
+  upper_x_lim = 1,
+  lower_y_lim = 0,
+  upper_y_lim = 1
+)
 }
 \arguments{
 \item{npoints}{number of points to add that are completely spatially random (CSR), default = 100}
