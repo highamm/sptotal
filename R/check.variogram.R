@@ -73,7 +73,7 @@ check.variogram <- function(object) {
   plot_out <- ggplot(data = vario_out,
     aes_(x = ~dist, y = ~gamma)) +
     geom_point(aes_(size = ~gstat::variogram(g_obj, cutoff = cutoff_point)$np)) +
-    ylim(0, maxy * (15 / 14)) +
+    ylim(0, max(c(maxy * (15 / 14), max(df.plot$v.modfit) * (15 / 14)))) +
     geom_line(data = df.plot, aes_(x = ~x.dist.plot, y = ~v.modfit)) +
     xlab("Distance (TM)") +
     ylab("Semi-Variance") +
