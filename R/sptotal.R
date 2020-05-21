@@ -1,8 +1,10 @@
-#' sptotal: A package used for performing finite population block
-#' kriging on polygonal count data.
+#' sptotal: A package used for performing Finite Population Block
+#' Kriging (FPBK) on polygonal count data.
 #'
 #' The package provides an option to perform FPBK on counts assuming
-#' perfect detection of counts on the sites that were in the survey sample.
+#' perfect detection of counts on the sites that were in the survey sample. The
+#' functions in the package use methods in (Ver Hoef, 2008,
+#'  <doi:10.1007/s10651-007-0035-y>)
 #'
 #' \code{sptotal} Main Functions:
 #'

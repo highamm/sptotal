@@ -249,6 +249,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
 
   parms.est <- spat.est$parms.est
   Sigma <- spat.est$Sigma
+  Sigma.ss <- Sigma[ind.sa, ind.sa]
   min2loglik <- spat.est$min2loglik
 
   nugget.effect <- parms.est[1]; parsil.effect <- parms.est[2]
@@ -285,10 +286,11 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
   names(covparms) <- c("Nugget", "Partial Sill", "Range")
 
   FPBKpredobj <- list(formula, datanomiss, xcoordsUTM, ycoordsUTM,
-    estmethod, CorModel, Sigma, Sigma.ssi, areavar)
+    estmethod, CorModel, Sigma, Sigma.ssi, areavar, Sigma.ss)
   names(FPBKpredobj) <- c("formula", "data", "xcoordsUTM",
     "ycoordsUTM",
-    "estmethod","correlationmod", "covmat", "covmatsampi", "areavar")
+    "estmethod","correlationmod", "covmat", "covmatsampi", "areavar",
+    "covmatsamp")
   obj <- list(covparms, betahatest, covest, min2loglik, prednames,
     n, CorModel, resids, Xs, z.density, FPBKpredobj)
 

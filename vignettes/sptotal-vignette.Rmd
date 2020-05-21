@@ -1,7 +1,7 @@
 ---
 title: "Using the sptotal Package -- Inference for Weighted Sums from Finite Spatial Populations"
 author:
-  - Matthew Higham, Jay M.Ver Hoef, Bryce M. Frank, Francisco M. Gutierrez 
+  - Matt Higham, Jay M. Ver Hoef, Bryce M. Frank, Francisco M. Gutierrez 
 date: "`r Sys.Date()`"
 output:
   prettydoc::html_pretty:
@@ -78,7 +78,7 @@ Prior to using the `sptotal` package, the data needs to be in `R` in the proper 
 
 ## Data Frame Structure
 
-Data input for the `sptotal` package is a `data.frame`.  In the next section, we will show you how to work the spatial objects in the `sp` class.  The basic information required to fit a spatial linear model, and make predictions, are the response variable, covariates, the x- and y-coordinates, and a column of weights.  You can envision your whole population of possible samples as a `data.frame` organized as follows,
+Data input for the `sptotal` package is a `data.frame`. The basic information required to fit a spatial linear model, and make predictions, are the response variable, covariates, the x- and y-coordinates, and a column of weights. You can envision your whole population of possible samples as a `data.frame` organized as follows,
 
 ```{r, echo = FALSE, message = FALSE, fig.align="center", cache = FALSE}
 par(mar = c(0,0,0,0))
@@ -98,9 +98,9 @@ rect(.8, .7, 2, 1, col = rgb(255/255,127/255,0/255))
 rect(.8, 0, 2, .68, col = rgb(255/255,127/255,0/255, alpha = .3))
 ```
 
-where the red rectangle represents the column of the response variable, and the top part, colored in red, are observed locations, and the lower part, colored in white, are the unobserved values. To the right, colored in blue, are possibly several columns containing covariates thought to be _predictive_ for the response value at each location. Covariates must be known for both observed and unobserved locations, and the covariates for unobserved locations are shown as pale blue below the darker blue covariates for observed locations above.  The `data.frame` must have x- and y-coordinates, and they are showns as two columns colored in green, with the coordinates for the unobserved locations shown as pale green below the darker green coordinates for the observed locations above. The `data.frame` can have a column of weights.  If one is not provided, we assume a column of all ones. The column of weights is purple, with weights for the observed locations a darker shade, above the lighter shade of purple representing weights for unsampled locations. Finally, the `data.frame` may contain columns that are not relevant to predicting the weighted sum.  These columns are represented by the orange color, with the sampled locations a darker shade, above the unsampled locations with the ligher shade.
+where the red rectangle represents the column of the response variable, and the top part, colored in red, are observed locations, and the lower part, colored in white, are the unobserved values. To the right, colored in blue, are possibly several columns containing covariates thought to be _predictive_ for the response value at each location. Covariates must be known for both observed and unobserved locations, and the covariates for unobserved locations are shown as pale blue below the darker blue covariates for observed locations above.  The `data.frame` must have x- and y-coordinates, and they are shown as two columns colored in green, with the coordinates for the unobserved locations shown as pale green below the darker green coordinates for the observed locations above. The `data.frame` can have a column of weights. If one is not provided, we assume a column of all ones so that the prediction is for the population total. The column of weights is purple, with weights for the observed locations a darker shade, above the lighter shade of purple representing weights for unsampled locations. Finally, the `data.frame` may contain columns that are not relevant to predicting the weighted sum. These columns are represented by the orange color, with the sampled locations a darker shade, above the unsampled locations with the ligher shade.
 
-Of course, the data do not have to be in exactly this order, either in terms of rows or columns.  Sampled and unsampled rows can be intermingled, and columns of response variable, covariates, coordinates, and weights can be also be intermingled. The figure above is an idealized graphic of the data. However, the "pretty" graph helps envision how the data are used and illustrate the goal. We desire a weighted sum, where the weights (in the purple column) are multiplied times the response variable (red/white) column, and then summed.  Because some of the response values are unknown (the white values in the response column), covariates and spatial information (obtained from the x- and y-coordinates) are used to _predict_ the unobserved (white) values. The weights (purple) are then applied to both the observed response values (red), and the predicted response values (white), to obtain a weighted sum. Because we use predictions for unobserved response values, it is important to assess our uncertainty, and the software provides both an estimate of the weighted sum for the response variable as well as its estimated prediction variance.  
+Of course, the data do not have to be in exactly this order, either in terms of rows or columns.  Sampled and unsampled rows can be intermingled, and columns of response variable, covariates, coordinates, and weights can be also be intermingled. The figure above is an idealized graphic of the data. However, the "pretty" graph helps envision how the data are used and illustrate the goal. We desire a weighted sum, where the weights (in the purple column) are multiplied with the response variable (red/white) column, and then summed.  Because some of the response values are unknown (the white values in the response column), covariates and spatial information (obtained from the x- and y-coordinates) are used to _predict_ the unobserved (white) values. The weights (purple) are then applied to both the observed response values (red), and the predicted response values (white), to obtain a weighted sum. Because we use predictions for unobserved response values, it is important to assess our uncertainty, and the software provides both an estimate of the weighted sum for the response variable as well as its estimated prediction variance.  
 
 To demonstrate the package, we created some simulated data so they are perfectly behaved, and we know exactly how they were produced. Here, we give a brief description before using the main features of the package. To get started, type
 
@@ -114,7 +114,7 @@ Type
 data(simdata)
 ```
 
-and then `simdata` sill be available in your workspace.  To see the structure of `simdata`, type
+and then `simdata` sill be available in your workspace. To see the structure of `simdata`, type
 
 ```{r}
 str(simdata)
@@ -133,7 +133,7 @@ $$
 \textrm{cov}(\delta_i,\delta_j) = 2*\exp(-d_{i,j})
 $$  
 
-where $d_{i,j}$ is Euclidean distance between locations $i$ and $j$.  In geostatistics terminology, this model has a partial sill of 2 and a range of 1. The random errors $\{\varepsilon_i\}$ are independent with variance 0.02, and this variance is called the nugget effect. Two columns with weights are included, `wts1` contains 1/200 for each row, so the weighted sum will yield a prediction of the overall mean. The column `wts2` contains a 1 for 25 locations, and 0 elsewhere, so the weighted sum will be a prediction of a total in the subset of 25 locations.
+where $d_{i,j}$ is Euclidean distance between locations $i$ and $j$. In geostatistics terminology, this model has a partial sill of 2 and a range of 1. The random errors $\{\varepsilon_i\}$ are independent with variance 0.02, and this variance is called the nugget effect. Two columns with weights are included, `wts1` contains 1/200 for each row, so the weighted sum will yield a prediction of the overall mean. The column `wts2` contains a 1 for 25 locations, and 0 elsewhere, so the weighted sum will be a prediction of a total in the subset of 25 locations.
 
 The spatial locations of `simdata` are in a $20 \times 20$ grid uniformly spaced in a box with sides of length 1,
 
@@ -143,9 +143,9 @@ ggplot(data = simdata, aes(x = x, y = y)) + geom_point() +
   geom_point(data = subset(simdata, wts2 == 1), colour = "red")
 ```
 
-The locations of the 25 sites where `wts2` is equal to one, are shown in red.
+The locations of the 25 sites where `wts2` is equal to one are shown in red.
 
-We have simulated the data for the whole population.  This is convenient, because we know the true means and totals.  However, we will now sample from this population to provide a more realistic setting where we can measure only a part of the whole population.  In order to make results reproducible, we use the `set.seed` command, along with `sample`. In order to understand how to use the package, it's not necessary to understand the following code chunk. The code below simply replaces some of the response values with `NA` for missing.
+We have simulated the data for the whole population. This is convenient, because we know the true means and totals. However, we will now sample from this population to provide a more realistic setting where we can measure only a part of the whole population. In order to make results reproducible, we use the `set.seed` command, along with `sample`. In order to understand how to use the package, it's not necessary to understand the following code chunk. The code below simply replaces some of the response values with `NA` for missing.
 
 ```{r}
 set.seed(1)
@@ -153,10 +153,10 @@ set.seed(1)
 obsID <- sample(1:nrow(simdata), 100)
 simobs <- simdata
 simobs$Z <- NA
-simobs[obsID,'Z'] <- simdata[obsID, 'Z']
+simobs[obsID, 'Z'] <- simdata[obsID, 'Z']
 ```
 
-We now have a data set where the whole population is known, `simdata`, and another one, `simobs`, where 75% of the population has been replaced by `NA`.  Next we show the sampled sites solid circles, while the missing values are shown as open circles, and we use red again to show sampled site within the small area of 25 locations.
+We now have a data set where the whole population is known, `simdata`, and another one, `simobs`, where 75% of the population has been replaced by `NA`.  Next we show the sampled sites solid circles, while the missing values are shown as open circles, and we use red again to show the sampled sites within the small area of 25 locations.
 
 ```{r, fig.width = 5, fig.height = 5, fig.align = "center", cache = FALSE}
 ggplot(data = simobs, aes(x = x, y = y)) + geom_point(shape = 1) +
@@ -268,7 +268,7 @@ For an example with real data, we first consider a data set on moose abundance i
 Our goal is to append the x and y-coordinates to the data frame with the survey data. Specifically, we want the _centroid_ coordinates for each site. We first want to convert the projection into standard Latitude/Longitude coordinates.
 
 ```{r}
-require(rgeos); require(sp)
+require(rgeos); require(sp); require(rgdal)
 AKmoose@proj4string ## note that the projection is __not__ currently in lat/lon
 
 latlon <- sp::spTransform(AKmoose, CRS("+init=epsg:4326")) 

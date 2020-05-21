@@ -4,10 +4,14 @@
 \alias{residuals.slmfit}
 \title{Extract Model Residuals from an \code{slmfit()} object.}
 \usage{
-\method{residuals}{slmfit}(object, ...)
+\method{residuals}{slmfit}(object, cross.validation = FALSE, ...)
 }
 \arguments{
 \item{object}{a slmfit object}
+
+\item{cross.validation}{a logical (\code{TRUE} or \code{FALSE}) that
+indicates whether the residuals computed should be found using
+leave one out cross-validation. Set to \code{FALSE} by default.}
 
 \item{...}{additional arguments}
 }
@@ -22,4 +26,5 @@ data(exampledataset) ## load a toy data set
 slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
 xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 residuals(slmobj)
+residuals(slmobj, cross.validation = TRUE)
 }
