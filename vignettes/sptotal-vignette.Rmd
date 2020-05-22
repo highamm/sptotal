@@ -1,13 +1,14 @@
 ---
-title: "Using the sptotal Package -- Inference for Weighted Sums from Finite Spatial Populations"
+title: "Using the `sptotal` Package -- Inference for Totals and Weighted Sums from Finite Spatial Populations"
 author:
   - Matt Higham, Jay M. Ver Hoef, Bryce M. Frank, Francisco M. Gutierrez 
 date: "`r Sys.Date()`"
 output:
   prettydoc::html_pretty:
     theme: architect
+    toc: true
 vignette: >
-  %\VignetteIndexEntry{Using the sptotal Package -- Inference for Weighted Sums from Finite Spatial Populations}
+  %\VignetteIndexEntry{Using the sptotal Package -- Inference for Totals and Weighted Sums from Finite Spatial Populations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -242,7 +243,7 @@ get.predplot(pred_obj)
 
 The map shows the distribution of counts across sampled and unsampled sites. Its purpose is simply to give the user a quick idea of the distribution of counts. However, using the prediction data frame generated from the `predict` function, you can use `ggplot2` or any other plotting package to construct your own map that may be more useful in your context.
 
-#####Prediction for a Quantity Other Than the Total
+###Prediction for a Quantity Other Than the Total
 
 If we want to predict a quantity other than the population total, then we need to specify the column in our data set that has the appropriate prediction weights in a `wtscol` argument. For example, if we want to predict the total for the 25 sites in coloured in red, then we can use
 
@@ -255,7 +256,7 @@ get.predinfo(pred_obj2)
 
 For an example with real data, we consider a data set on moose abundance in Alaska. Each observation corresponds to a moose counted at a particular site, but time and money do not permit all sites to be counted. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
 
-##### Issue 1: Dealing with Spatial Coordinates
+### Issue 1: Dealing with Spatial Coordinates
 
 Our goal is to append the x and y-coordinates to the data frame with the survey data. Specifically, we want the _centroid_ coordinates for each site. We first want to convert the projection into standard Latitude/Longitude coordinates.
 
@@ -306,7 +307,7 @@ cbind(moose_df$x, moose_df$y, centroids$x, centroids$y)
 
 Now, the `moose_df` data frame is in a more workable form for the `sptotal` package. However, there are still a couple of issues involving how the count data is stored and which sites were sampled that may be somewhat common in real data sets, which we address next.
 
-##### Issue 2: Dealing with Count Vector Specifications
+### Issue 2: Dealing with Count Vector Specifications
 
 Let's look specifically at the counts in this moose data set in the `total` column:
 
@@ -363,7 +364,7 @@ get.predplot(pred_moose)
 
 We obtain a predicted total of 1596 animals with 90% lower and upper confidence bounds of 921 and 2271 animals, respectively. Unlike the simulation setting, there is no "true total" we can compare our prediction to, because, in reality, not all sites were sampled!
 
-##### Issue 3: Dealing with Areas
+### Issue 3: Dealing with Areas
 
 Finally, throughout all of the above analyses, we have assumed that the areas of each site were equal. Though this assumption is not accurate for the moose data, due to slightly differing areas based on differing latitudes and longitudes, the assumption approximately holds so that any differences in the prediction that incorporates area is negligible. But, suppose we had sites with very different areas. To showcase how to incorporate site area into the functions in this package, let's first create a "fake" area variable that has the first 700 sites in the region have an area of 1 square kilometer and has the last 160 sites in the region have an area of 2 square kilometeres. To be clear, this is simply a toy example to show how to incorporate area without having the need to give and explore an entirely new data set.
 
@@ -384,8 +385,10 @@ The `predict` function then keeps track of the `areacol` argument and gives outp
 
 ```{r}
 pred_obj_area <- predict(slmfit_out_moose_area)
-head(pred_obj_area$Pred_df)
-tail(pred_obj_area$Pred_df)
+head(pred_obj_area$Pred_df[ ,c("total_pred_density", "total_pred_count",
+  "fake_area")])
+tail(pred_obj_area$Pred_df[ ,c("total_pred_density", "total_pred_count",
+  "fake_area")])
 ```
 
 Note that, for the first 6 observations, which have an area of 1, the `total_pred_density` and `total_pred_count` columns are identical, while, for the last 6 observations, which have an area of 2, the `total_pred_density` and `total_pred_count` columns differ.
@@ -402,7 +405,7 @@ If sites have differing areas, the `get.predplot` function doesn't make much sen
 
 Spatial prediction can be used to estimate means and totals over geographic regions, and also for the special case of ''small area'' estimation. The term small area estimation refers to making an inference on a smaller geographic area within the overall study area. There may be few or no samples within that small area, so that estimation by classical sampling methods may not be possible or variances become exceedingly large. An alternative is to assume that the data were generated by a stochastic process and use model-based approaches.
 
-It is assumed that $\mathbf{z}$ is a realization of a spatial stochastic process. Geostatistical models and methods are used (for a review, see Cressie, 1993). Geostatistics has been developed for point samples. If the samples are very small, an infinite population is assumed. The average value over any aggregated area can be predicted using methods such as block kriging. Thus it appears that this is closely related to small area estimation, but where samples come from point locations rather than a finite set of sample units. While there is a large literature on geostatistics and block kriging methods, they have been developed for infinite populations. This package is designed for the case where we have a finite collection of plots and we assume that the data were produced by a spatial stochastic process. Detailed developements are given in Ver Hoef (2008).
+It is assumed that $\mathbf{z}$ is a realization of a spatial stochastic process. Geostatistical models and methods are used (for a review, see Cressie, 1993). Geostatistics has been developed for point samples. If the samples are very small, an infinite population is assumed. The average value over any aggregated area can be predicted using methods such as block kriging. Thus it appears that this is closely related to small area estimation, but where samples come from point locations rather than a finite set of sample units. While there is a large literature on geostatistics and block kriging methods, they have been developed for infinite populations. This package is designed for the case where we have a finite collection of plots and we assume that the data were produced by a spatial stochastic process. Detailed developements are given in Ver Hoef (2008), the reference given below.
 
 # References
 
