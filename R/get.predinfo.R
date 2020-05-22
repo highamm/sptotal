@@ -47,7 +47,7 @@ get.predinfo <- function(x, conf_level = 0.90) {
 
   outptmat <- t(matrix(c(nsitessampled, nsitestotal, animalscounted)))
   colnames(outptmat) <- c("Numb. Sites Sampled", "Total Numb. Sites",
-    "Total Observed Count")
+    "Total Observed")
 
   tabs <- list(simptab, confbounds, outptmat)
   names(tabs) <- c("Prediction", paste(conf_level * 100, "% Confidence_Interval", sep = ""), "Sampling_Information")

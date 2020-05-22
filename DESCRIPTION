@@ -8,7 +8,7 @@ Authors@R: c(
     person("Frank", "Bryce", email = "bryce.frank@oregonstate.edu", role = "aut"),
     person("Mauro", "Paco", email = "pmaurogut@gmail.com", role = "aut"))
 Depends: R (>= 2.10)
-Description: This package performs predictions of totals and weighted sums, or finite population block kriging, on spatial data. The primary outputs are an estimate of the total, mean, or weighted sum in the region, an estimated prediction variance, and a plot of the predicted and observed values. This is useful primarily to users with ecological data that are counts or densities measured on some sites in a finite area of interest. Spatial prediction for the total count or average density in the entire region can then be done using the functions in this package. 
+Description: Performs predictions of totals and weighted sums, or finite population block kriging, on spatial data. The primary outputs are an estimate of the total, mean, or weighted sum in the region, an estimated prediction variance, and a plot of the predicted and observed values. This is useful primarily to users with ecological data that are counts or densities measured on some sites in a finite area of interest. Spatial prediction for the total count or average density in the entire region can then be done using the functions in this package. 
 License: CC0
 Encoding: UTF-8
 LazyData: true
