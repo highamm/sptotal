@@ -158,7 +158,7 @@ simobs$Z <- NA
 simobs[obsID, 'Z'] <- simdata[obsID, 'Z']
 ```
 
-We now have a data set where the whole population is known, `simdata`, and another one, `simobs`, where 75% of the population has been replaced by `NA`.  Next we show the sampled sites as solid circles, while the missing values are shown as open circles, and we use red again to show the sampled sites within the small area of 25 locations.
+We now have a data set where the whole population is known, `simdata`, and another one, `simobs`, where 75% of the response variable (thinking of this as either a count or a density) of the population has been replaced by `NA`.  Next we show the sampled sites as solid circles, while the missing values are shown as open circles, and we use red again to show the sampled sites within the small area of 25 locations.
 
 ```{r, fig.width = 5, fig.height = 5, fig.align = "center", cache = FALSE}
 ggplot(data = simobs, aes(x = x, y = y)) + geom_point(shape = 1) +
@@ -181,7 +181,7 @@ We will use the `simobs` data to illustrate use of the `sptotal` package.
 
 # Using the `sptotal` Package
 
-After your data is in a similar format to `simobs`, using the `sptotal` package occurs in two primary stages. In the first, we fit a spatial linear model. This stage estimates spatial regression coefficients and spatial autocorrelation parameters. In the second stage, we predict the missing values for the response value, and create a prediction for the weighted sum of all response variable values, both observed and predicted. To show how the package works, we demonstrate on ideal, simulated data. Then, we give a realistic example on moose data to provide further insight and documentation. The realistic example also has a section on data preparation steps.
+After your data is in a similar format to `simobs`, using the `sptotal` package occurs in two primary stages. In the first, we fit a spatial linear model. This stage estimates spatial regression coefficients and spatial autocorrelation parameters. In the second stage, we predict the missing values for the response value, and create a prediction for the weighted sum (e.g. the total) of all response variable values, both observed and predicted. To show how the package works, we demonstrate on ideal, simulated data. Then, we give a realistic example on moose data to provide further insight and documentation. The realistic example also has a section on data preparation steps.
 
 ## Fitting a Spatial Linear Model: `slmfit`
 
@@ -209,13 +209,14 @@ After we have obtained a fitted spatial linear model, we can use the `predict.sl
 pred_obj <- predict(slmfit_out1)
 ```
 
-The output of the `predict` function is too lengthy to fit on this page and can be a bit cumbersome to read anyway. To obtain useful output, we have a couple of choices. If you are familiar with `R`, then you might want to construct your own summary output, maps, variograms, etc. One of the outputs of `predict` is a data frame that is appended with the site by site predictions that would facilitate construction of, for example, a map with predictions. This is particularly useful if you have a shapefile. The site-by-site predictions for density are given by the variable `name_of_response_pred_density` while the site-by-site predictions for counts are given by `name_of_response_pred_count`. These two columns will only differ if you have provided a column for areas of each site. 
+The output of the `predict` function is too lengthy to print here and can be a bit cumbersome to read anyway. To obtain useful output, we have a couple of choices. If you are familiar with `R`, then you might want to construct your own summary output, maps, variograms, etc. One of the outputs of `predict` is a data frame that is appended with the site by site predictions that would facilitate construction of, for example, a map with predictions. This is particularly useful if you have a shapefile. The site-by-site predictions for density are given by the variable `name_of_response_pred_density` while the site-by-site predictions for counts are given by `name_of_response_pred_count`. These two columns will only differ if you have provided a column for areas of each site. 
 
-```{r}
+```{r, results = "hide"}
 prediction_df <- pred_obj$Pred_df
+prediction_df[ ,c("x", "y", "Z", "Z_pred_density")]
 ```
 
-Alternatively, the user could take advantage of some pre-specified package output functions `check.variogram`, `get.predinfo`, and `get.predplot`. 
+Alternatively, you could take advantage of some pre-specified package output functions `check.variogram`, `get.predinfo`, and `get.predplot`. 
 
 First, `check.variogram` constructs an empirical variogram of the model residuals and overlays the REML-fitted variogram model with a line:
 
@@ -228,7 +229,7 @@ Note that the fitted line may not appear to fit the empirical variogram perfectl
 If we are satisfied with the fit of the variogram, we can examine our prediction and obtain a confidence interval for this prediction using `get.predinfo`. While the `check.variogram` function takes the fitted spatial linear model as input, the `get.predinfo` function uses the object from the `predict` function, which we previously named `pred_obj`.
 
 ```{r}
-get.predinfo(pred_obj)
+get.predinfo(pred_obj, conf_level = 0.90)
 ```
 
 We predict a total of 4817 units in this simulated region with 90% confidence bounds of (4779, 4856). The confidence interval is fairly small because we simulated data that were highly correlated, increasing precision in prediction for unobserved sites.
@@ -252,13 +253,14 @@ get.predinfo(pred_obj2)
 
 ## Moose Abundance from Aerial Surveys
 
-For an example with real data, we first consider a data set on moose abundance in Alaska. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
+For an example with real data, we consider a data set on moose abundance in Alaska. Each observation corresponds to a moose counted at a particular site, but time and money do not permit all sites to be counted. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
 
 ##### Issue 1: Dealing with Spatial Coordinates
 
 Our goal is to append the x and y-coordinates to the data frame with the survey data. Specifically, we want the _centroid_ coordinates for each site. We first want to convert the projection into standard Latitude/Longitude coordinates.
 
-```{r}
+```{r, message = FALSE}
+data(AKmoose) ## load the data set into the package
 require(rgeos); require(sp); require(rgdal)
 AKmoose@proj4string ## note that the projection is __not__ currently in lat/lon
 
@@ -268,15 +270,13 @@ latlon <- sp::spTransform(AKmoose, CRS("+init=epsg:4326"))
 
 Next, we want to get the centroids of each of the sites and combine the centroids with the survey data. To obtain centroids, we use the `rgeos` package.
 
-ADD rgeos to package dependencies/options
-
 ```{r}
 centroids <- data.frame(ID = latlon@data,
   x = rgeos::gCentroid(latlon, byid=TRUE)@coords[ ,'x'],
   y = rgeos::gCentroid(latlon, byid=TRUE)@coords[ ,'y'])
 ```
 
-Finally, for most spatial prediction, we want to use a trans-mercator projection instead of latitude-longitude so that physical distance between two sites is accurately represented. The `LLtoUTM()` function in this package provides a convenient way to convert latitude/longitude coordinates into user-defined transmercator coordinates. 
+Next, for most spatial prediction, we want to use a trans-mercator projection instead of latitude-longitude so that physical distance between two sites is accurately represented. The `LLtoUTM()` function in this package provides a convenient way to convert latitude/longitude coordinates into user-defined transmercator coordinates. 
 
 ```{r}
 xy <- LLtoUTM(mean(centroids$x), centroids$y, centroids$x)$xy
@@ -285,7 +285,6 @@ xy <- LLtoUTM(mean(centroids$x), centroids$y, centroids$x)$xy
 Finally, we add the trans-mercator coordinates to our data frame with the survey data. We first extract the survey data from our `sp` object using
 
 ```{r}
-data(AKmoose) ## load the data set into the package
 moose_df <- AKmoose@data ## name the data set moose_df
 head(moose_df) ## look at the first 6 observations
 ```
@@ -299,7 +298,7 @@ moose_df$x = xy[ ,'x']
 moose_df$y = xy[ ,'y']
 ```
 
-It might be helpful to compare the lat/lon coordinates of the original data frame to the TM coordinates in the new data frame to make sure that we did the transformation correctly.
+It might be helpful to compare the lat/lon coordinates of the original data frame to the TM coordinates in the new data frame to make sure that the transformation seems reasonable:
 
 ```{r, results = "hide"}
 cbind(moose_df$x, moose_df$y, centroids$x, centroids$y)
@@ -350,7 +349,7 @@ Now that
 
 we can proceed to use the functions in `sptotal` in a similar way to how the functions were used for the simulated data.
 
-```{r}
+```{r, results = "hide", fig.keep = "none"}
 slmfit_out_moose <- slmfit(formula = total ~ strat, 
   data = moose_df, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential")
