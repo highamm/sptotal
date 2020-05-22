@@ -31,5 +31,6 @@ Suggests:
     rgeos,
     sp,
     rgdal
+Remotes: cran/rgdal@1.3-9
 VignetteBuilder: knitr,
     rmarkdown
