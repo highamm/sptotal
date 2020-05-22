@@ -259,7 +259,7 @@ For an example with real data, we first consider a data set on moose abundance i
 Our goal is to append the x and y-coordinates to the data frame with the survey data. Specifically, we want the _centroid_ coordinates for each site. We first want to convert the projection into standard Latitude/Longitude coordinates.
 
 ```{r}
-require(rgeos); require(sp); require(rgdal)
+require(rgeos); require(sp);
 AKmoose@proj4string ## note that the projection is __not__ currently in lat/lon
 
 latlon <- sp::spTransform(AKmoose, CRS("+init=epsg:4326")) 
