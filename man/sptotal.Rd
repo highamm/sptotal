@@ -31,4 +31,10 @@ are given by default.
 Most of the remaining functions in the package are either helper functions
 or extra optional functions to extract various specific things from an
 \code{slmfit} object, such as residuals, AIC, log-likelihood, etc.
+
+Reference for Mathematical Details:
+
+Ver Hoef, Jay M. "Spatial methods for plot-based sampling of wildlife
+ populations." \emph{Environmental and Ecological Statistics} 15,
+ no. 1 (2008): 3-13.
 }

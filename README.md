@@ -26,11 +26,29 @@ pred <- predict(mod)
 pred$Pred_df[1:6, c("xco", "yco", "counts", "counts_pred_count")]
 ```
 
-## Methods
+## Methods and Basic Functions
+
+\code{sptotal} Main Functions:
+
+\code{slmfit} fits a spatial linear model to the response on the
+observed/sampled sites. \code{check.variogram} can be used to construct
+an empirical variogram of the residuals of the spatial linear model.
+
+\code{FPBKpred} uses the spatial linear model in \code{slmfit} and finite
+population block kriging to predict counts/densities at unobserved locations.
+A prediction for the total count as well as a prediction variance
+are given by default.
+
+\code{get.predinfo} and \code{get.predplot} take the resulting object from
+\code{FPBKpred} to construct (1) summary information, including the
+prediction, prediction variance, and a prediction interval as well as
+(2) a plot of the site-wise predictions.
+
+For more details on how to use these functions, please see the Vignette.
 
 The methods in this package are based on the following reference:
 
-Ver Hoef, Jay M. "Spatial methods for plot-based sampling of wildlife populations." Environmental and Ecological Statistics 15, no. 1 (2008): 3-13.
+Ver Hoef, Jay M. "Spatial methods for plot-based sampling of wildlife populations." \emph{Environmental and Ecological Statistics} 15, no. 1 (2008): 3-13.
 
 ## Citation
 

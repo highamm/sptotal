@@ -2,8 +2,8 @@
 
 - local test on Mac OS X (`R` 4.0.0)
 - Ubuntu 16.04.6 on Travis CI (`R` 4.0.0)
-- `check_win_devel()` and `check_win_release()` functions.
-- `check_rhub()` function
+- win-builder, both the development and release versions of `R`
+
 
 ## Check Results for R CMD
 
