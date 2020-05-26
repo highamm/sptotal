@@ -9,6 +9,23 @@ library(devtools)
 install_git("https://github.com/highamm/sptotal.git")
 ```
 
+## Simple Example
+
+The `sptotal` package can be used for spatial prediction in settings where there are a finite number of sites and some of these sites were not sampled. Note that, to keep this example simple, we are simulating response values that are spatially independent. In a real example, we assume that there is some spatial dependence in the response.
+
+```{r, results = "hide"}
+set.seed(102910)
+spatial_coords <- expand.grid(1:10, 1:10)
+toy_df <- data.frame(xco = spatial_coords[ ,1], yco = spatial_coords[ ,2], counts = sample(c(rpois(50, 15), rep(NA, 50)), size = 100, replace = TRUE))
+
+mod <- slmfit(formula = counts ~ 1, xcoordcol = "xco", ycoordcol = "yco", data = toy_df)
+summary(mod)
+
+pred <- predict(mod)
+## look at the predictions
+pred$Pred_df[1:6, c("xco", "yco", "counts", "counts_pred_count")]
+```
+
 ## Methods
 
 The methods in this package are based on the following reference:
