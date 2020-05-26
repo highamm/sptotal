@@ -1,5 +1,5 @@
 ---
-title: "Using the `sptotal` Package -- Inference for Totals and Weighted Sums from Finite Spatial Populations"
+title: "Inference for Totals and Weighted Sums from Finite Spatial Populations"
 author:
   - Matt Higham, Jay M. Ver Hoef, Bryce M. Frank, Francisco M. Gutierrez 
 date: "`r Sys.Date()`"
@@ -8,7 +8,7 @@ output:
     theme: architect
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Using the sptotal Package -- Inference for Totals and Weighted Sums from Finite Spatial Populations}
+  %\VignetteIndexEntry{Inference for Totals and Weighted Sums from Finite Spatial Populations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -57,11 +57,11 @@ padding-bottom: 7px;
 
 # Introduction
 
-The `sptotal` package was developed for predicting a mean or total from a finite number of sample units in a fixed geographic area. Estimating totals and means from a finite population is an important goal for both academic research and management of environmental data. One naturally turns to classical sampling methods, such as simple random sampling or stratified random sampling. Classical sampling methods depend on design-based probability and are robust. Very few assumptions are required because the probability distribution for inference comes from the sample design, which is known and under our control.  For design-based methods, sample plots are chosen at random, they are measured or counted, and inference is obtained from the probability of sampling those units randomly based on some design (e.g., Horwitz-Thompson estimation). However, as an alternative, we will use model-based methods, specifically geostatistics, to accomplish the same goals. When using geostatistics, we assume the data were produced by a stochastic process with parameters that can be estimated. The relevant theory is given by Ver Hoef (2008). The `sptotal` package puts much of the code and plots in Ver Hoef (2--8) in easily accessible, convenient functions.
+The `sptotal` package was developed for predicting a mean or total from a finite number of sample units in a fixed geographic area. Estimating totals and means from a finite population is an important goal for both academic research and management of environmental data. One naturally turns to classical sampling methods, such as simple random sampling or stratified random sampling. Classical sampling methods depend on design-based probability and are robust. Very few assumptions are required because the probability distribution for inference comes from the sample design, which is known and under our control.  For design-based methods, sample plots are chosen at random, they are measured or counted, and inference is obtained from the probability of sampling those units randomly based on some design (e.g., Horwitz-Thompson estimation). However, as an alternative, we will use model-based methods, specifically geostatistics, to accomplish the same goals. When using geostatistics, we assume the data were produced by a stochastic process with parameters that can be estimated. The relevant theory is given by Ver Hoef (2008). The `sptotal` package puts much of the code and plots in Ver Hoef (2008) in easily accessible, convenient functions.
 
-In the sptotal package, our goal is to estimate some linear function of all of the sample units, call it $\tau(\mathbf{z}) = \mathbf{b}^\prime \mathbf{z}$, where $\mathbf{z}$ is a vector of the realized values for all the sample units and $\mathbf{b}$ is a vector of weights. By "realized," we mean that whatever processes produced the data have already happened, and that, if we had enough resources, we could measure them all, obtaining a complete census. For example, the function $\tau(\mathbf{z})$ could be the population mean. In that case, if there are $N$ sites in the whole population, then every element of $\mathbf{b}$ contains $1/N$. If $\tau(\mathbf{z})$ is a population total, then every element of $\mathbf{b}$ contains a $1$. We often want to obtain the mean or total from a subset of sample units, called small area estimation.  For example, if we want a total from a small area, then for each sample in that area, $\mathbf{b}$ contains a $1$, otherwise $\mathbf{b}$ contains a $0$. The key idea is that $\mathbf{b}$ can contain any set of weights that we would like to multiply times each value in a population, and then these are summed, yielding a weighted sum. 
+In the `sptotal` package, our goal is to estimate some linear function of all of the sample units, call it $\tau(\mathbf{z}) = \mathbf{b}^\prime \mathbf{z}$, where $\mathbf{z}$ is a vector of the realized values for all the sample units and $\mathbf{b}$ is a vector of weights. By "realized," we mean that whatever processes produced the data have already happened, and that, if we had enough resources, we could measure them all, obtaining a complete census. If $\tau(\mathbf{z})$ is a population total, then every element of $\mathbf{b}$ contains a $1$. The key idea is that $\mathbf{b}$ can contain any set of weights that we would like to multiply times each value in a population, and then these are summed, yielding a weighted sum. 
 
-The vector $\mathbf{b}$ contains the weights that we would apply if we could measure or count every observation, but, because of cost consideration, we usually only have a sample. Let us divide our population into those that we sampled (measured or counted), denoted $\mathbf{z}_s$, and those that are unsampled, denoted $\mathbf{z}_u$.
+The vector $\mathbf{b}$ contains the weights that we would apply if we could measure or count every observation, but, because of cost consideration, we usually only have a sample.
 
 ```{r, echo = FALSE, message = FALSE}
 ########################################################################
@@ -104,6 +104,8 @@ where the red rectangle represents the column of the response variable, and the 
 The `data.frame` must have x- and y-coordinates, and they are shown as two columns colored in green, with the coordinates for the unobserved locations shown as pale green below the darker green coordinates for the observed locations above. The `data.frame` can have a column of weights. If one is not provided, we assume a column of all ones so that the prediction is for the population total. The column of weights is purple, with weights for the observed locations a darker shade, above the lighter shade of purple representing weights for unsampled locations. Finally, the `data.frame` may contain columns that are not relevant to predicting the weighted sum. These columns are represented by the orange color, with the sampled locations a darker shade, above the unsampled locations with the ligher shade.
 
 Of course, the data do not have to be in exactly this order, either in terms of rows or columns.  Sampled and unsampled rows can be intermingled, and columns of response variable, covariates, coordinates, and weights can be also be intermingled. The figure above is an idealized graphic of the data. However, the "pretty" graph helps envision how the data are used and illustrate the goal. We desire a weighted sum, where the weights (in the purple column) are multiplied with the response variable (red/white) column, and then summed.  Because some of the response values are unknown (the white values in the response column), covariates and spatial information (obtained from the x- and y-coordinates) are used to _predict_ the unobserved (white) values. The weights (purple) are then applied to both the observed response values (red), and the predicted response values (white), to obtain a weighted sum. Because we use predictions for unobserved response values, it is important to assess our uncertainty, and the software provides both an estimate of the weighted sum for the response variable as well as its estimated prediction variance.  
+
+## Simulated Data Creation
 
 To demonstrate the package, we created some simulated data so they are perfectly behaved, and we know exactly how they were produced. Here, we give a brief description before using the main features of the package. To get started, type
 
@@ -202,7 +204,7 @@ summary(slmfit_out1)
 
 The output looks similar to the `summary` of a standard `lm` object, but there is some extra output at the end that gives our fitted covariance parameters. 
 
-## Prediction
+## Prediction: `predict`
 
 After we have obtained a fitted spatial linear model, we can use the `predict.slmfit` function to construct a data frame of predictions for the unsampled sites. By default, the `predict` function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, as well as the original data frame input into `slmfit` appended with site-by-site predictions and site-by-site prediction variances. We name this object `pred_obj` in the chunk below.
 
@@ -216,6 +218,8 @@ The output of the `predict` function is too lengthy to print here and can be a b
 prediction_df <- pred_obj$Pred_df
 prediction_df[ ,c("x", "y", "Z", "Z_pred_density")]
 ```
+
+## Examining results: `check.variogram`, `get.predinfo`, and `get.predplot`
 
 Alternatively, you could take advantage of some pre-specified package output functions `check.variogram`, `get.predinfo`, and `get.predplot`. 
 
@@ -253,6 +257,8 @@ get.predinfo(pred_obj2)
 ```
 
 ## Moose Abundance from Aerial Surveys
+
+The simulated data example assumes that the coordinates are in TM form, that the vector of the response is numeric and has `NA` values for sites that were not sampled, and that the areas of each site sampled are all the same. If this isn't the case for the data set you're working with, the following moose abundance example can help prepare your data for the functions in `sptotal`.
 
 For an example with real data, we consider a data set on moose abundance in Alaska. Each observation corresponds to a moose counted at a particular site, but time and money do not permit all sites to be counted. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
 

@@ -4,7 +4,6 @@
 - Ubuntu 16.04.6 on Travis CI (`R` 4.0.0)
 - win-builder, both the development and release versions of `R`
 
-
 ## Check Results for R CMD
 
 - There were no ERRORs or WARNINGs.
@@ -13,5 +12,7 @@
 ## Downstream dependencies
 
 - There are currently no downstream dependencies for this package.
+
+Thank you!
 
 
