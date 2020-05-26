@@ -26,6 +26,8 @@
 #' or extra optional functions to extract various specific things from an
 #' \code{slmfit} object, such as residuals, AIC, log-likelihood, etc.
 #'
+#' See the Vignette for more details: \code{browseVignettes("sptotal")}
+
 #' Reference for Mathematical Details:
 #'
 #' Ver Hoef, Jay M. "Spatial methods for plot-based sampling of wildlife

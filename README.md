@@ -44,7 +44,13 @@ are given by default.
 prediction, prediction variance, and a prediction interval as well as
 (2) a plot of the site-wise predictions.
 
-For more details on how to use these functions, please see the Vignette.
+For more details on how to use these functions, please see the Vignette by running
+
+```{r}
+browseVignettes("sptotal")
+```
+
+and clicking `HTML`.
 
 The methods in this package are based on the following reference:
 
