@@ -5,15 +5,24 @@ library(rgdal)
 
 # use Alaska Moose data
 data(AKmoose)
+data(AKmoose2)
+
 # plot data, which are in polygons in Alaska Albers projection
-plot(AKmoose)
+plot(AKmoose); plot(AKmoose2)
 
 AKmoose@proj4string
 gCentroid(AKmoose,byid=TRUE)@coords[,'x']
 # see http://spatialreference.org/ref/epsg/nad83-alaska-albers/
 
 # transform the projection to lat/lon
-latlon = spTransform(AKmoose, CRS("+init=epsg:4326"))
+AKmoose2 = spTransform(AKmoose, CRS("+init=epsg:4326"))
+save(AKmoose2, file = "AKmoose2.rda")
+
+AKmoose <- AKmoose2
+save(AKmoose, file = "AKmoose.rda")
+
+data(AKmoose2)
+
 plot(latlon)
 latlon@proj4string
 # see http://spatialreference.org/ref/epsg/4326/

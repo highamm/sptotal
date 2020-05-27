@@ -264,23 +264,19 @@ For an example with real data, we consider a data set on moose abundance in Alas
 
 ### Issue 1: Dealing with Spatial Coordinates
 
-Our goal is to append the x and y-coordinates to the data frame with the survey data. Specifically, we want the _centroid_ coordinates for each site. We first want to convert the projection into standard Latitude/Longitude coordinates.
+Our goal is to append the x and y-coordinates to the data frame with the survey data. 
 
 ```{r, message = FALSE}
-data(AKmoose) ## load the data set into the package
-require(rgeos); require(sp); require(rgdal)
-AKmoose@proj4string ## note that the projection is __not__ currently in lat/lon
-
-latlon <- sp::spTransform(AKmoose, CRS("+init=epsg:4326")) 
-## 4326 is the code for conversion into the standard lat/lon system
+data(AKmoose)
 ```
 
-Next, we want to get the centroids of each of the sites and combine the centroids with the survey data. To obtain centroids, we use the `rgeos` package.
+We want to get the centroids of each of the sites and combine the centroids with the survey data. To obtain centroids, we use the `rgeos` package.
 
-```{r}
-centroids <- data.frame(ID = latlon@data,
-  x = rgeos::gCentroid(latlon, byid=TRUE)@coords[ ,'x'],
-  y = rgeos::gCentroid(latlon, byid=TRUE)@coords[ ,'y'])
+```{r, message = FALSE}
+require(rgeos)
+centroids <- data.frame(ID = AKmoose@data,
+  x = rgeos::gCentroid(AKmoose, byid=TRUE)@coords[ ,'x'],
+  y = rgeos::gCentroid(AKmoose, byid=TRUE)@coords[ ,'y'])
 ```
 
 Next, for most spatial prediction, we want to use a trans-mercator projection instead of latitude-longitude so that physical distance between two sites is accurately represented. The `LLtoUTM()` function in this package provides a convenient way to convert latitude/longitude coordinates into user-defined transmercator coordinates. 

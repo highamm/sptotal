@@ -29,7 +29,5 @@ Suggests:
     testthat,
     prettydoc,
     rgeos,
-    sp,
-    rgdal
 VignetteBuilder: knitr,
     rmarkdown
