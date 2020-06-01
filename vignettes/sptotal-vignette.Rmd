@@ -403,14 +403,114 @@ get.predinfo(pred_obj_area)
 
 If sites have differing areas, the `get.predplot` function doesn't make much sense to use because each site is represented by the same-sized dot. Here, it would be helpful to import the data frame with the predicted counts and densities into a shapefile so that you are able to construct your own graphics that reflect the different-sized sites.
 
+## Mean Dissolved Organic Carbon from National Lakes Data
+
+As another example, we took data from the [National Aquatic Resource Surveys](https://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys). With concerns about global warming, the earth's capacity to store carbon is of great interest, and dissolved organic carbon (DOC) is an estimate of a lake's ability to store carbon.  We will estimate the mean mg/L for DOC from a sample of lakes.  If the total lake volume could be calculated (we will not attempt that), then the total dissolved carbon in a population of lakes could be estimated. We will examine DOC in lakes from the 2012 surveys.  We combined [site data](https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_siteinfo_08232016.csv), [DOC data](https://www.epa.gov/sites/production/files/2016-12/nla2012_waterchem_wide.csv), and [habitat metrics](https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_phabmet_10202016.csv) to create a data set of 1206 lakes in the conterminous United States. 
+
+To access the data, type
+```{r}
+data(USlakes)
+```
+and to get a feeling for the data, create a histogram
+```{r}
+hist(log(USlakes$DOC_RESULT))
+```
+
+Even on the log scale, there appears to be some outliers with very high values, and these may be the result of errors in collection or lab analysis.  We will eliminate lakes that have log(DOC) values $>$ 5.
+```{r}
+lakes = USlakes[log(USlakes$DOC_RESULT) < 5,]
+```
+Our new data set has dimensions
+```{r}
+dim(lakes)
+```
+so we have eliminated 2 sites. To visualize our data some more, we make a bubble plot,
+```{r}
+plot(USlakes$XCOORD, USlakes$YCOORD, pch = 19, 
+  cex = 2*log(lakes$DOC_RESULT)/max(log(lakes$DOC_RESULT)))
+```
+and it appears that there is spatial patterning. 
+
+We also have covariates that may help in prediction:
+
+* ELEVATION: Elevation at lake coordinates (LAT_DD_N83, LON_DD_N83) from NHD Digital Elevation Map layer
+* RVFPUNDWOODY_RIP: riparian zone and vegetation: fraction of understory with nonwoody cover present in the riparian zone
+* FCIBIG_LIT: Fish cover: index of fish cover due to large structures in the littoral zone
+* RVFCGNDBARE_RIP: riparian zone and vegetation: fraction of ground lacking cover in the riparian zone
+* RVFCGNDWOODY_RIP: riparian zone and vegetation: fraction of ground cover by woody vegetation in the riparian zone
+
+It is always important to make scatterplots of your variables to look for obvious relationships. 
+```{r}
+plot(lakes$RVFPUNDWOODY_RIP, log(lakes$DOC_RESULT))
+```
+
+It looks like there might be a negative relationship between riparian nonwoody-understory cover and DOC.
+
+### Create a Subsample Data Set
+
+We have the whole population of lakes, but, with budget cuts, it is likely that this whole population will not always be surveyed in its entirety.  So, we will ask the question, "If we sample from this population, can we still get a fairly precise estimate of the mean DOC?"
+
+We will do the same thing that we did with the simulated data, and take a random sample of 500 lakes.  Also, because we want the mean, and not a total, we will create a weights column for the `lakeobs` data set, with each element $1/N$, where, here, $N = 1204$.
+```{r}
+LakeObsID = sample(1:nrow(lakes), 500)
+lakeobs = lakes
+lakeobs$DOC_RESULT = NA
+lakeobs[LakeObsID, 'DOC_RESULT'] = lakes[LakeObsID, 'DOC_RESULT']
+lakeobs$wts = 1/dim(lakeobs)[1]
+```
+
+### Fit Model and Make Predictions
+Even though data are skewed, let's try it without taking log of response variable. Note that the mean of log-tranformed  variables is not equal to the log of the mean of set of variables. So if we want a total on the untransformed scale, it would be a mistake to transform the data first, model it, make predictions, sum the predictions, and then exponentiate.  It is much simpler to leave the data untransformed and rely on robustness of the method.  Let's see how this works. 
+```{r}
+slmfitout_exp_lakes = slmfit(formula = DOC_RESULT ~ ELEVATION + RVFPUNDWOODY_RIP + 
+  FCIBIG_LIT + RVFCGNDBARE_RIP + RVFCGNDWOODY_RIP, data = lakeobs, 
+  xcoordcol = 'XCOORD', ycoordcol = 'YCOORD', CorModel = "Exponential")
+summary(slmfitout_exp_lakes)
+```
+We see that all covariates except elevation are higly significant.  There is substantial autocorrelation because the range parameter is very large, and the partial sill is about twice that of the nugget effect.  We fit the model again, but this time with the spherical autocorrelation model.
+```{r}
+slmfitout_sph_lakes = slmfit(formula = DOC_RESULT ~ ELEVATION + RVFPUNDWOODY_RIP + 
+  FCIBIG_LIT + RVFCGNDBARE_RIP + RVFCGNDWOODY_RIP, data = lakeobs, 
+  xcoordcol = 'XCOORD', ycoordcol = 'YCOORD', CorModel = "Spherical")
+summary(slmfitout_sph_lakes)
+```
+We can use AIC to compare the use of the two autocorrelation models.
+```{r}
+AIC(slmfitout_exp_lakes)
+AIC(slmfitout_sph_lakes)
+```
+Based on AIC, the exponential autocorrelation model is better, so we will use it for predictions.  
+
+```{r}
+pred_exp_lakes <- predict(slmfitout_exp_lakes,  wtscol = "wts")
+get.predinfo(pred_exp_lakes, conf_level = 0.95)
+mean(lakes$DOC_RESULT)
+```
+We can see that the prediction, 7.41, is close to the true value, 7.65, and that the confidence interval is quite narrow, and it does contain the true value. If a standard error of 0.158, yielding a coefficient of variation of 0.158/7.41 = 0.021, is acceptable, then sampling 500 lakes could save money and still provide a useful result on DOC.
+
 # Statistical Background
 
-Spatial prediction can be used to estimate means and totals over geographic regions, and also for the special case of ''small area'' estimation. The term small area estimation refers to making an inference on a smaller geographic area within the overall study area. There may be few or no samples within that small area, so that estimation by classical sampling methods may not be possible or variances become exceedingly large. An alternative is to assume that the data were generated by a stochastic process and use model-based approaches.
+Spatial prediction can be used to estimate means and totals over finite populations from geographic regions, and also for the special case of ''small area'' estimation. The term small area estimation refers to making an inference on a smaller geographic area within the overall study area. There may be few or no samples within that small area, so that estimation by classical sampling methods may not be possible or variances become exceedingly large. An alternative is to assume that the data were generated by a stochastic process and use model-based approaches.
 
-It is assumed that $\mathbf{z}$ is a realization of a spatial stochastic process. Geostatistical models and methods are used (for a review, see Cressie, 1993). Geostatistics has been developed for point samples. If the samples are very small, an infinite population is assumed. The average value over any aggregated area can be predicted using methods such as block kriging. Thus it appears that this is closely related to small area estimation, but where samples come from point locations rather than a finite set of sample units. While there is a large literature on geostatistics and block kriging methods, they have been developed for infinite populations. This package is designed for the case where we have a finite collection of plots and we assume that the data were produced by a spatial stochastic process. Detailed developements are given in Ver Hoef (2008), the reference given below.
+It is assumed that the response variable is a realization of a spatial stochastic process. Geostatistical models and methods are used (for a review, see Cressie, 1993). Geostatistics was developed for point samples. If the samples are very small, an infinite population is assumed. In classical geostatistics, the average value over an aggregated area can be predicted using methods such as block kriging. Thus it appears that this is closely related to small area estimation, but where samples come from point locations rather than a finite set of sample units. While there is a large literature on geostatistics and block kriging methods, they have been developed for infinite populations. This package is designed for the case where we have a finite collection of plots and we assume that the data were produced by a spatial stochastic process. Detailed developements are given in Ver Hoef (2001, 2008). Comparisons to classical sampling methods can be found in Ver Hoef (2002), and applications in forestry are contained in Ver Hoef and Temesgen (2013) and Temesgen and Ver Hoef (2015).
 
 # References
 
-Ver Hoef, J. M. 2008. Spatial Methods for Plot-Based Sampling of Wildlife Popula
-tions. *Environmental and Ecological Statistics* **15**: 3-13.
+Cressie, N. 1993. *Statistics for Spatial Data, Revised Edition* John Wiley and Sons, NY.
 
+Temesgen, H. and Ver Hoef, J.M. 2015. Evaluation of the Spatial Linear Model,
+Random Forest and Gradient Nearest-Neighbour Methods for Imputing Potential Pro-
+ductivity and Biomass of the Pacific Northwest Forests. *Forestry* **88(1)**: 131–142.
+
+Ver Hoef, J.M. 2001. Predicting Finite Populations from Spatially Correlated Data.
+*2000 Proceedings of the Section on Statistics and the Environment of the American
+Statistical Association*, pgs. 93 – 98.
+
+Ver Hoef, J.M. 2002. Sampling and Geostatistics for Spatial Data. *Ecoscience* **9**:
+152–161.
+
+Ver Hoef, J. M. 2008. Spatial Methods for Plot-Based Sampling of Wildlife Populations. *Environmental and Ecological Statistics* **15**: 3-13.
+
+Ver Hoef, J.M. and Temesgen, H. 2013. A Comparison of the Spatial Linear Model
+to Nearest Neighbor (k-NN) Methods for Forestry Applications. *PloS ONE* **8(3)**:
+e59129.
