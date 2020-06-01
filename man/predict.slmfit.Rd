@@ -4,15 +4,13 @@
 \alias{predict.slmfit}
 \title{Perform Finite Population Block Kriging}
 \usage{
-\method{predict}{slmfit}(object, wtscol = NULL, ...)
+\method{predict}{slmfit}(object, wtscol = NULL)
 }
 \arguments{
-\item{object}{is an object generated from \code{slmfit()}}
+\item{object}{is an object generated from \code{\link{slmfit}()}}
 
-\item{wtscol}{is the name of the column that contains the weights for}
-
-\item{...}{Additional arguments
-prediction. The default setting predicts the population total}
+\item{wtscol}{is the name of the column that contains the weights for prediction.
+The default setting predicts the population total}
 }
 \value{
 a list with \itemize{
@@ -34,8 +32,8 @@ a list with \itemize{
 }
 }
 \description{
-Takes the output of \code{slmfit()} and uses FPBK to predict the counts on the unsampled sites.
-The column with the counts should have numeric values for the observed counts
+Uses an object generated from \code{\link{slmfit}()} to predict the counts on the unsampled sites.
+The column of the data set that has the counts should have numeric values for the observed counts
 on the sampled sites and `NA` for any site that was not sampled.
 }
 \examples{

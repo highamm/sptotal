@@ -8,23 +8,24 @@
 #'
 #' \code{sptotal} Main Functions:
 #'
-#' \code{slmfit} fits a spatial linear model to the response on the
+#' \code{\link{slmfit}} fits a spatial linear model to the response on the
 #' observed/sampled sites. \code{check.variogram} can be used to construct
 #' an empirical variogram of the residuals of the spatial linear model.
 #'
-#' \code{FPBKpred} uses the spatial linear model in \code{slmfit} and finite
+#' \code{\link{predict.slmfit}} uses the spatial linear model in \code{\link{slmfit}} and finite
 #' population block kriging to predict counts/densities at unobserved locations.
 #' A prediction for the total count as well as a prediction variance
 #' are given by default.
 #'
-#' \code{get.predinfo} and \code{get.predplot} take the resulting object from
-#'  \code{FPBKpred} to construct (1) summary information, including the
+#' \code{\link{get.predinfo}} and \code{\link{get.predplot}} take the resulting object from
+#'  \code{\link{predict.slmfit}} to construct (1) summary information, including the
 #'  prediction, prediction variance, and a prediction interval as well as
-#'  (2) a plot of the site-wise predictions.
+#'  (2) a plot of the site-wise predictions. \code{\link{check.variogram}}
+#'  constructs an empirical variogram of the residuals.
 #'
 #' Most of the remaining functions in the package are either helper functions
 #' or extra optional functions to extract various specific things from an
-#' \code{slmfit} object, such as residuals, AIC, log-likelihood, etc.
+#' \code{\link{slmfit}} object, such as residuals, AIC, log-likelihood, etc.
 #'
 #' See the Vignette for more details: \code{browseVignettes("sptotal")}
 

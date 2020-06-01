@@ -2,7 +2,7 @@
 % Please edit documentation in R/LLtoUTM.R
 \name{LLtoUTM}
 \alias{LLtoUTM}
-\title{Convert Latitude and Longitude spatial coordinates to TM projection coordinates
+\title{Convert Latitude and Longitude spatial coordinates to Trans-Mercator (TM) projection coordinates
 with a user-defined central meridian.}
 \usage{
 LLtoUTM(cm, lat, lon, xcol = "x", ycol = "y", minx = NULL, miny = NULL)
@@ -19,9 +19,9 @@ longitude values in your data set, if unsure what to use here.}
 
 \item{ycol}{is the name of the output TM column of y coordinates}
 
-\item{minx}{is `NULL` by default. This is an optional minimum value for the x-coordinate vector.}
+\item{minx}{is `NULL` by default and sets the minimum x-coordinate value to 0. This is an optional minimum value for the x-coordinate vector.}
 
-\item{miny}{is `NULL` by default. This is an optional minimum value for the y-coordinate vector.}
+\item{miny}{is `NULL` by default and sets the minimum y-coordinate value to 0. This is an optional minimum value for the y-coordinate vector.}
 }
 \value{
 A list with the TM coordinates as the first component of the list. The first component of the list contains x coordinates in the first column and y coordinates in the second column. The remaining elements of the list are the \code{cm}, \code{minx}, and \code{miny} values that were input.
@@ -30,9 +30,9 @@ A list with the TM coordinates as the first component of the list. The first com
 The resulting units from applying the function are kilometers.
 }
 \details{
-This function only needs to be used if the coordinates supplied by the
-user are latitude and longitude. If the coordinates are UTM, then
-this function should not be used.
+This function only should only be used if the coordinates supplied by the
+user are latitude and longitude. The default TM projection here specifies
+that both the minimum x and y-coordinate values are 0 scaled to 1 km.
 }
 \examples{
 ## Add TM x and y coordinates to a data frame with

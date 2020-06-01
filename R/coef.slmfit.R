@@ -12,5 +12,6 @@
 
 coef.slmfit <- function(object, ...) {
   coef.vec <- object$CoefficientEsts
+  names(coef.vec) <- object$PredictorNames
   return(coef.vec)
 }

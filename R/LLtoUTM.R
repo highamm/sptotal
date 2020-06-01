@@ -1,11 +1,11 @@
-#' Convert Latitude and Longitude spatial coordinates to TM projection coordinates
+#' Convert Latitude and Longitude spatial coordinates to Trans-Mercator (TM) projection coordinates
 #' with a user-defined central meridian.
 #'
 #' The resulting units from applying the function are kilometers.
 #'
-#' This function only needs to be used if the coordinates supplied by the
-#' user are latitude and longitude. If the coordinates are UTM, then
-#' this function should not be used.
+#' This function only should only be used if the coordinates supplied by the
+#' user are latitude and longitude. The default TM projection here specifies
+#' that both the minimum x and y-coordinate values are 0 scaled to 1 km.
 #'
 #' @param cm is the user defined central median. Use the mean of the
 #' longitude values in your data set, if unsure what to use here.
@@ -13,8 +13,8 @@
 #' @param lon is the vector of longitudes
 #' @param xcol is the name of the output TM column of x coordinates
 #' @param ycol is the name of the output TM column of y coordinates
-#' @param minx is `NULL` by default. This is an optional minimum value for the x-coordinate vector.
-#' @param miny is `NULL` by default. This is an optional minimum value for the y-coordinate vector.
+#' @param minx is `NULL` by default and sets the minimum x-coordinate value to 0. This is an optional minimum value for the x-coordinate vector.
+#' @param miny is `NULL` by default and sets the minimum y-coordinate value to 0. This is an optional minimum value for the y-coordinate vector.
 #'
 #' @return A list with the TM coordinates as the first component of the list. The first component of the list contains x coordinates in the first column and y coordinates in the second column. The remaining elements of the list are the \code{cm}, \code{minx}, and \code{miny} values that were input.
 #'

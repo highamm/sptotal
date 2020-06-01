@@ -3,7 +3,7 @@
 #' In conjunction with \code{print.summary.slmfit()}, the output looks similar
 #' to output from \code{R}'s standard \code{lm()} function.
 #'
-#' @param object is an object generated from \code{slmfit()}.
+#' @param object is an object generated from \code{\link{slmfit}()}.
 #' @param ... are options to be passed to \code{print()}
 #' @return a list with \itemize{
 #'   \item model formula

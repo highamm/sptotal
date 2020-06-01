@@ -7,28 +7,31 @@
 \format{
 A data frame object inclding:
 \describe{
-  \item{x}{The x-coordinate of the centroid for each site}
-  \item{y}{The y-coordinate of the centroid for each site}
-  \item{X1}{Independent Variable to be used as a predictor}
-  \item{X2}{Independent Variable to be used as a predictor}
-  \item{X3}{Independent Variable to be used as a predictor}
-  \item{X4}{Independent Variable to be used as a predictor}
-  \item{X5}{Independent Variable to be used as a predictor}
-  \item{X6}{Spatially Correlated Random Variable}
-  \item{X7}{Spatially Correlated Random Variable}
-  \item{F1}{Factor Variable to be used as a predictor}
-  \item{F2}{Factor Variable to be used as a predictor}
-  \item{Z}{The total moose count on each site}
-  \item{wts1}{Possible Weighting Column to be used as the prediction weights}
-  \item{wts2}{Possible Weighting Column to be used as the prediction weights}
-  ...
+  \item{x}{The x-coordinate for each site}
+  \item{y}{The y-coordinate for each site}
+  \item{X1}{Simulated independent variable to be used as a predictor}
+  \item{X2}{Simulated independent variable to be used as a predictor}
+  \item{X3}{Simulated independent variable to be used as a predictor}
+  \item{X4}{Simulated independent variable to be used as a predictor}
+  \item{X5}{Simulated independent variable to be used as a predictor}
+  \item{X6}{Simulated spatially correlated random variable to be used as a predictor}
+  \item{X7}{Simulated spatially correlated random variable to be used as a predictor}
+  \item{F1}{Simulated factor variable to be used as a predictor}
+  \item{F2}{Simulated factor variable to be used as a predictor}
+  \item{Z}{The simulated response variable.}
+  \item{wts1}{Prediction weights if estimating an overall mean}
+  \item{wts2}{Prediction weights for estimating a total over a subset of 25 contiguous plots}
 }
 }
 \usage{
 simdata
 }
 \description{
-A data set that can be used with the \code{sptotal} package. In
-this example, the response variable is a density.
+A simulated data set that can be used with the \code{sptotal} package.
+}
+\examples{
+data(simdata) 
+names(simdata)
+summary(simdata)
 }
 \keyword{datasets}

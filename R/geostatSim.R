@@ -14,6 +14,10 @@
 #' @param extrap extra covariance paramter
 #' @param CorModel autocorrelation model, default = "Exponential".  Other possibilities are "Spherical".
 #'
+#' @examples
+#' locations <- expand.grid(1:10, 1:10)
+#' geostatSim(locations, xcol = "Var1", ycol = "Var2",
+#' parsil = 4, range = 20, nugget = 1, CorModel = "Exponential")
 #' @return data.frame of three columns, the original location data appended with a 3rd column of simulated geostatistical data
 #'
 #' @author Jay Ver Hoef

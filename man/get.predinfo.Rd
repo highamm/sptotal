@@ -7,7 +7,7 @@
 get.predinfo(x, conf_level = 0.9)
 }
 \arguments{
-\item{x}{the output of the \code{predict.slmfit()} function, of class \code{sptotalPredOut}}
+\item{x}{the output of the \code{\link{predict.slmfit}()} function, of class \code{sptotalPredOut}}
 
 \item{conf_level}{is the confidence level for a normal-based
 confidence interval (default = 0.90).}
@@ -16,16 +16,20 @@ confidence interval (default = 0.90).}
 a list of three tables, including \itemize{
 \item \code{simptab}, which contains the prediction and its standard error,
 \item \code{confbounds}, which contains a confidence interval for the prediction, and
-\item \code{outptmat}, a table of sampling information, including the number of sites sampled, the total number of sites, and the total observed count.
+\item \code{outptmat}, a table of sampling information, including the number of sites sampled, the total number of sites, the total observed count, and the
+observed average density (equal to the average count if all site areas are
+equal).
 }
-data(exampledataset) ## load a toy data set
-slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
-xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
-predobj <- predict.slmfit(slmobj)
-get.predinfo(predobj)
 }
 \description{
 Creates a list of tables that shows the prediction, standard error, and
 confidence interval for the prediction, as well as some summary information
 about the sample.
+}
+\examples{
+data(exampledataset) ## load a toy data set
+slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+predobj <- predict(slmobj)
+get.predinfo(predobj)
 }

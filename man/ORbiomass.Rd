@@ -8,7 +8,7 @@
 A data frame object inclding:
 \describe{
   \item{coordinates}{The spatial cooredinates for the centroid for each site}
-  \item{BIOT_ha}{Biomass on Each Site}
+  \item{BIOT_ha}{Biomass on each site}
   \item{precip_mean_30yr}{Average precipitation for 30 years}
   \item{temp_mean_30yer}{Average temperature for 30 years}
   ...

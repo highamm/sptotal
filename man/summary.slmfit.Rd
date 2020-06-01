@@ -7,7 +7,7 @@
 \method{summary}{slmfit}(object, ...)
 }
 \arguments{
-\item{object}{is an object generated from \code{slmfit()}.}
+\item{object}{is an object generated from \code{\link{slmfit}()}.}
 
 \item{...}{are options to be passed to \code{print()}}
 }

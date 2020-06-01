@@ -1,13 +1,12 @@
 #' Perform Finite Population Block Kriging
 #'
-#' Takes the output of \code{slmfit()} and uses FPBK to predict the counts on the unsampled sites.
-#' The column with the counts should have numeric values for the observed counts
+#' Uses an object generated from \code{\link{slmfit}()} to predict the counts on the unsampled sites.
+#' The column of the data set that has the counts should have numeric values for the observed counts
 #' on the sampled sites and `NA` for any site that was not sampled.
 #'
-#' @param object is an object generated from \code{slmfit()}
-#' @param wtscol is the name of the column that contains the weights for
-#' @param ... Additional arguments
-#' prediction. The default setting predicts the population total
+#' @param object is an object generated from \code{\link{slmfit}()}
+#' @param wtscol is the name of the column that contains the weights for prediction.
+#'  The default setting predicts the population total
 #' @return a list with \itemize{
 #'   \item the estimated population total
 #'   \item the estimated prediction variance
@@ -34,7 +33,7 @@
 #' @export
 
 
-predict.slmfit <- function(object, wtscol = NULL, ...) {
+predict.slmfit <- function(object, wtscol = NULL) {
 
   ## check to make sure object is of class `slmfit`
 

@@ -3,27 +3,33 @@
 \docType{data}
 \name{USlakes}
 \alias{USlakes}
-\title{U.S. Lakes Data}
+\title{Dissolved Organic Carbon in U.S. Lakes}
 \format{
-A data frame object inclding:
+A data frame with 1206 rows and 9 variables:
 \describe{
-  \item{XCOORD}{The x spatial cooredinate for the centroid for each site}
-  \item{YCOORD}{The y spatial cooredinate for the centroid for each site}
-  \item{DOC_RESULT}{Disolved Organic Carbon}
-  \item{ELEVATION}{Variable that is a candidate for prediction}
-  \item{FCIBIG_LIT}{Variable that is a candidate for prediction}
-  \item{RVFCGNDBARE_RIP}{Variable that is a candidate for prediction}
-  \item{RVFCGNDWOODY_RIP}{Variable that is a candidate for prediction}
-  \item{RVFPUNDWOODY_RIP}{Variable that is a candidate for prediction}
-  \item{UID}{Lake Identification Number}
-  ...
+  \item{XCOORD}{x-coordinate from US Contiguous Albers Equal Area Conic projection}
+  \item{YCOORD}{y-coordinate from US Contiguous Albers Equal Area Conic projection}
+  \item{DOC_RESULT}{Analyte value, in mg/L, for Dissolved Organic Carbon}
+  \item{ELEVATION}{Elevation at lake coordinates (LAT_DD_N83, LON_DD_N83) from NHD Digital Elevation Map layer}
+  \item{FCIBIG_LIT}{Fish cover: index of fish cover due to large structures in the littoral zone}
+  \item{RVFCGNDBARE_RIP}{riparian zone and vegetation: fraction of ground lacking cover in the riparian zone}
+  \item{RVFCGNDWOODY_RIP}{riparian zone and vegetation: fraction of ground cover by woody vegetation in the riparian zone}
+  \item{RVFPUNDWOODY_RIP}{riparian zone and vegetation: fraction of understory with nonwoody cover present in the riparian zone}
+  \item{UID}{A unique lake identifier in the EPA lake survey datebases}
 }
+}
+\source{
+\href{National Aquatic Resource Surveys}{National Aquatic Resource Surveys} webpage.  We combined \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_siteinfo_08232016.csv}{site data}, \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_waterchem_wide.csv}{DOC data}, and \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_phabmet_10202016.csv}{habitat metrics} to create a data set of 1206 lakes in the conterminous United States.
 }
 \usage{
 USlakes
 }
 \description{
-A data set that can be used with the \code{sptotal} package. In
-this example, the lakes are located across the United States.
+These data contain dissolved organic carbon (DOC) in National Lakes Data from the U.S. Environmental Protection Agency
+}
+\examples{
+data(USlakes) 
+names(USlakes)
+summary(USlakes)
 }
 \keyword{datasets}
