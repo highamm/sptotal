@@ -7,7 +7,7 @@
 #' model output
 #' @param signif.stars is an option to show which predictors
 #' are significant.
-#' @param ... are options passed on to \code{printCoefmat}
+#' @param ... further arguments passed to or from other methods.
 #'  \code{summary.slmfit}.
 #' @return a list with \itemize{
 #'   \item model formula

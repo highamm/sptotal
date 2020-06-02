@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{a \code{slmfit()} object}
 
-\item{...}{additional arguments}
+\item{...}{further arguments passed to or from other methods.}
 }
 \value{
 a vector of fitted model coefficients.

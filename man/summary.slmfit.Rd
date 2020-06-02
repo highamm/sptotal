@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{is an object generated from \code{\link{slmfit}()}.}
 
-\item{...}{are options to be passed to \code{print()}}
+\item{...}{further arguments passed to or from other methods.}
 }
 \value{
 a list with \itemize{

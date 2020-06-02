@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{a \code{slmfit()} object}
 
-\item{...}{additional arguments}
+\item{...}{further arguments passed to or from other methods.}
 }
 \value{
 The AIC value of the slmfit object.  Here, AIC is computed as 2 times the

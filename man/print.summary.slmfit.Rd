@@ -20,7 +20,7 @@ model output}
 \item{signif.stars}{is an option to show which predictors
 are significant.}
 
-\item{...}{are options passed on to \code{printCoefmat}
+\item{...}{further arguments passed to or from other methods.
 \code{summary.slmfit}.}
 }
 \value{

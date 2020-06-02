@@ -4,7 +4,7 @@
 #' to output from \code{R}'s standard \code{lm()} function.
 #'
 #' @param object is an object generated from \code{\link{slmfit}()}.
-#' @param ... are options to be passed to \code{print()}
+#' @param ... further arguments passed to or from other methods.
 #' @return a list with \itemize{
 #'   \item model formula
 #'   \item a table of fixed effects estimates and associated standard errors

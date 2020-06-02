@@ -6,6 +6,7 @@
 #'
 #' @param object is an object generated from \code{\link{slmfit}()}
 #' @param wtscol is the name of the column that contains the weights for prediction.
+#' @param ... further arguments passed to or from other methods.
 #'  The default setting predicts the population total
 #' @return a list with \itemize{
 #'   \item the estimated population total
@@ -33,7 +34,7 @@
 #' @export
 
 
-predict.slmfit <- function(object, wtscol = NULL) {
+predict.slmfit <- function(object, wtscol = NULL, ...) {
 
   ## check to make sure object is of class `slmfit`
 

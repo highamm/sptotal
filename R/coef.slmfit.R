@@ -1,7 +1,7 @@
 #' Extract Model Coefficients from a \code{slmfit()} object
 #'
 #' @param object a \code{slmfit()} object
-#' @param ... additional arguments
+#' @param ... further arguments passed to or from other methods.
 #' @return a vector of fitted model coefficients.
 #' @examples
 #' data(exampledataset) ## load a toy data set

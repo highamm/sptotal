@@ -4,7 +4,7 @@
 #' @param cross.validation a logical (\code{TRUE} or \code{FALSE}) that
 #' indicates whether the residuals computed should be found using
 #' leave one out cross-validation. Set to \code{FALSE} by default.
-#' @param ... additional arguments
+#' @param ... further arguments passed to or from other methods.
 #' @return a vector of residuals, consisting of each observed count minus the estimated mean, or, in the case of cross-validation, the observed count minus the leave-one-out-cross-validation prediction.
 #' @examples
 #' data(exampledataset) ## load a toy data set
