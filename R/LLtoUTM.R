@@ -7,8 +7,8 @@
 #' user are latitude and longitude. The default TM projection here specifies
 #' that both the minimum x and y-coordinate values are 0 scaled to 1 km.
 #'
-#' @param cm is the user defined central median. Use the mean of the
-#' longitude values in your data set, if unsure what to use here.
+#' @param cm is the user defined central median. A common choice is the
+#' mean of the longitude values in your data set
 #' @param lat is the vector of latitudes
 #' @param lon is the vector of longitudes
 #' @param xcol is the name of the output TM column of x coordinates

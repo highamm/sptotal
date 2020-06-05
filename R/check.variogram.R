@@ -7,7 +7,7 @@
 #' set divided by 2. Therefore, it's possible that the REML-fitted model
 #' will not "fit" the points perfectly.
 #'
-#' @param object is an object of class \code{slmfit()}.
+#' @param object is an object of class \code{\link{slmfit}}.
 #' @return a plot of the empirical variogram with the fitted model overlayed.
 #' @import stats
 #' @import ggplot2

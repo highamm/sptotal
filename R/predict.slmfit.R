@@ -1,7 +1,8 @@
 #' Perform Finite Population Block Kriging
 #'
-#' Uses an object generated from \code{\link{slmfit}()} to predict the counts on the unsampled sites.
-#' The column of the data set that has the counts should have numeric values for the observed counts
+#' Uses an object of class \code{slmfit} from the \code{\link{slmfit}()}
+#'  function to predict the response on the unsampled sites.
+#' The column of the data set that has the response should have numeric values for the observed response
 #' on the sampled sites and `NA` for any site that was not sampled.
 #'
 #' @param object is an object generated from \code{\link{slmfit}()}
@@ -150,7 +151,7 @@ predict.slmfit <- function(object, wtscol = NULL, ...) {
   zhatucount <- zhatu * areavar[ind.un]
 
 
-  ## creating a column in the outgoing data set for predicted counts as
+  ## creating a column in the outgoing data set for predicted densities as
   ## well as a column indicating whether or not the observation was sampled
   ## or predicted
   preddensity <- density

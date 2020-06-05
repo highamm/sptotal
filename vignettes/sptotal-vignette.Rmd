@@ -150,7 +150,19 @@ ggplot(data = simdata, aes(x = x, y = y)) + geom_point() +
 
 The locations of the 25 sites where `wts2` is equal to one are shown in red.
 
-We have simulated the data for the whole population. This is convenient, because we know the true means and totals. However, we will now sample from this population to provide a more realistic setting where we can measure only a part of the whole population. In order to make results reproducible, we use the `set.seed` command, along with `sample`. In order to understand how to use the package, it's not necessary to understand the following code chunk. The code below simply replaces some of the response values with `NA` for missing.
+We have simulated the data for the whole population. This is convenient, because we know the true means and totals. In order to compare with the prediction from the `sptotal` package, let's find the true population total
+
+```{r}
+sum(simdata[ ,'Z'])
+```
+
+as well as the total in the subset of 25 sites
+
+```{r}
+sum(simdata[ ,'wts2'] * simdata[ ,'Z'])
+```
+
+However, we will now sample from this population to provide a more realistic setting where we can measure only a part of the whole population. In order to make results reproducible, we use the `set.seed` command, along with `sample`. In order to understand how to use the package, it's not necessary to understand the following code chunk. The code below simply replaces some of the response values with `NA` for missing.
 
 ```{r}
 set.seed(1)
@@ -231,13 +243,23 @@ check.variogram(slmfit_out1)
 
 Note that the fitted line may not appear to fit the empirical variogram perfectly for a couple of reasons. First, only pairs of points that have a distance between 0 and one-half the maximum distance are shown. Second, the fitted model is estimated using REML, which may give different results than using weighted least squares.
 
+We can also examine a histogram of the residuals as well as a histogram of the cross-validation (leave-one-out) residuals:
+
+```{r, fig.height = 3}
+qplot(residuals(slmfit_out1), bins = 20) + xlab("Residuals")
+qplot(residuals(slmfit_out1, cross.validation = TRUE), bins = 20) +
+  xlab("CV Residuals")
+```
+
+There is still one somewhat large cross-validation residual for an observed count that is larger than what would be predicted from a model without that particular count. The cause of this somewhat large residual can be attributed to random chance because we know that the data was simulated to follow all assumptions. 
+
 If we are satisfied with the fit of the variogram, we can examine our prediction and obtain a confidence interval for this prediction using `get.predinfo`. While the `check.variogram` function takes the fitted spatial linear model as input, the `get.predinfo` function uses the object from the `predict` function, which we previously named `pred_obj`.
 
 ```{r}
 get.predinfo(pred_obj, conf_level = 0.90)
 ```
 
-We predict a total of 4817 units in this simulated region with 90% confidence bounds of (4779, 4856). The confidence interval is fairly small because we simulated data that were highly correlated, increasing precision in prediction for unobserved sites.
+We predict a total of 4817 units in this simulated region with 90% confidence bounds of (4779, 4856). The confidence interval is fairly small because we simulated data that were highly correlated, increasing precision in prediction for unobserved sites. You can see that the prediction of the total is close to the true value of 4834.326, and the true value is within the confidence interval.
 
 Finally, to get a basic "map" of the predictions, we can use the `get.predplot` function. 
 
@@ -251,14 +273,16 @@ The map shows the distribution of counts across sampled and unsampled sites. Its
 
 If we want to predict a quantity other than the population total, then we need to specify the column in our data set that has the appropriate prediction weights in a `wtscol` argument. For example, if we want to predict the total for the 25 sites in coloured in red, then we can use
 
-```{r, results = "hide"}
+```{r}
 pred_obj2 <- predict(slmfit_out1, wtscol = "wts2")
 get.predinfo(pred_obj2)
 ```
 
+Recall that the true total for this small area was 273.4. We see that this is close to our prediction of 282.2 and is also within the bounds of our confidence interval. 
+
 ## Moose Abundance from Aerial Surveys
 
-The simulated data example assumes that the coordinates are in TM form, that the vector of the response is numeric and has `NA` values for sites that were not sampled, and that the areas of each site sampled are all the same. If this isn't the case for the data set you're working with, the following moose abundance example can help prepare your data for the functions in `sptotal`.
+The simulated data example assumes that the coordinates are in Trans-Mercator (TM) form, that the vector of the response is numeric and has `NA` values for sites that were not sampled, and that the areas of each site sampled are all the same. If this isn't the case for the data set you're working with, the following moose abundance example can help prepare your data for the functions in `sptotal`.
 
 For an example with real data, we consider a data set on moose abundance in Alaska. Each observation corresponds to a moose counted at a particular site, but time and money do not permit all sites to be counted. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
 
@@ -285,7 +309,7 @@ Next, for most spatial prediction, we want to use a trans-mercator projection in
 xy <- LLtoUTM(mean(centroids$x), centroids$y, centroids$x)$xy
 ```
 
-Finally, we add the trans-mercator coordinates to our data frame with the survey data. We first extract the survey data from our `sp` object using
+Trans-Mercator is based on minimizing distortion from a central meridian: the first argument specifies that the central meridian should be the mean longitude value in the data set. The second and third arguments to this function give the centroid latitude values and centroid longitude values. Finally, we add the TM coordinates to our data frame with the survey data. We first extract the survey data from our `sp` object using
 
 ```{r}
 moose_df <- AKmoose@data ## name the data set moose_df
@@ -350,7 +374,17 @@ Now that
 
 * the column with our counts has `NA` values for sites that were not surveyed,
 
-we can proceed to use the functions in `sptotal` in a similar way to how the functions were used for the simulated data.
+we can proceed to use the functions in `sptotal` in a similar way to how the functions were used for the simulated data. To get a sense of the data, we first give a plot of the raw observed counts:
+
+```{r}
+ggplot(data = moose_df, aes(x = x, y = y)) +
+  geom_point(aes(colour = total), size = 4) +
+  scale_colour_viridis_c() +
+  theme_bw()
+```
+
+where the grey circles are sites that have not been sampled. 
+
 
 ```{r, results = "hide", fig.keep = "none"}
 slmfit_out_moose <- slmfit(formula = total ~ strat, 
@@ -358,6 +392,9 @@ slmfit_out_moose <- slmfit(formula = total ~ strat,
   CorModel = "Exponential")
 summary(slmfit_out_moose)
 check.variogram(slmfit_out_moose)
+qplot(residuals(slmfit_out_moose), bins = 20) + xlab("Residuals")
+qplot(residuals(slmfit_out_moose, cross.validation = TRUE), bins = 20) +
+  xlab("CV Residuals")
 
 pred_moose <- predict(slmfit_out_moose)
 get.predinfo(pred_moose)

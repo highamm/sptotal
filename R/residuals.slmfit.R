@@ -1,11 +1,11 @@
-#' Extract Model Residuals from an \code{\link{slmfit}()} object.
+#' Extract Model Residuals from an \code{slmfit} object.
 #'
-#' @param object a slmfit object
+#' @param object a \code{slmfit} object generated from the \code{\link{slmfit}()} function.
 #' @param cross.validation a logical (\code{TRUE} or \code{FALSE}) that
 #' indicates whether the residuals computed should be found using
 #' leave one out cross-validation. Set to \code{FALSE} by default.
 #' @param ... further arguments passed to or from other methods.
-#' @return a vector of residuals, consisting of each observed count minus the estimated mean, or, in the case of cross-validation, the observed count minus the leave-one-out-cross-validation prediction.
+#' @return a vector of residuals, consisting of each observed response/density minus the estimated mean, or, in the case of cross-validation, the observed response/density minus the leave-one-out-cross-validation prediction.
 #' @examples
 #' data(exampledataset) ## load a toy data set
 #' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,

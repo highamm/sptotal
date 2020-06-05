@@ -3,9 +3,9 @@
 #' Estimates regression coefficients and spatial autocorrelation
 #' parameters, given spatial coordinates and a model formula..
 #'
-#' @param formula is an R linear model formula specifying density as the
-#' response variable as well as covariates for predicting densities on the unsampled sites.
-#' @param data is the data set with the response column of densities, the covariates to
+#' @param formula is an \code{R} linear model formula specifying the
+#' response variable as well as covariates for predicting the response on the unsampled sites.
+#' @param data is the data set with the response column, the covariates to
 #' be used for the block kriging, and the spatial coordinates for all of the sites.
 #' @param xcoordcol is the name of the column in the data frame with x coordinates or longitudinal coordinates
 #' @param ycoordcol is the name of the column in the data frame with y coordinates or latitudinal coordinates
@@ -18,7 +18,7 @@
 #' regression coefficients or \code{"ML"} to estimate the covariance
 #' parameters and regression coefficients.
 #' @param covestimates is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and \code{estmethod = "None"}, the the provided vector are treated as the estimators to create the covariance structure.
-#' @return a list with \itemize{
+#' @return a list of class \code{slmfit} with \itemize{
 #'   \item the spatial covariance estimates
 #'   \item the regression coefficient estimates
 #'   \item the covariance matrix of the fixed effects

@@ -1,8 +1,8 @@
-#' Extract Log-Likelihood from a fitted \code{slmfit()} object
+#' Extract Log-Likelihood from a fitted class \code{slmfit} object
 #'
-#' @param object is a slmfit object
+#' @param object is a class \code{slmfit} object
 #' @param ... additional argurments
-#' @return the log-likelihood of the slmfit object
+#' @return the log-likelihood of the model fit in the \code{slmfit} object
 #'
 #' @examples
 #' data(exampledataset) ## load a toy data set

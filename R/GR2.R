@@ -1,6 +1,6 @@
 #' Computes the Generalized R-squared.
 #'
-#' @param object is an object of class \code{slmfit()}.
+#' @param object is an object of class \code{slmfit}.
 #' @return the value for generalized R-squared
 #' @import stats
 #' @examples
