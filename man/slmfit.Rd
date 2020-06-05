@@ -35,7 +35,8 @@ Exponential but other options include the Spherical and Gaussian.}
 \item{estmethod}{is either the default \code{"REML"} for restricted
 maximum likelihood to estimate the covariance parameters and
 regression coefficients or \code{"ML"} to estimate the covariance
-parameters and regression coefficients.}
+parameters and regression coefficients. This argument can also be set to
+\code{"None"}, in which case \code{covestimates} must be provided.}
 
 \item{covestimates}{is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and \code{estmethod = "None"}, the the provided vector are treated as the estimators to create the covariance structure.}
 }
@@ -66,7 +67,7 @@ a list of class \code{slmfit} with \itemize{
 }
 \description{
 Estimates regression coefficients and spatial autocorrelation
-parameters, given spatial coordinates and a model formula..
+parameters, given spatial coordinates and a model formula.
 }
 \examples{
 data(exampledataset) ## load a toy data set

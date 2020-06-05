@@ -57,9 +57,9 @@ padding-bottom: 7px;
 
 # Introduction
 
-The `sptotal` package was developed for predicting a mean or total from a finite number of sample units in a fixed geographic area. Estimating totals and means from a finite population is an important goal for both academic research and management of environmental data. One naturally turns to classical sampling methods, such as simple random sampling or stratified random sampling. Classical sampling methods depend on design-based probability and are robust. Very few assumptions are required because the probability distribution for inference comes from the sample design, which is known and under our control.  For design-based methods, sample plots are chosen at random, they are measured or counted, and inference is obtained from the probability of sampling those units randomly based on some design (e.g., Horwitz-Thompson estimation). However, as an alternative, we will use model-based methods, specifically geostatistics, to accomplish the same goals. When using geostatistics, we assume the data were produced by a stochastic process with parameters that can be estimated. The relevant theory is given by Ver Hoef (2008). The `sptotal` package puts much of the code and plots in Ver Hoef (2008) in easily accessible, convenient functions.
+The `sptotal` package was developed for predicting a mean or total from a finite number of sample units in a fixed geographic area. Estimating totals and means from a finite population is an important goal for both academic research and management of environmental data. One naturally turns to classical sampling methods, such as simple random sampling or stratified random sampling. Classical sampling methods depend on probability-based sample designs and are robust. Very few assumptions are required because the probability distribution for inference comes from the sample design, which is known and under our control.  For design-based methods, sample plots are chosen at random, they are measured or counted, and inference is obtained from the probability of sampling those units randomly based on the design (e.g., Horwitz-Thompson estimation). As an alternative, we will use model-based methods, specifically geostatistics, to accomplish the same goals. Geostatistics does not rely on a specific sampling design. Instead, when using geostatistics, we assume the data were produced by a stochastic process with parameters that can be estimated. The relevant theory is given by Ver Hoef (2008). The `sptotal` package puts much of the code and plots in Ver Hoef (2008) in easily accessible, convenient functions.
 
-In the `sptotal` package, our goal is to estimate some linear function of all of the sample units, call it $\tau(\mathbf{z}) = \mathbf{b}^\prime \mathbf{z}$, where $\mathbf{z}$ is a vector of the realized values for all the sample units and $\mathbf{b}$ is a vector of weights. By "realized," we mean that whatever processes produced the data have already happened, and that, if we had enough resources, we could measure them all, obtaining a complete census. If $\tau(\mathbf{z})$ is a population total, then every element of $\mathbf{b}$ contains a $1$. The key idea is that $\mathbf{b}$ can contain any set of weights that we would like to multiply times each value in a population, and then these are summed, yielding a weighted sum. 
+In the `sptotal` package, our goal is to estimate some linear function of all of the sample units, call it $\tau(\mathbf{z}) = \mathbf{b}^\prime \mathbf{z}$, where $\mathbf{z}$ is a vector of the realized values for all the sample units and $\mathbf{b}$ is a vector of weights. By "realized," we mean that whatever processes produced the data have already happened, and that, if we had enough resources, we could measure them all, obtaining a complete census. If $\tau(\mathbf{z})$ is a population total, then every element of $\mathbf{b}$ contains a $1$. Generally, $\mathbf{b}$ can contain any set of weights that we would like to multiply times each value in a population, and then these are summed, yielding a weighted sum. 
 
 The vector $\mathbf{b}$ contains the weights that we would apply if we could measure or count every observation, but, because of cost consideration, we usually only have a sample.
 
@@ -103,7 +103,7 @@ where the red rectangle represents the column of the response variable, and the 
 
 The `data.frame` must have x- and y-coordinates, and they are shown as two columns colored in green, with the coordinates for the unobserved locations shown as pale green below the darker green coordinates for the observed locations above. The `data.frame` can have a column of weights. If one is not provided, we assume a column of all ones so that the prediction is for the population total. The column of weights is purple, with weights for the observed locations a darker shade, above the lighter shade of purple representing weights for unsampled locations. Finally, the `data.frame` may contain columns that are not relevant to predicting the weighted sum. These columns are represented by the orange color, with the sampled locations a darker shade, above the unsampled locations with the ligher shade.
 
-Of course, the data do not have to be in exactly this order, either in terms of rows or columns.  Sampled and unsampled rows can be intermingled, and columns of response variable, covariates, coordinates, and weights can be also be intermingled. The figure above is an idealized graphic of the data. However, the "pretty" graph helps envision how the data are used and illustrate the goal. We desire a weighted sum, where the weights (in the purple column) are multiplied with the response variable (red/white) column, and then summed.  Because some of the response values are unknown (the white values in the response column), covariates and spatial information (obtained from the x- and y-coordinates) are used to _predict_ the unobserved (white) values. The weights (purple) are then applied to both the observed response values (red), and the predicted response values (white), to obtain a weighted sum. Because we use predictions for unobserved response values, it is important to assess our uncertainty, and the software provides both an estimate of the weighted sum for the response variable as well as its estimated prediction variance.  
+Of course, the data do not have to be in exactly this order, either in terms of rows or columns.  Sampled and unsampled rows can be intermingled, and columns of response variable, covariates, coordinates, and weights can be also be intermingled. The figure above is an idealized graphic of the data. However, this figure helps envision how the data are used and illustrate the goal. We desire a weighted sum, where the weights (in the purple column) are multiplied with the response variable (red/white) column, and then summed.  Because some of the response values are unknown (the white values in the response column), covariates and spatial information (obtained from the x- and y-coordinates) are used to _predict_ the unobserved (white) values. The weights (purple) are then applied to both the observed response values (red), and the predicted response values (white), to obtain a weighted sum. Because we use predictions for unobserved response values, it is important to assess our uncertainty, and the software provides both an estimate of the weighted sum for the response variable as well as its estimated prediction variance.  
 
 ## Simulated Data Creation
 
@@ -121,11 +121,11 @@ data(simdata)
 
 and then `simdata` sill be available in your workspace. To see the structure of `simdata`, type
 
-```{r, results = "hide"}
-str(simdata)
+```{r}
+head(simdata)
 ```
 
-Here, we see that `simdata` is a data.frame with 400 records. The spatial coordinates are `numeric` variables in columns named `x` and `y`.  We created 7 continuous covariates, `X1` through `X5`.  The variables `X1` through `X5` were all created using the `rnorm()` function, so they are all standard normal variates that are independent between and within variable.  Variables `X6` and `X7` were independent from each other, but spatially autocorrelated within, each with a variance parameter of 1, an autocorrelation range parameter of 0.2 from an exponential model, and a small nugget effect of 0.01.  The variables `F1` and `F2` are factor variables with 3 and 5 levels, respectively. The variable `Z` is the response. Data were simulated from the model
+Here, we see that `simdata` is a data frame with 400 records. The spatial coordinates are `numeric` variables in columns named `x` and `y`.  We created 7 continuous covariates, `X1` through `X5`.  The variables `X1` through `X5` were all created using the `rnorm()` function, so they are all standard normal variates that are independent between and within variable.  Variables `X6` and `X7` were independent from each other, but spatially autocorrelated within, each with a variance parameter of 1, an autocorrelation range parameter of 0.2 from an exponential model, and a small nugget effect of 0.01.  The variables `F1` and `F2` are factor variables with 3 and 5 levels, respectively. The variable `Z` is the response. Data were simulated from the model
 
 \begin{align*}
 Z_i = 10 + &0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i + 0.4 \cdot X5_i + \\
@@ -162,7 +162,7 @@ as well as the total in the subset of 25 sites
 sum(simdata[ ,'wts2'] * simdata[ ,'Z'])
 ```
 
-However, we will now sample from this population to provide a more realistic setting where we can measure only a part of the whole population. In order to make results reproducible, we use the `set.seed` command, along with `sample`. In order to understand how to use the package, it's not necessary to understand the following code chunk. The code below simply replaces some of the response values with `NA` for missing.
+However, we will now sample from this population to provide a more realistic setting where we can measure only a part of the whole population. In order to make results reproducible, we use the `set.seed` command, along with `sample`.  The code below will replace some of the response values with `NA` to represent the unsampled sites.
 
 ```{r}
 set.seed(1)
@@ -196,7 +196,7 @@ We will use the `simobs` data to illustrate use of the `sptotal` package.
 
 # Using the `sptotal` Package
 
-After your data is in a similar format to `simobs`, using the `sptotal` package occurs in two primary stages. In the first, we fit a spatial linear model. This stage estimates spatial regression coefficients and spatial autocorrelation parameters. In the second stage, we predict the missing values for the response value, and create a prediction for the weighted sum (e.g. the total) of all response variable values, both observed and predicted. To show how the package works, we demonstrate on ideal, simulated data. Then, we give a realistic example on moose data to provide further insight and documentation. The realistic example also has a section on data preparation steps.
+After your data is in a similar format to `simobs`, using the `sptotal` package occurs in two primary stages. In the first, we fit a spatial linear model. This stage estimates spatial regression coefficients and spatial autocorrelation parameters. In the second stage, we predict the unsampled locations for the response value, and create a prediction for the weighted sum (e.g. the total) of all response variable values, both observed and predicted. To show how the package works, we demonstrate on ideal, simulated data. Then, we give a realistic example on moose data to provide further insight and documentation. The realistic example also has a section on data preparation steps.
 
 ## Fitting a Spatial Linear Model: `slmfit`
 
@@ -208,7 +208,7 @@ slmfit_out1 = slmfit(formula = Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2,
   CorModel = "Exponential")
 ```
 
-The documentation describes the arguments in more detail, but as mentioned earlier, the linear model includes a formula argument, and the `data.frame` that is being used as a data set. We also need to include which columns contain the $x$- and $y$-coordinates, which are arguments to `xcoordcol` and `ycoordcol`, respectively. In the above example, we specify `'x'` and `'y'` as the column coordinates arguments since the names of the coordinate columns in our simulated data set are `'x'` and `'y'`. We also need to specify which spatial autocorrelation model that is fitted, which is given by the `CorModel` argument. As with many other linear model fits, we can obtain a summary of the model fit,
+The documentation describes the arguments in more detail, but as mentioned earlier, the linear model includes a formula argument, and the `data.frame` that is being used as a data set. We also need to include which columns contain the $x$- and $y$-coordinates, which are arguments to `xcoordcol` and `ycoordcol`, respectively. In the above example, we specify `'x'` and `'y'` as the column coordinates arguments since the names of the coordinate columns in our simulated data set are `'x'` and `'y'`. We also need to specify a spatial autocorrelation model, which is given by the `CorModel` argument. As with many other linear model fits, we can obtain a summary of the model fit,
 
 ```{r}
 summary(slmfit_out1) 
@@ -224,7 +224,7 @@ After we have obtained a fitted spatial linear model, we can use the `predict.sl
 pred_obj <- predict(slmfit_out1)
 ```
 
-The output of the `predict` function is too lengthy to print here and can be a bit cumbersome to read anyway. To obtain useful output, we have a couple of choices. If you are familiar with `R`, then you might want to construct your own summary output, maps, variograms, etc. One of the outputs of `predict` is a data frame that is appended with the site by site predictions that would facilitate construction of, for example, a map with predictions. This is particularly useful if you have a shapefile. The site-by-site predictions for density are given by the variable `name_of_response_pred_density` while the site-by-site predictions for counts are given by `name_of_response_pred_count`. These two columns will only differ if you have provided a column for areas of each site. 
+The output of the `predict` function is too lengthy to print here and can be cumbersome to read. To obtain useful output, we have a couple of choices. If you are familiar with `R`, then you might want to construct your own summary output, maps, variograms, etc. One of the outputs of `predict` is a data frame that is appended with the site by site predictions that would facilitate construction of, for example, a map with predictions. This is particularly useful if you have a shapefile. The site-by-site predictions for density are given by the variable `name_of_response_pred_density` while the site-by-site predictions for counts are given by `name_of_response_pred_count`. These two columns will only differ if you have provided a column for areas of each site. 
 
 ```{r, results = "hide"}
 prediction_df <- pred_obj$Pred_df
@@ -261,7 +261,7 @@ get.predinfo(pred_obj, conf_level = 0.90)
 
 We predict a total of 4817 units in this simulated region with 90% confidence bounds of (4779, 4856). The confidence interval is fairly small because we simulated data that were highly correlated, increasing precision in prediction for unobserved sites. You can see that the prediction of the total is close to the true value of 4834.326, and the true value is within the confidence interval.
 
-Finally, to get a basic "map" of the predictions, we can use the `get.predplot` function. 
+Finally, to get a basic plot of the predictions, we can use the `get.predplot` function. 
 
 ```{r}
 get.predplot(pred_obj)
@@ -282,9 +282,9 @@ Recall that the true total for this small area was 273.4. We see that this is cl
 
 ## Moose Abundance from Aerial Surveys
 
-The simulated data example assumes that the coordinates are in Trans-Mercator (TM) form, that the vector of the response is numeric and has `NA` values for sites that were not sampled, and that the areas of each site sampled are all the same. If this isn't the case for the data set you're working with, the following moose abundance example can help prepare your data for the functions in `sptotal`.
+The simulated data example assumes that the coordinates are a Transverse Mercator projection (TM), that the vector of the response is numeric and has `NA` values for sites that were not sampled, and that the areas of each site sampled are all the same. If this isn't the case for the data set you are working with, the following moose abundance example can help prepare your data for the functions in `sptotal`.
 
-For an example with real data, we consider a data set on moose abundance in Alaska. Each observation corresponds to a moose counted at a particular site, but time and money do not permit all sites to be counted. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
+For an example with real data, we consider a data set on moose abundance in Alaska. Each observation corresponds to a moose counted at a particular site, but operational constraints do not permit all sites to be counted. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
 
 ### Issue 1: Dealing with Spatial Coordinates
 
@@ -303,13 +303,13 @@ centroids <- data.frame(ID = AKmoose@data,
   y = rgeos::gCentroid(AKmoose, byid=TRUE)@coords[ ,'y'])
 ```
 
-Next, for most spatial prediction, we want to use a trans-mercator projection instead of latitude-longitude so that physical distance between two sites is accurately represented. The `LLtoUTM()` function in this package provides a convenient way to convert latitude/longitude coordinates into user-defined transmercator coordinates. 
+Next, for most spatial prediction, we want to use a transverse Mercator projection instead of latitude-longitude so that physical distance between two sites is accurately represented. The `LLtoTM()` function in this package provides a convenient way to convert latitude/longitude coordinates into user-defined transmercator coordinates. 
 
 ```{r}
-xy <- LLtoUTM(mean(centroids$x), centroids$y, centroids$x)$xy
+xy <- LLtoTM(mean(centroids$x), centroids$y, centroids$x)$xy
 ```
 
-Trans-Mercator is based on minimizing distortion from a central meridian: the first argument specifies that the central meridian should be the mean longitude value in the data set. The second and third arguments to this function give the centroid latitude values and centroid longitude values. Finally, we add the TM coordinates to our data frame with the survey data. We first extract the survey data from our `sp` object using
+Transverse Mercator is based on minimizing distortion from a central meridian: the first argument specifies that the central meridian should be the mean longitude value in the data set. The second and third arguments to this function give the centroid latitude values and centroid longitude values. Finally, we add the transformed coordinates to our data frame with the survey data. We first extract the survey data from our `sp` object using
 
 ```{r}
 moose_df <- AKmoose@data ## name the data set moose_df
@@ -318,14 +318,14 @@ head(moose_df) ## look at the first 6 observations
 
 We see that, in addition to the `total` column, which has counts of moose, the data set also has `strat`, a covariate that is either `L` for Low or `M` for medium, and `surveyed`, which is a `0` if the site wasn't sampled and a `1` if the site was sampled. 
 
-And then the trans-mercator coordinates can be added to the survey data frame.
+And then the tranformed coordinates can be added to the survey data frame.
 
 ```{r}
 moose_df$x = xy[ ,'x']
 moose_df$y = xy[ ,'y']
 ```
 
-It might be helpful to compare the lat/lon coordinates of the original data frame to the TM coordinates in the new data frame to make sure that the transformation seems reasonable:
+It might be helpful to compare the latitude and longitude coordinates of the original data frame to the tranformed coordinates in the new data frame to make sure that the transformation seems reasonable:
 
 ```{r, results = "hide"}
 cbind(moose_df$x, moose_df$y, centroids$x, centroids$y)
@@ -405,7 +405,7 @@ We obtain a predicted total of 1596 animals with 90% lower and upper confidence 
 
 ### Issue 3: Dealing with Areas
 
-Finally, throughout all of the above analyses, we have assumed that the areas of each site were equal. Though this assumption is not accurate for the moose data, due to slightly differing areas based on differing latitudes and longitudes, the assumption approximately holds so that any differences in the prediction that incorporates area is negligible. But, suppose we had sites with very different areas. To showcase how to incorporate site area into the functions in this package, let's first create a "fake" area variable that has the first 700 sites in the region have an area of 1 square kilometer and has the last 160 sites in the region have an area of 2 square kilometeres. To be clear, this is simply a toy example to show how to incorporate area without having the need to give and explore an entirely new data set.
+Finally, throughout all of the above analyses, we have assumed that the areas of each site were equal. Though this assumption is not accurate for the moose data, due to slightly differing areas based on differing latitudes and longitudes, the assumption approximately holds so that any differences in the prediction that incorporates area is negligible. But, suppose we had sites with very different areas. To showcase how to incorporate site area into the functions in this package, let's first create a "fake" area variable that has the first 700 sites in the region have an area of 1 square kilometer and has the last 160 sites in the region have an area of 2 square kilometeres. 
 
 ```{r}
 moose_df$fake_area <- c(rep(1, 700), rep(2, 160))
@@ -529,7 +529,7 @@ We can see that the prediction, 7.41, is close to the true value, 7.65, and that
 
 Spatial prediction can be used to estimate means and totals over finite populations from geographic regions, and also for the special case of ''small area'' estimation. The term small area estimation refers to making an inference on a smaller geographic area within the overall study area. There may be few or no samples within that small area, so that estimation by classical sampling methods may not be possible or variances become exceedingly large. An alternative is to assume that the data were generated by a stochastic process and use model-based approaches.
 
-It is assumed that the response variable is a realization of a spatial stochastic process. Geostatistical models and methods are used (for a review, see Cressie, 1993). Geostatistics was developed for point samples. If the samples are very small, an infinite population is assumed. In classical geostatistics, the average value over an aggregated area can be predicted using methods such as block kriging. Thus it appears that this is closely related to small area estimation, but where samples come from point locations rather than a finite set of sample units. While there is a large literature on geostatistics and block kriging methods, they have been developed for infinite populations. This package is designed for the case where we have a finite collection of plots and we assume that the data were produced by a spatial stochastic process. Detailed developements are given in Ver Hoef (2001, 2008). Comparisons to classical sampling methods can be found in Ver Hoef (2002), and applications in forestry are contained in Ver Hoef and Temesgen (2013) and Temesgen and Ver Hoef (2015).
+It is assumed that the response variable is a realization of a spatial stochastic process. Geostatistical models and methods are used (for a review, see Cressie, 1993). Geostatistics was developed for point samples. If the samples are very small relative to the population size, an infinite population is assumed. In classical geostatistics, the average value over an area can be predicted using methods such as block kriging. Thus it appears that this is closely related to small area estimation, but where samples come from point locations rather than a finite set of sample units. While there is a large literature on geostatistics and block kriging methods, they have been developed for infinite populations. This package is designed for the case where we have a finite collection of plots and we assume that the data were produced by a spatial stochastic process. Detailed developements are given in Ver Hoef (2001, 2008). Comparisons to classical sampling methods can be found in Ver Hoef (2002), and applications in forestry are contained in Ver Hoef and Temesgen (2013) and Temesgen and Ver Hoef (2015).
 
 # References
 

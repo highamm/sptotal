@@ -39,3 +39,34 @@ test_that("Predictions in example data set don't change", {
   expect_equivalent(predobjwts$PredVar, 26.29932, tolerance  = 10) ## for the weights
 })
 
+slmobj_ML <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+  xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar',
+  estmethod = "ML")
+predobj_ML <- predict(slmobj_ML)
+
+test_that("Maximum Likelihood gives similar estimate to REML", {
+  expect_equivalent(predobj$FPBK_Prediction, predobj_ML$FPBK_Prediction,
+    tolerance = 5)
+})
+
+slmobj_sph <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+  xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar',
+  CorModel = "Spherical")
+predobj_sph <- predict(slmobj_sph)
+slmobj_gau <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+  xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar',
+  CorModel = "Gaussian")
+predobj_gau <- predict(slmobj_gau)
+slmobj_none <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
+  xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar',
+  CorModel = "Exponential", covestimates = c(0.1, 150, 1), estmethod = "None")
+predobj_none <- predict(slmobj_none)
+
+test_that("The other (non-exponential) covariance functions work", {
+  expect_equivalent(predobj$FPBK_Prediction, predobj_sph$FPBK_Prediction,
+    tolerance = 20)
+  expect_equivalent(predobj$FPBK_Prediction, predobj_gau$FPBK_Prediction,
+    tolerance = 20)
+  expect_equivalent(predobj$FPBK_Prediction, predobj_none$FPBK_Prediction,
+    tolerance = 20)
+})

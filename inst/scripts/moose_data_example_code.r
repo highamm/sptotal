@@ -113,24 +113,24 @@ sqrt(predoutL$PredVar +predoutM$PredVar)/
 
 
 
-library(splmm)
-d2 = d1
-d2L = d2[d2$STRAT=='L',]
-d2M = d2[d2$STRAT=='M',]
-coordinates(d2) <- ~ x + y
-coordinates(d2L) <- ~ x + y
-coordinates(d2M) <- ~ x + y
-
-splmmout1 = splmm(TOTAL ~ 1, d2)
-splmmout2 = splmm(TOTAL ~ STRAT, d2)
-splmmout3 = splmm(TOTAL ~ 1, d2L)
-splmmout4 = splmm(TOTAL ~ 1, d2M)
-
-slmfit_out1$SpatialParmEsts
-splmmout1$theta
-slmfit_out2$SpatialParmEsts
-splmmout2$theta
-slmfit_out3$SpatialParmEsts
-splmmout3$theta
-slmfit_out4$SpatialParmEsts
-splmmout4$theta
+# library(splmm)
+# d2 = d1
+# d2L = d2[d2$STRAT=='L',]
+# d2M = d2[d2$STRAT=='M',]
+# coordinates(d2) <- ~ x + y
+# coordinates(d2L) <- ~ x + y
+# coordinates(d2M) <- ~ x + y
+#
+# splmmout1 = splmm(TOTAL ~ 1, d2)
+# splmmout2 = splmm(TOTAL ~ STRAT, d2)
+# splmmout3 = splmm(TOTAL ~ 1, d2L)
+# splmmout4 = splmm(TOTAL ~ 1, d2M)
+#
+# slmfit_out1$SpatialParmEsts
+# splmmout1$theta
+# slmfit_out2$SpatialParmEsts
+# splmmout2$theta
+# slmfit_out3$SpatialParmEsts
+# splmmout3$theta
+# slmfit_out4$SpatialParmEsts
+# splmmout4$theta

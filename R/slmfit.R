@@ -1,7 +1,7 @@
 #' Fits a Spatial Linear Model
 #'
 #' Estimates regression coefficients and spatial autocorrelation
-#' parameters, given spatial coordinates and a model formula..
+#' parameters, given spatial coordinates and a model formula.
 #'
 #' @param formula is an \code{R} linear model formula specifying the
 #' response variable as well as covariates for predicting the response on the unsampled sites.
@@ -16,7 +16,8 @@
 #' @param estmethod is either the default \code{"REML"} for restricted
 #' maximum likelihood to estimate the covariance parameters and
 #' regression coefficients or \code{"ML"} to estimate the covariance
-#' parameters and regression coefficients.
+#' parameters and regression coefficients. This argument can also be set to
+#' \code{"None"}, in which case \code{covestimates} must be provided.
 #' @param covestimates is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and \code{estmethod = "None"}, the the provided vector are treated as the estimators to create the covariance structure.
 #' @return a list of class \code{slmfit} with \itemize{
 #'   \item the spatial covariance estimates

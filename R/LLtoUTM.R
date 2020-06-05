@@ -1,4 +1,4 @@
-#' Convert Latitude and Longitude spatial coordinates to Trans-Mercator (TM) projection coordinates
+#' Convert Latitude and Longitude spatial coordinates to transverse Mercator (TM) projection coordinates
 #' with a user-defined central meridian.
 #'
 #' The resulting units from applying the function are kilometers.
@@ -19,17 +19,17 @@
 #' @return A list with the TM coordinates as the first component of the list. The first component of the list contains x coordinates in the first column and y coordinates in the second column. The remaining elements of the list are the \code{cm}, \code{minx}, and \code{miny} values that were input.
 #'
 #' @examples
-#' ## Add TM x and y coordinates to a data frame with
+#' ## Add transverse Mercator x and y coordinates to a data frame with
 #' ## latitude/longitude coordinates. Name these \code{xc_TM_} and \code{yc_TM_}.
-#' exampledataset$xc_TM_ <- LLtoUTM(cm = base::mean(exampledataset[ ,"xcoords"]),
+#' exampledataset$xc_TM_ <- LLtoTM(cm = base::mean(exampledataset[ ,"xcoords"]),
 #'  lat = exampledataset[ ,"ycoords"],
 #'  lon = exampledataset[ ,"xcoords"])$xy[ ,1]
-#' exampledataset$yc_TM_ <- LLtoUTM(cm = base::mean(exampledataset[ ,"xcoords"]),
+#' exampledataset$yc_TM_ <- LLtoTM(cm = base::mean(exampledataset[ ,"xcoords"]),
 #'  lat = exampledataset[ ,"ycoords"],
 #'  lon = exampledataset[ ,"xcoords"])$xy[ ,2]
-#' @export LLtoUTM
+#' @export LLtoTM
 
-LLtoUTM <- function(cm, lat, lon, xcol = "x", ycol = "y", minx = NULL, miny = NULL)
+LLtoTM <- function(cm, lat, lon, xcol = "x", ycol = "y", minx = NULL, miny = NULL)
 {
   # check if any longitude values straddle the -180, +180 longitude line
   # if so, convert minus longitude values to longitude values > 180
