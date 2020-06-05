@@ -33,7 +33,7 @@
 #' }
 #' @source \href{http://www.adfg.alaska.gov/index.cfm?adfg=hunting.main}{Alaska Department of Fish and Game, Division of Wildlife Conservation} has released this data set under the CC0 (creative commons) license. To the extent possible under law, Alaska Department of Fish and Game, Division of Wildlife Conservation waives all copyright and related or neighboring rights to An Alaskan GSPE (Geospatial Population Estimator) Survey of Moose, AKmoose.rda. This work is published from: United States.
 #' @examples
-#' data(AKmoose) 
+#' data(AKmoose)
 #' names(AKmoose@data)
 #' summary(AKmoose@data)
 "AKmoose"
@@ -60,31 +60,14 @@
 #'   \item{wts2}{Prediction weights for estimating a total over a subset of 25 contiguous plots}
 #' }
 #' @examples
-#' data(simdata) 
+#' data(simdata)
 #' names(simdata)
 #' summary(simdata)
 "simdata"
 
-
-#' Oregon Biomass Data
-#'
-#' A data set that can be used with the \code{sptotal} package. In
-#' this example, the response variable is a density.
-#'
-#' @format A data frame object inclding:
-#' \describe{
-#'   \item{coordinates}{The spatial cooredinates for the centroid for each site}
-#'   \item{BIOT_ha}{Biomass on each site}
-#'   \item{precip_mean_30yr}{Average precipitation for 30 years}
-#'   \item{temp_mean_30yer}{Average temperature for 30 years}
-#'   ...
-#' }
-"ORbiomass"
-
-
 #' Dissolved Organic Carbon in U.S. Lakes
 #'
-#' These data contain dissolved organic carbon (DOC) in National Lakes Data from the U.S. Environmental Protection Agency 
+#' These data contain dissolved organic carbon (DOC) in National Lakes Data from the U.S. Environmental Protection Agency
 #'
 #' @format A data frame with 1206 rows and 9 variables:
 #' \describe{
@@ -100,7 +83,7 @@
 #' }
 #' @source \href{National Aquatic Resource Surveys}{National Aquatic Resource Surveys} webpage.  We combined \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_siteinfo_08232016.csv}{site data}, \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_waterchem_wide.csv}{DOC data}, and \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_phabmet_10202016.csv}{habitat metrics} to create a data set of 1206 lakes in the conterminous United States.
 #' @examples
-#' data(USlakes) 
+#' data(USlakes)
 #' names(USlakes)
 #' summary(USlakes)
 "USlakes"
