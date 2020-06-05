@@ -30,7 +30,7 @@ simdata
 A simulated data set that can be used with the \code{sptotal} package.
 }
 \examples{
-data(simdata) 
+data(simdata)
 names(simdata)
 summary(simdata)
 }

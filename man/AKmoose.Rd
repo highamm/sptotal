@@ -24,7 +24,7 @@ A data set that can be used with the \code{sptotal} package. In
 this example, the counts are of moose on 860 sites of equal area.
 }
 \examples{
-data(AKmoose) 
+data(AKmoose)
 names(AKmoose@data)
 summary(AKmoose@data)
 }

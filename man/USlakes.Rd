@@ -28,7 +28,7 @@ USlakes
 These data contain dissolved organic carbon (DOC) in National Lakes Data from the U.S. Environmental Protection Agency
 }
 \examples{
-data(USlakes) 
+data(USlakes)
 names(USlakes)
 summary(USlakes)
 }
