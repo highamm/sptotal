@@ -2,12 +2,12 @@
 % Please edit documentation in R/AIC.slmfit.R
 \name{AIC.slmfit}
 \alias{AIC.slmfit}
-\title{Extract the AIC from a \code{slmfit()} object for comparing models.}
+\title{Extract the AIC from a \code{\link{slmfit}} object for comparing models.}
 \usage{
 \method{AIC}{slmfit}(object, ...)
 }
 \arguments{
-\item{object}{a \code{slmfit()} object}
+\item{object}{a \code{\link{slmfit}} object}
 
 \item{...}{further arguments passed to or from other methods.}
 }
@@ -16,7 +16,7 @@ The AIC value of the slmfit object.  Here, AIC is computed as 2 times the
 negative log-likelihood plus 2 times the number of model parameters for Maximum Likelihood (ML) and 2 times the negative log-likelihood for REML. For REML, AIC should only be used to compare two models with the same covariates but different spatial covariance structures.
 }
 \description{
-Extract the AIC from a \code{slmfit()} object for comparing models.
+Extract the AIC from a \code{\link{slmfit}} object for comparing models.
 }
 \examples{
 data(exampledataset) ## load a toy data set

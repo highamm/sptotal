@@ -2,12 +2,12 @@
 % Please edit documentation in R/residuals.slmfit.R
 \name{residuals.slmfit}
 \alias{residuals.slmfit}
-\title{Extract Model Residuals from an \code{\link{slmfit}()} object.}
+\title{Extract Model Residuals from an \code{slmfit} object.}
 \usage{
 \method{residuals}{slmfit}(object, cross.validation = FALSE, ...)
 }
 \arguments{
-\item{object}{a slmfit object}
+\item{object}{a \code{slmfit} object generated from the \code{\link{slmfit}()} function.}
 
 \item{cross.validation}{a logical (\code{TRUE} or \code{FALSE}) that
 indicates whether the residuals computed should be found using
@@ -16,10 +16,10 @@ leave one out cross-validation. Set to \code{FALSE} by default.}
 \item{...}{further arguments passed to or from other methods.}
 }
 \value{
-a vector of residuals, consisting of each observed count minus the estimated mean, or, in the case of cross-validation, the observed count minus the leave-one-out-cross-validation prediction.
+a vector of residuals, consisting of each observed response/density minus the estimated mean, or, in the case of cross-validation, the observed response/density minus the leave-one-out-cross-validation prediction.
 }
 \description{
-Extract Model Residuals from an \code{\link{slmfit}()} object.
+Extract Model Residuals from an \code{slmfit} object.
 }
 \examples{
 data(exampledataset) ## load a toy data set

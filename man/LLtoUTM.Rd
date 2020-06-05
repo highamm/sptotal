@@ -8,8 +8,8 @@ with a user-defined central meridian.}
 LLtoUTM(cm, lat, lon, xcol = "x", ycol = "y", minx = NULL, miny = NULL)
 }
 \arguments{
-\item{cm}{is the user defined central median. Use the mean of the
-longitude values in your data set, if unsure what to use here.}
+\item{cm}{is the user defined central median. A common choice is the
+mean of the longitude values in your data set}
 
 \item{lat}{is the vector of latitudes}
 

@@ -34,8 +34,9 @@ a list with \itemize{
 }
 }
 \description{
-Uses an object generated from \code{\link{slmfit}()} to predict the counts on the unsampled sites.
-The column of the data set that has the counts should have numeric values for the observed counts
+Uses an object of class \code{slmfit} from the \code{\link{slmfit}()}
+ function to predict the response on the unsampled sites.
+The column of the data set that has the response should have numeric values for the observed response
 on the sampled sites and `NA` for any site that was not sampled.
 }
 \examples{

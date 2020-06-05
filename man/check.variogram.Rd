@@ -7,7 +7,7 @@
 check.variogram(object)
 }
 \arguments{
-\item{object}{is an object of class \code{slmfit()}.}
+\item{object}{is an object of class \code{\link{slmfit}}.}
 }
 \value{
 a plot of the empirical variogram with the fitted model overlayed.

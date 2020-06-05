@@ -16,8 +16,8 @@ confidence interval (default = 0.90).}
 a list of three tables, including \itemize{
 \item \code{simptab}, which contains the prediction and its standard error,
 \item \code{confbounds}, which contains a confidence interval for the prediction, and
-\item \code{outptmat}, a table of sampling information, including the number of sites sampled, the total number of sites, the total observed count, and the
-observed average density (equal to the average count if all site areas are
+\item \code{outptmat}, a table of sampling information, including the number of sites sampled, the total number of sites, the total observed response, and the
+observed average density (equal to the average response if all site areas are
 equal).
 }
 }

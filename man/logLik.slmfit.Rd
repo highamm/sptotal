@@ -2,20 +2,20 @@
 % Please edit documentation in R/logLik.slmfit.R
 \name{loglik.slmfit}
 \alias{loglik.slmfit}
-\title{Extract Log-Likelihood from a fitted \code{slmfit()} object}
+\title{Extract Log-Likelihood from a fitted class \code{slmfit} object}
 \usage{
 loglik.slmfit(object, ...)
 }
 \arguments{
-\item{object}{is a slmfit object}
+\item{object}{is a class \code{slmfit} object}
 
 \item{...}{additional argurments}
 }
 \value{
-the log-likelihood of the slmfit object
+the log-likelihood of the model fit in the \code{slmfit} object
 }
 \description{
-Extract Log-Likelihood from a fitted \code{slmfit()} object
+Extract Log-Likelihood from a fitted class \code{slmfit} object
 }
 \examples{
 data(exampledataset) ## load a toy data set
