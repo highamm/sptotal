@@ -107,7 +107,13 @@ Of course, the data do not have to be in exactly this order, either in terms of 
 
 ## Simulated Data Creation
 
-To demonstrate the package, we created some simulated data so they are perfectly behaved, and we know exactly how they were produced. Here, we give a brief description before using the main features of the package. To get started, type
+To demonstrate the package, we created some simulated data so they are perfectly behaved, and we know exactly how they were produced. Here, we give a brief description before using the main features of the package. To get started, install the package
+
+```{r, eval = FALSE}
+install.packages("sptotal")
+```
+
+and then type
 
 ```{r}
 library(sptotal)
