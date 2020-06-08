@@ -95,8 +95,8 @@ rect(.5, 0, .58, .68, col = rgb(77/255,175/255,74/255, alpha = .3))
 rect(.6, 0, .68, .68, col = rgb(77/255,175/255,74/255, alpha = .3))
 rect(.7, .7, .78, 1, col = rgb(152/255,78/255,163/255))
 rect(.7, 0, .78, .68, col = rgb(152/255,78/255,163/255, alpha = .3))
-rect(.8, .7, 2, 1, col = rgb(255/255,127/255,0/255))
-rect(.8, 0, 2, .68, col = rgb(255/255,127/255,0/255, alpha = .3))
+rect(.8, .7, 1, 1, col = rgb(255/255,127/255,0/255))
+rect(.8, 0, 1, .68, col = rgb(255/255,127/255,0/255, alpha = .3))
 ```
 
 where the red rectangle represents the column of the response variable, and the top part, colored in red, are observed locations, and the lower part, colored in white, are the unobserved values. To the right, colored in blue, are possibly several columns containing covariates thought to be _predictive_ for the response value at each location. Covariates must be known for both observed and unobserved locations, and the covariates for unobserved locations are shown as pale blue below the darker blue covariates for observed locations above. It is also possible that there are no available covariates. 
@@ -119,13 +119,13 @@ Type
 data(simdata)
 ```
 
-and then `simdata` sill be available in your workspace. To see the structure of `simdata`, type
+and then `simdata` will be available in your workspace. To see the structure of `simdata`, type
 
 ```{r}
 head(simdata)
 ```
 
-Here, we see that `simdata` is a data frame with 400 records. The spatial coordinates are `numeric` variables in columns named `x` and `y`.  We created 7 continuous covariates, `X1` through `X5`.  The variables `X1` through `X5` were all created using the `rnorm()` function, so they are all standard normal variates that are independent between and within variable.  Variables `X6` and `X7` were independent from each other, but spatially autocorrelated within, each with a variance parameter of 1, an autocorrelation range parameter of 0.2 from an exponential model, and a small nugget effect of 0.01.  The variables `F1` and `F2` are factor variables with 3 and 5 levels, respectively. The variable `Z` is the response. Data were simulated from the model
+Here, we see that `simdata` is a data frame with 400 records. The spatial coordinates are `numeric` variables in columns named `x` and `y`.  We created 7 continuous covariates, `X1` through `X7`.  The variables `X1` through `X5` were all created using the `rnorm()` function, so they are all standard normal variates that are independent between and within variable.  Variables `X6` and `X7` were independent from each other, but spatially autocorrelated within, each with a variance parameter of 1, an autocorrelation range parameter of 0.2 from an exponential model, and a small nugget effect of 0.01.  The variables `F1` and `F2` are factor variables with 3 and 5 levels, respectively. The variable `Z` is the response. Data were simulated from the model
 
 \begin{align*}
 Z_i = 10 + &0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i + 0.4 \cdot X5_i + \\
@@ -138,14 +138,15 @@ $$
 \textrm{cov}(\delta_i,\delta_j) = 2*\exp(-d_{i,j})
 $$  
 
-where $d_{i,j}$ is Euclidean distance between locations $i$ and $j$. In geostatistics terminology, this model has a partial sill of 2 and a range of 1. The random errors $\{\varepsilon_i\}$ are independent with variance 0.02, and this variance is called the nugget effect. Two columns with weights are included, `wts1` contains 1/200 for each row, so the weighted sum will yield a prediction of the overall mean. The column `wts2` contains a 1 for 25 locations, and 0 elsewhere, so the weighted sum will be a prediction of a total in the subset of 25 locations.
+where $d_{i,j}$ is Euclidean distance between locations $i$ and $j$. In geostatistics terminology, this model has a partial sill of 2 and a range of 1. The random errors $\{\varepsilon_i\}$ are independent with variance 0.02, and this variance is called the nugget effect. Two columns with weights are included, `wts1` contains 1/400 for each row, so the weighted sum will yield a prediction of the overall mean. The column `wts2` contains a 1 for 25 locations, and 0 elsewhere, so the weighted sum will be a prediction of a total in the subset of 25 locations.
 
 The spatial locations of `simdata` are in a $20 \times 20$ grid uniformly spaced in a box with sides of length 1,
 
 ```{r, fig.width = 5, fig.height = 5, fig.align = "center", message = FALSE, cache = FALSE}
 require(ggplot2)
-ggplot(data = simdata, aes(x = x, y = y)) + geom_point() +
-  geom_point(data = subset(simdata, wts2 == 1), colour = "red")
+ggplot(data = simdata, aes(x = x, y = y)) + geom_point(size = 3) +
+  geom_point(data = subset(simdata, wts2 == 1), colour = "red",
+    size = 3)
 ```
 
 The locations of the 25 sites where `wts2` is equal to one are shown in red.
@@ -173,13 +174,16 @@ simobs$Z <- NA
 simobs[obsID, 'Z'] <- simdata[obsID, 'Z']
 ```
 
-We now have a data set where the whole population is known, `simdata`, and another one, `simobs`, where 75% of the response variable of the population has been replaced by `NA`.  Next we show the sampled sites as solid circles, while the missing values are shown as open circles, and we use red again to show the sampled sites within the small area of 25 locations.
+We now have a data set where the whole population is known, `simdata`, and another one, `simobs`, where 75% of the response variable of the population has been replaced by `NA`.  Next we show the sampled sites as solid circles, while the missing values are shown as open circles, and we use red again to show the sites within the small area of 25 locations.
 
 ```{r, fig.width = 5, fig.height = 5, fig.align = "center", cache = FALSE}
-ggplot(data = simobs, aes(x = x, y = y)) + geom_point(shape = 1) +
-  geom_point(data = subset(simobs, !is.na(Z)), shape = 16) +
+ggplot(data = simobs, aes(x = x, y = y)) +
+  geom_point(shape = 1, size = 2.5, stroke = 1.5) +
+  geom_point(data = subset(simobs, !is.na(Z)), shape = 16, size = 3.5) +
   geom_point(data = subset(simobs, !is.na(Z) & wts2 == 1), shape = 16,
-    colour = "red")
+    colour = "red", size = 3.5) +
+  geom_point(data = subset(simobs, is.na(Z) & wts2 == 1), shape = 1,
+    colour = "red", size = 2.5, stroke = 1.5)
 ```
 
 We will use the `simobs` data to illustrate use of the `sptotal` package.
@@ -290,7 +294,7 @@ The simulated data example assumes that the coordinates are a Transverse Mercato
 
 For an example with real data, we consider a data set on moose abundance in Alaska obtained from [Alaska Department of Fish and Game, Division of Wildlife Conservation](https://www.adfg.alaska.gov/index.cfm?adfg=divisions.wcoverview). Each observation corresponds to a moose counted at a particular site, but operational constraints do not permit all sites to be counted. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
 
-### Issue 1: Dealing with Spatial Coordinates
+### Spatial Coordinates
 
 Our goal is to append the x and y-coordinates to the data frame with the survey data. 
 
@@ -337,7 +341,7 @@ cbind(moose_df$x, moose_df$y, centroids$x, centroids$y)
 
 Now, the `moose_df` data frame is in a more workable form for the `sptotal` package. However, there are still a couple of issues involving how the count data is stored and which sites were sampled that may be somewhat common in real data sets, which we address next.
 
-### Issue 2: Dealing with Count Vector Specifications
+### Count Vector Specifications
 
 Let's look specifically at the counts in this moose data set in the `total` column:
 
@@ -370,6 +374,8 @@ moose_df$total[moose_df$surveyed == 0] <- NA
 head(moose_df)
 ```
 
+### Fitting the Model and Obtaining Predictions
+
 Now that
 
 * we have x and y coordinates in TM format,
@@ -389,7 +395,6 @@ ggplot(data = moose_df, aes(x = x, y = y)) +
 
 where the grey circles are sites that have not been sampled. 
 
-
 ```{r, results = "hide", fig.keep = "none"}
 slmfit_out_moose <- slmfit(formula = total ~ strat, 
   data = moose_df, xcoordcol = 'x', ycoordcol = 'y',
@@ -407,7 +412,7 @@ get.predplot(pred_moose)
 
 We obtain a predicted total of 1596 animals with 90% lower and upper confidence bounds of 921 and 2271 animals, respectively. Unlike the simulation setting, there is no "true total" we can compare our prediction to, because, in reality, not all sites were sampled!
 
-### Issue 3: Dealing with Areas
+### Sites with Different Areas
 
 Finally, throughout all of the above analyses, we have assumed that the areas of each site were equal. Though this assumption is not accurate for the moose data, due to slightly differing areas based on differing latitudes and longitudes, the assumption approximately holds so that any differences in the prediction that incorporates area is negligible. But, suppose we had sites with very different areas. To showcase how to incorporate site area into the functions in this package, let's first create a "fake" area variable that has the first 700 sites in the region have an area of 1 square kilometer and has the last 160 sites in the region have an area of 2 square kilometeres. 
 
@@ -498,7 +503,7 @@ ggplot(data = lakes, aes(x = RVFPUNDWOODY_RIP, y = log(DOC_RESULT))) +
 
 It looks like there might be a negative relationship between riparian nonwoody-understory cover and DOC.
 
-### Create a Subsample Data Set
+### Creating a Subsample Data Set
 
 We have the whole population of lakes, but, with budget cuts, it is likely that this whole population will not always be surveyed in its entirety.  So, we will ask the question, "If we sample from this population, can we still get a fairly precise estimate of the mean DOC?"
 
@@ -513,7 +518,7 @@ lakeobs[LakeObsID, 'DOC_RESULT'] <- lakes[LakeObsID, 'DOC_RESULT']
 lakeobs$wts <- 1 / nrow(lakeobs)
 ```
 
-### Fit Model and Make Predictions
+### Fitting the Model and Making Predictions
 
 Even though data are skewed, let's try it without taking log of response variable. Note that the mean of log-tranformed  variables is not equal to the log of the mean of set of variables. So if we want a total on the untransformed scale, it would be a mistake to transform the data first, model it, make predictions, sum the predictions, and then exponentiate.  It is much simpler to leave the data untransformed and rely on robustness of the method.  Let's see how this works. 
 
