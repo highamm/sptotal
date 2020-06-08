@@ -28,7 +28,7 @@ pred$Pred_df[1:6, c("xco", "yco", "counts", "counts_pred_count")]
 
 ## Methods and Basic Functions
 
-\code{sptotal} Main Functions:
+`sptotal` Main Functions:
 
 \code{slmfit} fits a spatial linear model to the response on the
 observed/sampled sites. \code{check.variogram} can be used to construct
