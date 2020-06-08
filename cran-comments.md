@@ -3,6 +3,7 @@
 - local test on Mac OS X (`R` 4.0.0)
 - Ubuntu 16.04.6 on Travis CI (`R` 4.0.0)
 - win-builder, both the development and release versions of `R`
+- R-hub `check_for_cran()` tests
 
 ## Check Results for R CMD
 
