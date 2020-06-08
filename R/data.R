@@ -81,7 +81,7 @@
 #'   \item{RVFPUNDWOODY_RIP}{riparian zone and vegetation: fraction of understory with nonwoody cover present in the riparian zone}
 #'   \item{UID}{A unique lake identifier in the EPA lake survey datebases}
 #' }
-#' @source \href{National Aquatic Resource Surveys}{National Aquatic Resource Surveys} webpage.  We combined \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_siteinfo_08232016.csv}{site data}, \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_waterchem_wide.csv}{DOC data}, and \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_phabmet_10202016.csv}{habitat metrics} to create a data set of 1206 lakes in the conterminous United States.
+#' @source \href{https://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys}{National Aquatic Resource Surveys} webpage.  We combined \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_siteinfo_08232016.csv}{site data}, \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_waterchem_wide.csv}{DOC data}, and \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_phabmet_10202016.csv}{habitat metrics} to create a data set of 1206 lakes in the conterminous United States.
 #' @examples
 #' data(USlakes)
 #' names(USlakes)
