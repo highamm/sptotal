@@ -1,7 +1,7 @@
 ---
 title: "Inference for Totals and Weighted Sums from Finite Spatial Populations"
 author:
-  - Matt Higham, Jay M. Ver Hoef, Bryce M. Frank, Francisco M. Gutierrez 
+  - Matt Higham, Jay M. Ver Hoef, Bryce M. Frank
 date: "`r Sys.Date()`"
 output:
   prettydoc::html_pretty:
