@@ -358,7 +358,7 @@ str(moose_df$total)
 
 The first issue is that our original `sp` object had `total` as a factor, which `R` treats as a categorical variable. `total` should be numeric, and, in fact, the variable `surveyed` has the same issue. If we were to keep `total` as a factor and try to run `slmfit`, we would get a convenient error message, reminding us to make sure that our response variable is numeric, not a factor or character:
 
-```{r, error = TRUE}
+```{r, error = TRUE, purl = FALSE}
 slmfit_out_moose <- slmfit(formula = total ~ strat, 
   data = moose_df, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential")
