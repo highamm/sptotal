@@ -28,5 +28,6 @@ Suggests:
     testthat,
     prettydoc,
     rgeos,
+    sp
 VignetteBuilder: knitr,
     rmarkdown
