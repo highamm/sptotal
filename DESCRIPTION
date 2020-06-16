@@ -20,14 +20,14 @@ Imports: matrixcalc,
     stats,
     viridis,
     graphics,
-    tibble
+    tibble,
+    sp
 Suggests: 
     gstat,
     rmarkdown,
     knitr,
     testthat,
     prettydoc,
-    rgeos,
-    sp
+    rgeos
 VignetteBuilder: knitr,
     rmarkdown
