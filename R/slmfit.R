@@ -57,6 +57,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
 
   ## make sure estmethod is either REML, ML, or None
 
+  data <- as.data.frame(data)
+
   if (estmethod != "REML" & estmethod != "ML" &
       estmethod != "None") {
     stop("estmethod must be either 'REML' for restricted maximum
@@ -156,8 +158,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
 
   ## display error if any values in the area col are missing
   if (is.null(areacol) == FALSE) {
-    if (is.numeric(datanomiss[ ,areacol]) == FALSE |
-        sum(is.na(datanomiss[ ,areacol])) > 0) {
+    if (is.numeric(datanomiss[[areacol]]) == FALSE |
+        sum(is.na(datanomiss[[areacol]])) > 0) {
       stop("'areacol' must specify the name of the column in the data set with the areas for each site. This column must be numeric
         without any missing values.")
     }
@@ -167,8 +169,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
 
   ## ASSUME that coordinates are TM
 
-    xcoordsUTM <- datanomiss[ ,xcoordcol]
-    ycoordsUTM <- datanomiss[ ,ycoordcol]
+    xcoordsUTM <- datanomiss[[xcoordcol]]
+    ycoordsUTM <- datanomiss[[ycoordcol]]
 
 
   ## create the design matrix for unsampled sites, for all of the sites, and for the sampled sites, respectively.
@@ -306,3 +308,9 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
 
   }
 
+#library(tibble)
+# ex <- tibble(exampledataset, facttest = c(rep("A", 21), rep("B", 19)))
+# slmobj <- slmfit(formula = counts ~ pred1 + pred2 + facttest, data = ex,
+# xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+#   # summary(slmobj)
+#   #
