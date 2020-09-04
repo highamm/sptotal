@@ -9,7 +9,8 @@
 #' \code{sptotal} Main Functions:
 #'
 #' \code{\link{slmfit}} fits a spatial linear model to the response on the
-#' observed/sampled sites. \code{\link{check.variogram}} can be used to construct
+#' observed/sampled sites.
+#' The function \code{\link{check.variogram}} can be used to construct
 #' an empirical variogram of the residuals of the spatial linear model.
 #'
 #' \code{\link{predict.slmfit}} uses the spatial linear model fit from \code{\link{slmfit}} and finite
@@ -31,8 +32,9 @@
 #' Reference for Mathematical Details:
 #'
 #' Ver Hoef, Jay M. "Spatial methods for plot-based sampling of wildlife
-#'  populations." \emph{Environmental and Ecological Statistics} 15,
-#'  no. 1 (2008): 3-13.
+#' populations."
+#' A \emph{Environmental and Ecological Statistics} 15,
+#' no. 1 (2008): 3-13.
 #' @docType package
 #' @name sptotal
 NULL
