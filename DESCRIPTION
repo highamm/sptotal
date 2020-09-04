@@ -31,3 +31,4 @@ Suggests:
     rgeos
 VignetteBuilder: knitr,
     rmarkdown
+URL: https://highamm.github.io/sptotal/index.html
