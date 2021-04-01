@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -106,7 +106,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/highamm/sptotal/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,12 +132,12 @@
     <p>A simulated data set that can be used with the <code>sptotal</code> package.</p>
     </div>
 
-    <pre class="usage"><span class='no'>simdata</span></pre>
+    <pre class="usage"><span class='va'>simdata</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame object inclding:</p><dl'>
+    <p>A data frame object inclding:</p><dl>
   <dt>x</dt><dd><p>The x-coordinate for each site</p></dd>
   <dt>y</dt><dd><p>The y-coordinate for each site</p></dd>
   <dt>X1</dt><dd><p>Simulated independent variable to be used as a predictor</p></dd>
@@ -157,9 +157,11 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>simdata</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>simdata</span>)</div><div class='output co'>#&gt;  [1] "x"    "y"    "X1"   "X2"   "X3"   "X4"   "X5"   "X6"   "X7"   "F1"  
-#&gt; [11] "F2"   "Z"    "wts1" "wts2"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>simdata</span>)</div><div class='output co'>#&gt;        x                y                X1                 X2          
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>simdata</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>simdata</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "x"    "y"    "X1"   "X2"   "X3"   "X4"   "X5"   "X6"   "X7"   "F1"  
+#&gt; [11] "F2"   "Z"    "wts1" "wts2"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>simdata</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;        x                y                X1                 X2          
 #&gt;  Min.   :0.0250   Min.   :0.0250   Min.   :-2.99286   Min.   :-2.84025  
 #&gt;  1st Qu.:0.2625   1st Qu.:0.2625   1st Qu.:-0.65748   1st Qu.:-0.58639  
 #&gt;  Median :0.5000   Median :0.5000   Median : 0.03178   Median : 0.07411  
@@ -202,7 +204,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

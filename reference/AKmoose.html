@@ -81,7 +81,7 @@ this example, the counts are of moose on 860 sites of equal area." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -107,7 +107,7 @@ this example, the counts are of moose on 860 sites of equal area." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/highamm/sptotal/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -134,12 +134,12 @@ this example, the counts are of moose on 860 sites of equal area." />
 this example, the counts are of moose on 860 sites of equal area.</p>
     </div>
 
-    <pre class="usage"><span class='no'>AKmoose</span></pre>
+    <pre class="usage"><span class='va'>AKmoose</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A SpatialPolygonsDataFrame object in the format of the (<code>sp</code>) package. The data frame <code>AKmoose@data</code> contains 860 rows and 4 columns:</p><dl'>
+    <p>A SpatialPolygonsDataFrame object in the format of the (<code>sp</code>) package. The data frame <code>AKmoose@data</code> contains 860 rows and 4 columns:</p><dl>
   <dt>CENTRLAT</dt><dd><p>The latitude of the centroid for each site</p></dd>
   <dt>CENTRLON</dt><dd><p>The latitude of the centroid for each site</p></dd>
   <dt>STRAT</dt><dd><p>A stratification variable</p></dd>
@@ -152,8 +152,10 @@ this example, the counts are of moose on 860 sites of equal area.</p>
     <p><a href='http://www.adfg.alaska.gov/index.cfm?adfg=hunting.main'>Alaska Department of Fish and Game, Division of Wildlife Conservation</a> has released this data set under the CC0 (creative commons) license. To the extent possible under law, Alaska Department of Fish and Game, Division of Wildlife Conservation waives all copyright and related or neighboring rights to An Alaskan GSPE (Geospatial Population Estimator) Survey of Moose, AKmoose.rda. This work is published from: United States.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>AKmoose</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>AKmoose</span>@<span class='kw'>data</span>)</div><div class='output co'>#&gt; [1] "elev_mean"   "strat"       "surveyed"    "census_area" "total"      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>AKmoose</span>@<span class='kw'>data</span>)</div><div class='output co'>#&gt;    elev_mean      strat   surveyed census_area     total    
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>AKmoose</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>AKmoose</span><span class='op'>@</span><span class='va'>data</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "elev_mean"   "strat"       "surveyed"    "census_area" "total"      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>AKmoose</span><span class='op'>@</span><span class='va'>data</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    elev_mean      strat   surveyed census_area     total    
 #&gt;  Min.   : 95.12   L:602   0:642    0:773       0      :750  
 #&gt;  1st Qu.:136.60   M:258   1:218    1: 87       2      : 21  
 #&gt;  Median :176.91                                3      : 21  
@@ -176,7 +178,7 @@ this example, the counts are of moose on 860 sites of equal area.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
