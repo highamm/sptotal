@@ -1,3 +1,9 @@
+Future
+
+* add drop = FALSE to many matrix arguments for cleaner code
+* get rid of a couple of package dependencies
+* update the conditions to throw some better error messages
+
 # sptotal 0.0.2
 
 ## Bug Fixes
