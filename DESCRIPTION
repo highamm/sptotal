@@ -17,16 +17,15 @@ BugReports: https://github.com/highamm/sptotal/issues
 Imports: ggplot2,
     stats,
     viridis,
-    graphics,
-    tibble,
-    sp
+    graphics
 Suggests: 
     gstat,
     rmarkdown,
     knitr,
     testthat,
     prettydoc,
-    rgeos
+    rgeos,
+    tibble
 VignetteBuilder: knitr,
     rmarkdown
 URL: https://highamm.github.io/sptotal/index.html
