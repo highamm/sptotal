@@ -3,6 +3,7 @@
 S3method(AIC,slmfit)
 S3method(coef,slmfit)
 S3method(predict,slmfit)
+S3method(print,predict.slmfit)
 S3method(print,summary.slmfit)
 S3method(residuals,slmfit)
 S3method(summary,slmfit)

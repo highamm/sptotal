@@ -5,7 +5,7 @@
 #' would like to create his or her own plot, he or she can easily do so using
 #' this data frame.
 #'
-#' @param x the output of the \code{\link{predict.slmfit}()} function, of class \code{sptotalPredOut}
+#' @param x the output of the \code{\link{predict.slmfit}()} function, of class \code{predict.slmfit}
 #' @return a plot with x-coordinates on the x-axis and y-coordinates on the y-axis that is coloured by predictions, with points with an X denoting that a site was sampled and filled circles denoting unsampled sites.
 #' @examples
 #' data(exampledataset) ## load a toy data set

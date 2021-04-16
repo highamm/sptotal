@@ -237,7 +237,7 @@ predict.slmfit <- function(object, wtscol = NULL, ...) {
   names(obj) <- c("FPBK_Prediction", "PredVar",
     "Pred_df", "SpatialParms", "formula")
 
-  class(obj) <- "sptotalPredOut"
+  class(obj) <- "predict.slmfit"
 
   return(obj)
 }
