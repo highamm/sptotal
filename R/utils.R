@@ -1,7 +1,7 @@
 #' Estimate Covariance Parameters
 #'
 #' Used to estimate spatial covariance parameters for a few different spatial models.
-#' Estimated parameters can then be used in \code{predict.slmfit()} to predict values at unobserved locations..
+#' Estimated parameters can then be used in \code{predict.slmfit()} to predict values at unobserved locations.
 #'
 #' The function is a helper function used internally in \code{predict.slmfit()}.
 #'

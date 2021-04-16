@@ -38,6 +38,10 @@ Uses an object of class \code{slmfit} from the \code{\link{slmfit}()}
  function to predict the response on the unsampled sites.
 The column of the data set that has the response should have numeric values for the observed response
 on the sampled sites and `NA` for any site that was not sampled.
+Note that there is no \code{newdata} argument to
+\code{predict.slmfit}: any point in space for which a prediction
+is needed should be included in the original data set in \code{\link{slmfit}()}
+with the response variable as \code{NA}.
 }
 \examples{
 data(exampledataset) ## load a toy data set
