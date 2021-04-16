@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perform Finite Population Block Kriging — predict.slmfit • sptotal</title>
+<title>Prints a short summary for the predict.slmfit() function. — print.predict.slmfit • sptotal</title>
 
 
 <!-- jquery -->
@@ -39,15 +39,8 @@
 
 
 
-<meta property="og:title" content="Perform Finite Population Block Kriging — predict.slmfit" />
-<meta property="og:description" content="Uses an object of class slmfit from the slmfit()
- function to predict the response on the unsampled sites.
-The column of the data set that has the response should have numeric values for the observed response
-on the sampled sites and `NA` for any site that was not sampled.
-Note that there is no newdata argument to
-predict.slmfit: any point in space for which a prediction
-is needed should be included in the original data set in slmfit()
-with the response variable as NA." />
+<meta property="og:title" content="Prints a short summary for the predict.slmfit() function. — print.predict.slmfit" />
+<meta property="og:description" content="This function uses the object that is output from predict.slmfit()." />
 
 
 
@@ -130,61 +123,44 @@ with the response variable as NA." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Perform Finite Population Block Kriging</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/predict.slmfit.R'><code>R/predict.slmfit.R</code></a></small>
-    <div class="hidden name"><code>predict.slmfit.Rd</code></div>
+    <h1>Prints a short summary for the <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> function.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/print.predict.slmfit.R'><code>R/print.predict.slmfit.R</code></a></small>
+    <div class="hidden name"><code>print.predict.slmfit.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Uses an object of class <code>slmfit</code> from the <code><a href='slmfit.html'>slmfit</a>()</code>
- function to predict the response on the unsampled sites.
-The column of the data set that has the response should have numeric values for the observed response
-on the sampled sites and `NA` for any site that was not sampled.
-Note that there is no <code>newdata</code> argument to
-<code>predict.slmfit</code>: any point in space for which a prediction
-is needed should be included in the original data set in <code><a href='slmfit.html'>slmfit</a>()</code>
-with the response variable as <code>NA</code>.</p>
+    <p>This function uses the object that is output from <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for slmfit</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>object</span>, wtscol <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='co'># S3 method for predict.slmfit</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, digits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fl'>3L</span>, <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"digits"</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>3L</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>is an object generated from <code><a href='slmfit.html'>slmfit</a>()</code></p></td>
+      <th>x</th>
+      <td><p>is a prediction object generated from <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code></p></td>
     </tr>
     <tr>
-      <th>wtscol</th>
-      <td><p>is the name of the column that contains the weights for prediction.</p></td>
+      <th>digits</th>
+      <td><p>is the number of digits to be displayed in the
+model output</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>further arguments passed to or from other methods.
-The default setting predicts the population total</p></td>
+      <td><p>further arguments passed to or from other methods.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a list with</p><ul>
-<li><p>the estimated population total</p></li>
-<li><p>the estimated prediction variance</p></li>
-<li><p>a data frame containing</p><ol>
-<li><p>x-coordinates</p></li>
-<li><p>y-coordinates</p></li>
-<li><p>density predictions</p></li>
-<li><p>count predictions</p></li>
-<li><p>site-by-site density prediction variances</p></li>
-<li><p>site-by-site count prediction variances</p></li>
-<li><p>indicator variable for whether or not the each site was sampled</p></li>
-<li><p>estimated mean for each site</p></li>
-<li><p>area of each site</p></li>
-</ol></li>
-<li><p>vector with estimated covariance parameters</p></li>
-<li><p>the formula used to fit the model in <code><a href='slmfit.html'>slmfit()</a></code></p></li>
+<li><p>model formula</p></li>
+<li><p>summary statistics for the residuals.</p></li>
+<li><p>a table of fixed effects estimates and associated standard errors.</p></li>
+<li><p>estimated spatial covariance parameter estimates.</p></li>
+<li><p>generalized r-squared value.</p></li>
 </ul>
 
 
@@ -192,7 +168,7 @@ The default setting predicts the population total</p></td>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>exampledataset</span><span class='op'>)</span> <span class='co'>## load a toy data set</span>
 <span class='va'>slmobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='slmfit.html'>slmfit</a></span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>counts</span> <span class='op'>~</span> <span class='va'>pred1</span> <span class='op'>+</span> <span class='va'>pred2</span>, data <span class='op'>=</span> <span class='va'>exampledataset</span>,
 xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol <span class='op'>=</span> <span class='st'>'ycoords'</span>, areacol <span class='op'>=</span> <span class='st'>'areavar'</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>slmobj</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>slmobj</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Prediction:
 #&gt;       [,1]
 #&gt; [1,] 813.2
