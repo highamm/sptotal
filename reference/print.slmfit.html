@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Display basic summary information in a tabular form. — get.predinfo • sptotal</title>
+<title>Prints the fitted coefficient table of a fitted spatial linear model. — print.slmfit • sptotal</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Display basic summary information in a tabular form. — get.predinfo" />
-<meta property="og:description" content="Creates a list of tables that shows the prediction, standard error, and
-confidence interval for the prediction, as well as some summary information
-about the sample." />
+<meta property="og:title" content="Prints the fitted coefficient table of a fitted spatial linear model. — print.slmfit" />
+<meta property="og:description" content="This function uses the object that is output from slmfit() of class slmfit." />
 
 
 
@@ -125,41 +123,44 @@ about the sample." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Display basic summary information in a tabular form.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/get.predinfo.R'><code>R/get.predinfo.R</code></a></small>
-    <div class="hidden name"><code>get.predinfo.Rd</code></div>
+    <h1>Prints the fitted coefficient table of a fitted spatial linear model.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/print.summary.slmfit.R'><code>R/print.summary.slmfit.R</code></a></small>
+    <div class="hidden name"><code>print.slmfit.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creates a list of tables that shows the prediction, standard error, and
-confidence interval for the prediction, as well as some summary information
-about the sample.</p>
+    <p>This function uses the object that is output from <code><a href='slmfit.html'>slmfit</a>()</code> of class <code>slmfit</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get.predinfo</span><span class='op'>(</span><span class='va'>x</span>, conf_level <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='co'># S3 method for slmfit</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, digits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fl'>3L</span>, <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"digits"</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>3L</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the output of the <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> function, of class <code>predict.slmfit</code></p></td>
+      <td><p>is an object generated from <code><a href='slmfit.html'>slmfit</a>()</code></p></td>
     </tr>
     <tr>
-      <th>conf_level</th>
-      <td><p>is the confidence level for a normal-based
-confidence interval (default = 0.90).</p></td>
+      <th>digits</th>
+      <td><p>is the number of digits to be displayed in the
+model output</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>further arguments passed to or from other methods.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a list of three tables, including</p><ul>
-<li><p><code>simptab</code>, which contains the prediction and its standard error,</p></li>
-<li><p><code>confbounds</code>, which contains a confidence interval for the prediction, and</p></li>
-<li><p><code>outptmat</code>, a table of sampling information, including the number of sites sampled, the total number of sites, the total observed response, and the
-observed average density (equal to the average response if all site areas are
-equal).</p></li>
+    <p>a list with</p><ul>
+<li><p>model formula</p></li>
+<li><p>summary statistics for the residuals.</p></li>
+<li><p>a table of fixed effects estimates and associated standard errors.</p></li>
+<li><p>estimated spatial covariance parameter estimates.</p></li>
+<li><p>generalized r-squared value.</p></li>
 </ul>
 
 
@@ -167,20 +168,15 @@ equal).</p></li>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>exampledataset</span><span class='op'>)</span> <span class='co'>## load a toy data set</span>
 <span class='va'>slmobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='slmfit.html'>slmfit</a></span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>counts</span> <span class='op'>~</span> <span class='va'>pred1</span> <span class='op'>+</span> <span class='va'>pred2</span>, data <span class='op'>=</span> <span class='va'>exampledataset</span>,
 xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol <span class='op'>=</span> <span class='st'>'ycoords'</span>, areacol <span class='op'>=</span> <span class='st'>'areavar'</span><span class='op'>)</span>
-<span class='va'>predobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>slmobj</span><span class='op'>)</span>
-<span class='fu'>get.predinfo</span><span class='op'>(</span><span class='va'>predobj</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $Prediction
-#&gt;      Prediction SE(Prediction)
-#&gt; [1,]   813.1637       24.64037
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>slmobj</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)       pred1       pred2 
+#&gt;      26.104       2.055       0.214 
 #&gt; 
-#&gt; $`90% Confidence_Interval`
-#&gt;      Lower Bound Upper Bound
-#&gt; [1,]    772.6339    853.6935
-#&gt; 
-#&gt; $Sampling_Information
-#&gt;      Numb. Sites Sampled Total Numb. Sites Total Observed Average Density
-#&gt; [1,]                  35                40            679        26.77143
-#&gt; </div></pre>
+#&gt; Covariance Parameters:
+#&gt;       Nugget Partial Sill        Range 
+#&gt;    2.323e-04    1.544e+02    8.240e-01 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
