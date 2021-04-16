@@ -43,7 +43,11 @@
 <meta property="og:description" content="Uses an object of class slmfit from the slmfit()
  function to predict the response on the unsampled sites.
 The column of the data set that has the response should have numeric values for the observed response
-on the sampled sites and `NA` for any site that was not sampled." />
+on the sampled sites and `NA` for any site that was not sampled.
+Note that there is no newdata argument to
+predict.slmfit: any point in space for which a prediction
+is needed should be included in the original data set in slmfit()
+with the response variable as NA." />
 
 
 
@@ -135,7 +139,11 @@ on the sampled sites and `NA` for any site that was not sampled." />
     <p>Uses an object of class <code>slmfit</code> from the <code><a href='slmfit.html'>slmfit</a>()</code>
  function to predict the response on the unsampled sites.
 The column of the data set that has the response should have numeric values for the observed response
-on the sampled sites and `NA` for any site that was not sampled.</p>
+on the sampled sites and `NA` for any site that was not sampled.
+Note that there is no <code>newdata</code> argument to
+<code>predict.slmfit</code>: any point in space for which a prediction
+is needed should be included in the original data set in <code><a href='slmfit.html'>slmfit</a>()</code>
+with the response variable as <code>NA</code>.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for slmfit</span>
@@ -364,7 +372,7 @@ xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol
 #&gt; 
 #&gt; $formula
 #&gt; counts ~ pred1 + pred2
-#&gt; &lt;environment: 0x7fe01c468698&gt;
+#&gt; &lt;environment: 0x7fa117866b60&gt;
 #&gt; 
 #&gt; attr(,"class")
 #&gt; [1] "sptotalPredOut"</div></pre>
