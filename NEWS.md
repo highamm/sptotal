@@ -1,14 +1,15 @@
-Future
-
-* add drop = FALSE to many matrix arguments for cleaner code
-* get rid of a couple of package dependencies
-* update the conditions to throw some better error messages
-
 # sptotal 0.0.2
 
-## Bug Fixes
+## Bug Fixes and Improvements
 
 * Fixed an issue with using a `tibble` object instead of a `data.frame` object.
+
+* Updated error message for collinear predictors.
+
+* Changed a warning about converting characters to factors to a message.
+
+* Removed unnecessary package dependencies with `sp`, `matrixcalc` and `mvtnorm` and moved `tibble` from Imports to Suggests.
+
 
 # sptotal 0.0.1
 

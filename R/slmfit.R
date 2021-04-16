@@ -123,7 +123,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
   if (ncol(datapredsonly) >= 1) {
 
   if (sum(sapply(datapredsonly, is.character)) > 0) {
-    warning("At least one predictor variable is a character, which has been converted into a factor.")
+    message("Note: At least one predictor variable is a character, which has been converted into a factor.")
 
   data[ ,sapply(data, is.character) & is.na(predictormatch) == FALSE] <- factor(data[ ,which(sapply(data, is.character))])
 
@@ -222,6 +222,11 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
       stats::na.omit)
   z.sa <- stats::model.response(m.sa)
   Xs <- stats::model.matrix(formula, m.sa)
+
+  if (abs(det(t(Xs) %*% Xs)) < 1e-10) {
+    stop("There are collinearity issues in the predictors. Remove collinear predictors and re-fit the model.")
+  }
+
   z.density <- z.sa / areavar[ind.sa]
   n <- nrow(Xs)
 
@@ -309,8 +314,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
   }
 
 #library(tibble)
-# ex <- tibble(exampledataset, facttest = c(rep("A", 21), rep("B", 19)))
-# slmobj <- slmfit(formula = counts ~ pred1 + pred2 + facttest, data = ex,
+# ex <- tibble(exampledataset, facttest = c(rep("A", 21), rep("B", 19)), pred1copy = pred1)
+# slmobj <- slmfit(formula = counts ~ pred1 + facttest, data = ex,
 # xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #   # summary(slmobj)
 #   #
