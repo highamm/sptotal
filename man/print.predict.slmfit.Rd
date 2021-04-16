@@ -16,19 +16,18 @@ model output}
 }
 \value{
 a list with \itemize{
-  \item model formula
-  \item summary statistics for the residuals.
-  \item a table of fixed effects estimates and associated standard errors.
-  \item estimated spatial covariance parameter estimates.
-  \item generalized r-squared value.
+  \item Prediction, the prediction of interest.
+  \item Standard Error, the standard error for the prediction.
+  \item a preview of the data set with both sampled and predicted
+   observations, showing the first 6 and the last 6 observations.
 }
 }
 \description{
-This function uses the object that is output from \code{\link{predict.slmfit}()}.
+This function uses the object that is output from \code{\link{predict.slmfit}()} of class \code{predict.slmfit}..
 }
 \examples{
 data(exampledataset) ## load a toy data set
 slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
 xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
-print(predict(slmobj))
+print(predict(slmobj), digits = 4)
 }

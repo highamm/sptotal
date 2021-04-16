@@ -7,7 +7,7 @@
 get.predplot(x)
 }
 \arguments{
-\item{x}{the output of the \code{\link{predict.slmfit}()} function, of class \code{sptotalPredOut}}
+\item{x}{the output of the \code{\link{predict.slmfit}()} function, of class \code{predict.slmfit}}
 }
 \value{
 a plot with x-coordinates on the x-axis and y-coordinates on the y-axis that is coloured by predictions, with points with an X denoting that a site was sampled and filled circles denoting unsampled sites.
