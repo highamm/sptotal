@@ -1,10 +1,16 @@
-`sptotal` implements finite population block kriging (Ver Hoef (2008)), a geostatistical approach to predicting means and totals of count data for finite populations. `sptotal` is currently under development.
+`sptotal` implements finite population block kriging (Ver Hoef (2008)), a geostatistical approach to predicting means and totals of count data for finite populations.
 
 See [sptotal's Website](https://highamm.github.io/sptotal/index.html) for more information.
 
 ## Installation
 
-`sptotal` can be installed using `devtools`
+`sptotal` can be installed from CRAN
+
+```{r}
+install.packages("sptotal")
+```
+
+or using `devtools`
 
 ```{r}
 library(devtools)
