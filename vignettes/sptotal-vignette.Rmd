@@ -229,7 +229,7 @@ The output looks similar to the `summary` of a standard `lm` object, but there i
 
 ## Prediction: `predict`
 
-After we have obtained a fitted spatial linear model, we can use the `predict.slmfit` function to construct a data frame of predictions for the unsampled sites. By default, the `predict` function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, as well as the original data frame input into `slmfit` appended with site-by-site predictions and site-by-site prediction variances. We name this object `pred_obj` in the chunk below.
+After we have obtained a fitted spatial linear model, we can use the `predict.slmfit()` function to construct a data frame of predictions for the unsampled sites. By default, the `predict()` function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, as well as the original data frame input into `slmfit` appended with site-by-site predictions and site-by-site prediction variances. We name this object `pred_obj` in the chunk below.
 
 ```{r, results = "hide"}
 pred_obj <- predict(slmfit_out1)

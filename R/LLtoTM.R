@@ -1,6 +1,7 @@
-#' Convert Latitude and Longitude spatial coordinates to transverse Mercator (TM) projection coordinates
-#' with a user-defined central meridian.
+#' Convert Lat and Long to Transverse Mercator (TM)
 #'
+#' Latitude and Longitude coordinates are converted to TM
+#' projection coordinates with a user-defined central meridian.
 #' The resulting units from applying the function are kilometers.
 #'
 #' This function only should only be used if the coordinates supplied by the
