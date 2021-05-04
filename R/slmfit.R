@@ -274,6 +274,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
   muhats <- Xs %*% betahat
   muhatu <- Xu %*% betahat
 
+  ## could change to density - muhat if we want residuals to have
+  ## missing NA by default.
   resids <- z.density - muhats
 
   muhat <- rep(NA, nrow(datanomiss))
