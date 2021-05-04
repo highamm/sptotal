@@ -85,7 +85,7 @@
       <h1 data-toc-skip>Inference for Totals and Weighted Sums from Finite Spatial Populations</h1>
                         <h4 class="author">Matt Higham, Jay M. Ver Hoef, Bryce M. Frank</h4>
             
-            <h4 class="date">2021-04-19</h4>
+            <h4 class="date">2021-05-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/highamm/sptotal/blob/master/vignettes/sptotal-vignette.Rmd"><code>vignettes/sptotal-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>sptotal-vignette.Rmd</code></div>
@@ -270,7 +270,7 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <h2 class="hasAnchor">
 <a href="#prediction-predict" class="anchor"></a>Prediction: <code>predict</code>
 </h2>
-<p>After we have obtained a fitted spatial linear model, we can use the <code>predict.slmfit</code> function to construct a data frame of predictions for the unsampled sites. By default, the <code>predict</code> function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, as well as the original data frame input into <code>slmfit</code> appended with site-by-site predictions and site-by-site prediction variances. We name this object <code>pred_obj</code> in the chunk below.</p>
+<p>After we have obtained a fitted spatial linear model, we can use the <code><a href="../reference/predict.slmfit.html">predict.slmfit()</a></code> function to construct a data frame of predictions for the unsampled sites. By default, the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, as well as the original data frame input into <code>slmfit</code> appended with site-by-site predictions and site-by-site prediction variances. We name this object <code>pred_obj</code> in the chunk below.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pred_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">slmfit_out1</span><span class="op">)</span></code></pre></div>
 <p>The output of the <code>predict</code> function is too lengthy to print here and can be cumbersome to read. To obtain useful output, we have a couple of choices. If you are familiar with <code>R</code>, then you might want to construct your own summary output, maps, variograms, etc. One of the outputs of <code>predict</code> is a data frame that is appended with the site by site predictions that would facilitate construction of, for example, a map with predictions. This is particularly useful if you have a shapefile. The site-by-site predictions for density are given by the variable <code>name_of_response_pred_density</code> while the site-by-site predictions for counts are given by <code>name_of_response_pred_count</code>. These two columns will only differ if you have provided a column for areas of each site.</p>

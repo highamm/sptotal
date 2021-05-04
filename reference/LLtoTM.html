@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert Latitude and Longitude spatial coordinates to transverse Mercator (TM) projection coordinates
-with a user-defined central meridian. — LLtoTM • sptotal</title>
+<title>Convert Lat and Long to Transverse Mercator (TM) — LLtoTM • sptotal</title>
 
 
 <!-- jquery -->
@@ -40,9 +39,10 @@ with a user-defined central meridian. — LLtoTM • sptotal</title>
 
 
 
-<meta property="og:title" content="Convert Latitude and Longitude spatial coordinates to transverse Mercator (TM) projection coordinates
-with a user-defined central meridian. — LLtoTM" />
-<meta property="og:description" content="The resulting units from applying the function are kilometers." />
+<meta property="og:title" content="Convert Lat and Long to Transverse Mercator (TM) — LLtoTM" />
+<meta property="og:description" content="Latitude and Longitude coordinates are converted to TM
+projection coordinates with a user-defined central meridian.
+The resulting units from applying the function are kilometers." />
 
 
 
@@ -125,14 +125,15 @@ with a user-defined central meridian. — LLtoTM" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert Latitude and Longitude spatial coordinates to transverse Mercator (TM) projection coordinates
-with a user-defined central meridian.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/LLtoUTM.R'><code>R/LLtoUTM.R</code></a></small>
+    <h1>Convert Lat and Long to Transverse Mercator (TM)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/LLtoTM.R'><code>R/LLtoTM.R</code></a></small>
     <div class="hidden name"><code>LLtoTM.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The resulting units from applying the function are kilometers.</p>
+    <p>Latitude and Longitude coordinates are converted to TM
+projection coordinates with a user-defined central meridian.
+The resulting units from applying the function are kilometers.</p>
     </div>
 
     <pre class="usage"><span class='fu'>LLtoTM</span><span class='op'>(</span><span class='va'>cm</span>, <span class='va'>lat</span>, <span class='va'>lon</span>, xcol <span class='op'>=</span> <span class='st'>"x"</span>, ycol <span class='op'>=</span> <span class='st'>"y"</span>, minx <span class='op'>=</span> <span class='cn'>NULL</span>, miny <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
