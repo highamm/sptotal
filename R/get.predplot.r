@@ -35,8 +35,8 @@ get.predplot = function(x) {
   pcolname <- paste(base::all.vars(formula)[1], "_pred_count",
     sep = "")
 
-  p3 <- ggplot2::ggplot(data = pred.vals, aes_(x = ~xcoordsUTM_,
-    y = ~ycoordsUTM_, shape = ~sampindfact_)) +  ##)) +
+  p3 <- ggplot2::ggplot(data = pred.vals, aes_(x = ~xcoordsTM_,
+    y = ~ycoordsTM_, shape = ~sampindfact_)) +  ##)) +
     geom_point(aes(colour = preds), size = 4, stroke = 2) +
     #, ##size = pointsize,
     ## stroke = 3) +

@@ -213,7 +213,7 @@ predict.slmfit <- function(object, wtscol = NULL, ...) {
   # fullmf <- stats::model.frame(formula, na.action =
   #   stats::na.pass, data = data)
 
-  colnames(df_out) <- c(colnames(data), "xcoordsUTM_", "ycoordsUTM_",
+  colnames(df_out) <- c(colnames(data), "xcoordsTM_", "ycoordsTM_",
     paste(base::all.vars(formula)[1], "_pred_density",
       sep = ""),
     paste(base::all.vars(formula)[1], "_pred_count",
