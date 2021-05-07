@@ -22,7 +22,7 @@
 
 check.variogram <- function(object) {
 
-  .Deprecated("plot")
+  .Deprecated("plot.slmfit")
 
   covmod <- object$CovarianceMod
   parms <- object$SpatialParmEsts ## nugget, psill, range

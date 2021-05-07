@@ -54,8 +54,8 @@ predict.slmfit <- function(object, wtscol = NULL, ...) {
 
   formula <- object$FPBKpredobj$formula
   data <- object$FPBKpredobj$data
-  xcoordsUTM <- object$FPBKpredobj$xcoordsUTM
-  ycoordsUTM <- object$FPBKpredobj$ycoordsUTM
+  xcoordsTM <- object$FPBKpredobj$xcoordsTM
+  ycoordsTM <- object$FPBKpredobj$ycoordsTM
   covparmests <- object$SpatialParmEsts
   areavar <- object$FPBKpredobj$areavar
 
@@ -205,7 +205,7 @@ predict.slmfit <- function(object, wtscol = NULL, ...) {
   ## indicators for whether sites were sampled or not
   ## 3.) a vector of the estimated spatial parameters
 
-  df_out <- data.frame(cbind(data, xcoordsUTM, ycoordsUTM,
+  df_out <- data.frame(cbind(data, xcoordsTM, ycoordsTM,
     preddensity, pred.persite, densvar, countvar, sampind, muhat, areavar))
 
   # data <- data.frame(y = 1:10, x = 2:11)
