@@ -28,8 +28,8 @@ check.variogram <- function(object) {
   response <- all.vars(formula)[1]
   ind.sa <- !is.na(object$FPBKpredobj$data[ ,response]) ## sampled or not?
 
-  xcoords <- object$FPBKpredobj$xcoordsUTM[ind.sa]
-  ycoords <- object$FPBKpredobj$ycoordsUTM[ind.sa]
+  xcoords <- object$FPBKpredobj$xcoordsTM[ind.sa]
+  ycoords <- object$FPBKpredobj$ycoordsTM[ind.sa]
 
   df <- data.frame(xcoords = xcoords, ycoords = ycoords,
     resids = residvec)

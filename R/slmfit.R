@@ -169,8 +169,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
 
   ## ASSUME that coordinates are TM
 
-    xcoordsUTM <- datanomiss[[xcoordcol]]
-    ycoordsUTM <- datanomiss[[ycoordcol]]
+    xcoordsTM <- datanomiss[[xcoordcol]]
+    ycoordsTM <- datanomiss[[ycoordcol]]
 
 
   ## create the design matrix for unsampled sites, for all of the sites, and for the sampled sites, respectively.
@@ -234,10 +234,10 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
   prednames <- colnames(Xs)
 
   ## x and y coordinates for sampled and unsampled sites
-  x.sa <- xcoordsUTM[ind.sa]
-  y.sa <- ycoordsUTM[ind.sa]
-  x.un <- xcoordsUTM[ind.un]
-  y.un <- ycoordsUTM[ind.un]
+  x.sa <- xcoordsTM[ind.sa]
+  y.sa <- ycoordsTM[ind.sa]
+  x.un <- xcoordsTM[ind.un]
+  y.un <- ycoordsTM[ind.un]
 
   ## number of sites that were sampled
   n.sa <- nrow(Xs)
@@ -250,8 +250,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
 
   spat.est <- estcovparm(response = density,
     designmatrix = as.matrix(X),
-    xcoordsvec = xcoordsUTM,
-    ycoordsvec = ycoordsUTM, CorModel = CorModel,
+    xcoordsvec = xcoordsTM,
+    ycoordsvec = ycoordsTM, CorModel = CorModel,
     estmethod = estmethod,
     covestimates = covestimates)
 
@@ -295,10 +295,10 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
 
   names(covparms) <- c("Nugget", "Partial Sill", "Range")
 
-  FPBKpredobj <- list(formula, datanomiss, xcoordsUTM, ycoordsUTM,
+  FPBKpredobj <- list(formula, datanomiss, xcoordsTM, ycoordsTM,
     estmethod, CorModel, Sigma, Sigma.ssi, areavar, Sigma.ss)
-  names(FPBKpredobj) <- c("formula", "data", "xcoordsUTM",
-    "ycoordsUTM",
+  names(FPBKpredobj) <- c("formula", "data", "xcoordsTM",
+    "ycoordsTM",
     "estmethod","correlationmod", "covmat", "covmatsampi", "areavar",
     "covmatsamp")
   obj <- list(covparms, betahatest, covest, min2loglik, prednames,
