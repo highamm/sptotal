@@ -121,12 +121,14 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
 
   if (ncol(datapredsonly) >= 1) {
 
-  if (sum(sapply(datapredsonly, is.character)) > 0) {
-    message("Note: At least one predictor variable is a character, which has been converted into a factor.")
-
-  data[ ,sapply(data, is.character) & is.na(predictormatch) == FALSE] <- factor(data[ ,which(sapply(data, is.character))])
-
-  }
+    ## problem: if there is another character variable in the
+    ## data set, then this won't work.
+  # if (sum(sapply(datapredsonly, is.character)) > 0) {
+  #   message("Note: At least one predictor variable is a character, which has been converted into a factor.")
+  #
+  # data[ ,sapply(data, is.character) & is.na(predictormatch) == FALSE] <- factor(data[ ,which(sapply(data, is.character))])
+  #
+  # }
 
 
   ## check to make sure number of factor levels is somewhat small.
