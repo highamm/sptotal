@@ -44,15 +44,11 @@ predict.stratafit <- function(object, wtscol = NULL, ...) {
   predict_outs <- lapply(object, FUN = predict, wtscol = wtscol)
 
   preds <- lapply(predict_outs, `[[`, 1)
-  ses <- lapply(predict_outs, `[[`, 2)
+  vars <- lapply(predict_outs, `[[`, 2)
   dfs <- lapply(predict_outs, `[[`, 3)
 
   pred_out <- do.call("sum", preds)
 
-  square_fun <- function(x) {
-    x ^ 2
-  }
-  vars <- lapply(ses, square_fun)
   ses <- lapply(vars, sqrt)
   totalvar_out <- do.call("sum", vars)
   se_out <- sqrt(totalvar_out)
