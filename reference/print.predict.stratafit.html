@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • sptotal</title>
+<title>Prints a short summary for the predict.stratafit() function. — print.predict.stratafit • sptotal</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Prints a short summary for the predict.stratafit() function. — print.predict.stratafit" />
+<meta property="og:description" content="This function uses the object that is output from predict.stratafit() of class predict.stratafit.." />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -122,55 +123,66 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/highamm/sptotal/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Prints a short summary for the <code><a href='predict.stratafit.html'>predict.stratafit</a>()</code> function.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/print.predict.stratafit.R'><code>R/print.predict.stratafit.R</code></a></small>
+    <div class="hidden name"><code>print.predict.stratafit.Rd</code></div>
     </div>
 
-    <div id="sptotal-010" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0">
-<a href="#sptotal-010" class="anchor"></a>sptotal 0.1.0<small> 2020-07-01 </small>
-</h1>
-<div id="bug-fixes-improvements" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-fixes-improvements" class="anchor"></a>Bug Fixes Improvements</h2>
-<ul>
-<li><p>created plot generics and deprecated the old plotting functions.</p></li>
-<li><p>changed UTM to TM in package functions and documentation.</p></li>
-<li><p>added the <code><a href="../reference/stratafit.html">stratafit()</a></code>, <code><a href="../reference/predict.stratafit.html">predict.stratafit()</a></code>, and related <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> and <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> generics to easily perform FPBK for different strata, allowing both different fixed effects and different covariance parameters for each stratum.</p></li>
-</ul>
-</div>
-</div>
-    <div id="sptotal-002" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.2">
-<a href="#sptotal-002" class="anchor"></a>sptotal 0.0.2<small> Unreleased </small>
-</h1>
-<div id="bug-fixes-and-improvements" class="section level2">
-<h2 class="hasAnchor">
-<a href="#bug-fixes-and-improvements" class="anchor"></a>Bug Fixes and Improvements</h2>
-<ul>
-<li><p>Fixed an issue with using a <code>tibble</code> object instead of a <code>data.frame</code> object.</p></li>
-<li><p>Updated error message for collinear predictors.</p></li>
-<li><p>Changed a warning about converting characters to factors to a message.</p></li>
-<li><p>Removed unnecessary package dependencies with <code>sp</code>, <code>matrixcalc</code> and <code>mvtnorm</code> and moved <code>tibble</code> from Imports to Suggests.</p></li>
-</ul>
-</div>
-</div>
-    <div id="sptotal-001" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.1">
-<a href="#sptotal-001" class="anchor"></a>sptotal 0.0.1<small> Unreleased </small>
-</h1>
-<ul>
-<li>This is the first release of sptotal.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>This function uses the object that is output from <code><a href='predict.stratafit.html'>predict.stratafit</a>()</code> of class <code>predict.stratafit</code>..</p>
+    </div>
 
+    <pre class="usage"><span class='co'># S3 method for predict.stratafit</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, digits <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fl'>3L</span>, <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"digits"</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>3L</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>is a prediction object generated from <code><a href='predict.stratafit.html'>predict.stratafit</a>()</code></p></td>
+    </tr>
+    <tr>
+      <th>digits</th>
+      <td><p>is the number of digits to be displayed in the
+model output</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>further arguments passed to or from other methods.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a list with</p><ul>
+<li><p>a table of predictions, standard errors, and confidence
+   intervals for each stratum and for the total.</p></li>
+</ul>
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>exampledataset</span><span class='op'>)</span> <span class='co'>## load a toy data set</span>
+<span class='va'>exampledataset</span><span class='op'>$</span><span class='va'>strata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='fl'>19</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='fl'>21</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>strataobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='stratafit.html'>stratafit</a></span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>counts</span> <span class='op'>~</span> <span class='va'>pred1</span> <span class='op'>+</span> <span class='va'>pred2</span>,
+ data <span class='op'>=</span> <span class='va'>exampledataset</span>, stratacol <span class='op'>=</span> <span class='st'>"strata"</span>,
+xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol <span class='op'>=</span> <span class='st'>'ycoords'</span>, areacol <span class='op'>=</span> <span class='st'>'areavar'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>strataobj</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Note: The full prediction data set can be accessed with `x$Pred_df`,
+#&gt;       where x is the name of of the object generated from
+#&gt;       predict.stratafit() 
+#&gt; 
+#&gt; Prediction and Confidence Intervals:
+#&gt;       Prediction        SE   90% LB   90% UB
+#&gt; A       364.9081  84.88058 225.2919 504.5242
+#&gt; B       412.2220  97.78251 251.3841 573.0599
+#&gt; Total   777.1301 129.48410 564.1477 990.1124</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot an Empirical Semi-Variogram of Residuals — check.variogram-deprecated • sptotal</title>
+<title>Perform Finite Population Block Kriging — predict.stratafit • sptotal</title>
 
 
 <!-- jquery -->
@@ -39,13 +39,15 @@
 
 
 
-<meta property="og:title" content="Plot an Empirical Semi-Variogram of Residuals — check.variogram-deprecated" />
-<meta property="og:description" content="check.variogram() has been deprecated: use plot.slmfit() instead. Plots an empirical semi-variogram of the residuals from the spatial linear model
-with the fitted parametric model as a curve overtop of the
-binned points. By default, the empirical semi-variogram only shows distances
-that are less than or equal to the maximum distance in the data
-set divided by 2. Therefore, it's possible that the REML-fitted model
-will not &quot;fit&quot; the points perfectly." />
+<meta property="og:title" content="Perform Finite Population Block Kriging — predict.stratafit" />
+<meta property="og:description" content="Uses an object of class stratafit from the stratafit()
+ function to predict the response on the unsampled sites for separate strata.
+The column of the data set that has the response should have numeric values for the observed response
+on the sampled sites and `NA` for any site that was not sampled.
+Note that there is no newdata argument to
+predict.stratafit(): any point in space for which a prediction
+is needed should be included in the original data set in stratafit()
+with the response variable as NA." />
 
 
 
@@ -128,42 +130,79 @@ will not &quot;fit&quot; the points perfectly." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot an Empirical Semi-Variogram of Residuals</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/check.variogram.R'><code>R/check.variogram.R</code></a></small>
-    <div class="hidden name"><code>check.variogram-deprecated.Rd</code></div>
+    <h1>Perform Finite Population Block Kriging</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/predict.stratafit.R'><code>R/predict.stratafit.R</code></a></small>
+    <div class="hidden name"><code>predict.stratafit.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>check.variogram()</code> has been deprecated: use <code><a href='plot.slmfit.html'>plot.slmfit</a>()</code> instead. Plots an empirical semi-variogram of the residuals from the spatial linear model
-with the fitted parametric model as a curve overtop of the
-binned points. By default, the empirical semi-variogram only shows distances
-that are less than or equal to the maximum distance in the data
-set divided by 2. Therefore, it's possible that the REML-fitted model
-will not "fit" the points perfectly.</p>
+    <p>Uses an object of class <code>stratafit</code> from the <code><a href='stratafit.html'>stratafit</a>()</code>
+ function to predict the response on the unsampled sites for separate strata.
+The column of the data set that has the response should have numeric values for the observed response
+on the sampled sites and `NA` for any site that was not sampled.
+Note that there is no <code>newdata</code> argument to
+<code>predict.stratafit()</code>: any point in space for which a prediction
+is needed should be included in the original data set in <code><a href='stratafit.html'>stratafit</a>()</code>
+with the response variable as <code>NA</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check.variogram</span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='co'># S3 method for stratafit</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>object</span>, wtscol <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>is an object of class <code><a href='slmfit.html'>slmfit</a></code>.</p></td>
+      <td><p>is an object generated from <code><a href='stratafit.html'>stratafit</a>()</code></p></td>
+    </tr>
+    <tr>
+      <th>wtscol</th>
+      <td><p>is the name of the column that contains the weights for prediction. The default setting predicts the population total</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>further arguments passed to or from other methods.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a plot of the empirical semi-variogram with the fitted model overlayed.</p>
+    <p>a list with</p><ul>
+<li><p>the estimated population total</p></li>
+<li><p>the estimated prediction variance</p></li>
+<li><p>a data frame containing</p><ol>
+<li><p>x-coordinates</p></li>
+<li><p>y-coordinates</p></li>
+<li><p>density predictions</p></li>
+<li><p>count predictions</p></li>
+<li><p>site-by-site density prediction variances</p></li>
+<li><p>site-by-site count prediction variances</p></li>
+<li><p>indicator variable for whether or not the each site was sampled</p></li>
+<li><p>estimated mean for each site</p></li>
+<li><p>area of each site</p></li>
+</ol></li>
+<li><p>vector with estimated covariance parameters</p></li>
+<li><p>the formula used to fit the model in <code><a href='slmfit.html'>slmfit()</a></code></p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>exampledataset</span><span class='op'>)</span> <span class='co'>## load a toy data set</span>
-<span class='va'>slmobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='slmfit.html'>slmfit</a></span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>counts</span> <span class='op'>~</span> <span class='va'>pred1</span> <span class='op'>+</span> <span class='va'>pred2</span>, data <span class='op'>=</span> <span class='va'>exampledataset</span>,
+<span class='va'>exampledataset</span><span class='op'>$</span><span class='va'>strata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='fl'>19</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='fl'>21</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>strataobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='stratafit.html'>stratafit</a></span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>counts</span> <span class='op'>~</span> <span class='va'>pred1</span> <span class='op'>+</span> <span class='va'>pred2</span>,
+ data <span class='op'>=</span> <span class='va'>exampledataset</span>, stratacol <span class='op'>=</span> <span class='st'>"strata"</span>,
 xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol <span class='op'>=</span> <span class='st'>'ycoords'</span>, areacol <span class='op'>=</span> <span class='st'>'areavar'</span><span class='op'>)</span>
-<span class='co'>## Not Run</span>
-<span class='co'>## check.variogram(slmobj)</span>
-</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>strataobj</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Note: The full prediction data set can be accessed with `x$Pred_df`,
+#&gt;       where x is the name of of the object generated from
+#&gt;       predict.stratafit() 
+#&gt; 
+#&gt; Prediction and Confidence Intervals:
+#&gt;       Prediction        SE   90% LB   90% UB
+#&gt; A       364.9081  84.88058 225.2919 504.5242
+#&gt; B       412.2220  97.78251 251.3841 573.0599
+#&gt; Total   777.1301 129.48410 564.1477 990.1124</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

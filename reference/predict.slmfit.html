@@ -45,7 +45,7 @@
 The column of the data set that has the response should have numeric values for the observed response
 on the sampled sites and `NA` for any site that was not sampled.
 Note that there is no newdata argument to
-predict.slmfit: any point in space for which a prediction
+predict.slmfit(): any point in space for which a prediction
 is needed should be included in the original data set in slmfit()
 with the response variable as NA." />
 
@@ -141,7 +141,7 @@ with the response variable as NA." />
 The column of the data set that has the response should have numeric values for the observed response
 on the sampled sites and `NA` for any site that was not sampled.
 Note that there is no <code>newdata</code> argument to
-<code>predict.slmfit</code>: any point in space for which a prediction
+<code>predict.slmfit()</code>: any point in space for which a prediction
 is needed should be included in the original data set in <code><a href='slmfit.html'>slmfit</a>()</code>
 with the response variable as <code>NA</code>.</p>
     </div>
@@ -158,12 +158,11 @@ with the response variable as <code>NA</code>.</p>
     </tr>
     <tr>
       <th>wtscol</th>
-      <td><p>is the name of the column that contains the weights for prediction.</p></td>
+      <td><p>is the name of the column that contains the weights for prediction. The default setting predicts the population total</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>further arguments passed to or from other methods.
-The default setting predicts the population total</p></td>
+      <td><p>further arguments passed to or from other methods.</p></td>
     </tr>
     </table>
 

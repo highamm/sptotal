@@ -85,7 +85,7 @@
       <h1 data-toc-skip>Inference for Totals and Weighted Sums from Finite Spatial Populations</h1>
                         <h4 class="author">Matt Higham, Jay M. Ver Hoef, Bryce M. Frank</h4>
             
-            <h4 class="date">2021-05-07</h4>
+            <h4 class="date">2021-05-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/highamm/sptotal/blob/master/vignettes/sptotal-vignette.Rmd"><code>vignettes/sptotal-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>sptotal-vignette.Rmd</code></div>
@@ -285,7 +285,7 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <p>Alternatively, you could take advantage of some pre-specified package output functions <code>check.variogram</code>, <code>get.predinfo</code>, and <code>get.predplot</code>.</p>
 <p>First, <code>check.variogram</code> constructs an empirical variogram of the model residuals and overlays the REML-fitted variogram model with a line:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/check.variogram-deprecated.html">check.variogram</a></span><span class="op">(</span><span class="va">slmfit_out1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">slmfit_out1</span><span class="op">)</span></code></pre></div>
 <p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 <p>Note that the fitted line may not appear to fit the empirical variogram perfectly for a couple of reasons. First, only pairs of points that have a distance between 0 and one-half the maximum distance are shown. Second, the fitted model is estimated using REML, which may give different results than using weighted least squares.</p>
 <p>We can also examine a histogram of the residuals as well as a histogram of the cross-validation (leave-one-out) residuals:</p>
@@ -444,10 +444,7 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
   data <span class="op">=</span> <span class="va">moose_df</span>, xcoordcol <span class="op">=</span> <span class="st">'x'</span>, ycoordcol <span class="op">=</span> <span class="st">'y'</span>,
   CorModel <span class="op">=</span> <span class="st">"Exponential"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">slmfit_out_moose</span><span class="op">)</span>
-<span class="fu"><a href="../reference/check.variogram-deprecated.html">check.variogram</a></span><span class="op">(</span><span class="va">slmfit_out_moose</span><span class="op">)</span>
-<span class="co">#&gt; Warning: 'check.variogram' is deprecated.</span>
-<span class="co">#&gt; Use 'plot.slmfit' instead.</span>
-<span class="co">#&gt; See help("Deprecated")</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">slmfit_out_moose</span><span class="op">)</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/qplot.html">qplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">slmfit_out_moose</span><span class="op">)</span>, bins <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Residuals"</span><span class="op">)</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/qplot.html">qplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">slmfit_out_moose</span>, cross.validation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, bins <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"CV Residuals"</span><span class="op">)</span>
