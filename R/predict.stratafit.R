@@ -11,6 +11,8 @@
 #'
 #' @param object is an object generated from \code{\link{stratafit}()}
 #' @param wtscol is the name of the column that contains the weights for prediction. The default setting predicts the population total
+#' @param conf_level, by default, 0.90, this is the desired
+#' confidence level for a prediction interval
 #' @param ... further arguments passed to or from other methods.
 #' @return a list with \itemize{
 #'   \item the estimated population total
@@ -39,7 +41,8 @@
 #' @import stats
 #' @export
 
-predict.stratafit <- function(object, wtscol = NULL, ...) {
+predict.stratafit <- function(object, wtscol = NULL,
+                              conf_level = 0.9, ...) {
 
   predict_outs <- lapply(object, FUN = predict, wtscol = wtscol)
 
@@ -61,7 +64,6 @@ predict.stratafit <- function(object, wtscol = NULL, ...) {
   pred_se_mat <- rbind(cbind(matrix(unlist(preds)),
                              matrix(unlist(ses))), total_out)
 
-  conf_level <- 0.9
   lbs <- matrix(pred_se_mat[ ,1] + 1 *
     stats::qnorm((1 - conf_level) / 2) * pred_se_mat[ ,2])
   ubs <- matrix(pred_se_mat[ ,1] - 1 *

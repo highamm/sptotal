@@ -30,6 +30,6 @@ print.predict.stratafit <- function(x, digits =
 
   cat("\nPrediction and Confidence Intervals:\n")
 
-  print(x[[1]])
+  print(x[[1]], digits = digits)
 
 }
