@@ -5,14 +5,13 @@
 #' The column of the data set that has the response should have numeric values for the observed response
 #' on the sampled sites and `NA` for any site that was not sampled.
 #' Note that there is no \code{newdata} argument to
-#' \code{predict.slmfit}: any point in space for which a prediction
+#' \code{predict.slmfit()}: any point in space for which a prediction
 #' is needed should be included in the original data set in \code{\link{slmfit}()}
 #' with the response variable as \code{NA}.
 #'
 #' @param object is an object generated from \code{\link{slmfit}()}
-#' @param wtscol is the name of the column that contains the weights for prediction.
+#' @param wtscol is the name of the column that contains the weights for prediction. The default setting predicts the population total
 #' @param ... further arguments passed to or from other methods.
-#'  The default setting predicts the population total
 #' @return a list with \itemize{
 #'   \item the estimated population total
 #'   \item the estimated prediction variance
@@ -94,8 +93,8 @@ predict.slmfit <- function(object, wtscol = NULL, ...) {
     stop("None of the values for the response variable are missing (NA). Therefore, prediction cannot be performed for any values of the response.")
   }
 
-  data.sa <- data[ind.sa, ]
-  data.un <- data[ind.un, ]
+  data.sa <- data[ind.sa, , drop = FALSE]
+  data.un <- data[ind.un, , drop = FALSE]
 
   B <- predwts
   Bs <- B[ind.sa]
@@ -117,10 +116,10 @@ predict.slmfit <- function(object, wtscol = NULL, ...) {
   Sigma <- object$FPBKpredobj$covmat
 
   ## used in the Kriging formulas
-  Sigma.us <- Sigma[ind.un, ind.sa]
+  Sigma.us <- Sigma[ind.un, ind.sa, drop = FALSE]
   Sigma.su <- t(Sigma.us)
-  Sigma.ss <- Sigma[ind.sa, ind.sa]
-  Sigma.uu <- Sigma[ind.un, ind.un]
+  Sigma.ss <- Sigma[ind.sa, ind.sa, drop = FALSE]
+  Sigma.uu <- Sigma[ind.un, ind.un, drop = FALSE]
 
        ## give warning if covariance matrix cannot be inverted
       # if(abs(det(Sigma.ss)) <= 1e-21) {

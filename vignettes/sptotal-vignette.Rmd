@@ -249,7 +249,7 @@ Alternatively, you could take advantage of some pre-specified package output fun
 First, `check.variogram` constructs an empirical variogram of the model residuals and overlays the REML-fitted variogram model with a line:
 
 ```{r, warning = FALSE}
-check.variogram(slmfit_out1)
+plot(slmfit_out1)
 ```
 
 Note that the fitted line may not appear to fit the empirical variogram perfectly for a couple of reasons. First, only pairs of points that have a distance between 0 and one-half the maximum distance are shown. Second, the fitted model is estimated using REML, which may give different results than using weighted least squares.
@@ -407,7 +407,7 @@ slmfit_out_moose <- slmfit(formula = total ~ strat,
   data = moose_df, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential")
 summary(slmfit_out_moose)
-check.variogram(slmfit_out_moose)
+plot(slmfit_out_moose)
 qplot(residuals(slmfit_out_moose), bins = 20) + xlab("Residuals")
 qplot(residuals(slmfit_out_moose, cross.validation = TRUE), bins = 20) +
   xlab("CV Residuals")

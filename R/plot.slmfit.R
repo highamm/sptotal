@@ -7,7 +7,8 @@
 #' set divided by 2. Therefore, it's possible that the REML-fitted model
 #' will not "fit" the points perfectly.
 #'
-#' @param object is an object of class \code{\link{slmfit}}.
+#' @param x is an object of class \code{\link{slmfit}}.
+#' @param ... further arguments passed to or from other methods.
 #' @return a plot of the empirical semi-variogram with the fitted model overlayed.
 #' @import stats
 #' @import ggplot2
@@ -18,22 +19,22 @@
 #' plot(slmobj)
 #' @export
 
-plot.slmfit <- function(object) {
+plot.slmfit <- function(x, ...) {
 
-  if (inherits(object, "slmfit") == FALSE) {
-    stop("Object must be of class `slmfit`")
+  if (inherits(x, "slmfit") == FALSE) {
+    stop("x must be of class `slmfit`")
   }
 
-  covmod <- object$CovarianceMod
-  parms <- object$SpatialParmEsts ## nugget, psill, range
-  residvec <- as.vector(object$resids)
+  covmod <- x$CovarianceMod
+  parms <- x$SpatialParmEsts ## nugget, psill, range
+  residvec <- as.vector(x$resids)
 
-  formula <- object$FPBKpredobj$formula
+  formula <- x$FPBKpredobj$formula
   response <- all.vars(formula)[1]
-  ind.sa <- !is.na(object$FPBKpredobj$data[ ,response]) ## sampled or not?
+  ind.sa <- !is.na(x$FPBKpredobj$data[ ,response]) ## sampled or not?
 
-  xcoords <- object$FPBKpredobj$xcoordsTM[ind.sa]
-  ycoords <- object$FPBKpredobj$ycoordsTM[ind.sa]
+  xcoords <- x$FPBKpredobj$xcoordsTM[ind.sa]
+  ycoords <- x$FPBKpredobj$ycoordsTM[ind.sa]
 
   df <- data.frame(xcoords = xcoords, ycoords = ycoords,
                    resids = residvec)

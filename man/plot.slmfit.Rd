@@ -4,10 +4,12 @@
 \alias{plot.slmfit}
 \title{Plot an Empirical emi-Variogram of Residuals}
 \usage{
-\method{plot}{slmfit}(object)
+\method{plot}{slmfit}(x, ...)
 }
 \arguments{
-\item{object}{is an object of class \code{\link{slmfit}}.}
+\item{x}{is an object of class \code{\link{slmfit}}.}
+
+\item{...}{further arguments passed to or from other methods.}
 }
 \value{
 a plot of the empirical semi-variogram with the fitted model overlayed.

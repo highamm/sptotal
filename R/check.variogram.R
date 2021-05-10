@@ -17,7 +17,8 @@
 #' data(exampledataset) ## load a toy data set
 #' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
-#' check.variogram(slmobj)
+#' ## Not Run
+#' ## check.variogram(slmobj)
 #' @export
 
 check.variogram <- function(object) {
