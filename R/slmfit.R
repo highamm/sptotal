@@ -50,7 +50,6 @@
 #' @import stats
 #' @export slmfit
 
-
 slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
   CorModel = "Exponential", estmethod = "REML",
   covestimates = c(NA, NA, NA)) {
@@ -125,7 +124,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
   if (sum(sapply(datapredsonly, is.character)) > 0) {
     message("Note: At least one predictor variable is a character, which has been converted into a factor.")
 
-  data[ ,sapply(datapredsonly, is.character) & is.na(predictormatch) == FALSE] <- factor(datapredsonly[ ,which(sapply(datapredsonly, is.character))])
+  data[ ,sapply(data, is.character) & is.na(predictormatch) == FALSE] <- factor(data[ ,which(sapply(data, is.character))])
 
   }
 
