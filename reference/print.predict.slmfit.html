@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Prints a short summary for the predict.slmfit() function. — print.predict.slmfit" />
-<meta property="og:description" content="This function uses the object that is output from predict.slmfit() of class predict.slmfit.." />
+<meta property="og:description" content="This function uses the object that is output from predict.slmfit() of class predict.slmfit." />
 
 
 
@@ -129,7 +129,7 @@
     </div>
 
     <div class="ref-description">
-    <p>This function uses the object that is output from <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> of class <code>predict.slmfit</code>..</p>
+    <p>This function uses the object that is output from <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> of class <code>predict.slmfit</code>.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for predict.slmfit</span>
@@ -153,69 +153,17 @@ model output</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a list with</p><ul>
-<li><p>Prediction, the prediction of interest.</p></li>
-<li><p>Standard Error, the standard error for the prediction.</p></li>
-<li><p>a preview of the data set with both sampled and predicted
-   observations, showing the first 6 and the last 6 observations.</p></li>
-</ul>
-
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>exampledataset</span><span class='op'>)</span> <span class='co'>## load a toy data set</span>
 <span class='va'>slmobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='slmfit.html'>slmfit</a></span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>counts</span> <span class='op'>~</span> <span class='va'>pred1</span> <span class='op'>+</span> <span class='va'>pred2</span>, data <span class='op'>=</span> <span class='va'>exampledataset</span>,
 xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol <span class='op'>=</span> <span class='st'>'ycoords'</span>, areacol <span class='op'>=</span> <span class='st'>'areavar'</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>slmobj</span><span class='op'>)</span>, digits <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Prediction:
-#&gt;       [,1]
-#&gt; [1,] 813.2
-#&gt; 
-#&gt;  Standard Error:
-#&gt;       [,1]
-#&gt; [1,] 24.64
-#&gt; 
-#&gt; Prediction Data Frame Preview: First 6 and Last 6 Observations
-#&gt;    counts      pred1       pred2 xcoords ycoords   dummyvar areavar xcoordsTM_
-#&gt; 1      24 0.04819231  0.66770938       1       1 0.83624325     0.5          1
-#&gt; 2      NA 0.07029807 -0.45115262       2       1 0.05769293     1.0          2
-#&gt; 3      21 0.26142376 -0.03514149       3       1 0.43846481     1.0          3
-#&gt; 4      11 0.54271551  0.05692399       4       1 0.90608285     0.5          4
-#&gt; 5      18 0.99896424  1.27839185       5       1 0.20321972     0.5          5
-#&gt; 6      25 0.39053919 -0.78926896       6       1 0.25956914     1.0          6
-#&gt; 35     17 0.54991785  1.18865691       7       5 0.82760232     1.0          7
-#&gt; 36     33 0.29043608  0.74671108       1       6 0.02721888     1.0          1
-#&gt; 37     14 0.52181727  0.37247065       2       6 0.33909108     1.0          2
-#&gt; 38     22 0.42858761 -0.56009555       3       6 0.33432158     1.0          3
-#&gt; 39     21 0.32678279  0.50311496       4       6 0.52822020     0.5          4
-#&gt; 40     23 0.80063605 -0.72036048       5       6 0.27165047     1.0          5
-#&gt;    ycoordsTM_ counts_pred_density counts_pred_count counts_predvar_density
-#&gt; 1           1            48.00000          24.00000                 0.0000
-#&gt; 2           1            31.01862          31.01862               125.2961
-#&gt; 3           1            21.00000          21.00000                 0.0000
-#&gt; 4           1            22.00000          11.00000                 0.0000
-#&gt; 5           1            36.00000          18.00000                 0.0000
-#&gt; 6           1            25.00000          25.00000                 0.0000
-#&gt; 35          5            17.00000          17.00000                 0.0000
-#&gt; 36          6            33.00000          33.00000                 0.0000
-#&gt; 37          6            14.00000          14.00000                 0.0000
-#&gt; 38          6            22.00000          22.00000                 0.0000
-#&gt; 39          6            42.00000          21.00000                 0.0000
-#&gt; 40          6            23.00000          23.00000                 0.0000
-#&gt;    counts_predvar_count counts_sampind counts_muhat counts_areas
-#&gt; 1                0.0000              1     26.34639          0.5
-#&gt; 2              125.2961              0     26.15237          1.0
-#&gt; 3                0.0000              1     26.63426          1.0
-#&gt; 4                0.0000              1     27.23214          0.5
-#&gt; 5                0.0000              1     28.43135          0.5
-#&gt; 6                0.0000              1     26.73825          1.0
-#&gt; 35               0.0000              1     27.48915          1.0
-#&gt; 36               0.0000              1     26.86122          1.0
-#&gt; 37               0.0000              1     27.25672          1.0
-#&gt; 38               0.0000              1     26.86550          1.0
-#&gt; 39               0.0000              1     26.88379          0.5
-#&gt; 40               0.0000              1     27.59593          1.0</div></pre>
+</div><div class='output co'>#&gt; Prediction Info:
+#&gt;        Prediction    SE 90% LB 90% UB
+#&gt; counts      813.2 24.64  772.6  853.7
+#&gt;        Numb. Sites Sampled Total Numb. Sites Total Observed Average Density
+#&gt; counts                  35                40            679           26.77</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
