@@ -317,7 +317,10 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <p>We predict a total of 4817 units in this simulated region with 90% confidence bounds of (4779, 4856). The confidence interval is fairly small because we simulated data that were highly correlated, increasing precision in prediction for unobserved sites. You can see that the prediction of the total is close to the true value of 4834.326, and the true value is within the confidence interval.</p>
 <p>Finally, to get a basic plot of the predictions, we can use the <code>get.predplot</code> function.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get.predplot.html">get.predplot</a></span><span class="op">(</span><span class="va">pred_obj</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/get.predplot-deprecated.html">get.predplot</a></span><span class="op">(</span><span class="va">pred_obj</span><span class="op">)</span>
+<span class="co">#&gt; Warning: 'get.predplot' is deprecated.</span>
+<span class="co">#&gt; Use 'plot.predict.slmfit' instead.</span>
+<span class="co">#&gt; See help("Deprecated")</span></code></pre></div>
 <p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <p>The map shows the distribution of the response across sampled and unsampled sites. Its purpose is simply to give the user a quick idea of the distribution of the response. For example, we see from the plot that the predicted response is low in the upper-right region of the graph, is high in the middle of the region and in the upper-left corner of the region, and is low again at the lower portion of the area of interest. However, using the prediction data frame generated from the <code>predict</code> function, you can use <code>ggplot2</code> or any other plotting package to construct your own map that may be more useful in your context.</p>
 <p>###Prediction for a Small Area of Interest</p>
@@ -460,7 +463,10 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <span class="co">#&gt; Warning: 'get.predinfo' is deprecated.</span>
 <span class="co">#&gt; Use 'print.predict.slmfit' instead.</span>
 <span class="co">#&gt; See help("Deprecated")</span>
-<span class="fu"><a href="../reference/get.predplot.html">get.predplot</a></span><span class="op">(</span><span class="va">pred_moose</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/get.predplot-deprecated.html">get.predplot</a></span><span class="op">(</span><span class="va">pred_moose</span><span class="op">)</span>
+<span class="co">#&gt; Warning: 'get.predplot' is deprecated.</span>
+<span class="co">#&gt; Use 'plot.predict.slmfit' instead.</span>
+<span class="co">#&gt; See help("Deprecated")</span></code></pre></div>
 <p>We obtain a predicted total of 1596 animals with 90% lower and upper confidence bounds of 921 and 2271 animals, respectively. Unlike the simulation setting, there is no “true total” we can compare our prediction to, because, in reality, not all sites were sampled!</p>
 </div>
 <div id="sites-with-different-areas" class="section level3">

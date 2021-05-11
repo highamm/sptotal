@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>sptotal: A package used for performing Finite Population Block
-Kriging (FPBK) on polygonal count data. — sptotal • sptotal</title>
+<title>Create a default map from predictions — get.predplot-deprecated • sptotal</title>
 
 
 <!-- jquery -->
@@ -40,12 +39,11 @@ Kriging (FPBK) on polygonal count data. — sptotal • sptotal</title>
 
 
 
-<meta property="og:title" content="sptotal: A package used for performing Finite Population Block
-Kriging (FPBK) on polygonal count data. — sptotal" />
-<meta property="og:description" content="The package provides an option to perform FPBK on counts assuming
-perfect detection of counts on the sites that were in the survey sample. The
-functions in the package use methods in (Ver Hoef, 2008,
- &amp;lt;doi:10.1007/s10651-007-0035-y&amp;gt;)" />
+<meta property="og:title" content="Create a default map from predictions — get.predplot-deprecated" />
+<meta property="og:description" content="Creates a default map for the predictions of unobserved sites. Note that all predictions are stored
+in a data frame in the output of predict.slmfit(). Therefore, if a user
+would like to create his or her own plot, he or she can easily do so using
+this data frame." />
 
 
 
@@ -128,46 +126,41 @@ functions in the package use methods in (Ver Hoef, 2008,
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>sptotal: A package used for performing Finite Population Block
-Kriging (FPBK) on polygonal count data.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/sptotal.R'><code>R/sptotal.R</code></a></small>
-    <div class="hidden name"><code>sptotal.Rd</code></div>
+    <h1>Create a default map from predictions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/get.predplot.r'><code>R/get.predplot.r</code></a></small>
+    <div class="hidden name"><code>get.predplot-deprecated.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The package provides an option to perform FPBK on counts assuming
-perfect detection of counts on the sites that were in the survey sample. The
-functions in the package use methods in (Ver Hoef, 2008,
- &lt;doi:10.1007/s10651-007-0035-y&gt;)</p>
+    <p>Creates a default map for the predictions of unobserved sites. Note that all predictions are stored
+in a data frame in the output of <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code>. Therefore, if a user
+would like to create his or her own plot, he or she can easily do so using
+this data frame.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>get.predplot</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>the output of the <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> function, of class <code>predict.slmfit</code></p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>sptotal</code> Main Functions:</p>
-<p><code><a href='slmfit.html'>slmfit</a></code> fits a spatial linear model to the response on the
-observed/sampled sites.
-The function <code><a href='check.variogram-deprecated.html'>check.variogram</a></code> can be used to construct
-an empirical variogram of the residuals of the spatial linear model.</p>
-<p><code><a href='predict.slmfit.html'>predict.slmfit</a></code> uses the spatial linear model fit from <code><a href='slmfit.html'>slmfit</a></code> and finite
-population block kriging to predict the response at unobserved locations.
-A prediction for the total response as well as a prediction variance
-are given by default.</p>
-<p><code><a href='get.predinfo-deprecated.html'>get.predinfo</a></code> and <code><a href='get.predplot-deprecated.html'>get.predplot</a></code> take the resulting object from
- <code><a href='predict.slmfit.html'>predict.slmfit</a></code> to construct (1) summary information, including the
- prediction, prediction variance, and a prediction interval as well as
- (2) a plot of the site-wise predictions.</p>
-<p>Most of the remaining functions in the package are either helper functions
-or extra optional functions to extract various specific things from an
-<code><a href='slmfit.html'>slmfit</a></code> object, such as residuals, AIC, log-likelihood, etc.</p>
-<p>See the Vignette for more details: <code><a href='https://rdrr.io/r/utils/browseVignettes.html'>browseVignettes("sptotal")</a></code>
-Reference for Mathematical Details:</p>
-<p>Ver Hoef, Jay M. "Spatial methods for plot-based sampling of wildlife
-populations."
-A <em>Environmental and Ecological Statistics</em> 15,
-no. 1 (2008): 3-13.</p>
+    <p>a plot with x-coordinates on the x-axis and y-coordinates on the y-axis that is coloured by predictions, with points with an X denoting that a site was sampled and filled circles denoting unsampled sites.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>exampledataset</span><span class='op'>)</span> <span class='co'>## load a toy data set</span>
+<span class='va'>slmobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='slmfit.html'>slmfit</a></span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>counts</span> <span class='op'>~</span> <span class='va'>pred1</span> <span class='op'>+</span> <span class='va'>pred2</span>, data <span class='op'>=</span> <span class='va'>exampledataset</span>,
+xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol <span class='op'>=</span> <span class='st'>'ycoords'</span>, areacol <span class='op'>=</span> <span class='st'>'areavar'</span><span class='op'>)</span>
+<span class='va'>predobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>slmobj</span><span class='op'>)</span>
+<span class='co'>## Not Run</span>
+<span class='co'>## get.predplot(predobj)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
