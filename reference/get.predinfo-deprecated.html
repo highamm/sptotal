@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot an Empirical Semi-Variogram of Residuals — check.variogram-deprecated • sptotal</title>
+<title>Display basic summary information in a tabular form. — get.predinfo-deprecated • sptotal</title>
 
 
 <!-- jquery -->
@@ -39,13 +39,12 @@
 
 
 
-<meta property="og:title" content="Plot an Empirical Semi-Variogram of Residuals — check.variogram-deprecated" />
-<meta property="og:description" content="check.variogram() has been deprecated: use plot.slmfit() instead. Plots an empirical semi-variogram of the residuals from the spatial linear model
-with the fitted parametric model as a curve overtop of the
-binned points. By default, the empirical semi-variogram only shows distances
-that are less than or equal to the maximum distance in the data
-set divided by 2. Therefore, it's possible that the REML-fitted model
-will not &quot;fit&quot; the points perfectly." />
+<meta property="og:title" content="Display basic summary information in a tabular form. — get.predinfo-deprecated" />
+<meta property="og:description" content="get.predinfo() has been depracated. Information given
+is now provided in the basic print of a
+predict.slmfit() object. Creates a list of tables that shows the prediction, standard error, and
+confidence interval for the prediction, as well as some summary information
+about the sample." />
 
 
 
@@ -128,41 +127,53 @@ will not &quot;fit&quot; the points perfectly." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot an Empirical Semi-Variogram of Residuals</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/deprecated-check.variogram.R'><code>R/deprecated-check.variogram.R</code></a></small>
-    <div class="hidden name"><code>check.variogram-deprecated.Rd</code></div>
+    <h1>Display basic summary information in a tabular form.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/deprecated-get.predinfo.R'><code>R/deprecated-get.predinfo.R</code></a></small>
+    <div class="hidden name"><code>get.predinfo-deprecated.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>check.variogram()</code> has been deprecated: use <code><a href='plot.slmfit.html'>plot.slmfit</a>()</code> instead. Plots an empirical semi-variogram of the residuals from the spatial linear model
-with the fitted parametric model as a curve overtop of the
-binned points. By default, the empirical semi-variogram only shows distances
-that are less than or equal to the maximum distance in the data
-set divided by 2. Therefore, it's possible that the REML-fitted model
-will not "fit" the points perfectly.</p>
+    <p><code>get.predinfo()</code> has been depracated. Information given
+is now provided in the basic print of a
+<code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> object. Creates a list of tables that shows the prediction, standard error, and
+confidence interval for the prediction, as well as some summary information
+about the sample.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check.variogram</span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get.predinfo</span><span class='op'>(</span><span class='va'>x</span>, conf_level <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>is an object of class <code><a href='slmfit.html'>slmfit</a></code>.</p></td>
+      <th>x</th>
+      <td><p>the output of the <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> function, of class <code>predict.slmfit</code></p></td>
+    </tr>
+    <tr>
+      <th>conf_level</th>
+      <td><p>is the confidence level for a normal-based
+confidence interval (default = 0.90).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a plot of the empirical semi-variogram with the fitted model overlayed.</p>
+    <p>a list of three tables, including</p><ul>
+<li><p><code>simptab</code>, which contains the prediction and its standard error,</p></li>
+<li><p><code>confbounds</code>, which contains a confidence interval for the prediction, and</p></li>
+<li><p><code>outptmat</code>, a table of sampling information, including the number of sites sampled, the total number of sites, the total observed response, and the
+observed average density (equal to the average response if all site areas are
+equal).</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>exampledataset</span><span class='op'>)</span> <span class='co'>## load a toy data set</span>
 <span class='va'>slmobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='slmfit.html'>slmfit</a></span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>counts</span> <span class='op'>~</span> <span class='va'>pred1</span> <span class='op'>+</span> <span class='va'>pred2</span>, data <span class='op'>=</span> <span class='va'>exampledataset</span>,
 xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol <span class='op'>=</span> <span class='st'>'ycoords'</span>, areacol <span class='op'>=</span> <span class='st'>'areavar'</span><span class='op'>)</span>
+<span class='va'>predobj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>slmobj</span><span class='op'>)</span>
 <span class='co'>## Not Run</span>
-<span class='co'>## check.variogram(slmobj)</span>
+<span class='co'>## get.predinfo(predobj)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
