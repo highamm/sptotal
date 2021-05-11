@@ -9,7 +9,7 @@
 #' \code{\link{slmfit}()}, in which case the errors have the same
 #' spatial covariance, or, models with differing spatial covariances
 #' for the errors can be fit to each level of stratum, as is done here
-#' in \code{stratafit}.
+#' in \code{stratafit()}.
 #'
 #' @param formula is an \code{R} linear model formula specifying the
 #' response variable as well as covariates for predicting the response on the unsampled sites.

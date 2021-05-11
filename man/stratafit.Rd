@@ -74,7 +74,7 @@ stratum can either by incorporated as a covariate in
 \code{\link{slmfit}()}, in which case the errors have the same
 spatial covariance, or, models with differing spatial covariances
 for the errors can be fit to each level of stratum, as is done here
-in \code{stratafit}.
+in \code{stratafit()}.
 }
 \examples{
 data(exampledataset) ## load a toy data set

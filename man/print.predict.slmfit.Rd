@@ -14,16 +14,8 @@ model output}
 
 \item{...}{further arguments passed to or from other methods.}
 }
-\value{
-a list with \itemize{
-  \item Prediction, the prediction of interest.
-  \item Standard Error, the standard error for the prediction.
-  \item a preview of the data set with both sampled and predicted
-   observations, showing the first 6 and the last 6 observations.
-}
-}
 \description{
-This function uses the object that is output from \code{\link{predict.slmfit}()} of class \code{predict.slmfit}..
+This function uses the object that is output from \code{\link{predict.slmfit}()} of class \code{predict.slmfit}.
 }
 \examples{
 data(exampledataset) ## load a toy data set

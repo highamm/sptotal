@@ -10,7 +10,10 @@
 #' with the response variable as \code{NA}.
 #'
 #' @param object is an object generated from \code{\link{slmfit}()}
-#' @param wtscol is the name of the column that contains the weights for prediction. The default setting predicts the population total
+#' @param wtscol is the name of the column that contains the weights
+#' for prediction. The default setting predicts the population total
+#' @param conf_level is the confidence level for a prediction
+#' interlal, 0.90 by default
 #' @param ... further arguments passed to or from other methods.
 #' @return a list with \itemize{
 #'   \item the estimated population total
@@ -38,7 +41,8 @@
 #' @export
 
 
-predict.slmfit <- function(object, wtscol = NULL, ...) {
+predict.slmfit <- function(object, wtscol = NULL,
+                           conf_level = 0.90,...) {
 
   ## check to make sure object is of class `slmfit`
 
@@ -231,10 +235,11 @@ predict.slmfit <- function(object, wtscol = NULL, ...) {
   obj <- list(FPBKpredictorcount, pred.var.count,
     df_out,
     as.vector(covparmests),
-    formula = formula)
+    formula = formula,
+    conf_level = conf_level)
 
   names(obj) <- c("FPBK_Prediction", "PredVar",
-    "Pred_df", "SpatialParms", "formula")
+    "Pred_df", "SpatialParms", "formula", "conf_level")
 
   class(obj) <- "predict.slmfit"
 
