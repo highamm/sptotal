@@ -4,12 +4,15 @@
 \alias{predict.stratafit}
 \title{Perform Finite Population Block Kriging}
 \usage{
-\method{predict}{stratafit}(object, wtscol = NULL, ...)
+\method{predict}{stratafit}(object, wtscol = NULL, conf_level = 0.9, ...)
 }
 \arguments{
 \item{object}{is an object generated from \code{\link{stratafit}()}}
 
 \item{wtscol}{is the name of the column that contains the weights for prediction. The default setting predicts the population total}
+
+\item{conf_level, }{by default, 0.90, this is the desired
+confidence level for a prediction interval}
 
 \item{...}{further arguments passed to or from other methods.}
 }
