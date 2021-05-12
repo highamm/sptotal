@@ -225,34 +225,13 @@ The documentation describes the arguments in more detail, but as mentioned earli
 summary(slmfit_out1) 
 ```
 
-The output looks similar to the `summary` of a standard `lm` object, but there is some extra output at the end that gives our fitted covariance parameters. 
+The output looks similar to the `summary` of a standard `lm` object, but there is some extra output at the end that gives our fitted covariance parameters. Plotting `slmfit_out1` gives a semi-variogram of the residuals along with the fitted model:
 
-## Prediction: `predict`
-
-After we have obtained a fitted spatial linear model, we can use the `predict.slmfit()` function to construct a data frame of predictions for the unsampled sites. By default, the `predict()` function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, as well as the original data frame input into `slmfit` appended with site-by-site predictions and site-by-site prediction variances. We name this object `pred_obj` in the chunk below.
-
-```{r, results = "hide"}
-pred_obj <- predict(slmfit_out1)
-```
-
-The output of the `predict` function is too lengthy to print here and can be cumbersome to read. To obtain useful output, we have a couple of choices. If you are familiar with `R`, then you might want to construct your own summary output, maps, variograms, etc. One of the outputs of `predict` is a data frame that is appended with the site by site predictions that would facilitate construction of, for example, a map with predictions. This is particularly useful if you have a shapefile. The site-by-site predictions for density are given by the variable `name_of_response_pred_density` while the site-by-site predictions for counts are given by `name_of_response_pred_count`. These two columns will only differ if you have provided a column for areas of each site. 
-
-```{r, results = "hide"}
-prediction_df <- pred_obj$Pred_df
-prediction_df[ ,c("x", "y", "Z", "Z_pred_density")]
-```
-
-## Examining results: `check.variogram`, `get.predinfo`, and `get.predplot`
-
-Alternatively, you could take advantage of some pre-specified package output functions `check.variogram`, `get.predinfo`, and `get.predplot`. 
-
-First, `check.variogram` constructs an empirical variogram of the model residuals and overlays the REML-fitted variogram model with a line:
-
-```{r, warning = FALSE}
+```{r}
 plot(slmfit_out1)
 ```
 
-Note that the fitted line may not appear to fit the empirical variogram perfectly for a couple of reasons. First, only pairs of points that have a distance between 0 and one-half the maximum distance are shown. Second, the fitted model is estimated using REML, which may give different results than using weighted least squares.
+Note that the fitted curve may not appear to fit the empirical variogram perfectly for a couple of reasons. First, only pairs of points that have a distance between 0 and one-half the maximum distance are shown. Second, the fitted model is estimated using REML, which may give different results than using weighted least squares.
 
 We can also examine a histogram of the residuals as well as a histogram of the cross-validation (leave-one-out) residuals:
 
@@ -264,23 +243,40 @@ qplot(residuals(slmfit_out1, cross.validation = TRUE), bins = 20) +
 
 There is still one somewhat large cross-validation residual for an observed count that is larger than what would be predicted from a model without that particular count. The cause of this somewhat large residual can be attributed to random chance because we know that the data was simulated to follow all assumptions. 
 
-If we are satisfied with the fit of the variogram, we can examine our prediction and obtain a confidence interval for this prediction using `get.predinfo`. While the `check.variogram` function takes the fitted spatial linear model as input, the `get.predinfo` function uses the object from the `predict` function, which we previously named `pred_obj`.
+## Prediction: `predict`
 
-```{r}
-get.predinfo(pred_obj, conf_level = 0.90)
+After we have obtained a fitted spatial linear model, we can use the `predict.slmfit()` function to construct a data frame of predictions for the unsampled sites. By default, the `predict()` function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, as well as the original data frame input into `slmfit` appended with site-by-site predictions and site-by-site prediction variances. We name this object `pred_obj` in the chunk below and also construct a 90% confidence interval for the total.
+
+```{r, results = "hide"}
+pred_obj <- predict(slmfit_out1, conf_level = 0.90)
 ```
 
-We predict a total of 4817 units in this simulated region with 90% confidence bounds of (4779, 4856). The confidence interval is fairly small because we simulated data that were highly correlated, increasing precision in prediction for unobserved sites. You can see that the prediction of the total is close to the true value of 4834.326, and the true value is within the confidence interval.
+The output of the `predict` function is too lengthy to print here and can be cumbersome to read. To obtain useful output, we have a couple of choices. If you are familiar with `R`, then you might want to construct your own summary output, maps, variograms, etc. One of the outputs of `predict` is a data frame that is appended with the site by site predictions that would facilitate construction of, for example, a map with predictions. This is particularly useful if you have a shapefile. The site-by-site predictions for density are given by the variable `name_of_response_pred_density` while the site-by-site predictions for counts are given by `name_of_response_pred_count`. These two columns will only differ if you have provided a column for areas of each site. 
 
-Finally, to get a basic plot of the predictions, we can use the `get.predplot` function. 
+```{r, results = "hide"}
+prediction_df <- pred_obj$Pred_df
+prediction_df[ ,c("x", "y", "Z", "Z_pred_density")]
+```
+
+## Examining results: `print()`, and `plot()`
+
+Alternatively, you could take advantage of the pre-specified `print()` and `plot()` functions. Both take the output from `predict()`, `pred_obj` in this case, as a function argument.
 
 ```{r}
-get.predplot(pred_obj)
+print(pred_obj)
+```
+
+We predict a total of 4817 units in this simulated region with 90% confidence bounds of (4779, 4856). The confidence interval is fairly small because we simulated data that were highly correlated, increasing precision in prediction for unobserved sites. We can see that the prediction of the total is close to the true value of 4834.326, and the true value is within the confidence interval.
+
+Finally, to get a basic plot of the predictions, we can use the `plot()` function. 
+
+```{r}
+plot(pred_obj)
 ```
 
 The map shows the distribution of the response across sampled and unsampled sites. Its purpose is simply to give the user a quick idea of the distribution of the response. For example, we see from the plot that the predicted response is low in the upper-right region of the graph, is high in the middle of the region and in the upper-left corner of the region, and is low again at the lower portion of the area of interest. However, using the prediction data frame generated from the `predict` function, you can use `ggplot2` or any other plotting package to construct your own map that may be more useful in your context.
 
-###Prediction for a Small Area of Interest
+### Prediction for a Small Area of Interest
 
 Spatial prediction can be used to estimate means and totals over finite populations from geographic regions, but can also be used for the special case of estimating a mean or total in a small area of interest. The term small area estimation refers to making an inference on a smaller geographic area within the overall study area. There may be few or no samples within that small area, so that estimation by classical sampling methods may not be possible or variances become exceedingly large. 
 
@@ -288,7 +284,7 @@ If we want to predict a quantity other than the population total, then we need t
 
 ```{r}
 pred_obj2 <- predict(slmfit_out1, wtscol = "wts2")
-get.predinfo(pred_obj2)
+print(pred_obj2)
 ```
 
 Recall that the true total for this small area was 273.4. We see that this is close to our prediction of 282.2 and is also within the bounds of our confidence interval. 
@@ -413,8 +409,8 @@ qplot(residuals(slmfit_out_moose, cross.validation = TRUE), bins = 20) +
   xlab("CV Residuals")
 
 pred_moose <- predict(slmfit_out_moose)
-get.predinfo(pred_moose)
-get.predplot(pred_moose)
+print(pred_moose)
+plot(pred_moose)
 ```
 
 We obtain a predicted total of 1596 animals with 90% lower and upper confidence bounds of 921 and 2271 animals, respectively. Unlike the simulation setting, there is no "true total" we can compare our prediction to, because, in reality, not all sites were sampled!
@@ -451,10 +447,10 @@ Note that, for the first 6 observations, which have an area of 1, the `total_pre
 The `get.predinfo` function assumes that we are interested in predicting the total count since we did not specify a column of weights so our prediction for the number of moose in this fake region is 1556 moose with a standard error of 393.62.
 
 ```{r}
-get.predinfo(pred_obj_area)
+print(pred_obj_area)
 ```
 
-If sites have differing areas, the `get.predplot` function doesn't make much sense to use because each site is represented by the same-sized dot. Here, it would be helpful to import the data frame with the predicted counts and densities into a shapefile so that you are able to construct your own graphics that reflect the different-sized sites.
+If sites have differing areas, the `plot()` function doesn't make much sense to use because each site is represented by the same-sized dot. Here, it would be helpful to import the data frame with the predicted counts and densities into a shapefile so that you are able to construct your own graphics that reflect the different-sized sites.
 
 ## Mean Dissolved Organic Carbon from National Lakes Data
 
@@ -504,7 +500,8 @@ We also have covariates that may help in prediction:
 It is always important to make scatterplots of your variables to look for obvious relationships. 
 
 ```{r}
-ggplot(data = lakes, aes(x = RVFPUNDWOODY_RIP, y = log(DOC_RESULT))) +
+ggplot(data = lakes,
+       aes(x = RVFPUNDWOODY_RIP, y = log(DOC_RESULT))) +
   geom_jitter(width = 0.02)
 ```
 
@@ -555,8 +552,9 @@ AIC(slmfitout_sph_lakes)
 Based on AIC, there is not much difference in fit between the two structures. We will use the exponential covariance structure going forward.
 
 ```{r}
-pred_exp_lakes <- predict(slmfitout_exp_lakes,  wtscol = "wts")
-get.predinfo(pred_exp_lakes, conf_level = 0.95)
+pred_exp_lakes <- predict(slmfitout_exp_lakes,  wtscol = "wts",
+                          conf_level = 0.95)
+print(pred_exp_lakes)
 mean(lakes$DOC_RESULT)
 ```
 
