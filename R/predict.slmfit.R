@@ -69,11 +69,11 @@ predict.slmfit <- function(object, wtscol = NULL,
   #   }
   # }
 
-  if (is.null(wtscol) == FALSE) {
-    if (wtscol %in% names(data) == FALSE) {
-    stop("wtscol must be the name of the column (in quotes) in the data used in 'slmfit' that specifies the column with the prediction weights. ")
-    }
-  }
+  # if (is.null(wtscol) == FALSE) {
+  #   if (wtscol %in% names(data) == FALSE) {
+  #   stop("wtscol must be the name of the column (in quotes) in the data used in 'slmfit' that specifies the column with the prediction weights. ")
+  #   }
+  # }
 
 
    if (is.null(wtscol) == TRUE) {
