@@ -62,12 +62,11 @@ predict.slmfit <- function(object, wtscol = NULL,
   covparmests <- object$SpatialParmEsts
   areavar <- object$FPBKpredobj$areavar
 
-  ## if data set has weird names, it errors out
-  # if (is.null(wtscol) == FALSE) {
-  #   if (sum(names(data) == wtscol) == 0) {
-  #   stop("wtscol must be the name of the column (in quotes) in the data used in 'slmfit' that specifies the column with the prediction weights. ")
-  #   }
-  # }
+  if (is.null(wtscol) == FALSE) {
+    if (sum(names(data) == wtscol) == 0) {
+    stop("wtscol must be the name of the column (in quotes) in the data used in 'slmfit' that specifies the column with the prediction weights. ")
+    }
+  }
 
   # if (is.null(wtscol) == FALSE) {
   #   if (wtscol %in% names(data) == FALSE) {
