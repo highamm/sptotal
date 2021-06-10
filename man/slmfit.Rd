@@ -19,8 +19,8 @@ slmfit(
 \item{formula}{is an \code{R} linear model formula specifying the
 response variable as well as covariates for predicting the response on the unsampled sites.}
 
-\item{data}{is the data set with the response column, the covariates to
-be used for the block kriging, and the spatial coordinates for all of the sites.}
+\item{data}{is a data frame or tibble with the response column, the covariates to
+be used for the block kriging, and the spatial coordinates for all of the sites. Alternatively, data can be an \code{sp} Spatial Points Data Frame or \code{sf} object with POINT geometry.}
 
 \item{xcoordcol}{is the name of the column in the data frame with x coordinates or longitudinal coordinates}
 
