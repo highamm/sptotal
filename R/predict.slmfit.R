@@ -31,6 +31,8 @@
 #'        }
 #'    \item vector with estimated covariance parameters
 #'    \item the formula used to fit the model in \code{slmfit()}
+#'    \item the confidence level
+#'    \item the confidence interval bounds
 #' }
 #' @examples
 #' data(exampledataset) ## load a toy data set
@@ -238,14 +240,22 @@ predict.slmfit <- function(object, wtscol = NULL,
     paste(base::all.vars(formula)[1], "_areas",
       sep = ""))
 
+  conf_bounds <- as.numeric(FPBKpredictorcount) + c(1, -1) *
+    stats::qnorm((1 - conf_level) / 2) *
+    sqrt(as.numeric(pred.var.count))
+
+  names(conf_bounds) <- c("lower", "upper")
+
   obj <- list(FPBKpredictorcount, pred.var.count,
     df_out,
     as.vector(covparmests),
     formula = formula,
-    conf_level = conf_level)
+    conf_level = conf_level,
+    conf_bounds = conf_bounds)
 
   names(obj) <- c("FPBK_Prediction", "PredVar",
-    "Pred_df", "SpatialParms", "formula", "conf_level")
+    "Pred_df", "SpatialParms", "formula", "conf_level",
+    "conf_bounds")
 
   class(obj) <- "predict.slmfit"
 

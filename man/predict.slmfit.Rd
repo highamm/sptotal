@@ -34,6 +34,8 @@ a list with \itemize{
        }
    \item vector with estimated covariance parameters
    \item the formula used to fit the model in \code{slmfit()}
+   \item the confidence level
+   \item the confidence interval bounds
 }
 }
 \description{
