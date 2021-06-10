@@ -4,10 +4,12 @@
 \alias{residuals.slmfit}
 \title{Extract Model Residuals from an \code{slmfit} object.}
 \usage{
-\method{residuals}{slmfit}(object, cross.validation = FALSE, ...)
+\method{residuals}{slmfit}(object, type = "raw", cross.validation = FALSE, ...)
 }
 \arguments{
 \item{object}{a \code{slmfit} object generated from the \code{\link{slmfit}()} function.}
+
+\item{type}{residual type: \code{"raw"} (the default) or \code{"normalized"}}
 
 \item{cross.validation}{a logical (\code{TRUE} or \code{FALSE}) that
 indicates whether the residuals computed should be found using
