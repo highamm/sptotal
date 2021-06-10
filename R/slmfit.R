@@ -349,13 +349,13 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol, areacol = NULL,
     "estmethod","correlationmod", "covmat", "covmatsampi", "areavar",
     "covmatsamp")
   obj <- list(covparms, betahatest, covest, min2loglik, prednames,
-    n, CorModel, resids, Xs, z.density, FPBKpredobj)
+    n, CorModel, resids, Xs, z.density, FPBKpredobj, muhats)
 
   names(obj) <- c("SpatialParmEsts", "CoefficientEsts",
     "BetaCov", "minus2loglike", "PredictorNames", "SampSize",
     "CovarianceMod",
     "resids", "DesignMat", "Density",
-    "FPBKpredobj")
+    "FPBKpredobj", "FittedValues")
 
   class(obj) <- "slmfit"
   return(obj)

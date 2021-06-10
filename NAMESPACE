@@ -2,6 +2,7 @@
 
 S3method(AIC,slmfit)
 S3method(coef,slmfit)
+S3method(fitted,slmfit)
 S3method(plot,predict.slmfit)
 S3method(plot,slmfit)
 S3method(predict,slmfit)
