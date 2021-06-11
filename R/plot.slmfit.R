@@ -38,20 +38,8 @@ plot.slmfit <- function(x, ...) {
 
   df <- data.frame(xcoords = xcoords, ycoords = ycoords,
                    resids = residvec)
-
-  ## code for empirical variogram
-  g_obj <- gstat::gstat(formula = resids ~ 1,
-                        locations = ~ xcoords + ycoords,
-                        data = df)
-
-  ## use h / 2 as cutoff, where h is max distance in data set
-  cutoff_point <- max(dist(cbind(xcoords, ycoords))) / 2
-
-  vario_out <- gstat::variogram(g_obj, cutoff = cutoff_point)
-  maxy <- max(vario_out$gamma)
-
-  vartab <- cbind(vario_out$dist, vario_out$gamma,
-                  vario_out$np)
+  vario_out <- sv(df, "xcoords", "ycoords", "resids", ...)
+  vartab <- vario_out
   colnames(vartab) <- c("Distance", "Gamma", "Number of Pairs")
   covparmmat <- t(matrix(parms))
   colnames(covparmmat) <- c("Nugget", "Partial Sill", "Range")
@@ -77,9 +65,8 @@ plot.slmfit <- function(x, ...) {
 
   plot_out <- ggplot(data = vario_out,
                      aes_(x = ~dist, y = ~gamma)) +
-    geom_point(aes_(size = ~gstat::variogram(g_obj,
-                                             cutoff = cutoff_point)$np)) +
-    ylim(0, max(c(maxy * (15 / 14),
+    geom_point(aes_(size = ~np)) +
+    ylim(0, max(c(max(vario_out$gamma) * (15 / 14),
                   max(df.plot$v.modfit) * (15 / 14)))) +
     geom_line(data = df.plot, aes_(x = ~x.dist.plot, y = ~v.modfit)) +
     xlab("Distance (TM)") +
