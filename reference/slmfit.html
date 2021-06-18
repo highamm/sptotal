@@ -140,6 +140,7 @@ parameters, given spatial coordinates and a model formula.</p>
   <span class='va'>xcoordcol</span>,
   <span class='va'>ycoordcol</span>,
   areacol <span class='op'>=</span> <span class='cn'>NULL</span>,
+  stratacol <span class='op'>=</span> <span class='cn'>NULL</span>,
   CorModel <span class='op'>=</span> <span class='st'>"Exponential"</span>,
   estmethod <span class='op'>=</span> <span class='st'>"REML"</span>,
   covestimates <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span><span class='op'>)</span>
@@ -170,6 +171,12 @@ be used for the block kriging, and the spatial coordinates for all of the sites.
       <th>areacol</th>
       <td><p>is the name of the column with the areas of the sites. By default, we assume that all sites have equal area, in which
 case a vector of 1's is used as the areas.</p></td>
+    </tr>
+    <tr>
+      <th>stratacol</th>
+      <td><p>is the name of the the column with the
+stratafication variable, if strata are to be fit separately,
+with different covariance parameter estimates.</p></td>
     </tr>
     <tr>
       <th>CorModel</th>
@@ -244,7 +251,68 @@ xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol
 #&gt; Partial Sill      1.543624e+02
 #&gt; Range             8.240060e-01
 #&gt; 
-#&gt; Generalized R-squared: 0.00413886 </div></pre>
+#&gt; Generalized R-squared: 0.00413886 </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>exampledataset</span><span class='op'>)</span> <span class='co'>## load a toy data set</span>
+<span class='va'>exampledataset</span><span class='op'>$</span><span class='va'>strata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='fl'>19</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='fl'>21</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>strataobj</span> <span class='op'>&lt;-</span> <span class='fu'>slmfit</span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>counts</span> <span class='op'>~</span> <span class='va'>pred1</span> <span class='op'>+</span> <span class='va'>pred2</span>, data <span class='op'>=</span> <span class='va'>exampledataset</span>, stratacol <span class='op'>=</span> <span class='st'>"strata"</span>,
+xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol <span class='op'>=</span> <span class='st'>'ycoords'</span>, areacol <span class='op'>=</span> <span class='st'>'areavar'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>strataobj</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $A
+#&gt; 
+#&gt; Call:
+#&gt; counts ~ pred1 + pred2
+#&gt; 
+#&gt; Residuals:
+#&gt;     Min      1Q  Median      3Q     Max 
+#&gt; -7.7826 -2.1499  0.0488  1.5492  9.8233 
+#&gt; 
+#&gt; Coefficients:
+#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    
+#&gt; (Intercept)  22.2882     0.9936   22.43   &lt;2e-16 ***
+#&gt; pred1        -6.5176     0.1030  -63.27   &lt;2e-16 ***
+#&gt; pred2         0.5545     0.0509   10.89   &lt;2e-16 ***
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt; 
+#&gt; Covariance Parameters:
+#&gt;              Exponential Model
+#&gt; Nugget                 20.0915
+#&gt; Partial Sill         1227.2769
+#&gt; Range                8575.6681
+#&gt; 
+#&gt; Generalized R-squared: 0.1998733 
+#&gt; 
+#&gt; $B
+#&gt; 
+#&gt; Call:
+#&gt; counts ~ pred1 + pred2
+#&gt; 
+#&gt; Residuals:
+#&gt;    Min     1Q Median     3Q    Max 
+#&gt; -9.262 -4.974  1.516  3.355 14.635 
+#&gt; 
+#&gt; Coefficients:
+#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    
+#&gt; (Intercept)  19.1464     0.4616  41.474   &lt;2e-16 ***
+#&gt; pred1         1.4302     0.8103   1.765   0.0966 .  
+#&gt; pred2        -1.6027     0.1964  -8.161   &lt;2e-16 ***
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt; 
+#&gt; Covariance Parameters:
+#&gt;              Exponential Model
+#&gt; Nugget            4.188789e-05
+#&gt; Partial Sill      4.205452e+01
+#&gt; Range             4.954309e-01
+#&gt; 
+#&gt; Generalized R-squared: 0.09916644 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>strataobj</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; Prediction and Confidence Intervals:
+#&gt;       Prediction     SE 90% LB 90% UB
+#&gt; A          364.9  9.213  349.8  380.1
+#&gt; B          412.2  9.889  396.0  428.5
+#&gt; Total      777.1 13.515  754.9  799.4</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -234,7 +234,7 @@ parameters and regression coefficients.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>exampledataset</span><span class='op'>)</span> <span class='co'>## load a toy data set</span>
-<span class='va'>exampledataset</span><span class='op'>$</span><span class='va'>strata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='fl'>25</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='fl'>15</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>exampledataset</span><span class='op'>$</span><span class='va'>strata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='fl'>19</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"B"</span>, <span class='fl'>21</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>strataobj</span> <span class='op'>&lt;-</span> <span class='fu'>stratafit</span><span class='op'>(</span>formula <span class='op'>=</span> <span class='va'>counts</span> <span class='op'>~</span> <span class='va'>pred1</span> <span class='op'>+</span> <span class='va'>pred2</span>,
  data <span class='op'>=</span> <span class='va'>exampledataset</span>, stratacol <span class='op'>=</span> <span class='st'>"strata"</span>,
 xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol <span class='op'>=</span> <span class='st'>'ycoords'</span>, areacol <span class='op'>=</span> <span class='st'>'areavar'</span><span class='op'>)</span>
@@ -246,23 +246,23 @@ xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol
 #&gt; 
 #&gt; Residuals:
 #&gt;     Min      1Q  Median      3Q     Max 
-#&gt; -9.4506 -2.6459  0.2484  2.9445 10.5560 
+#&gt; -7.7826 -2.1499  0.0488  1.5492  9.8233 
 #&gt; 
 #&gt; Coefficients:
 #&gt;             Estimate Std. Error t value Pr(&gt;|t|)    
-#&gt; (Intercept)  20.6827     0.4500  45.960   &lt;2e-16 ***
-#&gt; pred1        -5.1222     0.6530  -7.844   &lt;2e-16 ***
-#&gt; pred2        -0.2208     0.3270  -0.675    0.509    
+#&gt; (Intercept)  22.2882     0.9936   22.43   &lt;2e-16 ***
+#&gt; pred1        -6.5176     0.1030  -63.27   &lt;2e-16 ***
+#&gt; pred2         0.5545     0.0509   10.89   &lt;2e-16 ***
 #&gt; ---
 #&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #&gt; 
 #&gt; Covariance Parameters:
 #&gt;              Exponential Model
-#&gt; Nugget               5.7237151
-#&gt; Partial Sill        20.2900151
-#&gt; Range                0.7685046
+#&gt; Nugget                 20.0915
+#&gt; Partial Sill         1227.2769
+#&gt; Range                8575.6681
 #&gt; 
-#&gt; Generalized R-squared: 0.1280635 
+#&gt; Generalized R-squared: 0.1998733 
 #&gt; 
 #&gt; $B
 #&gt; 
@@ -270,24 +270,24 @@ xcoordcol <span class='op'>=</span> <span class='st'>'xcoords'</span>, ycoordcol
 #&gt; counts ~ pred1 + pred2
 #&gt; 
 #&gt; Residuals:
-#&gt;     Min      1Q  Median      3Q     Max 
-#&gt; -8.6892 -3.3922 -0.0594  1.8881 12.8373 
+#&gt;    Min     1Q Median     3Q    Max 
+#&gt; -9.262 -4.974  1.516  3.355 14.635 
 #&gt; 
 #&gt; Coefficients:
-#&gt;              Estimate Std. Error  t value Pr(&gt;|t|)    
-#&gt; (Intercept) 20.931156   0.999988    20.93   &lt;2e-16 ***
-#&gt; pred1        2.415988   0.004905   492.56   &lt;2e-16 ***
-#&gt; pred2       -1.968852   0.001108 -1777.45   &lt;2e-16 ***
+#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    
+#&gt; (Intercept)  19.1464     0.4616  41.474   &lt;2e-16 ***
+#&gt; pred1         1.4302     0.8103   1.765   0.0966 .  
+#&gt; pred2        -1.6027     0.1964  -8.161   &lt;2e-16 ***
 #&gt; ---
 #&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #&gt; 
 #&gt; Covariance Parameters:
 #&gt;              Exponential Model
-#&gt; Nugget            2.457091e+01
-#&gt; Partial Sill      1.080612e+06
-#&gt; Range             4.005461e+05
+#&gt; Nugget            4.188789e-05
+#&gt; Partial Sill      4.205452e+01
+#&gt; Range             4.954309e-01
 #&gt; 
-#&gt; Generalized R-squared: 0.20773 
+#&gt; Generalized R-squared: 0.09916644 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
