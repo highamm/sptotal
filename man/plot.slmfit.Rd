@@ -27,4 +27,11 @@ data(exampledataset) ## load a toy data set
 slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
 xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 plot(slmobj)
+
+data(exampledataset) ## load a toy data set
+exampledataset$strata <- c(rep("A", 19), rep("B", 21))
+strataobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset, stratacol = "strata",
+xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+plot(strataobj[[1]])
+plot(strataobj[[2]])
 }
