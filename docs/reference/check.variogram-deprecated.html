@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>simulate completely spatially random point patterns. — pointSimCSR • sptotal</title>
+<title>Plot an Empirical Semi-Variogram of Residuals — check.variogram-deprecated • sptotal</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,13 @@
 
 
 
-<meta property="og:title" content="simulate completely spatially random point patterns. — pointSimCSR" />
-<meta property="og:description" content="simulates a completely spatially random point patterns. This function is
-only used in simulating data sets." />
+<meta property="og:title" content="Plot an Empirical Semi-Variogram of Residuals — check.variogram-deprecated" />
+<meta property="og:description" content="check.variogram() has been deprecated: use plot.slmfit() instead. Plots an empirical semi-variogram of the residuals from the spatial linear model
+with the fitted parametric model as a curve overtop of the
+binned points. By default, the empirical semi-variogram only shows distances
+that are less than or equal to the maximum distance in the data
+set divided by 2. Therefore, it's possible that the REML-fitted model
+will not &quot;fit&quot; the points perfectly." />
 
 
 
@@ -124,53 +128,41 @@ only used in simulating data sets." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>simulate completely spatially random point patterns.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>pointSimCSR.Rd</code></div>
+    <h1>Plot an Empirical Semi-Variogram of Residuals</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/deprecated-check.variogram.R'><code>R/deprecated-check.variogram.R</code></a></small>
+    <div class="hidden name"><code>check.variogram-deprecated.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>simulates a completely spatially random point patterns. This function is
-only used in simulating data sets.</p>
+    <p><code>check.variogram()</code> has been deprecated: use <code><a href='plot.slmfit.html'>plot.slmfit</a>()</code> instead. Plots an empirical semi-variogram of the residuals from the spatial linear model
+with the fitted parametric model as a curve overtop of the
+binned points. By default, the empirical semi-variogram only shows distances
+that are less than or equal to the maximum distance in the data
+set divided by 2. Therefore, it's possible that the REML-fitted model
+will not "fit" the points perfectly.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pointSimCSR</span>(
-  <span class='kw'>npoints</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>lower_x_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_x_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>lower_y_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_y_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>
-)</pre>
+    <pre class="usage"><span class='fu'>check.variogram</span>(<span class='no'>object</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>npoints</th>
-      <td><p>number of points to add that are completely spatially random (CSR), default = 100</p></td>
-    </tr>
-    <tr>
-      <th>lower_x_lim</th>
-      <td><p>left limit of boundary, default = 0</p></td>
-    </tr>
-    <tr>
-      <th>upper_x_lim</th>
-      <td><p>right limit of boundary, default = 1</p></td>
-    </tr>
-    <tr>
-      <th>lower_y_lim</th>
-      <td><p>lower limit of boundary, default = 0</p></td>
-    </tr>
-    <tr>
-      <th>upper_y_lim</th>
-      <td><p>upper limit of boundary, default = 1</p></td>
+      <th>object</th>
+      <td><p>is an object of class <code><a href='slmfit.html'>slmfit</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame of two columns, x-coordinate in the first, and y-coordinate in the second.</p>
+    <p>a plot of the empirical semi-variogram with the fitted model overlayed.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>exampledataset</span>) <span class='co'>## load a toy data set</span>
+<span class='no'>slmobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='slmfit.html'>slmfit</a></span>(<span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>counts</span> ~ <span class='no'>pred1</span> + <span class='no'>pred2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>exampledataset</span>,
+<span class='kw'>xcoordcol</span> <span class='kw'>=</span> <span class='st'>'xcoords'</span>, <span class='kw'>ycoordcol</span> <span class='kw'>=</span> <span class='st'>'ycoords'</span>, <span class='kw'>areacol</span> <span class='kw'>=</span> <span class='st'>'areavar'</span>)
+<span class='co'>## Not Run</span>
+<span class='co'>## check.variogram(slmobj)</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

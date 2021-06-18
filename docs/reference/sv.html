@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>simulate completely spatially random point patterns. — pointSimCSR • sptotal</title>
+<title>Title — sv • sptotal</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="simulate completely spatially random point patterns. — pointSimCSR" />
-<meta property="og:description" content="simulates a completely spatially random point patterns. This function is
-only used in simulating data sets." />
+<meta property="og:title" content="Title — sv" />
+<meta property="og:description" content="Title" />
 
 
 
@@ -124,53 +123,71 @@ only used in simulating data sets." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>simulate completely spatially random point patterns.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>pointSimCSR.Rd</code></div>
+    <h1>Title</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/sv.R'><code>R/sv.R</code></a></small>
+    <div class="hidden name"><code>sv.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>simulates a completely spatially random point patterns. This function is
-only used in simulating data sets.</p>
+    <p>Title</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pointSimCSR</span>(
-  <span class='kw'>npoints</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>lower_x_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_x_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>lower_y_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_y_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sv</span>(<span class='no'>data</span>, <span class='no'>xcoordcol</span>, <span class='no'>ycoordcol</span>, <span class='no'>residcol</span>, <span class='kw'>bins</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>npoints</th>
-      <td><p>number of points to add that are completely spatially random (CSR), default = 100</p></td>
+      <th>data</th>
+      <td><p>A data frame or tibble that contains variables for the
+x coordinates, y coordinates, and residuals.</p></td>
     </tr>
     <tr>
-      <th>lower_x_lim</th>
-      <td><p>left limit of boundary, default = 0</p></td>
+      <th>xcoordcol</th>
+      <td><p>is the name of the column in the data frame with
+x coordinates or longitudinal coordinates</p></td>
     </tr>
     <tr>
-      <th>upper_x_lim</th>
-      <td><p>right limit of boundary, default = 1</p></td>
+      <th>ycoordcol</th>
+      <td><p>is the name of the column in the data frame with
+y coordinates or latitudinal coordinates</p></td>
     </tr>
     <tr>
-      <th>lower_y_lim</th>
-      <td><p>lower limit of boundary, default = 0</p></td>
+      <th>residcol</th>
+      <td><p>is the name of the column in the data frame with residuals.</p></td>
     </tr>
     <tr>
-      <th>upper_y_lim</th>
-      <td><p>upper limit of boundary, default = 1</p></td>
+      <th>bins</th>
+      <td><p>Number of equally spaced semivariogram bins. The default is 15.</p></td>
+    </tr>
+    <tr>
+      <th>cutoff</th>
+      <td><p>The maximum spatial distance to be considered. The default is
+half of the maximum observed distance in the data frame.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments to be used by <code><a href='https://rdrr.io/r/stats/dist.html'>stats::dist()</a></code> for
+spatial distance calculations.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame of two columns, x-coordinate in the first, and y-coordinate in the second.</p>
+    <p>A data frame with the average distance in each bin (dist), the
+semivariance (gamma), and the number of unique pairs in each bin (np)</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>exampledataset</span>) <span class='co'>## load a toy data set</span>
+<span class='no'>slmobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='slmfit.html'>slmfit</a></span>(<span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>counts</span> ~ <span class='no'>pred1</span> + <span class='no'>pred2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>exampledataset</span>,
+<span class='kw'>xcoordcol</span> <span class='kw'>=</span> <span class='st'>'xcoords'</span>, <span class='kw'>ycoordcol</span> <span class='kw'>=</span> <span class='st'>'ycoords'</span>, <span class='kw'>areacol</span> <span class='kw'>=</span> <span class='st'>'areavar'</span>)
+<span class='no'>sampleddataset</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span>(<span class='no'>exampledataset</span>)
+<span class='no'>svexample</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+  <span class='kw'>xcoords</span> <span class='kw'>=</span> <span class='no'>sampleddataset</span>$<span class='no'>xcoords</span>,
+  <span class='kw'>ycoords</span> <span class='kw'>=</span> <span class='no'>sampleddataset</span>$<span class='no'>ycoords</span>,
+  <span class='kw'>resids</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/residuals.html'>residuals</a></span>(<span class='no'>slmobj</span>)
+)
+<span class='no'>svdata</span> <span class='kw'>&lt;-</span> <span class='fu'>sv</span>(<span class='no'>svexample</span>, <span class='st'>"xcoords"</span>, <span class='st'>"ycoords"</span>, <span class='st'>"resids"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

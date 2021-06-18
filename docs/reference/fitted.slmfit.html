@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>simulate completely spatially random point patterns. — pointSimCSR • sptotal</title>
+<title>Extract Fitted Values from an <code>slmfit</code> object. — fitted.slmfit • sptotal</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="simulate completely spatially random point patterns. — pointSimCSR" />
-<meta property="og:description" content="simulates a completely spatially random point patterns. This function is
-only used in simulating data sets." />
+<meta property="og:title" content="Extract Fitted Values from an <code>slmfit</code> object. — fitted.slmfit" />
+<meta property="og:description" content="Extract Fitted Values from an slmfit object." />
 
 
 
@@ -124,53 +123,75 @@ only used in simulating data sets." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>simulate completely spatially random point patterns.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>pointSimCSR.Rd</code></div>
+    <h1>Extract Fitted Values from an <code>slmfit</code> object.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/fitted.slmfit.R'><code>R/fitted.slmfit.R</code></a></small>
+    <div class="hidden name"><code>fitted.slmfit.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>simulates a completely spatially random point patterns. This function is
-only used in simulating data sets.</p>
+    <p>Extract Fitted Values from an <code>slmfit</code> object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pointSimCSR</span>(
-  <span class='kw'>npoints</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>lower_x_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_x_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>lower_y_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_y_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>
-)</pre>
+    <pre class="usage"><span class='co'># S3 method for slmfit</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/fitted.values.html'>fitted</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>npoints</th>
-      <td><p>number of points to add that are completely spatially random (CSR), default = 100</p></td>
+      <th>object</th>
+      <td><p>a <code>slmfit</code> object generated from the <code><a href='slmfit.html'>slmfit</a>()</code> function.</p></td>
     </tr>
     <tr>
-      <th>lower_x_lim</th>
-      <td><p>left limit of boundary, default = 0</p></td>
-    </tr>
-    <tr>
-      <th>upper_x_lim</th>
-      <td><p>right limit of boundary, default = 1</p></td>
-    </tr>
-    <tr>
-      <th>lower_y_lim</th>
-      <td><p>lower limit of boundary, default = 0</p></td>
-    </tr>
-    <tr>
-      <th>upper_y_lim</th>
-      <td><p>upper limit of boundary, default = 1</p></td>
+      <th>...</th>
+      <td><p>further arguments passed to or from other methods.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame of two columns, x-coordinate in the first, and y-coordinate in the second.</p>
+    <p>a vector of fitted values (estimated means)</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>exampledataset</span>) <span class='co'>## load a toy data set</span>
+<span class='no'>slmobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='slmfit.html'>slmfit</a></span>(<span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>counts</span> ~ <span class='no'>pred1</span> + <span class='no'>pred2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>exampledataset</span>,
+<span class='kw'>xcoordcol</span> <span class='kw'>=</span> <span class='st'>'xcoords'</span>, <span class='kw'>ycoordcol</span> <span class='kw'>=</span> <span class='st'>'ycoords'</span>, <span class='kw'>areacol</span> <span class='kw'>=</span> <span class='st'>'areavar'</span>)
+<span class='fu'><a href='https://rdrr.io/r/stats/fitted.values.html'>fitted</a></span>(<span class='no'>slmobj</span>)</div><div class='output co'>#&gt;        [,1]
+#&gt; 1  26.34639
+#&gt; 3  26.63426
+#&gt; 4  27.23214
+#&gt; 5  28.43135
+#&gt; 6  26.73825
+#&gt; 8  26.16851
+#&gt; 9  26.21182
+#&gt; 10 27.35758
+#&gt; 11 27.18495
+#&gt; 12 26.19780
+#&gt; 13 27.80209
+#&gt; 14 27.45374
+#&gt; 15 27.80411
+#&gt; 16 26.05612
+#&gt; 17 27.95937
+#&gt; 18 27.40552
+#&gt; 21 26.62734
+#&gt; 22 26.62202
+#&gt; 23 27.73517
+#&gt; 25 27.38797
+#&gt; 26 28.27388
+#&gt; 27 26.22645
+#&gt; 28 27.08614
+#&gt; 29 27.05143
+#&gt; 30 27.54447
+#&gt; 31 26.33692
+#&gt; 32 26.44394
+#&gt; 33 27.49559
+#&gt; 34 25.88298
+#&gt; 35 27.48915
+#&gt; 36 26.86122
+#&gt; 37 27.25672
+#&gt; 38 26.86550
+#&gt; 39 26.88379
+#&gt; 40 27.59593</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

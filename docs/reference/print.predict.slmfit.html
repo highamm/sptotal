@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>simulate completely spatially random point patterns. — pointSimCSR • sptotal</title>
+<title>Prints a short summary for the <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> function. — print.predict.slmfit • sptotal</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="simulate completely spatially random point patterns. — pointSimCSR" />
-<meta property="og:description" content="simulates a completely spatially random point patterns. This function is
-only used in simulating data sets." />
+<meta property="og:title" content="Prints a short summary for the <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> function. — print.predict.slmfit" />
+<meta property="og:description" content="This function uses the object that is output from predict.slmfit() of class predict.slmfit." />
 
 
 
@@ -124,53 +123,46 @@ only used in simulating data sets." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>simulate completely spatially random point patterns.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>pointSimCSR.Rd</code></div>
+    <h1>Prints a short summary for the <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> function.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/print.predict.slmfit.R'><code>R/print.predict.slmfit.R</code></a></small>
+    <div class="hidden name"><code>print.predict.slmfit.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>simulates a completely spatially random point patterns. This function is
-only used in simulating data sets.</p>
+    <p>This function uses the object that is output from <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> of class <code>predict.slmfit</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pointSimCSR</span>(
-  <span class='kw'>npoints</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>lower_x_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_x_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>lower_y_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_y_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>
-)</pre>
+    <pre class="usage"><span class='co'># S3 method for predict.slmfit</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fl'>3L</span>, <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"digits"</span>) - <span class='fl'>3L</span>), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>npoints</th>
-      <td><p>number of points to add that are completely spatially random (CSR), default = 100</p></td>
+      <th>x</th>
+      <td><p>is a prediction object generated from <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code></p></td>
     </tr>
     <tr>
-      <th>lower_x_lim</th>
-      <td><p>left limit of boundary, default = 0</p></td>
+      <th>digits</th>
+      <td><p>is the number of digits to be displayed in the
+model output</p></td>
     </tr>
     <tr>
-      <th>upper_x_lim</th>
-      <td><p>right limit of boundary, default = 1</p></td>
-    </tr>
-    <tr>
-      <th>lower_y_lim</th>
-      <td><p>lower limit of boundary, default = 0</p></td>
-    </tr>
-    <tr>
-      <th>upper_y_lim</th>
-      <td><p>upper limit of boundary, default = 1</p></td>
+      <th>...</th>
+      <td><p>further arguments passed to or from other methods.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame of two columns, x-coordinate in the first, and y-coordinate in the second.</p>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>exampledataset</span>) <span class='co'>## load a toy data set</span>
+<span class='no'>slmobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='slmfit.html'>slmfit</a></span>(<span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>counts</span> ~ <span class='no'>pred1</span> + <span class='no'>pred2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>exampledataset</span>,
+<span class='kw'>xcoordcol</span> <span class='kw'>=</span> <span class='st'>'xcoords'</span>, <span class='kw'>ycoordcol</span> <span class='kw'>=</span> <span class='st'>'ycoords'</span>, <span class='kw'>areacol</span> <span class='kw'>=</span> <span class='st'>'areavar'</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>slmobj</span>), <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; Prediction Info:
+#&gt;        Prediction    SE 90% LB 90% UB
+#&gt; counts      813.2 24.64  772.6  853.7
+#&gt;        Numb. Sites Sampled Total Numb. Sites Total Observed Average Density
+#&gt; counts                  35                40            679           26.77</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

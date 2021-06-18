@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>simulate completely spatially random point patterns. — pointSimCSR • sptotal</title>
+<title>Summarizes a fitted spatial linear model with a stratification variable.. — summary.stratafit • sptotal</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,11 @@
 
 
 
-<meta property="og:title" content="simulate completely spatially random point patterns. — pointSimCSR" />
-<meta property="og:description" content="simulates a completely spatially random point patterns. This function is
-only used in simulating data sets." />
+<meta property="og:title" content="Summarizes a fitted spatial linear model with a stratification variable.. — summary.stratafit" />
+<meta property="og:description" content="If a model is fitted with stratafit(), then
+this summary function produces summary output for each level
+of the stratification variable in the same style as the
+summary.slmfit() function." />
 
 
 
@@ -124,53 +126,101 @@ only used in simulating data sets." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>simulate completely spatially random point patterns.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>pointSimCSR.Rd</code></div>
+    <h1>Summarizes a fitted spatial linear model with a stratification variable..</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/summary.stratafit.R'><code>R/summary.stratafit.R</code></a></small>
+    <div class="hidden name"><code>summary.stratafit.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>simulates a completely spatially random point patterns. This function is
-only used in simulating data sets.</p>
+    <p>If a model is fitted with <code><a href='stratafit.html'>stratafit</a>()</code>, then
+this summary function produces summary output for each level
+of the stratification variable in the same style as the
+<code><a href='summary.slmfit.html'>summary.slmfit</a>()</code> function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pointSimCSR</span>(
-  <span class='kw'>npoints</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>lower_x_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_x_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>lower_y_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_y_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>
-)</pre>
+    <pre class="usage"><span class='co'># S3 method for stratafit</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>npoints</th>
-      <td><p>number of points to add that are completely spatially random (CSR), default = 100</p></td>
+      <th>object</th>
+      <td><p>is an object generated from <code><a href='slmfit.html'>slmfit</a>()</code> of class <code>slmfit</code>.</p></td>
     </tr>
     <tr>
-      <th>lower_x_lim</th>
-      <td><p>left limit of boundary, default = 0</p></td>
-    </tr>
-    <tr>
-      <th>upper_x_lim</th>
-      <td><p>right limit of boundary, default = 1</p></td>
-    </tr>
-    <tr>
-      <th>lower_y_lim</th>
-      <td><p>lower limit of boundary, default = 0</p></td>
-    </tr>
-    <tr>
-      <th>upper_y_lim</th>
-      <td><p>upper limit of boundary, default = 1</p></td>
+      <th>...</th>
+      <td><p>further arguments passed to or from other methods.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame of two columns, x-coordinate in the first, and y-coordinate in the second.</p>
+    <p>a list with</p><ul>
+<li><p>model formula</p></li>
+<li><p>a table of fixed effects estimates and associated standard errors</p></li>
+<li><p>estimated spatial covariance parameter estimates</p></li>
+<li><p>residuals</p></li>
+<li><p>generalized r-squared.</p></li>
+</ul>
 
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>exampledataset</span>) <span class='co'>## load a toy data set</span>
+<span class='no'>exampledataset</span>$<span class='no'>strata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"A"</span>, <span class='fl'>25</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"B"</span>, <span class='fl'>15</span>))
+<span class='no'>strataobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stratafit.html'>stratafit</a></span>(<span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>counts</span> ~ <span class='no'>pred1</span> + <span class='no'>pred2</span>,
+ <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>exampledataset</span>, <span class='kw'>stratacol</span> <span class='kw'>=</span> <span class='st'>"strata"</span>,
+<span class='kw'>xcoordcol</span> <span class='kw'>=</span> <span class='st'>'xcoords'</span>, <span class='kw'>ycoordcol</span> <span class='kw'>=</span> <span class='st'>'ycoords'</span>, <span class='kw'>areacol</span> <span class='kw'>=</span> <span class='st'>'areavar'</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>strataobj</span>)</div><div class='output co'>#&gt; $A
+#&gt; 
+#&gt; Call:
+#&gt; counts ~ pred1 + pred2
+#&gt; 
+#&gt; Residuals:
+#&gt;     Min      1Q  Median      3Q     Max 
+#&gt; -9.4506 -2.6459  0.2484  2.9445 10.5560 
+#&gt; 
+#&gt; Coefficients:
+#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    
+#&gt; (Intercept)  20.6827     0.4500  45.960   &lt;2e-16 ***
+#&gt; pred1        -5.1222     0.6530  -7.844   &lt;2e-16 ***
+#&gt; pred2        -0.2208     0.3270  -0.675    0.509    
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt; 
+#&gt; Covariance Parameters:
+#&gt;              Exponential Model
+#&gt; Nugget               5.7237151
+#&gt; Partial Sill        20.2900151
+#&gt; Range                0.7685046
+#&gt; 
+#&gt; Generalized R-squared: 0.1280635 
+#&gt; 
+#&gt; $B
+#&gt; 
+#&gt; Call:
+#&gt; counts ~ pred1 + pred2
+#&gt; 
+#&gt; Residuals:
+#&gt;     Min      1Q  Median      3Q     Max 
+#&gt; -8.6892 -3.3922 -0.0594  1.8881 12.8373 
+#&gt; 
+#&gt; Coefficients:
+#&gt;              Estimate Std. Error  t value Pr(&gt;|t|)    
+#&gt; (Intercept) 20.931156   0.999988    20.93   &lt;2e-16 ***
+#&gt; pred1        2.415988   0.004905   492.56   &lt;2e-16 ***
+#&gt; pred2       -1.968852   0.001108 -1777.45   &lt;2e-16 ***
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt; 
+#&gt; Covariance Parameters:
+#&gt;              Exponential Model
+#&gt; Nugget            2.457091e+01
+#&gt; Partial Sill      1.080612e+06
+#&gt; Range             4.005461e+05
+#&gt; 
+#&gt; Generalized R-squared: 0.20773 
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>simulate completely spatially random point patterns. — pointSimCSR • sptotal</title>
+<title>Display basic summary information in a tabular form. — get.predinfo-deprecated • sptotal</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,12 @@
 
 
 
-<meta property="og:title" content="simulate completely spatially random point patterns. — pointSimCSR" />
-<meta property="og:description" content="simulates a completely spatially random point patterns. This function is
-only used in simulating data sets." />
+<meta property="og:title" content="Display basic summary information in a tabular form. — get.predinfo-deprecated" />
+<meta property="og:description" content="get.predinfo() has been depracated. Information given
+is now provided in the basic print of a
+predict.slmfit() object. Creates a list of tables that shows the prediction, standard error, and
+confidence interval for the prediction, as well as some summary information
+about the sample." />
 
 
 
@@ -124,53 +127,53 @@ only used in simulating data sets." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>simulate completely spatially random point patterns.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>pointSimCSR.Rd</code></div>
+    <h1>Display basic summary information in a tabular form.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/highamm/sptotal/blob/master/R/deprecated-get.predinfo.R'><code>R/deprecated-get.predinfo.R</code></a></small>
+    <div class="hidden name"><code>get.predinfo-deprecated.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>simulates a completely spatially random point patterns. This function is
-only used in simulating data sets.</p>
+    <p><code>get.predinfo()</code> has been depracated. Information given
+is now provided in the basic print of a
+<code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> object. Creates a list of tables that shows the prediction, standard error, and
+confidence interval for the prediction, as well as some summary information
+about the sample.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pointSimCSR</span>(
-  <span class='kw'>npoints</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>lower_x_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_x_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>lower_y_lim</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>upper_y_lim</span> <span class='kw'>=</span> <span class='fl'>1</span>
-)</pre>
+    <pre class="usage"><span class='fu'>get.predinfo</span>(<span class='no'>x</span>, <span class='kw'>conf_level</span> <span class='kw'>=</span> <span class='fl'>0.9</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>npoints</th>
-      <td><p>number of points to add that are completely spatially random (CSR), default = 100</p></td>
+      <th>x</th>
+      <td><p>the output of the <code><a href='predict.slmfit.html'>predict.slmfit</a>()</code> function, of class <code>predict.slmfit</code></p></td>
     </tr>
     <tr>
-      <th>lower_x_lim</th>
-      <td><p>left limit of boundary, default = 0</p></td>
-    </tr>
-    <tr>
-      <th>upper_x_lim</th>
-      <td><p>right limit of boundary, default = 1</p></td>
-    </tr>
-    <tr>
-      <th>lower_y_lim</th>
-      <td><p>lower limit of boundary, default = 0</p></td>
-    </tr>
-    <tr>
-      <th>upper_y_lim</th>
-      <td><p>upper limit of boundary, default = 1</p></td>
+      <th>conf_level</th>
+      <td><p>is the confidence level for a normal-based
+confidence interval (default = 0.90).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame of two columns, x-coordinate in the first, and y-coordinate in the second.</p>
+    <p>a list of three tables, including</p><ul>
+<li><p><code>simptab</code>, which contains the prediction and its standard error,</p></li>
+<li><p><code>confbounds</code>, which contains a confidence interval for the prediction, and</p></li>
+<li><p><code>outptmat</code>, a table of sampling information, including the number of sites sampled, the total number of sites, the total observed response, and the
+observed average density (equal to the average response if all site areas are
+equal).</p></li>
+</ul>
 
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>exampledataset</span>) <span class='co'>## load a toy data set</span>
+<span class='no'>slmobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='slmfit.html'>slmfit</a></span>(<span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>counts</span> ~ <span class='no'>pred1</span> + <span class='no'>pred2</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>exampledataset</span>,
+<span class='kw'>xcoordcol</span> <span class='kw'>=</span> <span class='st'>'xcoords'</span>, <span class='kw'>ycoordcol</span> <span class='kw'>=</span> <span class='st'>'ycoords'</span>, <span class='kw'>areacol</span> <span class='kw'>=</span> <span class='st'>'areavar'</span>)
+<span class='no'>predobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>slmobj</span>)
+<span class='co'>## Not Run</span>
+<span class='co'>## get.predinfo(predobj)</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

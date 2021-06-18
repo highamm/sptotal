@@ -1,12 +1,28 @@
-# sptotal 0.1.0
+# sptotal 1.0.0
 
-## Bug Fixes Improvements
+## Major Changes
+## 
+* deprecated `check.variogram()` to `plot.slmfit()` generic.
 
-* created plot generics and deprecated the old plotting functions.
+* deprecated `get.predinfo()` to `print.predict.slmfit()` generic.
 
-* changed UTM to TM in package functions and documentation.
+* deprecated `get.predplot()` for `plot.predict.slmfit()` generic.
 
 * added the `stratafit()`, `predict.stratafit()`, and related `summary()` and `print()` generics to easily perform FPBK for different strata, allowing both different fixed effects and different covariance parameters for each stratum.
+
+* added functionality for `sp` and `sf` point geometry objects to be used as a `data` argument in `slmfit()`.
+
+# sptotal 0.1.0
+
+## Bug Fixes and Improvements
+
+* removed unnecessary dependencies on `matrixcalc` and `mvtnorm` packages.
+
+* added error message for collinear predictors.
+
+* added `print()` generics for `predict.slmfit()` and `slmfit()`.
+
+* changed UTM to TM in package functions and documentation.
 
 # sptotal 0.0.2
 
