@@ -94,3 +94,8 @@ test_that("stratification prediction of total does not change", {
                780.75, tolerance = 1)
 })
 
+test_that("helper functions can be used on stratafit objects", {
+  expect_equal(length(fitted(stratamod[[2]])), 15)
+  expect_equal(AIC(stratamod[[3]]), 93.6, tolerance = 1)
+})
+

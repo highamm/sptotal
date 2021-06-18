@@ -24,12 +24,14 @@ print.predict.stratafit <- function(x, digits =
                                max(3L, getOption("digits") - 3L),
                              ...) {
 
-  cat("Note: The full prediction data set can be accessed with `x$Pred_df`,
-      where x is the name of of the object generated from
-      predict.stratafit() \n")
+  # cat("Note: The full prediction data set can be accessed with `x$Pred_df`,
+  #     where x is the name of of the object generated from
+  #     predict.stratafit() \n")
 
   cat("\nPrediction and Confidence Intervals:\n")
 
   print(x[[1]], digits = digits)
+
+  cat("")
 
 }

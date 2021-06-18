@@ -51,7 +51,7 @@
 #' }
 #' @examples
 #' data(exampledataset) ## load a toy data set
-#' exampledataset$strata <- c(rep("A", 25), rep("B", 15))
+#' exampledataset$strata <- c(rep("A", 19), rep("B", 21))
 #' strataobj <- stratafit(formula = counts ~ pred1 + pred2,
 #'  data = exampledataset, stratacol = "strata",
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')

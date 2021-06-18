@@ -10,6 +10,7 @@ slmfit(
   xcoordcol,
   ycoordcol,
   areacol = NULL,
+  stratacol = NULL,
   CorModel = "Exponential",
   estmethod = "REML",
   covestimates = c(NA, NA, NA)
@@ -28,6 +29,10 @@ be used for the block kriging, and the spatial coordinates for all of the sites.
 
 \item{areacol}{is the name of the column with the areas of the sites. By default, we assume that all sites have equal area, in which
 case a vector of 1's is used as the areas.}
+
+\item{stratacol}{is the name of the the column with the
+stratafication variable, if strata are to be fit separately,
+with different covariance parameter estimates.}
 
 \item{CorModel}{is the covariance structure. By default, \code{CorModel} is
 Exponential but other options include the Spherical and Gaussian.}
@@ -74,4 +79,11 @@ data(exampledataset) ## load a toy data set
 slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
 xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 summary(slmobj)
+
+data(exampledataset) ## load a toy data set
+exampledataset$strata <- c(rep("A", 19), rep("B", 21))
+strataobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset, stratacol = "strata",
+xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
+summary(strataobj)
+predict(strataobj)
 }
