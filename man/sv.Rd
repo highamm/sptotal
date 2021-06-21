@@ -2,7 +2,7 @@
 % Please edit documentation in R/sv.R
 \name{sv}
 \alias{sv}
-\title{Title}
+\title{Semi-variogram computation}
 \usage{
 sv(data, xcoordcol, ycoordcol, residcol, bins = 15, cutoff = NULL, ...)
 }
@@ -31,7 +31,8 @@ A data frame with the average distance in each bin (dist), the
 semivariance (gamma), and the number of unique pairs in each bin (np)
 }
 \description{
-Title
+Compute the empirical semivariogram for a data set with specified
+x and y spatial coordinates and residuals.
 }
 \examples{
 data(exampledataset) ## load a toy data set

@@ -126,13 +126,13 @@ Type
 data(simdata)
 ```
 
-and then `simdata` will be available in your workspace. To see the structure of `simdata`, type
+and then `simdata` will be available in your workspace. To see the first six observations of `simdata`, type
 
 ```{r}
 head(simdata)
 ```
 
-Here, we see that `simdata` is a data frame with 400 records. The spatial coordinates are `numeric` variables in columns named `x` and `y`.  We created 7 continuous covariates, `X1` through `X7`.  The variables `X1` through `X5` were all created using the `rnorm()` function, so they are all standard normal variates that are independent between and within variable.  Variables `X6` and `X7` were independent from each other, but spatially autocorrelated within, each with a variance parameter of 1, an autocorrelation range parameter of 0.2 from an exponential model, and a small nugget effect of 0.01.  The variables `F1` and `F2` are factor variables with 3 and 5 levels, respectively. The variable `Z` is the response. Data were simulated from the model
+`simdata` is a data frame with 400 observations. The spatial coordinates are `numeric` variables in columns named `x` and `y`.  We created 7 continuous covariates, `X1` through `X7`.  The variables `X1` through `X5` were all created using the `rnorm()` function, so they are all standard normal variates that are independent between and within variable.  Variables `X6` and `X7` were independent from each other, but spatially autocorrelated within, each with a variance parameter of 1, an autocorrelation range parameter of 0.2 from an exponential model, and a small nugget effect of 0.01.  The variables `F1` and `F2` are factor variables with 3 and 5 levels, respectively. The variable `Z` is the response. Data were simulated from the model
 
 \begin{align*}
 Z_i = 10 & + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i + \\ & 0.4 \cdot X5_i + 
@@ -214,15 +214,17 @@ After your data is in a similar format to `simobs`, using the `sptotal` package 
 We continue with our use of the simulated data, `simobs`, to illustrate fitting the spatial linear model. The spatial model-fitting function is `slmfit` (spatial-linear-model-fit), which uses a formula like many other model-fitting functions in `R` (e.g., the `lm()` function). To fit a basic spatial linear model we use
 
 ```{r}
-slmfit_out1 <- slmfit(formula = Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2, 
-  data = simobs, xcoordcol = 'x', ycoordcol = 'y',
-  CorModel = "Exponential")
+slmfit_out1 <- slmfit(formula = Z ~ X1 + X2 + X3 + X4 + X5 +
+                        X6 + X7 + F1 + F2, 
+                      data = simobs, xcoordcol = 'x',
+                      ycoordcol = 'y',
+                      CorModel = "Exponential")
 ```
 
 The documentation describes the arguments in more detail, but as mentioned earlier, the linear model includes a formula argument, and the `data.frame` that is being used as a data set. We also need to include which columns contain the $x$- and $y$-coordinates, which are arguments to `xcoordcol` and `ycoordcol`, respectively. In the above example, we specify `'x'` and `'y'` as the column coordinates arguments since the names of the coordinate columns in our simulated data set are `'x'` and `'y'`. We also need to specify a spatial autocorrelation model, which is given by the `CorModel` argument. As with many other linear model fits, we can obtain a summary of the model fit,
 
 ```{r}
-summary(slmfit_out1) 
+summary(slmfit_out1)
 ```
 
 The output looks similar to the `summary` of a standard `lm` object, but there is some extra output at the end that gives our fitted covariance parameters. Plotting `slmfit_out1` gives a semi-variogram of the residuals along with the fitted model:
@@ -236,37 +238,33 @@ Note that the fitted curve may not appear to fit the empirical variogram perfect
 We can also examine a histogram of the residuals as well as a histogram of the cross-validation (leave-one-out) residuals:
 
 ```{r, fig.height = 3}
-qplot(residuals(slmfit_out1), bins = 20) + xlab("Residuals")
-qplot(residuals(slmfit_out1, cross.validation = TRUE), bins = 20) +
-  xlab("CV Residuals")
+residraw <- residuals(slmfit_out1)
+qplot(residraw, bins = 20) + xlab("Residuals")
+residcv <- residuals(slmfit_out1, cross.validation = TRUE)
+qplot(residcv, bins = 20) + xlab("CV Residuals")
 ```
 
 There is still one somewhat large cross-validation residual for an observed count that is larger than what would be predicted from a model without that particular count. The cause of this somewhat large residual can be attributed to random chance because we know that the data was simulated to follow all assumptions. 
 
 ## Prediction: `predict`
 
-After we have obtained a fitted spatial linear model, we can use the `predict.slmfit()` function to construct a data frame of predictions for the unsampled sites. By default, the `predict()` function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, as well as the original data frame input into `slmfit` appended with site-by-site predictions and site-by-site prediction variances. We name this object `pred_obj` in the chunk below and also construct a 90% confidence interval for the total.
+After we have obtained a fitted spatial linear model, we can use the `predict()` function to construct a data frame of predictions for the unsampled sites. By default, the `predict()` function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, a 90% prediction interval for the total, and some basic summary information about the number of sites sampled, the total number of units counted, etc. We name this object `pred_obj` in the chunk below and also construct a 90% confidence interval for the total.
 
 ```{r, results = "hide"}
 pred_obj <- predict(slmfit_out1, conf_level = 0.90)
+pred_obj
 ```
 
-The output of the `predict` function is too lengthy to print here and can be cumbersome to read. To obtain useful output, we have a couple of choices. If you are familiar with `R`, then you might want to construct your own summary output, maps, variograms, etc. One of the outputs of `predict` is a data frame that is appended with the site by site predictions that would facilitate construction of, for example, a map with predictions. This is particularly useful if you have a shapefile. The site-by-site predictions for density are given by the variable `name_of_response_pred_density` while the site-by-site predictions for counts are given by `name_of_response_pred_count`. These two columns will only differ if you have provided a column for areas of each site. 
+We predict a total of 4817 units in this simulated region with 90% confidence bounds of (4779, 4856). The prediction interval is fairly small because we simulated data that were highly correlated, increasing precision in prediction for unobserved sites. We can see that the prediction of the total is close to the true value of 4834.326, and the true value is within the prediction interval.
+
+To access the `data.frame` that was input into `slmfit`, but is now appended with site-by-site predictions and site-by-site prediction variances, we can use `pred_obj$Pred_df`. This data set might be particularly useful if you would like to generate your own map with site-by-site predictions using other tools. The site-by-site predictions for density are given by the variable `name_of_response_pred_density` while the site-by-site predictions for counts are given by `name_of_response_pred_count`. These two columns will only differ if you have provided a column for areas of each site. 
 
 ```{r, results = "hide"}
 prediction_df <- pred_obj$Pred_df
-prediction_df[ ,c("x", "y", "Z", "Z_pred_density")]
+head(prediction_df[ ,c("x", "y", "Z", "Z_pred_density")])
 ```
 
-## Examining results: `print()`, and `plot()`
-
-Alternatively, you could take advantage of the pre-specified `print()` and `plot()` functions. Both take the output from `predict()`, `pred_obj` in this case, as a function argument.
-
-```{r}
-print(pred_obj)
-```
-
-We predict a total of 4817 units in this simulated region with 90% confidence bounds of (4779, 4856). The confidence interval is fairly small because we simulated data that were highly correlated, increasing precision in prediction for unobserved sites. We can see that the prediction of the total is close to the true value of 4834.326, and the true value is within the confidence interval.
+## Examining results: `plot()`
 
 Finally, to get a basic plot of the predictions, we can use the `plot()` function. 
 
@@ -274,7 +272,7 @@ Finally, to get a basic plot of the predictions, we can use the `plot()` functio
 plot(pred_obj)
 ```
 
-The map shows the distribution of the response across sampled and unsampled sites. Its purpose is simply to give the user a quick idea of the distribution of the response. For example, we see from the plot that the predicted response is low in the upper-right region of the graph, is high in the middle of the region and in the upper-left corner of the region, and is low again at the lower portion of the area of interest. However, using the prediction data frame generated from the `predict` function, you can use `ggplot2` or any other plotting package to construct your own map that may be more useful in your context.
+The map shows the distribution of the response across sampled and unsampled sites. Its purpose is simply to give the user a very quick idea of the distribution of the response. For example, we see from the plot that the predicted response is low in the upper-right region of the graph, is high in the middle of the region and in the upper-left corner of the region, and is low again at the lower portion of the area of interest. However, using the prediction data frame generated from the `predict()` function, you can use `ggplot2` or any other plotting package to construct your own map that may be more useful in your context.
 
 ### Prediction for a Small Area of Interest
 
@@ -287,7 +285,7 @@ pred_obj2 <- predict(slmfit_out1, wtscol = "wts2")
 print(pred_obj2)
 ```
 
-Recall that the true total for this small area was 273.4. We see that this is close to our prediction of 282.2 and is also within the bounds of our confidence interval. 
+Recall that the true total for this small area was 273.4. We see that this is close to our prediction of 282.2 and is also within the bounds of our prediction interval. 
 
 # Real Data Examples
 
@@ -295,7 +293,7 @@ Recall that the true total for this small area was 273.4. We see that this is cl
 
 The simulated data example assumes that the coordinates are a Transverse Mercator projection (TM), that the vector of the response is numeric and has `NA` values for sites that were not sampled, and that the areas of each site sampled are all the same. If this isn't the case for the data set you are working with, the following moose abundance example can help prepare your data for the functions in `sptotal`.
 
-For an example with real data, we consider a data set on moose abundance in Alaska obtained from [Alaska Department of Fish and Game, Division of Wildlife Conservation](https://www.adfg.alaska.gov/index.cfm?adfg=divisions.wcoverview). Each observation corresponds to a moose counted at a particular site, but operational constraints do not permit all sites to be counted. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
+For this example, we consider a data set on moose abundance in Alaska obtained from [Alaska Department of Fish and Game, Division of Wildlife Conservation](https://www.adfg.alaska.gov/index.cfm?adfg=divisions.wcoverview). Each observation corresponds to a moose counted at a particular site, but operational constraints do not permit all sites to be counted. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
 
 ### Spatial Coordinates
 
@@ -368,14 +366,16 @@ moose_df$surveyed <- as.numeric(levels(moose_df$surveyed))[moose_df$surveyed]
 moose_df$total <- as.numeric(levels(moose_df$total))[moose_df$total]
 ```
 
-This may not be an issue with the data frame you are working with, in which case you can ignore the above code. The `str()` command will tell you whether your variables are coded as factors or numeric.
+This may not be an issue with the data frame you are working with.. The `str()` command will tell you whether your variables are coded as factors or numeric.
 
-After conversion to numeric variables, note that the first 6 observations for the `total` variable are all 0, but, the first two sites and the fourth, fifth, and sixth sites weren't actually sampled. Without some modification to this variable, `sptotal` wouldn't be able to differentiate between zeroes that were zero due to a site really having 0 counts or 0 density at the site and zeroes that were zero due to the site not being sampled. The following code converts the `total` variable on sites that were __not__ surveyed (`surveyed` = `0`) to `NA`.
+After conversion to numeric variables, note that the first 6 observations for the `total` variable are all 0, but, the first two sites and the fourth, fifth, and sixth sites weren't actually sampled. Without some modification to this variable, `sptotal` wouldn't be able to differentiate between zeroes that were zero due to a site really having 0 counts or 0 density at the site and zeroes that were zero due to the site not being sampled. The following code converts the `total` variable on sites that were __not__ surveyed (`surveyed` = `0`) to `NA`. 
 
 ```{r}
 moose_df$total[moose_df$surveyed == 0] <- NA
 head(moose_df)
 ```
+
+The `total` column now has `NA` for any site that was not sampled.
 
 ### Fitting the Model and Obtaining Predictions
 
@@ -404,16 +404,45 @@ slmfit_out_moose <- slmfit(formula = total ~ strat,
   CorModel = "Exponential")
 summary(slmfit_out_moose)
 plot(slmfit_out_moose)
-qplot(residuals(slmfit_out_moose), bins = 20) + xlab("Residuals")
-qplot(residuals(slmfit_out_moose, cross.validation = TRUE), bins = 20) +
+qplot(residuals(slmfit_out_moose, cross.validation = TRUE),
+      bins = 20) +
   xlab("CV Residuals")
 
 pred_moose <- predict(slmfit_out_moose)
-print(pred_moose)
+pred_moose
 plot(pred_moose)
 ```
 
 We obtain a predicted total of 1596 animals with 90% lower and upper confidence bounds of 921 and 2271 animals, respectively. Unlike the simulation setting, there is no "true total" we can compare our prediction to, because, in reality, not all sites were sampled!
+
+### Allowing Different Covariance Parameters for Strata
+
+Putting `strat` as a predictor in the model formula means that we are allowing each stratum to have a different mean but are assuming each stratum to have the same variance and covariance. If we want to allow the two strata to have different covariance parameter estimates, we can remove `strat` from the model formula and add it to the `stratacol` argument:
+
+```{r}
+slmfit_out_moose_strat <- slmfit(formula = total ~ 1, 
+  data = moose_df, xcoordcol = 'x', ycoordcol = 'y',
+  stratacol = "strat",
+  CorModel = "Exponential")
+summary(slmfit_out_moose_strat)
+```
+
+There is now two sets of summary output, one for each stratum. `predict()` can still be used to obtain an estimate for the total (`predict()` also gives a predicted total for each stratum):
+
+```{r}
+predict(slmfit_out_moose_strat)
+```
+
+For this example, our prediction is very different when strata are allowed separate covariance parameters (2094 moose) than when strata are forced to have the same covariance parameters (1596 moose).
+
+To see why this is, we can examine the semi-variograms for each stratum. All functions (e.g. `plot()`, `AIC()`, `coef()`, etc.) that are used on an `slmfit()` object without `stratacol` specified can still be used on an `slmfit()` object with a `stratacol` specified by running the function in the following way:
+
+```{r}
+plot(slmfit_out_moose_strat[[1]])
+plot(slmfit_out_moose_strat[[2]])
+```
+
+We see that the fitted covariance parameters for each strata do look different in this example, as the scale on semi-variograms changes drastically. Therefore, for this example, it is probably more reasonable to allow the strata to have different covariance parameters and use the `stratacol` argument.
 
 ### Sites with Different Areas
 
@@ -437,14 +466,14 @@ The `predict` function then keeps track of the `areacol` argument and gives outp
 ```{r}
 pred_obj_area <- predict(slmfit_out_moose_area)
 head(pred_obj_area$Pred_df[ ,c("total_pred_density", "total_pred_count",
-  "fake_area")])
+                               "fake_area")])
 tail(pred_obj_area$Pred_df[ ,c("total_pred_density", "total_pred_count",
-  "fake_area")])
+                               "fake_area")])
 ```
 
 Note that, for the first 6 observations, which have an area of 1, the `total_pred_density` and `total_pred_count` columns are identical, while, for the last 6 observations, which have an area of 2, the `total_pred_density` column is half that of the `total_pred_count` column.
 
-The `get.predinfo` function assumes that we are interested in predicting the total count since we did not specify a column of weights so our prediction for the number of moose in this fake region is 1556 moose with a standard error of 393.62.
+Because we did not specify a column of weights, our prediction in the following output is for the total number of moose.
 
 ```{r}
 print(pred_obj_area)
@@ -462,25 +491,26 @@ To access the data, type
 data(USlakes)
 ```
 
-and to get a feeling for the data, create a histogram
+and create a histogram of the log dissolved organic carbon
 
 ```{r}
-ggplot(data = USlakes, aes(x = log(DOC_RESULT))) + geom_histogram(bins = 20)
+ggplot(data = USlakes, aes(x = log(DOC_RESULT))) +
+  geom_histogram(bins = 20)
 ```
 
-Even on the log scale, there appears to be some outliers with very high values, and these may be the result of errors in collection or lab analysis.  We will eliminate lakes that have log(DOC) values $>$ 5.
+Even on the log scale, there appears to be some outliers with very high values, and these may be the result of errors in collection or lab analysis.  We will eliminate lakes that have log(DOC) values $>$ 5 for the purposes of this vignette.
 
 ```{r}
 lakes <- USlakes[log(USlakes$DOC_RESULT) < 5, ]
 ```
 
-Our new data set has dimensions
+Our new data set has
 
 ```{r}
 nrow(lakes)
 ```
 
-sites, so we have eliminated 2 sites. To visualize our data some more, we make a bubble plot,
+sites, so we have eliminated 2 sites. To visualize our data more, we make a bubble plot,
 
 ```{r}
 plot(USlakes$XCOORD, USlakes$YCOORD, pch = 19, 
@@ -497,15 +527,16 @@ We also have covariates that may help in prediction:
 * `RVFCGNDBARE_RIP`: riparian zone and vegetation: fraction of ground lacking cover in the riparian zone
 * `RVFCGNDWOODY_RIP`: riparian zone and vegetation: fraction of ground cover by woody vegetation in the riparian zone
 
-It is always important to make scatterplots of your variables to look for obvious relationships. 
+In order to explore the association between each predictor and the DOC (but not yet taking into account spatial correlation), we would create scatterplots of DOC vs. each predictor. To save space, we only create one such scatterplot here:
 
 ```{r}
 ggplot(data = lakes,
        aes(x = RVFPUNDWOODY_RIP, y = log(DOC_RESULT))) +
-  geom_jitter(width = 0.02)
+  geom_jitter(width = 0.02) +
+  geom_smooth(method = "lm", se = TRUE)
 ```
 
-It looks like there might be a negative relationship between riparian nonwoody-understory cover and DOC.
+It looks like there might be a slight negative relationship between riparian nonwoody-understory cover and DOC, though again we note that this exploratory investigation does not take into account the possible spatial correlation of DOC across sites.
 
 ### Creating a Subsample Data Set
 
@@ -527,18 +558,23 @@ lakeobs$wts <- 1 / nrow(lakeobs)
 Even though data are skewed, let's try it without taking log of response variable. Note that the mean of log-tranformed  variables is not equal to the log of the mean of set of variables. So if we want a total on the untransformed scale, it would be a mistake to transform the data first, model it, make predictions, sum the predictions, and then exponentiate.  It is much simpler to leave the data untransformed and rely on robustness of the method.  Let's see how this works. 
 
 ```{r}
-slmfitout_exp_lakes <- slmfit(formula = DOC_RESULT ~ ELEVATION + RVFPUNDWOODY_RIP + 
-  FCIBIG_LIT + RVFCGNDBARE_RIP + RVFCGNDWOODY_RIP, data = lakeobs, 
-  xcoordcol = 'XCOORD', ycoordcol = 'YCOORD', CorModel = "Exponential")
+slmfitout_exp_lakes <- slmfit(formula = DOC_RESULT ~ ELEVATION +
+                                RVFPUNDWOODY_RIP + FCIBIG_LIT +
+                                RVFCGNDBARE_RIP + RVFCGNDWOODY_RIP,
+                              data = lakeobs, 
+                              xcoordcol = 'XCOORD', ycoordcol = 'YCOORD', CorModel = "Exponential")
 summary(slmfitout_exp_lakes)
 ```
 
 We see that all covariates are highly significant. There is substantial autocorrelation because the range parameter is very large, and the partial sill is about six times that of the nugget effect. We fit the model again, but this time with the spherical autocorrelation model.
 
 ```{r}
-slmfitout_sph_lakes <- slmfit(formula = DOC_RESULT ~ ELEVATION + RVFPUNDWOODY_RIP + 
-  FCIBIG_LIT + RVFCGNDBARE_RIP + RVFCGNDWOODY_RIP, data = lakeobs, 
-  xcoordcol = 'XCOORD', ycoordcol = 'YCOORD', CorModel = "Spherical")
+slmfitout_sph_lakes <- slmfit(formula = DOC_RESULT ~ ELEVATION +
+                                RVFPUNDWOODY_RIP + FCIBIG_LIT +
+                                RVFCGNDBARE_RIP + RVFCGNDWOODY_RIP,
+                              data = lakeobs, 
+                              xcoordcol = 'XCOORD', ycoordcol = 'YCOORD',
+                              CorModel = "Spherical")
 summary(slmfitout_sph_lakes)
 ```
 
@@ -560,7 +596,7 @@ mean(lakes$DOC_RESULT)
 
 We can see that the prediction, 7.975, is close to the true value, 7.65, and that the confidence interval is quite narrow, and it does contain the true value. If a standard error of 0.196, yielding a coefficient of variation of 0.196/7.975 = 0.0245, is acceptable, then sampling 500 lakes could save money and still provide a useful result on DOC.
 
-# Statistical Background
+# Appendix: Statistical Background
 
 An alternative to a sampling-based appraoch is to assume that the data were generated by a stochastic process and use model-based approaches. It is assumed that the response variable is a realization of a spatial stochastic process. Geostatistical models and methods are used (for a review, see Cressie, 1993). Geostatistics was developed for point samples. If the samples are very small relative to the population size, an infinite population is assumed. In classical geostatistics, the average value over an area can be predicted using methods such as block kriging. Thus it appears that this is closely related to small area estimation, but where samples come from point locations rather than a finite set of sample units. While there is a large literature on geostatistics and block kriging methods, they have been developed for infinite populations. This package is designed for the case where we have a finite collection of plots and we assume that the data were produced by a spatial stochastic process. Detailed developements are given in Ver Hoef (2001, 2008). Comparisons to classical sampling methods can be found in Ver Hoef (2002), and applications in forestry are contained in Ver Hoef and Temesgen (2013) and Temesgen and Ver Hoef (2015).
 

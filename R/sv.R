@@ -1,4 +1,7 @@
-#' Title
+#' Semi-variogram computation
+#'
+#' Compute the empirical semivariogram for a data set with specified
+#' x and y spatial coordinates and residuals.
 #'
 #' @param data A data frame or tibble that contains variables for the
 #' x coordinates, y coordinates, and residuals.
