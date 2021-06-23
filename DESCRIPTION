@@ -19,7 +19,6 @@ Imports: ggplot2,
     viridis,
     graphics
 Suggests: 
-    gstat,
     rmarkdown,
     knitr,
     testthat,
