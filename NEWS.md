@@ -16,6 +16,8 @@
 
 * added normalized residuals as an option to the `residuals.slmfit()` generic.
 
+* added fitted value extraction via the `fitted.slmfit()` generic.
+
 # sptotal 0.1.0
 
 ## Bug Fixes and Improvements
