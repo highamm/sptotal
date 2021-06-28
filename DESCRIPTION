@@ -6,7 +6,9 @@ Version: 0.2.0
 Authors@R: c(
     person("Higham", "Matt", email = "mhigham@stlawu.edu", role = c("cre", "aut")),
         person("Ver Hoef", "Jay", email = "jay.verhoef@noaa.gov", role = "aut"),
-    person("Frank", "Bryce", email = "bryce.frank@oregonstate.edu", role = "aut"))
+    person("Frank", "Bryce", email = "bryce.frank@oregonstate.edu", role = "aut"),
+    person("Michael", "Dumelle", email = "Dumelle.Michael@epa.gov", role = "aut",
+    comment = c(ORCID = "0000-0002-3393-5529")))
 Depends: R (>= 3.5.0)
 Description: Performs predictions of totals and weighted sums, or finite population block kriging, on spatial data using the methods in Ver Hoef (2008) <doi:10.1007/s10651-007-0035-y>. The primary outputs are an estimate of the total, mean, or weighted sum in the region, an estimated prediction variance, and a plot of the predicted and observed values. This is useful primarily to users with ecological data that are counts or densities measured on some sites in a finite area of interest. Spatial prediction for the total count or average density in the entire region can then be done using the functions in this package. 
 License: GPL-2
