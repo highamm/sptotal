@@ -117,8 +117,6 @@ pred &lt;- predict(mod)</a></code></pre>
 <p><code>sptotal</code> Main Functions:</p>
 <p><code><a href="reference/slmfit.html">slmfit()</a></code> fits a spatial linear model to the response on the observed/sampled sites. \code{check.variogram} can be used to construct an empirical variogram of the residuals of the spatial linear model.</p>
 <p><code><a href="reference/predict.slmfit.html">predict.slmfit()</a></code> uses the spatial linear model fitted with <code><a href="reference/slmfit.html">slmfit()</a></code> and finite population block kriging to predict counts/densities at unobserved locations. A prediction for the total count as well as a prediction variance are given by default.</p>
-<p><code><a href="reference/get.predinfo-deprecated.html">get.predinfo()</a></code> and <code><a href="reference/get.predplot-deprecated.html">get.predplot()</a></code> take the resulting object from <code><a href="reference/predict.slmfit.html">predict.slmfit()</a></code> to construct (1) summary information, including the prediction, prediction variance, and a prediction interval as well as</p>
-<p>(2) a plot of the site-wise predictions.</p>
 <p>For more details on how to use these functions, please see the Vignette by running</p>
 <pre class="{r}"><code><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes("sptotal")</a></code></pre>
 <p>and clicking <code>HTML</code>.</p>
