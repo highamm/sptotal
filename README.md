@@ -54,11 +54,6 @@ population block kriging to predict counts/densities at unobserved locations.
 A prediction for the total count as well as a prediction variance
 are given by default.
 
-`get.predinfo()` and `get.predplot()` take the resulting object from
-`predict.slmfit()` to construct (1) summary information, including the
-prediction, prediction variance, and a prediction interval as well as
-(2) a plot of the site-wise predictions.
-
 For more details on how to use these functions, please see the Vignette by running
 
 ```{r}
