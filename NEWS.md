@@ -8,7 +8,9 @@
 
 * deprecated `get.predplot()` for `plot.predict.slmfit()` generic.
 
-* added the `stratafit()`, `predict.stratafit()`, and related `summary()` and `print()` generics to easily perform FPBK for different strata, allowing both different fixed effects and different covariance parameters for each stratum.
+* updated the `print()` generic for `predict.slmfit` classes.
+
+* added the `stratafit()`, `predict.stratafit()`, and related `summary()` and `print()` generics to easily perform FPBK for different strata, allowing each stratum to have different fixed effects and different covariance parameters for each stratum.
 
 * added functionality for `sp` and `sf` point geometry objects to be used as a `data` argument in `slmfit()`.
 
