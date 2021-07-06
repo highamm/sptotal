@@ -19,7 +19,8 @@ BugReports: https://github.com/highamm/sptotal/issues
 Imports: ggplot2,
     stats,
     viridis,
-    graphics
+    graphics,
+    sp
 Suggests: 
     rmarkdown,
     knitr,
