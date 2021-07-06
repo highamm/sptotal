@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sptotal</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -90,7 +90,7 @@
 <p><code>sptotal</code> can be installed from CRAN</p>
 <pre class="{r}"><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("sptotal")</a></code></pre>
 <p>or using <code>devtools</code></p>
-<pre class="{r}"><code><a href="https://devtools.r-lib.org//reference">library(devtools)
+<pre class="{r}"><code><a href="https://devtools.r-lib.org/">library(devtools)
 install_git("https://github.com/highamm/sptotal.git")</a></code></pre>
 </div>
 <div id="simple-example" class="section level2">
@@ -117,8 +117,6 @@ pred &lt;- predict(mod)</a></code></pre>
 <p><code>sptotal</code> Main Functions:</p>
 <p><code><a href="reference/slmfit.html">slmfit()</a></code> fits a spatial linear model to the response on the observed/sampled sites. \code{check.variogram} can be used to construct an empirical variogram of the residuals of the spatial linear model.</p>
 <p><code><a href="reference/predict.slmfit.html">predict.slmfit()</a></code> uses the spatial linear model fitted with <code><a href="reference/slmfit.html">slmfit()</a></code> and finite population block kriging to predict counts/densities at unobserved locations. A prediction for the total count as well as a prediction variance are given by default.</p>
-<p><code><a href="reference/get.predinfo-deprecated.html">get.predinfo()</a></code> and <code><a href="reference/get.predplot-deprecated.html">get.predplot()</a></code> take the resulting object from <code><a href="reference/predict.slmfit.html">predict.slmfit()</a></code> to construct (1) summary information, including the prediction, prediction variance, and a prediction interval as well as</p>
-<p>(2) a plot of the site-wise predictions.</p>
 <p>For more details on how to use these functions, please see the Vignette by running</p>
 <pre class="{r}"><code><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes("sptotal")</a></code></pre>
 <p>and clicking <code>HTML</code>.</p>
@@ -158,6 +156,7 @@ pred &lt;- predict(mod)</a></code></pre>
 <li>Higham Matt <br><small class="roles"> Maintainer, author </small>  </li>
 <li>Ver Hoef Jay <br><small class="roles"> Author </small>  </li>
 <li>Frank Bryce <br><small class="roles"> Author </small>  </li>
+<li>Michael Dumelle <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3393-5529" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -166,11 +165,11 @@ pred &lt;- predict(mod)</a></code></pre>
 
 
       <footer><div class="copyright">
-  <p>Developed by Higham Matt, Ver Hoef Jay, Frank Bryce.</p>
+  <p>Developed by Higham Matt, Ver Hoef Jay, Frank Bryce, Michael Dumelle.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

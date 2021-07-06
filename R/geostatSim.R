@@ -11,7 +11,7 @@
 #' @param nugget range of autocorrelation model, default = 0
 #' @param minorp proportion of range in x direction to that of y direction for unrotated anisotropic model, default = 1
 #' @param rotate rotation of anisotropic axes, default = 90
-#' @param extrap extra covariance paramter
+#' @param extrap extra covariance parameter
 #' @param CorModel autocorrelation model, default = "Exponential".  Other possibilities are "Spherical".
 #'
 #' @examples

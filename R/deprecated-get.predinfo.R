@@ -1,6 +1,6 @@
 #' Display basic summary information in a tabular form.
 #'
-#' \code{get.predinfo()} has been depracated. Information given
+#' \code{get.predinfo()} has been deprecated. Information given
 #' is now provided in the basic print of a
 #' \code{\link{predict.slmfit}()} object. Creates a list of tables that shows the prediction, standard error, and
 #' confidence interval for the prediction, as well as some summary information

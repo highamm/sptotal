@@ -1,4 +1,4 @@
-#' Plot an Empirical emi-Variogram of Residuals
+#' Plot an Empirical Semi-Variogram of Residuals
 #'
 #' Plots an empirical semi-variogram of the residuals from the spatial linear model
 #' with the fitted parametric model as a curve overtop of the

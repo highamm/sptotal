@@ -42,7 +42,7 @@
 #'
 #' A simulated data set that can be used with the \code{sptotal} package.
 #'
-#' @format A data frame object inclding:
+#' @format A data frame object including:
 #' \describe{
 #'   \item{x}{The x-coordinate for each site}
 #'   \item{y}{The y-coordinate for each site}
@@ -79,7 +79,7 @@
 #'   \item{RVFCGNDBARE_RIP}{riparian zone and vegetation: fraction of ground lacking cover in the riparian zone}
 #'   \item{RVFCGNDWOODY_RIP}{riparian zone and vegetation: fraction of ground cover by woody vegetation in the riparian zone}
 #'   \item{RVFPUNDWOODY_RIP}{riparian zone and vegetation: fraction of understory with nonwoody cover present in the riparian zone}
-#'   \item{UID}{A unique lake identifier in the EPA lake survey datebases}
+#'   \item{UID}{A unique lake identifier in the EPA lake survey databases}
 #' }
 #' @source \href{https://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys}{National Aquatic Resource Surveys} webpage.  We combined \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_siteinfo_08232016.csv}{site data}, \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_waterchem_wide.csv}{DOC data}, and \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_phabmet_10202016.csv}{habitat metrics} to create a data set of 1206 lakes in the conterminous United States.
 #' @examples

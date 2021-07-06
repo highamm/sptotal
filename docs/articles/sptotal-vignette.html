@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sptotal</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -79,13 +79,13 @@
 
       
 
-      </header><script src="sptotal-vignette_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
+      </header><script src="sptotal-vignette_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Inference for Totals and Weighted Sums from Finite Spatial Populations</h1>
                         <h4 class="author">Matt Higham, Jay M. Ver Hoef, Bryce M. Frank</h4>
             
-            <h4 class="date">2021-06-18</h4>
+            <h4 class="date">2021-07-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/highamm/sptotal/blob/master/vignettes/sptotal-vignette.Rmd"><code>vignettes/sptotal-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>sptotal-vignette.Rmd</code></div>
@@ -142,13 +142,17 @@ padding-bottom: 7px;
 <h2 class="hasAnchor">
 <a href="#simulated-data-creation" class="anchor"></a>Simulated Data Creation</h2>
 <p>To demonstrate the package, we created some simulated data so they are perfectly behaved, and we know exactly how they were produced. Here, we give a brief description before using the main features of the package. To get started, install the package</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"sptotal"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"sptotal"</span><span class="op">)</span></code></pre></div>
 <p>and then type</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sptotal</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://highamm.github.io/sptotal/index.html">sptotal</a></span><span class="op">)</span></code></pre></div>
 <p>Type</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">simdata</span>)</pre></body></html></div>
-<p>and then <code>simdata</code> will be available in your workspace. To see the structure of <code>simdata</code>, type</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">simdata</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">)</span></code></pre></div>
+<p>and then <code>simdata</code> will be available in your workspace. To see the first six observations of <code>simdata</code>, type</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">)</span>
 <span class="co">#&gt;       x     y         X1          X2         X3          X4          X5</span>
 <span class="co">#&gt; 1 0.025 0.975 -0.8460525  0.11866907 -0.2123901  0.38430607  0.08154129</span>
 <span class="co">#&gt; 2 0.025 0.925 -0.6583116 -0.07686491 -0.9001410 -1.24774376  1.46631630</span>
@@ -162,8 +166,8 @@ padding-bottom: 7px;
 <span class="co">#&gt; 3 -0.2537515  0.2682010  2  3 14.52765 0.0025    0</span>
 <span class="co">#&gt; 4 -0.3259937  0.7858140  2  5 12.13401 0.0025    0</span>
 <span class="co">#&gt; 5 -1.2284475  1.2944342  2  2 11.75260 0.0025    0</span>
-<span class="co">#&gt; 6 -1.0366099  0.7938890  1  4 11.58142 0.0025    0</span></pre></body></html></div>
-<p>Here, we see that <code>simdata</code> is a data frame with 400 records. The spatial coordinates are <code>numeric</code> variables in columns named <code>x</code> and <code>y</code>. We created 7 continuous covariates, <code>X1</code> through <code>X7</code>. The variables <code>X1</code> through <code>X5</code> were all created using the <code><a href="https://rdrr.io/r/stats/Normal.html">rnorm()</a></code> function, so they are all standard normal variates that are independent between and within variable. Variables <code>X6</code> and <code>X7</code> were independent from each other, but spatially autocorrelated within, each with a variance parameter of 1, an autocorrelation range parameter of 0.2 from an exponential model, and a small nugget effect of 0.01. The variables <code>F1</code> and <code>F2</code> are factor variables with 3 and 5 levels, respectively. The variable <code>Z</code> is the response. Data were simulated from the model</p>
+<span class="co">#&gt; 6 -1.0366099  0.7938890  1  4 11.58142 0.0025    0</span></code></pre></div>
+<p><code>simdata</code> is a data frame with 400 observations. The spatial coordinates are <code>numeric</code> variables in columns named <code>x</code> and <code>y</code>. We created 7 continuous covariates, <code>X1</code> through <code>X7</code>. The variables <code>X1</code> through <code>X5</code> were all created using the <code><a href="https://rdrr.io/r/stats/Normal.html">rnorm()</a></code> function, so they are all standard normal variates that are independent between and within variable. Variables <code>X6</code> and <code>X7</code> were independent from each other, but spatially autocorrelated within, each with a variance parameter of 1, an autocorrelation range parameter of 0.2 from an exponential model, and a small nugget effect of 0.01. The variables <code>F1</code> and <code>F2</code> are factor variables with 3 and 5 levels, respectively. The variable <code>Z</code> is the response. Data were simulated from the model</p>
 <p><span class="math display">\[\begin{align*}
 Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i + \\ &amp; 0.4 \cdot X5_i + 
     0.4 \cdot X6_i + 0.1 \cdot X7_i + F1_i + F2_i + \delta_i + \varepsilon_i
@@ -174,33 +178,38 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 \]</span></p>
 <p>where <span class="math inline">\(d_{i,j}\)</span> is Euclidean distance between locations <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>. In geostatistics terminology, this model has a partial sill of 2 and a range of 1. The random errors <span class="math inline">\(\{\varepsilon_i\}\)</span> are independent with variance 0.02, and this variance is called the nugget effect. Two columns with weights are included, <code>wts1</code> contains 1/400 for each row, so the weighted sum will yield a prediction of the overall mean. The column <code>wts2</code> contains a 1 for 25 locations, and 0 elsewhere, so the weighted sum will be a prediction of a total in the subset of 25 locations.</p>
 <p>The spatial locations of <code>simdata</code> are in a <span class="math inline">\(20 \times 20\)</span> grid uniformly spaced in a box with sides of length 1,</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">ggplot2</span>)
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">simdata</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">y</span>)) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">3</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">simdata</span>, <span class="no">wts2</span> <span class="kw">==</span> <span class="fl">1</span>), <span class="kw">colour</span> <span class="kw">=</span> <span class="st">"red"</span>,
-    <span class="kw">size</span> <span class="kw">=</span> <span class="fl">3</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">simdata</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">simdata</span>, <span class="va">wts2</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>, colour <span class="op">=</span> <span class="st">"red"</span>,
+    size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-9-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>The locations of the 25 sites where <code>wts2</code> is equal to one are shown in red.</p>
 <p>We have simulated the data for the whole population. This is convenient, because we know the true means and totals. In order to compare with the prediction from the <code>sptotal</code> package, let’s find the true population total</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">simdata</span>[ ,<span class="st">'Z'</span>])
-<span class="co">#&gt; [1] 4834.326</span></pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">[</span> ,<span class="st">'Z'</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt; [1] 4834.326</span></code></pre></div>
 <p>as well as the total in the subset of 25 sites</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">simdata</span>[ ,<span class="st">'wts2'</span>] * <span class="no">simdata</span>[ ,<span class="st">'Z'</span>])
-<span class="co">#&gt; [1] 273.3751</span></pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">[</span> ,<span class="st">'wts2'</span><span class="op">]</span> <span class="op">*</span> <span class="va">simdata</span><span class="op">[</span> ,<span class="st">'Z'</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt; [1] 273.3751</span></code></pre></div>
 <p>However, we will now sample from this population to provide a more realistic setting where we can measure only a part of the whole population. In order to make results reproducible, we use the <code>set.seed</code> command, along with <code>sample</code>. The code below will replace some of the response values with <code>NA</code> to represent the unsampled sites.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 <span class="co"># take a random sample of 100</span>
-<span class="no">obsID</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">simdata</span>), <span class="fl">100</span>)
-<span class="no">simobs</span> <span class="kw">&lt;-</span> <span class="no">simdata</span>
-<span class="no">simobs</span>$<span class="no">Z</span> <span class="kw">&lt;-</span> <span class="fl">NA</span>
-<span class="no">simobs</span>[<span class="no">obsID</span>, <span class="st">'Z'</span>] <span class="kw">&lt;-</span> <span class="no">simdata</span>[<span class="no">obsID</span>, <span class="st">'Z'</span>]</pre></body></html></div>
+<span class="va">obsID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">)</span>, <span class="fl">100</span><span class="op">)</span>
+<span class="va">simobs</span> <span class="op">&lt;-</span> <span class="va">simdata</span>
+<span class="va">simobs</span><span class="op">$</span><span class="va">Z</span> <span class="op">&lt;-</span> <span class="cn">NA</span>
+<span class="va">simobs</span><span class="op">[</span><span class="va">obsID</span>, <span class="st">'Z'</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">simdata</span><span class="op">[</span><span class="va">obsID</span>, <span class="st">'Z'</span><span class="op">]</span></code></pre></div>
 <p>We now have a data set where the whole population is known, <code>simdata</code>, and another one, <code>simobs</code>, where 75% of the response variable of the population has been replaced by <code>NA</code>. Next we show the sampled sites as solid circles, while the missing values are shown as open circles, and we use red again to show the sites within the small area of 25 locations.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">simobs</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">y</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw">shape</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">2.5</span>, <span class="kw">stroke</span> <span class="kw">=</span> <span class="fl">1.5</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">simobs</span>, !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">Z</span>)), <span class="kw">shape</span> <span class="kw">=</span> <span class="fl">16</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">3.5</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">simobs</span>, !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">Z</span>) <span class="kw">&amp;</span> <span class="no">wts2</span> <span class="kw">==</span> <span class="fl">1</span>), <span class="kw">shape</span> <span class="kw">=</span> <span class="fl">16</span>,
-    <span class="kw">colour</span> <span class="kw">=</span> <span class="st">"red"</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">3.5</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span>(<span class="no">simobs</span>, <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">Z</span>) <span class="kw">&amp;</span> <span class="no">wts2</span> <span class="kw">==</span> <span class="fl">1</span>), <span class="kw">shape</span> <span class="kw">=</span> <span class="fl">1</span>,
-    <span class="kw">colour</span> <span class="kw">=</span> <span class="st">"red"</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">2.5</span>, <span class="kw">stroke</span> <span class="kw">=</span> <span class="fl">1.5</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">simobs</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">1</span>, size <span class="op">=</span> <span class="fl">2.5</span>, stroke <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">simobs</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">16</span>, size <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">simobs</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">wts2</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">16</span>,
+    colour <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">3.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">simobs</span>, <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Z</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">wts2</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span>, shape <span class="op">=</span> <span class="fl">1</span>,
+    colour <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">2.5</span>, stroke <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></code></pre></div>
 <p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-13-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>We will use the <code>simobs</code> data to illustrate use of the <code>sptotal</code> package.</p>
 </div>
@@ -214,11 +223,15 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <a href="#fitting-a-spatial-linear-model-slmfit" class="anchor"></a>Fitting a Spatial Linear Model: <code>slmfit</code>
 </h2>
 <p>We continue with our use of the simulated data, <code>simobs</code>, to illustrate fitting the spatial linear model. The spatial model-fitting function is <code>slmfit</code> (spatial-linear-model-fit), which uses a formula like many other model-fitting functions in <code>R</code> (e.g., the <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> function). To fit a basic spatial linear model we use</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">slmfit_out1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span>(<span class="kw">formula</span> <span class="kw">=</span> <span class="no">Z</span> ~ <span class="no">X1</span> + <span class="no">X2</span> + <span class="no">X3</span> + <span class="no">X4</span> + <span class="no">X5</span> + <span class="no">X6</span> + <span class="no">X7</span> + <span class="no">F1</span> + <span class="no">F2</span>,
-  <span class="kw">data</span> <span class="kw">=</span> <span class="no">simobs</span>, <span class="kw">xcoordcol</span> <span class="kw">=</span> <span class="st">'x'</span>, <span class="kw">ycoordcol</span> <span class="kw">=</span> <span class="st">'y'</span>,
-  <span class="kw">CorModel</span> <span class="kw">=</span> <span class="st">"Exponential"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">slmfit_out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">Z</span> <span class="op">~</span> <span class="va">X1</span> <span class="op">+</span> <span class="va">X2</span> <span class="op">+</span> <span class="va">X3</span> <span class="op">+</span> <span class="va">X4</span> <span class="op">+</span> <span class="va">X5</span> <span class="op">+</span>
+                        <span class="va">X6</span> <span class="op">+</span> <span class="va">X7</span> <span class="op">+</span> <span class="va">F1</span> <span class="op">+</span> <span class="va">F2</span>, 
+                      data <span class="op">=</span> <span class="va">simobs</span>, xcoordcol <span class="op">=</span> <span class="st">'x'</span>,
+                      ycoordcol <span class="op">=</span> <span class="st">'y'</span>,
+                      CorModel <span class="op">=</span> <span class="st">"Exponential"</span><span class="op">)</span></code></pre></div>
 <p>The documentation describes the arguments in more detail, but as mentioned earlier, the linear model includes a formula argument, and the <code>data.frame</code> that is being used as a data set. We also need to include which columns contain the <span class="math inline">\(x\)</span>- and <span class="math inline">\(y\)</span>-coordinates, which are arguments to <code>xcoordcol</code> and <code>ycoordcol</code>, respectively. In the above example, we specify <code>'x'</code> and <code>'y'</code> as the column coordinates arguments since the names of the coordinate columns in our simulated data set are <code>'x'</code> and <code>'y'</code>. We also need to specify a spatial autocorrelation model, which is given by the <code>CorModel</code> argument. As with many other linear model fits, we can obtain a summary of the model fit,</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">slmfit_out1</span>)
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">slmfit_out1</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
 <span class="co">#&gt; Z ~ X1 + X2 + X3 + X4 + X5 + X6 + X7 + F1 + F2</span>
@@ -252,16 +265,20 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <span class="co">#&gt; Partial Sill      2.930385e+00</span>
 <span class="co">#&gt; Range             5.891474e-01</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Generalized R-squared: 0.5996812</span></pre></body></html></div>
+<span class="co">#&gt; Generalized R-squared: 0.5996812</span></code></pre></div>
 <p>The output looks similar to the <code>summary</code> of a standard <code>lm</code> object, but there is some extra output at the end that gives our fitted covariance parameters. Plotting <code>slmfit_out1</code> gives a semi-variogram of the residuals along with the fitted model:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">slmfit_out1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">slmfit_out1</span><span class="op">)</span></code></pre></div>
 <p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>Note that the fitted curve may not appear to fit the empirical variogram perfectly for a couple of reasons. First, only pairs of points that have a distance between 0 and one-half the maximum distance are shown. Second, the fitted model is estimated using REML, which may give different results than using weighted least squares.</p>
 <p>We can also examine a histogram of the residuals as well as a histogram of the cross-validation (leave-one-out) residuals:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/qplot.html">qplot</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span>(<span class="no">slmfit_out1</span>), <span class="kw">bins</span> <span class="kw">=</span> <span class="fl">20</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Residuals"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">residraw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">slmfit_out1</span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/qplot.html">qplot</a></span><span class="op">(</span><span class="va">residraw</span>, bins <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Residuals"</span><span class="op">)</span></code></pre></div>
 <p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/qplot.html">qplot</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span>(<span class="no">slmfit_out1</span>, <span class="kw">cross.validation</span> <span class="kw">=</span> <span class="fl">TRUE</span>), <span class="kw">bins</span> <span class="kw">=</span> <span class="fl">20</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"CV Residuals"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">residcv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">slmfit_out1</span>, cross.validation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/qplot.html">qplot</a></span><span class="op">(</span><span class="va">residcv</span>, bins <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"CV Residuals"</span><span class="op">)</span></code></pre></div>
 <p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-18-2.png" width="700"></p>
 <p>There is still one somewhat large cross-validation residual for an observed count that is larger than what would be predicted from a model without that particular count. The cause of this somewhat large residual can be attributed to random chance because we know that the data was simulated to follow all assumptions.</p>
 </div>
@@ -269,41 +286,39 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <h2 class="hasAnchor">
 <a href="#prediction-predict" class="anchor"></a>Prediction: <code>predict</code>
 </h2>
-<p>After we have obtained a fitted spatial linear model, we can use the <code><a href="../reference/predict.slmfit.html">predict.slmfit()</a></code> function to construct a data frame of predictions for the unsampled sites. By default, the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, as well as the original data frame input into <code>slmfit</code> appended with site-by-site predictions and site-by-site prediction variances. We name this object <code>pred_obj</code> in the chunk below and also construct a 90% confidence interval for the total.</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">pred_obj</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">slmfit_out1</span>, <span class="kw">conf_level</span> <span class="kw">=</span> <span class="fl">0.90</span>)</pre></body></html></div>
-<p>The output of the <code>predict</code> function is too lengthy to print here and can be cumbersome to read. To obtain useful output, we have a couple of choices. If you are familiar with <code>R</code>, then you might want to construct your own summary output, maps, variograms, etc. One of the outputs of <code>predict</code> is a data frame that is appended with the site by site predictions that would facilitate construction of, for example, a map with predictions. This is particularly useful if you have a shapefile. The site-by-site predictions for density are given by the variable <code>name_of_response_pred_density</code> while the site-by-site predictions for counts are given by <code>name_of_response_pred_count</code>. These two columns will only differ if you have provided a column for areas of each site.</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">prediction_df</span> <span class="kw">&lt;-</span> <span class="no">pred_obj</span>$<span class="no">Pred_df</span>
-<span class="no">prediction_df</span>[ ,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"Z"</span>, <span class="st">"Z_pred_density"</span>)]</pre></body></html></div>
+<p>After we have obtained a fitted spatial linear model, we can use the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function to construct a data frame of predictions for the unsampled sites. By default, the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function assumes that we are predicting the population total and outputs this predicted total, the prediction variance for the total, a 90% prediction interval for the total, and some basic summary information about the number of sites sampled, the total number of units counted, etc. We name this object <code>pred_obj</code> in the chunk below and also construct a 90% confidence interval for the total.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pred_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">slmfit_out1</span>, conf_level <span class="op">=</span> <span class="fl">0.90</span><span class="op">)</span>
+<span class="va">pred_obj</span></code></pre></div>
+<p>We predict a total of 4817 units in this simulated region with 90% confidence bounds of (4779, 4856). The prediction interval is fairly small because we simulated data that were highly correlated, increasing precision in prediction for unobserved sites. We can see that the prediction of the total is close to the true value of 4834.326, and the true value is within the prediction interval.</p>
+<p>To access the <code>data.frame</code> that was input into <code>slmfit</code>, but is now appended with site-by-site predictions and site-by-site prediction variances, we can use <code>pred_obj$Pred_df</code>. This data set might be particularly useful if you would like to generate your own map with site-by-site predictions using other tools. The site-by-site predictions for density are given by the variable <code>name_of_response_pred_density</code> while the site-by-site predictions for counts are given by <code>name_of_response_pred_count</code>. These two columns will only differ if you have provided a column for areas of each site.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">prediction_df</span> <span class="op">&lt;-</span> <span class="va">pred_obj</span><span class="op">$</span><span class="va">Pred_df</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">prediction_df</span><span class="op">[</span> ,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"Z"</span>, <span class="st">"Z_pred_density"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="examining-results-print-and-plot" class="section level2">
+<div id="examining-results-plot" class="section level2">
 <h2 class="hasAnchor">
-<a href="#examining-results-print-and-plot" class="anchor"></a>Examining results: <code>print()</code>, and <code>plot()</code>
+<a href="#examining-results-plot" class="anchor"></a>Examining results: <code>plot()</code>
 </h2>
-<p>Alternatively, you could take advantage of the pre-specified <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> and <code><a href="https://rdrr.io/r/base/plot.html">plot()</a></code> functions. Both take the output from <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code>, <code>pred_obj</code> in this case, as a function argument.</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">pred_obj</span>)
-<span class="co">#&gt; Prediction Info:</span>
-<span class="co">#&gt;   Prediction    SE 90% LB 90% UB</span>
-<span class="co">#&gt; Z       4817 23.28   4779   4856</span>
-<span class="co">#&gt;   Numb. Sites Sampled Total Numb. Sites Total Observed Average Density</span>
-<span class="co">#&gt; Z                 100               400           1220            12.2</span></pre></body></html></div>
-<p>We predict a total of 4817 units in this simulated region with 90% confidence bounds of (4779, 4856). The confidence interval is fairly small because we simulated data that were highly correlated, increasing precision in prediction for unobserved sites. We can see that the prediction of the total is close to the true value of 4834.326, and the true value is within the confidence interval.</p>
-<p>Finally, to get a basic plot of the predictions, we can use the <code><a href="https://rdrr.io/r/base/plot.html">plot()</a></code> function.</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_obj</span>)</pre></body></html></div>
-<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
-<p>The map shows the distribution of the response across sampled and unsampled sites. Its purpose is simply to give the user a quick idea of the distribution of the response. For example, we see from the plot that the predicted response is low in the upper-right region of the graph, is high in the middle of the region and in the upper-left corner of the region, and is low again at the lower portion of the area of interest. However, using the prediction data frame generated from the <code>predict</code> function, you can use <code>ggplot2</code> or any other plotting package to construct your own map that may be more useful in your context.</p>
+<p>Finally, to get a basic plot of the predictions, we can use the <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> function.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_obj</span><span class="op">)</span></code></pre></div>
+<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p>The map shows the distribution of the response across sampled and unsampled sites. Its purpose is simply to give the user a very quick idea of the distribution of the response. For example, we see from the plot that the predicted response is low in the upper-right region of the graph, is high in the middle of the region and in the upper-left corner of the region, and is low again at the lower portion of the area of interest. However, using the prediction data frame generated from the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function, you can use <code>ggplot2</code> or any other plotting package to construct your own map that may be more useful in your context.</p>
 <div id="prediction-for-a-small-area-of-interest" class="section level3">
 <h3 class="hasAnchor">
 <a href="#prediction-for-a-small-area-of-interest" class="anchor"></a>Prediction for a Small Area of Interest</h3>
 <p>Spatial prediction can be used to estimate means and totals over finite populations from geographic regions, but can also be used for the special case of estimating a mean or total in a small area of interest. The term small area estimation refers to making an inference on a smaller geographic area within the overall study area. There may be few or no samples within that small area, so that estimation by classical sampling methods may not be possible or variances become exceedingly large.</p>
 <p>If we want to predict a quantity other than the population total, then we need to specify the column in our data set that has the appropriate prediction weights in a <code>wtscol</code> argument. For example, we might want to predict the total for a small area of interest. if we want to predict the total for the 25 sites in coloured in red, then we can use</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">pred_obj2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">slmfit_out1</span>, <span class="kw">wtscol</span> <span class="kw">=</span> <span class="st">"wts2"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">pred_obj2</span>)
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pred_obj2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">slmfit_out1</span>, wtscol <span class="op">=</span> <span class="st">"wts2"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">pred_obj2</span><span class="op">)</span>
 <span class="co">#&gt; Prediction Info:</span>
 <span class="co">#&gt;   Prediction    SE 90% LB 90% UB</span>
 <span class="co">#&gt; Z      282.2 7.342  270.1  294.3</span>
 <span class="co">#&gt;   Numb. Sites Sampled Total Numb. Sites Total Observed Average Density</span>
-<span class="co">#&gt; Z                 100               400           1220            12.2</span></pre></body></html></div>
-<p>Recall that the true total for this small area was 273.4. We see that this is close to our prediction of 282.2 and is also within the bounds of our confidence interval.</p>
+<span class="co">#&gt; Z                 100               400           1220            12.2</span></code></pre></div>
+<p>Recall that the true total for this small area was 273.4. We see that this is close to our prediction of 282.2 and is also within the bounds of our prediction interval.</p>
 </div>
 </div>
 </div>
@@ -314,42 +329,49 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <h2 class="hasAnchor">
 <a href="#moose-abundance-from-aerial-surveys" class="anchor"></a>Moose Abundance from Aerial Surveys</h2>
 <p>The simulated data example assumes that the coordinates are a Transverse Mercator projection (TM), that the vector of the response is numeric and has <code>NA</code> values for sites that were not sampled, and that the areas of each site sampled are all the same. If this isn’t the case for the data set you are working with, the following moose abundance example can help prepare your data for the functions in <code>sptotal</code>.</p>
-<p>For an example with real data, we consider a data set on moose abundance in Alaska obtained from <a href="https://www.adfg.alaska.gov/index.cfm?adfg=divisions.wcoverview">Alaska Department of Fish and Game, Division of Wildlife Conservation</a>. Each observation corresponds to a moose counted at a particular site, but operational constraints do not permit all sites to be counted. Begin by loading the data into <code>R</code>. Unlike the simulated data, <code>AKmoose</code> is an <code>sp</code> object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the <code>sp</code> object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form.</p>
+<p>For this example, we consider a data set on moose abundance in Alaska obtained from <a href="https://www.adfg.alaska.gov/index.cfm?adfg=divisions.wcoverview">Alaska Department of Fish and Game, Division of Wildlife Conservation</a>. Each observation corresponds to a moose counted at a particular site, but operational constraints do not permit all sites to be counted. Begin by loading the data into <code>R</code>. Unlike the simulated data, <code>AKmoose</code> is an <code>sp</code> object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the <code>sp</code> object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form.</p>
 <div id="spatial-coordinates" class="section level3">
 <h3 class="hasAnchor">
 <a href="#spatial-coordinates" class="anchor"></a>Spatial Coordinates</h3>
 <p>Our goal is to append the x and y-coordinates to the data frame with the survey data.</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">AKmoose</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">AKmoose</span><span class="op">)</span></code></pre></div>
 <p>We want to get the centroids of each of the sites and combine the centroids with the survey data. To obtain centroids, we use the <code>rgeos</code> package.</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">rgeos</span>)
-<span class="no">centroids</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">ID</span> <span class="kw">=</span> <span class="no">AKmoose</span>@<span class="kw">data</span>,
-  <span class="kw">x</span> <span class="kw">=</span> <span class="kw pkg">rgeos</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgeos/man/topo-unary-gCentroid.html">gCentroid</a></span>(<span class="no">AKmoose</span>, <span class="kw">byid</span><span class="kw">=</span><span class="fl">TRUE</span>)@<span class="kw">coords</span>[ ,<span class="st">'x'</span>],
-  <span class="kw">y</span> <span class="kw">=</span> <span class="kw pkg">rgeos</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgeos/man/topo-unary-gCentroid.html">gCentroid</a></span>(<span class="no">AKmoose</span>, <span class="kw">byid</span><span class="kw">=</span><span class="fl">TRUE</span>)@<span class="kw">coords</span>[ ,<span class="st">'y'</span>])</pre></body></html></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://r-forge.r-project.org/projects/rgeos/">rgeos</a></span><span class="op">)</span>
+<span class="va">centroids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>ID <span class="op">=</span> <span class="va">AKmoose</span><span class="op">@</span><span class="va">data</span>,
+  x <span class="op">=</span> <span class="fu">rgeos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgeos/man/topo-unary-gCentroid.html">gCentroid</a></span><span class="op">(</span><span class="va">AKmoose</span>, byid<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">@</span><span class="va">coords</span><span class="op">[</span> ,<span class="st">'x'</span><span class="op">]</span>,
+  y <span class="op">=</span> <span class="fu">rgeos</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rgeos/man/topo-unary-gCentroid.html">gCentroid</a></span><span class="op">(</span><span class="va">AKmoose</span>, byid<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">@</span><span class="va">coords</span><span class="op">[</span> ,<span class="st">'y'</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p>Next, for most spatial prediction, we want to use a transverse Mercator projection instead of latitude-longitude so that physical distance between two sites is accurately represented. The <code><a href="../reference/LLtoTM.html">LLtoTM()</a></code> function in this package provides a convenient way to convert latitude/longitude coordinates into user-defined transverse Mercator coordinates.</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">xy</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/LLtoTM.html">LLtoTM</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">centroids</span>$<span class="no">x</span>), <span class="no">centroids</span>$<span class="no">y</span>, <span class="no">centroids</span>$<span class="no">x</span>)$<span class="no">xy</span></pre></body></html></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/LLtoTM.html">LLtoTM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">centroids</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>, <span class="va">centroids</span><span class="op">$</span><span class="va">y</span>, <span class="va">centroids</span><span class="op">$</span><span class="va">x</span><span class="op">)</span><span class="op">$</span><span class="va">xy</span></code></pre></div>
 <p>Transverse Mercator is based on minimizing distortion from a central meridian: the first argument specifies that the central meridian should be the mean longitude value in the data set. The second and third arguments to this function give the centroid latitude values and centroid longitude values. Finally, we add the transformed coordinates to our data frame with the survey data. We first extract the survey data from our <code>sp</code> object using</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">moose_df</span> <span class="kw">&lt;-</span> <span class="no">AKmoose</span>@<span class="kw">data</span> <span class="co">## name the data set moose_df</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">moose_df</span>) <span class="co">## look at the first 6 observations</span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">moose_df</span> <span class="op">&lt;-</span> <span class="va">AKmoose</span><span class="op">@</span><span class="va">data</span> <span class="co">## name the data set moose_df</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">moose_df</span><span class="op">)</span> <span class="co">## look at the first 6 observations</span>
 <span class="co">#&gt;   elev_mean strat surveyed census_area total</span>
 <span class="co">#&gt; 0  560.3333     L        0           0     0</span>
 <span class="co">#&gt; 1  620.4167     L        0           0     0</span>
 <span class="co">#&gt; 2  468.9167     L        1           0     0</span>
 <span class="co">#&gt; 3  492.7500     L        0           0     0</span>
 <span class="co">#&gt; 4  379.5833     L        0           0     0</span>
-<span class="co">#&gt; 5  463.7500     L        0           0     0</span></pre></body></html></div>
+<span class="co">#&gt; 5  463.7500     L        0           0     0</span></code></pre></div>
 <p>We see that, in addition to the <code>total</code> column, which has counts of moose, the data set also has <code>strat</code>, a covariate that is either <code>L</code> for Low or <code>M</code> for medium, and <code>surveyed</code>, which is a <code>0</code> if the site wasn’t sampled and a <code>1</code> if the site was sampled.</p>
 <p>And then the tranformed coordinates can be added to the survey data frame.</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">moose_df</span>$<span class="no">x</span> <span class="kw">=</span> <span class="no">xy</span>[ ,<span class="st">'x'</span>]
-<span class="no">moose_df</span>$<span class="no">y</span> <span class="kw">=</span> <span class="no">xy</span>[ ,<span class="st">'y'</span>]</pre></body></html></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">moose_df</span><span class="op">$</span><span class="va">x</span> <span class="op">=</span> <span class="va">xy</span><span class="op">[</span> ,<span class="st">'x'</span><span class="op">]</span>
+<span class="va">moose_df</span><span class="op">$</span><span class="va">y</span> <span class="op">=</span> <span class="va">xy</span><span class="op">[</span> ,<span class="st">'y'</span><span class="op">]</span></code></pre></div>
 <p>It might be helpful to compare the latitude and longitude coordinates of the original data frame to the tranformed coordinates in the new data frame to make sure that the transformation seems reasonable:</p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">moose_df</span>$<span class="no">x</span>, <span class="no">moose_df</span>$<span class="no">y</span>, <span class="no">centroids</span>$<span class="no">x</span>, <span class="no">centroids</span>$<span class="no">y</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">moose_df</span><span class="op">$</span><span class="va">x</span>, <span class="va">moose_df</span><span class="op">$</span><span class="va">y</span>, <span class="va">centroids</span><span class="op">$</span><span class="va">x</span>, <span class="va">centroids</span><span class="op">$</span><span class="va">y</span><span class="op">)</span></code></pre></div>
 <p>Now, the <code>moose_df</code> data frame is in a more workable form for the <code>sptotal</code> package. However, there are still a couple of issues involving how the count data is stored and which sites were sampled that may be somewhat common in real data sets, which we address next.</p>
 </div>
 <div id="count-vector-specifications" class="section level3">
 <h3 class="hasAnchor">
 <a href="#count-vector-specifications" class="anchor"></a>Count Vector Specifications</h3>
 <p>Let’s look specifically at the counts in this moose data set in the <code>total</code> column:</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">moose_df</span>)
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">moose_df</span><span class="op">)</span>
 <span class="co">#&gt;   elev_mean strat surveyed census_area total        x        y</span>
 <span class="co">#&gt; 0  560.3333     L        0           0     0 38.98385 130.1806</span>
 <span class="co">#&gt; 1  620.4167     L        0           0     0 34.86653 130.2284</span>
@@ -357,30 +379,34 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <span class="co">#&gt; 3  492.7500     L        0           0     0 26.63242 130.3400</span>
 <span class="co">#&gt; 4  379.5833     L        0           0     0 22.51526 130.4038</span>
 <span class="co">#&gt; 5  463.7500     L        0           0     0 38.94319 126.4665</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">moose_df</span>$<span class="no">total</span>)
-<span class="co">#&gt;  Factor w/ 23 levels "0","1","10","11",..: 1 1 1 1 1 1 1 1 1 1 ...</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">moose_df</span><span class="op">$</span><span class="va">total</span><span class="op">)</span>
+<span class="co">#&gt;  Factor w/ 23 levels "0","1","10","11",..: 1 1 1 1 1 1 1 1 1 1 ...</span></code></pre></div>
 <p>The first issue is that our original <code>sp</code> object had <code>total</code> as a factor, which <code>R</code> treats as a categorical variable. <code>total</code> should be numeric, and, in fact, the variable <code>surveyed</code> has the same issue. If we were to keep <code>total</code> as a factor and try to run <code>slmfit</code>, we would get a convenient error message, reminding us to make sure that our response variable is numeric, not a factor or character:</p>
-<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">slmfit_out_moose</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span>(<span class="kw">formula</span> <span class="kw">=</span> <span class="no">total</span> ~ <span class="no">strat</span>,
-  <span class="kw">data</span> <span class="kw">=</span> <span class="no">moose_df</span>, <span class="kw">xcoordcol</span> <span class="kw">=</span> <span class="st">'x'</span>, <span class="kw">ycoordcol</span> <span class="kw">=</span> <span class="st">'y'</span>,
-  <span class="kw">CorModel</span> <span class="kw">=</span> <span class="st">"Exponential"</span>)
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">slmfit_out_moose</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">total</span> <span class="op">~</span> <span class="va">strat</span>, 
+  data <span class="op">=</span> <span class="va">moose_df</span>, xcoordcol <span class="op">=</span> <span class="st">'x'</span>, ycoordcol <span class="op">=</span> <span class="st">'y'</span>,
+  CorModel <span class="op">=</span> <span class="st">"Exponential"</span><span class="op">)</span>
 <span class="co">#&gt; Warning in stats::model.response(fullmf, "numeric"): using type = "numeric" with</span>
 <span class="co">#&gt; a factor response will be ignored</span>
 <span class="co">#&gt; Warning in Ops.factor(yvar, areavar): '/' not meaningful for factors</span>
-<span class="co">#&gt; Error in slmfit(formula = total ~ strat, data = moose_df, xcoordcol = "x", : Check to make sure response variable is numeric, not a factor or character.</span></pre></body></html></div>
+<span class="co">#&gt; Error in slmfit(formula = total ~ strat, data = moose_df, xcoordcol = "x", : Check to make sure response variable is numeric, not a factor or character.</span></code></pre></div>
 <p>We first want to convert these two columns into numeric variables instead of factors. There are packages that can help with this conversion, like <code>dplyr</code> and <code>forcats</code>, but we opt for base <code>R</code> functions here.</p>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="no">moose_df</span>$<span class="no">surveyed</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">moose_df</span>$<span class="no">surveyed</span>))[<span class="no">moose_df</span>$<span class="no">surveyed</span>]
-<span class="no">moose_df</span>$<span class="no">total</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">moose_df</span>$<span class="no">total</span>))[<span class="no">moose_df</span>$<span class="no">total</span>]</pre></body></html></div>
-<p>This may not be an issue with the data frame you are working with, in which case you can ignore the above code. The <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> command will tell you whether your variables are coded as factors or numeric.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">moose_df</span><span class="op">$</span><span class="va">surveyed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">moose_df</span><span class="op">$</span><span class="va">surveyed</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="va">moose_df</span><span class="op">$</span><span class="va">surveyed</span><span class="op">]</span>
+<span class="va">moose_df</span><span class="op">$</span><span class="va">total</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">moose_df</span><span class="op">$</span><span class="va">total</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="va">moose_df</span><span class="op">$</span><span class="va">total</span><span class="op">]</span></code></pre></div>
+<p>This may not be an issue with the data frame you are working with.. The <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> command will tell you whether your variables are coded as factors or numeric.</p>
 <p>After conversion to numeric variables, note that the first 6 observations for the <code>total</code> variable are all 0, but, the first two sites and the fourth, fifth, and sixth sites weren’t actually sampled. Without some modification to this variable, <code>sptotal</code> wouldn’t be able to differentiate between zeroes that were zero due to a site really having 0 counts or 0 density at the site and zeroes that were zero due to the site not being sampled. The following code converts the <code>total</code> variable on sites that were <strong>not</strong> surveyed (<code>surveyed</code> = <code>0</code>) to <code>NA</code>.</p>
-<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="no">moose_df</span>$<span class="no">total</span>[<span class="no">moose_df</span>$<span class="no">surveyed</span> <span class="kw">==</span> <span class="fl">0</span>] <span class="kw">&lt;-</span> <span class="fl">NA</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">moose_df</span>)
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">moose_df</span><span class="op">$</span><span class="va">total</span><span class="op">[</span><span class="va">moose_df</span><span class="op">$</span><span class="va">surveyed</span> <span class="op">==</span> <span class="fl">0</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">moose_df</span><span class="op">)</span>
 <span class="co">#&gt;   elev_mean strat surveyed census_area total        x        y</span>
 <span class="co">#&gt; 0  560.3333     L        0           0    NA 38.98385 130.1806</span>
 <span class="co">#&gt; 1  620.4167     L        0           0    NA 34.86653 130.2284</span>
 <span class="co">#&gt; 2  468.9167     L        1           0     0 30.74963 130.2815</span>
 <span class="co">#&gt; 3  492.7500     L        0           0    NA 26.63242 130.3400</span>
 <span class="co">#&gt; 4  379.5833     L        0           0    NA 22.51526 130.4038</span>
-<span class="co">#&gt; 5  463.7500     L        0           0    NA 38.94319 126.4665</span></pre></body></html></div>
+<span class="co">#&gt; 5  463.7500     L        0           0    NA 38.94319 126.4665</span></code></pre></div>
+<p>The <code>total</code> column now has <code>NA</code> for any site that was not sampled.</p>
 </div>
 <div id="fitting-the-model-and-obtaining-predictions" class="section level3">
 <h3 class="hasAnchor">
@@ -392,36 +418,114 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <li><p>the column with our counts has <code>NA</code> values for sites that were not surveyed,</p></li>
 </ul>
 <p>we can proceed to use the functions in <code>sptotal</code> in a similar way to how the functions were used for the simulated data. To get a sense of the data, we first give a plot of the raw observed counts:</p>
-<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">moose_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">y</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">colour</span> <span class="kw">=</span> <span class="no">total</span>), <span class="kw">size</span> <span class="kw">=</span> <span class="fl">4</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_colour_viridis_c</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>()</pre></body></html></div>
-<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">moose_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>colour <span class="op">=</span> <span class="va">total</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_colour_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 <p>where the grey circles are sites that have not been sampled.</p>
-<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="no">slmfit_out_moose</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span>(<span class="kw">formula</span> <span class="kw">=</span> <span class="no">total</span> ~ <span class="no">strat</span>,
-  <span class="kw">data</span> <span class="kw">=</span> <span class="no">moose_df</span>, <span class="kw">xcoordcol</span> <span class="kw">=</span> <span class="st">'x'</span>, <span class="kw">ycoordcol</span> <span class="kw">=</span> <span class="st">'y'</span>,
-  <span class="kw">CorModel</span> <span class="kw">=</span> <span class="st">"Exponential"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">slmfit_out_moose</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">slmfit_out_moose</span>)
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/qplot.html">qplot</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span>(<span class="no">slmfit_out_moose</span>), <span class="kw">bins</span> <span class="kw">=</span> <span class="fl">20</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Residuals"</span>)
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/qplot.html">qplot</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span>(<span class="no">slmfit_out_moose</span>, <span class="kw">cross.validation</span> <span class="kw">=</span> <span class="fl">TRUE</span>), <span class="kw">bins</span> <span class="kw">=</span> <span class="fl">20</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"CV Residuals"</span>)
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">slmfit_out_moose</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">total</span> <span class="op">~</span> <span class="va">strat</span>, 
+  data <span class="op">=</span> <span class="va">moose_df</span>, xcoordcol <span class="op">=</span> <span class="st">'x'</span>, ycoordcol <span class="op">=</span> <span class="st">'y'</span>,
+  CorModel <span class="op">=</span> <span class="st">"Exponential"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">slmfit_out_moose</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">slmfit_out_moose</span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/qplot.html">qplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">slmfit_out_moose</span>, cross.validation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
+      bins <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"CV Residuals"</span><span class="op">)</span>
 
-<span class="no">pred_moose</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">slmfit_out_moose</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">pred_moose</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">pred_moose</span>)</pre></body></html></div>
+<span class="va">pred_moose</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">slmfit_out_moose</span><span class="op">)</span>
+<span class="va">pred_moose</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">pred_moose</span><span class="op">)</span></code></pre></div>
 <p>We obtain a predicted total of 1596 animals with 90% lower and upper confidence bounds of 921 and 2271 animals, respectively. Unlike the simulation setting, there is no “true total” we can compare our prediction to, because, in reality, not all sites were sampled!</p>
+</div>
+<div id="allowing-different-covariance-parameters-for-strata" class="section level3">
+<h3 class="hasAnchor">
+<a href="#allowing-different-covariance-parameters-for-strata" class="anchor"></a>Allowing Different Covariance Parameters for Strata</h3>
+<p>Putting <code>strat</code> as a predictor in the model formula means that we are allowing each stratum to have a different mean but are assuming each stratum to have the same variance and covariance. If we want to allow the two strata to have different covariance parameter estimates, we can remove <code>strat</code> from the model formula and add it to the <code>stratacol</code> argument:</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">slmfit_out_moose_strat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">total</span> <span class="op">~</span> <span class="fl">1</span>, 
+  data <span class="op">=</span> <span class="va">moose_df</span>, xcoordcol <span class="op">=</span> <span class="st">'x'</span>, ycoordcol <span class="op">=</span> <span class="st">'y'</span>,
+  stratacol <span class="op">=</span> <span class="st">"strat"</span>,
+  CorModel <span class="op">=</span> <span class="st">"Exponential"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">slmfit_out_moose_strat</span><span class="op">)</span>
+<span class="co">#&gt; $L</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; total ~ 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
+<span class="co">#&gt; -2.8337 -2.8337 -2.8337  0.1663 26.1663 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;      Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; [1,]   2.8337     0.3792   7.474   &lt;2e-16 ***</span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Covariance Parameters:</span>
+<span class="co">#&gt;              Exponential Model</span>
+<span class="co">#&gt; Nugget                6.548489</span>
+<span class="co">#&gt; Partial Sill         23.421310</span>
+<span class="co">#&gt; Range                32.274509</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Generalized R-squared: 2.220446e-16 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $M</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; total ~ 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Residuals:</span>
+<span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
+<span class="co">#&gt; -4.0571 -4.0571 -2.0571  0.9429 35.9429 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;      Estimate Std. Error t value Pr(&gt;|t|)    </span>
+<span class="co">#&gt; [1,]   4.0571     0.2606   15.57   &lt;2e-16 ***</span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Covariance Parameters:</span>
+<span class="co">#&gt;              Exponential Model</span>
+<span class="co">#&gt; Nugget                37.62337</span>
+<span class="co">#&gt; Partial Sill          12.12722</span>
+<span class="co">#&gt; Range                 37.68748</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Generalized R-squared: 0</span></code></pre></div>
+<p>There is now two sets of summary output, one for each stratum. <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> can still be used to obtain an estimate for the total (<code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> also gives a predicted total for each stratum):</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">slmfit_out_moose_strat</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Prediction and Confidence Intervals:</span>
+<span class="co">#&gt;       Prediction    SE 90% LB 90% UB</span>
+<span class="co">#&gt; L         1133.4 303.2  634.6   1632</span>
+<span class="co">#&gt; M          960.8 104.3  789.2   1132</span>
+<span class="co">#&gt; Total     2094.2 320.7 1566.8   2622</span></code></pre></div>
+<p>For this example, our prediction is very different when strata are allowed separate covariance parameters (2094 moose) than when strata are forced to have the same covariance parameters (1596 moose).</p>
+<p>To see why this is, we can examine the semi-variograms for each stratum. All functions (e.g. <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>, <code><a href="https://rdrr.io/r/stats/AIC.html">AIC()</a></code>, <code><a href="https://rdrr.io/r/stats/coef.html">coef()</a></code>, etc.) that are used on an <code><a href="../reference/slmfit.html">slmfit()</a></code> object without <code>stratacol</code> specified can still be used on an <code><a href="../reference/slmfit.html">slmfit()</a></code> object with a <code>stratacol</code> specified by running the function in the following way:</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">slmfit_out_moose_strat</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">slmfit_out_moose_strat</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-37-2.png" width="700"></p>
+<p>We see that the fitted covariance parameters for each strata do look different in this example, as the scale on semi-variograms changes drastically. Therefore, for this example, it is probably more reasonable to allow the strata to have different covariance parameters and use the <code>stratacol</code> argument.</p>
 </div>
 <div id="sites-with-different-areas" class="section level3">
 <h3 class="hasAnchor">
 <a href="#sites-with-different-areas" class="anchor"></a>Sites with Different Areas</h3>
 <p>Finally, throughout all of the above analyses, we have assumed that the areas of each site were equal. Though this assumption is not accurate for the moose data, due to slightly differing areas based on differing latitudes and longitudes, the assumption approximately holds so that any differences in the prediction that incorporates area is negligible. But, suppose we had sites with very different areas. To showcase how to incorporate site area into the functions in this package, let’s first create a “fake” area variable that has the first 700 sites in the region have an area of 1 square kilometer and has the last 160 sites in the region have an area of 2 square kilometeres.</p>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">moose_df</span>$<span class="no">fake_area</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1</span>, <span class="fl">700</span>), <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2</span>, <span class="fl">160</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">moose_df</span><span class="op">$</span><span class="va">fake_area</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">700</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">160</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>For a spatial model, it makes much more sense to use density as the response variable instead of raw counts if the areas of the sites in the model are drastically different. By supplying an <code>areacol</code> argument to <code>slmfit</code>, the function converts counts to densities, and then gives regression parameters and covariance parameters for the <em>density</em>.</p>
-<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="no">slmfit_out_moose_area</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span>(<span class="kw">formula</span> <span class="kw">=</span> <span class="no">total</span> ~ <span class="no">strat</span>,
-  <span class="kw">data</span> <span class="kw">=</span> <span class="no">moose_df</span>, <span class="kw">xcoordcol</span> <span class="kw">=</span> <span class="st">'x'</span>, <span class="kw">ycoordcol</span> <span class="kw">=</span> <span class="st">'y'</span>,
-  <span class="kw">CorModel</span> <span class="kw">=</span> <span class="st">"Exponential"</span>, <span class="kw">areacol</span> <span class="kw">=</span> <span class="st">'fake_area'</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">slmfit_out_moose_area</span>)
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">slmfit_out_moose_area</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">total</span> <span class="op">~</span> <span class="va">strat</span>, 
+  data <span class="op">=</span> <span class="va">moose_df</span>, xcoordcol <span class="op">=</span> <span class="st">'x'</span>, ycoordcol <span class="op">=</span> <span class="st">'y'</span>,
+  CorModel <span class="op">=</span> <span class="st">"Exponential"</span>, areacol <span class="op">=</span> <span class="st">'fake_area'</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">slmfit_out_moose_area</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
 <span class="co">#&gt; total ~ strat</span>
@@ -443,11 +547,12 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <span class="co">#&gt; Partial Sill          4.166747</span>
 <span class="co">#&gt; Range                23.645337</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Generalized R-squared: 0.04479698</span></pre></body></html></div>
+<span class="co">#&gt; Generalized R-squared: 0.04479698</span></code></pre></div>
 <p>The <code>predict</code> function then keeps track of the <code>areacol</code> argument and gives output in the data frame that pertains to both <code>counts</code> and <code>densities</code>:</p>
-<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="no">pred_obj_area</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">slmfit_out_moose_area</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">pred_obj_area</span>$<span class="no">Pred_df</span>[ ,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"total_pred_density"</span>, <span class="st">"total_pred_count"</span>,
-  <span class="st">"fake_area"</span>)])
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pred_obj_area</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">slmfit_out_moose_area</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pred_obj_area</span><span class="op">$</span><span class="va">Pred_df</span><span class="op">[</span> ,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"total_pred_density"</span>, <span class="st">"total_pred_count"</span>,
+                               <span class="st">"fake_area"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt;   total_pred_density total_pred_count fake_area</span>
 <span class="co">#&gt; 0          0.4029168        0.4029168         1</span>
 <span class="co">#&gt; 1          0.3505312        0.3505312         1</span>
@@ -455,24 +560,25 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <span class="co">#&gt; 3          0.2841390        0.2841390         1</span>
 <span class="co">#&gt; 4          0.2782489        0.2782489         1</span>
 <span class="co">#&gt; 5          0.3290719        0.3290719         1</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="no">pred_obj_area</span>$<span class="no">Pred_df</span>[ ,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"total_pred_density"</span>, <span class="st">"total_pred_count"</span>,
-  <span class="st">"fake_area"</span>)])
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">pred_obj_area</span><span class="op">$</span><span class="va">Pred_df</span><span class="op">[</span> ,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"total_pred_density"</span>, <span class="st">"total_pred_count"</span>,
+                               <span class="st">"fake_area"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt;     total_pred_density total_pred_count fake_area</span>
 <span class="co">#&gt; 854         2.00000000       4.00000000         2</span>
 <span class="co">#&gt; 855         0.01496504       0.02993008         2</span>
 <span class="co">#&gt; 856         0.02163868       0.04327737         2</span>
 <span class="co">#&gt; 857         0.06967022       0.13934044         2</span>
 <span class="co">#&gt; 858         0.00000000       0.00000000         2</span>
-<span class="co">#&gt; 859         0.49928987       0.99857974         2</span></pre></body></html></div>
+<span class="co">#&gt; 859         0.49928987       0.99857974         2</span></code></pre></div>
 <p>Note that, for the first 6 observations, which have an area of 1, the <code>total_pred_density</code> and <code>total_pred_count</code> columns are identical, while, for the last 6 observations, which have an area of 2, the <code>total_pred_density</code> column is half that of the <code>total_pred_count</code> column.</p>
-<p>The <code>get.predinfo</code> function assumes that we are interested in predicting the total count since we did not specify a column of weights so our prediction for the number of moose in this fake region is 1556 moose with a standard error of 393.62.</p>
-<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">pred_obj_area</span>)
+<p>Because we did not specify a column of weights, our prediction in the following output is for the total number of moose.</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">pred_obj_area</span><span class="op">)</span>
 <span class="co">#&gt; Prediction Info:</span>
 <span class="co">#&gt;       Prediction    SE 90% LB 90% UB</span>
 <span class="co">#&gt; total       1556 393.6    909   2204</span>
 <span class="co">#&gt;       Numb. Sites Sampled Total Numb. Sites Total Observed Average Density</span>
-<span class="co">#&gt; total                 218               860            742           2.883</span></pre></body></html></div>
-<p>If sites have differing areas, the <code><a href="https://rdrr.io/r/base/plot.html">plot()</a></code> function doesn’t make much sense to use because each site is represented by the same-sized dot. Here, it would be helpful to import the data frame with the predicted counts and densities into a shapefile so that you are able to construct your own graphics that reflect the different-sized sites.</p>
+<span class="co">#&gt; total                 218               860            742           2.883</span></code></pre></div>
+<p>If sites have differing areas, the <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> function doesn’t make much sense to use because each site is represented by the same-sized dot. Here, it would be helpful to import the data frame with the predicted counts and densities into a shapefile so that you are able to construct your own graphics that reflect the different-sized sites.</p>
 </div>
 </div>
 <div id="mean-dissolved-organic-carbon-from-national-lakes-data" class="section level2">
@@ -480,19 +586,25 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <a href="#mean-dissolved-organic-carbon-from-national-lakes-data" class="anchor"></a>Mean Dissolved Organic Carbon from National Lakes Data</h2>
 <p>As another example, we took data from the <a href="https://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys">National Aquatic Resource Surveys</a>. With concerns about global warming, the earth’s capacity to store carbon is of great interest, and dissolved organic carbon (DOC) is an estimate of a lake’s ability to store carbon. We will estimate the mean mg/L for DOC from a sample of lakes. If the total lake volume could be calculated (we will not attempt that), then the total dissolved carbon in a population of lakes could be estimated. We will examine DOC in lakes from the 2012 surveys. We combined <a href="https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_siteinfo_08232016.csv">site data</a>, <a href="https://www.epa.gov/sites/production/files/2016-12/nla2012_waterchem_wide.csv">DOC data</a>, and <a href="https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_phabmet_10202016.csv">habitat metrics</a> to create a data set of 1206 lakes in the conterminous United States.</p>
 <p>To access the data, type</p>
-<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">USlakes</span>)</pre></body></html></div>
-<p>and to get a feeling for the data, create a histogram</p>
-<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">USlakes</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">DOC_RESULT</span>))) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span>(<span class="kw">bins</span> <span class="kw">=</span> <span class="fl">20</span>)</pre></body></html></div>
-<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
-<p>Even on the log scale, there appears to be some outliers with very high values, and these may be the result of errors in collection or lab analysis. We will eliminate lakes that have log(DOC) values <span class="math inline">\(&gt;\)</span> 5.</p>
-<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="no">lakes</span> <span class="kw">&lt;-</span> <span class="no">USlakes</span>[<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">USlakes</span>$<span class="no">DOC_RESULT</span>) <span class="kw">&lt;</span> <span class="fl">5</span>, ]</pre></body></html></div>
-<p>Our new data set has dimensions</p>
-<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">lakes</span>)
-<span class="co">#&gt; [1] 1204</span></pre></body></html></div>
-<p>sites, so we have eliminated 2 sites. To visualize our data some more, we make a bubble plot,</p>
-<div class="sourceCode" id="cb40"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">USlakes</span>$<span class="no">XCOORD</span>, <span class="no">USlakes</span>$<span class="no">YCOORD</span>, <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">19</span>,
-  <span class="kw">cex</span> <span class="kw">=</span> <span class="fl">2</span> * <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">lakes</span>$<span class="no">DOC_RESULT</span>) / <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">lakes</span>$<span class="no">DOC_RESULT</span>)))</pre></body></html></div>
-<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-44-1.png" width="700"></p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">USlakes</span><span class="op">)</span></code></pre></div>
+<p>and create a histogram of the log dissolved organic carbon</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">USlakes</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">DOC_RESULT</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></code></pre></div>
+<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-43-1.png" width="700"></p>
+<p>Even on the log scale, there appears to be some outliers with very high values, and these may be the result of errors in collection or lab analysis. We will eliminate lakes that have log(DOC) values <span class="math inline">\(&gt;\)</span> 5 for the purposes of this vignette.</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">lakes</span> <span class="op">&lt;-</span> <span class="va">USlakes</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">USlakes</span><span class="op">$</span><span class="va">DOC_RESULT</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">5</span>, <span class="op">]</span></code></pre></div>
+<p>Our new data set has</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">lakes</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1204</span></code></pre></div>
+<p>sites, so we have eliminated 2 sites. To visualize our data more, we make a bubble plot,</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">USlakes</span><span class="op">$</span><span class="va">XCOORD</span>, <span class="va">USlakes</span><span class="op">$</span><span class="va">YCOORD</span>, pch <span class="op">=</span> <span class="fl">19</span>, 
+  cex <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">lakes</span><span class="op">$</span><span class="va">DOC_RESULT</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">lakes</span><span class="op">$</span><span class="va">DOC_RESULT</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-46-1.png" width="700"></p>
 <p>and it appears that there is spatial patterning.</p>
 <p>We also have covariates that may help in prediction:</p>
 <ul>
@@ -507,32 +619,39 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <li>
 <code>RVFCGNDWOODY_RIP</code>: riparian zone and vegetation: fraction of ground cover by woody vegetation in the riparian zone</li>
 </ul>
-<p>It is always important to make scatterplots of your variables to look for obvious relationships.</p>
-<div class="sourceCode" id="cb41"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">lakes</span>,
-       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">RVFPUNDWOODY_RIP</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">DOC_RESULT</span>))) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span>(<span class="kw">width</span> <span class="kw">=</span> <span class="fl">0.02</span>)</pre></body></html></div>
-<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-45-1.png" width="700"></p>
-<p>It looks like there might be a negative relationship between riparian nonwoody-understory cover and DOC.</p>
+<p>In order to explore the association between each predictor and the DOC (but not yet taking into account spatial correlation), we would create scatterplots of DOC vs. each predictor. To save space, we only create one such scatterplot here:</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">lakes</span>,
+       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">RVFPUNDWOODY_RIP</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">DOC_RESULT</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; `geom_smooth()` using formula 'y ~ x'</span></code></pre></div>
+<p><img src="sptotal-vignette_files/figure-html/unnamed-chunk-47-1.png" width="700"></p>
+<p>It looks like there might be a slight negative relationship between riparian nonwoody-understory cover and DOC, though again we note that this exploratory investigation does not take into account the possible spatial correlation of DOC across sites.</p>
 <div id="creating-a-subsample-data-set" class="section level3">
 <h3 class="hasAnchor">
 <a href="#creating-a-subsample-data-set" class="anchor"></a>Creating a Subsample Data Set</h3>
 <p>We have the whole population of lakes, but, with budget cuts, it is likely that this whole population will not always be surveyed in its entirety. So, we will ask the question, “If we sample from this population, can we still get a fairly precise estimate of the mean DOC?”</p>
 <p>We will do the same thing that we did with the simulated data, and take a random sample of 500 lakes. Also, because we want the mean, and not a total, we will create a weights column for the <code>lakeobs</code> data set, with each element <span class="math inline">\(1/N\)</span>, where, here, <span class="math inline">\(N = 1204\)</span>.</p>
-<div class="sourceCode" id="cb42"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">2</span>)
-<span class="no">LakeObsID</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">lakes</span>), <span class="fl">500</span>)
-<span class="no">lakeobs</span> <span class="kw">&lt;-</span> <span class="no">lakes</span>
-<span class="no">lakeobs</span>$<span class="no">DOC_RESULT</span> <span class="kw">&lt;-</span> <span class="fl">NA</span>
-<span class="no">lakeobs</span>[<span class="no">LakeObsID</span>, <span class="st">'DOC_RESULT'</span>] <span class="kw">&lt;-</span> <span class="no">lakes</span>[<span class="no">LakeObsID</span>, <span class="st">'DOC_RESULT'</span>]
-<span class="no">lakeobs</span>$<span class="no">wts</span> <span class="kw">&lt;-</span> <span class="fl">1</span> / <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">lakeobs</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
+<span class="va">LakeObsID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">lakes</span><span class="op">)</span>, <span class="fl">500</span><span class="op">)</span>
+<span class="va">lakeobs</span> <span class="op">&lt;-</span> <span class="va">lakes</span>
+<span class="va">lakeobs</span><span class="op">$</span><span class="va">DOC_RESULT</span> <span class="op">&lt;-</span> <span class="cn">NA</span>
+<span class="va">lakeobs</span><span class="op">[</span><span class="va">LakeObsID</span>, <span class="st">'DOC_RESULT'</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">lakes</span><span class="op">[</span><span class="va">LakeObsID</span>, <span class="st">'DOC_RESULT'</span><span class="op">]</span>
+<span class="va">lakeobs</span><span class="op">$</span><span class="va">wts</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">lakeobs</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="fitting-the-model-and-making-predictions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#fitting-the-model-and-making-predictions" class="anchor"></a>Fitting the Model and Making Predictions</h3>
 <p>Even though data are skewed, let’s try it without taking log of response variable. Note that the mean of log-tranformed variables is not equal to the log of the mean of set of variables. So if we want a total on the untransformed scale, it would be a mistake to transform the data first, model it, make predictions, sum the predictions, and then exponentiate. It is much simpler to leave the data untransformed and rely on robustness of the method. Let’s see how this works.</p>
-<div class="sourceCode" id="cb43"><html><body><pre class="r"><span class="no">slmfitout_exp_lakes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span>(<span class="kw">formula</span> <span class="kw">=</span> <span class="no">DOC_RESULT</span> ~ <span class="no">ELEVATION</span> + <span class="no">RVFPUNDWOODY_RIP</span> +
-  <span class="no">FCIBIG_LIT</span> + <span class="no">RVFCGNDBARE_RIP</span> + <span class="no">RVFCGNDWOODY_RIP</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">lakeobs</span>,
-  <span class="kw">xcoordcol</span> <span class="kw">=</span> <span class="st">'XCOORD'</span>, <span class="kw">ycoordcol</span> <span class="kw">=</span> <span class="st">'YCOORD'</span>, <span class="kw">CorModel</span> <span class="kw">=</span> <span class="st">"Exponential"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">slmfitout_exp_lakes</span>)
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">slmfitout_exp_lakes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">DOC_RESULT</span> <span class="op">~</span> <span class="va">ELEVATION</span> <span class="op">+</span>
+                                <span class="va">RVFPUNDWOODY_RIP</span> <span class="op">+</span> <span class="va">FCIBIG_LIT</span> <span class="op">+</span>
+                                <span class="va">RVFCGNDBARE_RIP</span> <span class="op">+</span> <span class="va">RVFCGNDWOODY_RIP</span>,
+                              data <span class="op">=</span> <span class="va">lakeobs</span>, 
+                              xcoordcol <span class="op">=</span> <span class="st">'XCOORD'</span>, ycoordcol <span class="op">=</span> <span class="st">'YCOORD'</span>, CorModel <span class="op">=</span> <span class="st">"Exponential"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">slmfitout_exp_lakes</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
 <span class="co">#&gt; DOC_RESULT ~ ELEVATION + RVFPUNDWOODY_RIP + FCIBIG_LIT + RVFCGNDBARE_RIP + </span>
@@ -559,12 +678,16 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <span class="co">#&gt; Partial Sill          91.02786</span>
 <span class="co">#&gt; Range             456983.39560</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Generalized R-squared: 0.1188291</span></pre></body></html></div>
+<span class="co">#&gt; Generalized R-squared: 0.1188291</span></code></pre></div>
 <p>We see that all covariates are highly significant. There is substantial autocorrelation because the range parameter is very large, and the partial sill is about six times that of the nugget effect. We fit the model again, but this time with the spherical autocorrelation model.</p>
-<div class="sourceCode" id="cb44"><html><body><pre class="r"><span class="no">slmfitout_sph_lakes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span>(<span class="kw">formula</span> <span class="kw">=</span> <span class="no">DOC_RESULT</span> ~ <span class="no">ELEVATION</span> + <span class="no">RVFPUNDWOODY_RIP</span> +
-  <span class="no">FCIBIG_LIT</span> + <span class="no">RVFCGNDBARE_RIP</span> + <span class="no">RVFCGNDWOODY_RIP</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">lakeobs</span>,
-  <span class="kw">xcoordcol</span> <span class="kw">=</span> <span class="st">'XCOORD'</span>, <span class="kw">ycoordcol</span> <span class="kw">=</span> <span class="st">'YCOORD'</span>, <span class="kw">CorModel</span> <span class="kw">=</span> <span class="st">"Spherical"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">slmfitout_sph_lakes</span>)
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">slmfitout_sph_lakes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/slmfit.html">slmfit</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">DOC_RESULT</span> <span class="op">~</span> <span class="va">ELEVATION</span> <span class="op">+</span>
+                                <span class="va">RVFPUNDWOODY_RIP</span> <span class="op">+</span> <span class="va">FCIBIG_LIT</span> <span class="op">+</span>
+                                <span class="va">RVFCGNDBARE_RIP</span> <span class="op">+</span> <span class="va">RVFCGNDWOODY_RIP</span>,
+                              data <span class="op">=</span> <span class="va">lakeobs</span>, 
+                              xcoordcol <span class="op">=</span> <span class="st">'XCOORD'</span>, ycoordcol <span class="op">=</span> <span class="st">'YCOORD'</span>,
+                              CorModel <span class="op">=</span> <span class="st">"Spherical"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">slmfitout_sph_lakes</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
 <span class="co">#&gt; DOC_RESULT ~ ELEVATION + RVFPUNDWOODY_RIP + FCIBIG_LIT + RVFCGNDBARE_RIP + </span>
@@ -591,37 +714,40 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 <span class="co">#&gt; Partial Sill        87.85260</span>
 <span class="co">#&gt; Range           761505.47106</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Generalized R-squared: 0.1151265</span></pre></body></html></div>
+<span class="co">#&gt; Generalized R-squared: 0.1151265</span></code></pre></div>
 <p>We can use AIC to compare the use of the two autocorrelation models.</p>
-<div class="sourceCode" id="cb45"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span>(<span class="no">slmfitout_exp_lakes</span>)
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span><span class="op">(</span><span class="va">slmfitout_exp_lakes</span><span class="op">)</span>
 <span class="co">#&gt; [1] 3249.515</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span>(<span class="no">slmfitout_sph_lakes</span>)
-<span class="co">#&gt; [1] 3248.077</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/stats/AIC.html">AIC</a></span><span class="op">(</span><span class="va">slmfitout_sph_lakes</span><span class="op">)</span>
+<span class="co">#&gt; [1] 3248.077</span></code></pre></div>
 <p>Based on AIC, there is not much difference in fit between the two structures. We will use the exponential covariance structure going forward.</p>
-<div class="sourceCode" id="cb46"><html><body><pre class="r"><span class="no">pred_exp_lakes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">slmfitout_exp_lakes</span>,  <span class="kw">wtscol</span> <span class="kw">=</span> <span class="st">"wts"</span>,
-                          <span class="kw">conf_level</span> <span class="kw">=</span> <span class="fl">0.95</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">pred_exp_lakes</span>)
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pred_exp_lakes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">slmfitout_exp_lakes</span>,  wtscol <span class="op">=</span> <span class="st">"wts"</span>,
+                          conf_level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">pred_exp_lakes</span><span class="op">)</span>
 <span class="co">#&gt; Prediction Info:</span>
 <span class="co">#&gt;            Prediction    SE 95% LB 95% UB</span>
 <span class="co">#&gt; DOC_RESULT      7.975 0.196  7.591  8.359</span>
 <span class="co">#&gt;            Numb. Sites Sampled Total Numb. Sites Total Observed Average Density</span>
 <span class="co">#&gt; DOC_RESULT                 500              1204           4111           8.223</span>
-<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">lakes</span>$<span class="no">DOC_RESULT</span>)
-<span class="co">#&gt; [1] 7.646453</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">lakes</span><span class="op">$</span><span class="va">DOC_RESULT</span><span class="op">)</span>
+<span class="co">#&gt; [1] 7.646453</span></code></pre></div>
 <p>We can see that the prediction, 7.975, is close to the true value, 7.65, and that the confidence interval is quite narrow, and it does contain the true value. If a standard error of 0.196, yielding a coefficient of variation of 0.196/7.975 = 0.0245, is acceptable, then sampling 500 lakes could save money and still provide a useful result on DOC.</p>
 </div>
 </div>
 </div>
-<div id="statistical-background" class="section level1">
+<div id="appendix-statistical-background" class="section level1">
 <h1 class="hasAnchor">
-<a href="#statistical-background" class="anchor"></a>Statistical Background</h1>
+<a href="#appendix-statistical-background" class="anchor"></a>Appendix: Statistical Background</h1>
 <p>An alternative to a sampling-based appraoch is to assume that the data were generated by a stochastic process and use model-based approaches. It is assumed that the response variable is a realization of a spatial stochastic process. Geostatistical models and methods are used (for a review, see Cressie, 1993). Geostatistics was developed for point samples. If the samples are very small relative to the population size, an infinite population is assumed. In classical geostatistics, the average value over an area can be predicted using methods such as block kriging. Thus it appears that this is closely related to small area estimation, but where samples come from point locations rather than a finite set of sample units. While there is a large literature on geostatistics and block kriging methods, they have been developed for infinite populations. This package is designed for the case where we have a finite collection of plots and we assume that the data were produced by a spatial stochastic process. Detailed developements are given in Ver Hoef (2001, 2008). Comparisons to classical sampling methods can be found in Ver Hoef (2002), and applications in forestry are contained in Ver Hoef and Temesgen (2013) and Temesgen and Ver Hoef (2015).</p>
 </div>
 <div id="citation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h1>
 <p>To cite this package, type</p>
-<div class="sourceCode" id="cb47"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="st">"sptotal"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">"sptotal"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">
@@ -646,11 +772,11 @@ Z_i = 10 &amp; + 0 \cdot X1_i + 0.1 \cdot X2_i + 0.2 \cdot X3_i + 0.3 \cdot X4_i
 
 
       <footer><div class="copyright">
-  <p>Developed by Higham Matt, Ver Hoef Jay, Frank Bryce.</p>
+  <p>Developed by Higham Matt, Ver Hoef Jay, Frank Bryce, Michael Dumelle.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

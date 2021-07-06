@@ -1,7 +1,7 @@
 #' Extract Log-Likelihood from a fitted class \code{slmfit} object
 #'
 #' @param object is a class \code{slmfit} object
-#' @param ... additional argurments
+#' @param ... additional arguments
 #' @return the log-likelihood of the model fit in the \code{slmfit} object
 #'
 #' @examples

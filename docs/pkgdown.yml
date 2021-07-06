@@ -1,7 +1,7 @@
-pandoc: 2.11.2
-pkgdown: 1.5.1
+pandoc: 2.11.4
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   sptotal-vignette: sptotal-vignette.html
-last_built: 2021-06-18T14:26Z
+last_built: 2021-07-06T14:01Z
 

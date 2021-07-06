@@ -12,7 +12,7 @@
 #' @param areacol is the name of the column with the areas of the sites. By default, we assume that all sites have equal area, in which
 #' case a vector of 1's is used as the areas.
 #' @param stratacol is the name of the the column with the
-#' stratafication variable, if strata are to be fit separately,
+#' stratification variable, if strata are to be fit separately,
 #' with different covariance parameter estimates.
 #' @param CorModel is the covariance structure. By default, \code{CorModel} is
 #' Exponential but other options include the Spherical and Gaussian.
@@ -26,7 +26,7 @@
 #'   \item the spatial covariance estimates
 #'   \item the regression coefficient estimates
 #'   \item the covariance matrix of the fixed effects
-#'   \item minus two times the log-likeihood of the model
+#'   \item minus two times the log-likelihood of the model
 #'   \item the names of the predictors
 #'   \item the sample size
 #'   \item the name of the covariance model used

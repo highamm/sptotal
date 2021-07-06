@@ -13,7 +13,7 @@
 #' @param wtscol is the name of the column that contains the weights
 #' for prediction. The default setting predicts the population total
 #' @param conf_level is the confidence level for a prediction
-#' interlal, 0.90 by default
+#' interval, 0.90 by default
 #' @param ... further arguments passed to or from other methods.
 #' @return a list with \itemize{
 #'   \item the estimated population total
