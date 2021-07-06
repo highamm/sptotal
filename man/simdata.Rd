@@ -5,7 +5,7 @@
 \alias{simdata}
 \title{Simulated Spatially Autocorrelated Data.}
 \format{
-A data frame object inclding:
+A data frame object including:
 \describe{
   \item{x}{The x-coordinate for each site}
   \item{y}{The y-coordinate for each site}

@@ -13,7 +13,7 @@
 for prediction. The default setting predicts the population total}
 
 \item{conf_level}{is the confidence level for a prediction
-interlal, 0.90 by default}
+interval, 0.90 by default}
 
 \item{...}{further arguments passed to or from other methods.}
 }

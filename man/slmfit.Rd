@@ -31,7 +31,7 @@ be used for the block kriging, and the spatial coordinates for all of the sites.
 case a vector of 1's is used as the areas.}
 
 \item{stratacol}{is the name of the the column with the
-stratafication variable, if strata are to be fit separately,
+stratification variable, if strata are to be fit separately,
 with different covariance parameter estimates.}
 
 \item{CorModel}{is the covariance structure. By default, \code{CorModel} is
@@ -50,7 +50,7 @@ a list of class \code{slmfit} with \itemize{
   \item the spatial covariance estimates
   \item the regression coefficient estimates
   \item the covariance matrix of the fixed effects
-  \item minus two times the log-likeihood of the model
+  \item minus two times the log-likelihood of the model
   \item the names of the predictors
   \item the sample size
   \item the name of the covariance model used

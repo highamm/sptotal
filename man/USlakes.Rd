@@ -15,7 +15,7 @@ A data frame with 1206 rows and 9 variables:
   \item{RVFCGNDBARE_RIP}{riparian zone and vegetation: fraction of ground lacking cover in the riparian zone}
   \item{RVFCGNDWOODY_RIP}{riparian zone and vegetation: fraction of ground cover by woody vegetation in the riparian zone}
   \item{RVFPUNDWOODY_RIP}{riparian zone and vegetation: fraction of understory with nonwoody cover present in the riparian zone}
-  \item{UID}{A unique lake identifier in the EPA lake survey datebases}
+  \item{UID}{A unique lake identifier in the EPA lake survey databases}
 }
 }
 \source{

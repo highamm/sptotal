@@ -9,7 +9,7 @@ loglik.slmfit(object, ...)
 \arguments{
 \item{object}{is a class \code{slmfit} object}
 
-\item{...}{additional argurments}
+\item{...}{additional arguments}
 }
 \value{
 the log-likelihood of the model fit in the \code{slmfit} object

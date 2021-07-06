@@ -34,7 +34,7 @@ geostatSim(
 
 \item{rotate}{rotation of anisotropic axes, default = 90}
 
-\item{extrap}{extra covariance paramter}
+\item{extrap}{extra covariance parameter}
 
 \item{CorModel}{autocorrelation model, default = "Exponential".  Other possibilities are "Spherical".}
 }

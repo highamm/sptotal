@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.slmfit.R
 \name{plot.slmfit}
 \alias{plot.slmfit}
-\title{Plot an Empirical emi-Variogram of Residuals}
+\title{Plot an Empirical Semi-Variogram of Residuals}
 \usage{
 \method{plot}{slmfit}(x, ...)
 }

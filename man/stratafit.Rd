@@ -44,7 +44,7 @@ a list of class \code{slmfit} with \itemize{
   \item the spatial covariance estimates
   \item the regression coefficient estimates
   \item the covariance matrix of the fixed effects
-  \item minus two times the log-likeihood of the model
+  \item minus two times the log-likelihood of the model
   \item the names of the predictors
   \item the sample size
   \item the name of the covariance model used
