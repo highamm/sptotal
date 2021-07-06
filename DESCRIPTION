@@ -26,7 +26,8 @@ Suggests:
     testthat,
     prettydoc,
     rgeos,
-    tibble
+    tibble,
+    gstat
 VignetteBuilder: knitr,
     rmarkdown
 URL: https://highamm.github.io/sptotal/index.html
