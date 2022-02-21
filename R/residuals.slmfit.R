@@ -50,7 +50,7 @@ residuals.slmfit <- function(object, type = "raw", cross.validation = FALSE, ...
     resid.vec <- cdd.out[ ,2]
   }
   if (type == "normalized") {
-    cholcov <- chol(object$FPBKpredobj$covmatsamp)
+    cholcov <- t(chol(object$FPBKpredobj$covmatsamp))
     resid.vec <- forwardsolve(cholcov, resid.vec)
   }
   return(resid.vec)
