@@ -1,3 +1,10 @@
+# sptotal 1.0.1
+
+## Bug fixes
+
+* Fixed a bug that affected the proper computation of normalized residuals
+* Fixed a bug that affected the proper computation of the standard errors of the fixed effect estimates
+
 # sptotal 1.0.0
 
 ## Major Changes
