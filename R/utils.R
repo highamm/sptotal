@@ -233,8 +233,9 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
       sum(log(svd(covbi)$d))
   }
 
-
-
+  # scale profiled quantities by the sill
+  covbi <- sill * covbi
+  covb <- sill * covb
   Sigma <- sill * Sigma
   parms.est <- c(nug_prop * sill, (1 - nug_prop) * sill,
     range.effect)
