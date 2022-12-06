@@ -12,7 +12,9 @@
 
 
 GR2 <- function(object) {
- if (class(object) != "slmfit") return("Not a slmfit object")
+
+
+ if (!inherits(object, "slmfit")) return("Not a slmfit object")
   W <- object$DesignMat
   Vi <- object$FPBKpredobj$covmatsampi
   z <- object$Density

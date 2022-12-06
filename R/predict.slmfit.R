@@ -48,7 +48,7 @@ predict.slmfit <- function(object, wtscol = NULL,
 
   ## check to make sure object is of class `slmfit`
 
-  if (class(object) != "slmfit") {
+  if (!inherits(object, "slmfit")) {
     stop("object must be of class 'slmfit' generated from the 'slmfit' function")
   }
   ## if wtscol is left out, we are predicting the population total.

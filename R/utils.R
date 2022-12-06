@@ -78,7 +78,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
     m2loglik <- m2LL.FPBK.nodet(theta = theta,
       zcol = response[ind.sa],
       XDesign = as.matrix(designmatrixsa),
-      xcoord = xcoordsvec[ind.sa], ycoord = ycoordsvec[ind.sa],
+      distmat = distmat,
       CorModel = CorModel,
       estmethod = "ML")
 
@@ -102,7 +102,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
       m2loglik[i] <- m2LL.FPBK.nodet(theta = theta[i, ],
         zcol = response[ind.sa],
         XDesign = as.matrix(designmatrixsa),
-        xcoord = xcoordsvec[ind.sa], ycoord = ycoordsvec[ind.sa],
+        distmat = distmat,
         CorModel = CorModel,
         estmethod = estmethod)
     }
@@ -113,7 +113,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
     parmest <- optim(theta[max.lik.obs, ], m2LL.FPBK.nodet,
       zcol = response[ind.sa],
       XDesign = as.matrix(designmatrixsa),
-      xcoord = xcoordsvec[ind.sa], ycoord = ycoordsvec[ind.sa],
+      distmat = distmat,
       method = "Nelder-Mead",
       CorModel = CorModel, estmethod = estmethod)
 
@@ -253,8 +253,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
 #' @param theta is the parameter vector of (nugget, partialsill, range)
 #' @param zcol is the response vector of densities
 #' @param XDesign is the design matrix containing the covariates used to predict animal or plant abundance (including a column of 1's for the intercept).
-#' @param xcoord is a vector of the x spatial coordinates (in UTM)
-#' @param ycoord is a vector of the y spatial coordinates (in UTM)
+#' @param distmat is the distance matrix of the sampled sites
 #' @param CorModel is the geostatistical spatial correlation model to be used. See the \code{corModels} documentation for possible models to use.
 #' @param estmethod is either "REML" for restricted maximum likelihood or "ML" for maximum likelihood.
 
@@ -263,7 +262,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
 #' @importFrom stats glm
 #' @importFrom stats rbinom
 
-m2LL.FPBK.nodet <- function(theta, zcol, XDesign, xcoord, ycoord,
+m2LL.FPBK.nodet <- function(theta, zcol, XDesign, distmat,
   CorModel, estmethod) {
   ## Exponential
 
@@ -275,10 +274,7 @@ m2LL.FPBK.nodet <- function(theta, zcol, XDesign, xcoord, ycoord,
   nug_prop <- as.numeric(exp(theta[1]) / (1 + exp(theta[1])))
   range <- as.numeric(exp(theta[2]))
 
-  ## construct the distance matrix
-  DM <- matrix(0, n, n)
-  DM[lower.tri(DM)] <- stats::dist(as.matrix(cbind(xcoord,ycoord)))
-  Dismat <- DM + t(DM)
+  Dismat <- distmat
 
   ## construct spatial autocorrelation matrix using exponential covariance structure
   if (CorModel == "Exponential") {
