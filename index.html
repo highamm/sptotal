@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">sptotal</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,7 +60,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/highamm/sptotal/">
+  <a href="https://github.com/highamm/sptotal/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -83,93 +79,104 @@
   <div class="contents col-md-9">
 
 <p><code>sptotal</code> implements finite population block kriging (Ver Hoef (2008)), a geostatistical approach to predicting means and totals of count data for finite populations.</p>
-<p>See <a href="https://highamm.github.io/sptotal/index.html">sptotal’s Website</a> for more information.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<p>See <a href="https://highamm.github.io/sptotal/index.html" class="external-link">sptotal’s Website</a> for more information.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p><code>sptotal</code> can be installed from CRAN</p>
-<pre class="{r}"><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("sptotal")</a></code></pre>
+<pre class="{r}"><code><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"sptotal"</span><span class="op">)</span></span></code></pre>
 <p>or using <code>devtools</code></p>
-<pre class="{r}"><code><a href="https://rdrr.io/r/base/library.html">library(devtools)
-install_git("https://github.com/highamm/sptotal.git")</a></code></pre>
+<pre class="{r}"><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
+<span><span class="fu">install_git</span><span class="op">(</span><span class="st">"https://github.com/highamm/sptotal.git"</span><span class="op">)</span></span></code></pre>
 </div>
-<div id="simple-example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#simple-example" class="anchor"></a>Simple Example</h2>
+<div class="section level2">
+<h2 id="simple-example">Simple Example<a class="anchor" aria-label="anchor" href="#simple-example"></a>
+</h2>
 <p>The <code>sptotal</code> package can be used for spatial prediction in settings where there are a finite number of sites and some of these sites were not sampled. Note that, to keep this example simple, we are simulating response values that are spatially independent. In a real example, we assume that there is some spatial dependence in the response.</p>
-<pre class="{r}"><code><a href="https://rdrr.io/r/base/Random.html">set.seed(102910)
-spatial_coords &lt;- expand.grid(1:10, 1:10)
-toy_df &lt;- data.frame(xco = spatial_coords[ ,1],
-yco = spatial_coords[ ,2], counts = sample(c(rpois(50, 15),
-rep(NA, 50)), size = 100, replace = TRUE))
-
-mod &lt;- slmfit(formula = counts ~ 1, xcoordcol = "xco",
-ycoordcol = "yco", data = toy_df)
-summary(mod)
-
-pred &lt;- predict(mod)</a></code></pre>
+<pre class="{r}"><code><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">102910</span><span class="op">)</span></span>
+<span><span class="va">spatial_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">toy_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>xco <span class="op">=</span> <span class="va">spatial_coords</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span>,</span>
+<span>yco <span class="op">=</span> <span class="va">spatial_coords</span><span class="op">[</span> ,<span class="fl">2</span><span class="op">]</span>, counts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">15</span><span class="op">)</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/slmfit.html">slmfit</a></span><span class="op">(</span>formula <span class="op">=</span> <span class="va">counts</span> <span class="op">~</span> <span class="fl">1</span>, xcoordcol <span class="op">=</span> <span class="st">"xco"</span>,</span>
+<span>ycoordcol <span class="op">=</span> <span class="st">"yco"</span>, data <span class="op">=</span> <span class="va">toy_df</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></code></pre>
 <p>We can look at the predictions with</p>
-<pre class="{r}"><code>pred$Pred_df[1:6, c("xco", "yco", "counts", "counts_pred_count")]</code></pre>
+<pre class="{r}"><code><span><span class="va">pred</span><span class="op">$</span><span class="va">Pred_df</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"xco"</span>, <span class="st">"yco"</span>, <span class="st">"counts"</span>, <span class="st">"counts_pred_count"</span><span class="op">)</span><span class="op">]</span></span></code></pre>
 </div>
-<div id="methods-and-basic-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#methods-and-basic-functions" class="anchor"></a>Methods and Basic Functions</h2>
+<div class="section level2">
+<h2 id="methods-and-basic-functions">Methods and Basic Functions<a class="anchor" aria-label="anchor" href="#methods-and-basic-functions"></a>
+</h2>
 <p><code>sptotal</code> Main Functions:</p>
-<p><code><a href="reference/slmfit.html">slmfit()</a></code> fits a spatial linear model to the response on the observed/sampled sites. \code{check.variogram} can be used to construct an empirical variogram of the residuals of the spatial linear model.</p>
+<p><code><a href="reference/slmfit.html">slmfit()</a></code> fits a spatial linear model to the response on the observed/sampled sites.  can be used to construct an empirical variogram of the residuals of the spatial linear model.</p>
 <p><code><a href="reference/predict.slmfit.html">predict.slmfit()</a></code> uses the spatial linear model fitted with <code><a href="reference/slmfit.html">slmfit()</a></code> and finite population block kriging to predict counts/densities at unobserved locations. A prediction for the total count as well as a prediction variance are given by default.</p>
 <p>For more details on how to use these functions, please see the Vignette by running</p>
-<pre class="{r}"><code><a href="https://rdrr.io/r/utils/browseVignettes.html">browseVignettes("sptotal")</a></code></pre>
+<pre class="{r}"><code><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"sptotal"</span><span class="op">)</span></span></code></pre>
 <p>and clicking <code>HTML</code>.</p>
 <p>The methods in this package are based on the following reference:</p>
-<p>Ver Hoef, Jay M. “Spatial methods for plot-based sampling of wildlife populations.” \emph{Environmental and Ecological Statistics} 15, no. 1 (2008): 3-13.</p>
+<p>Ver Hoef, Jay M. “Spatial methods for plot-based sampling of wildlife populations.”  15, no. 1 (2008): 3-13.</p>
 </div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h2>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
 <p>To cite this package in the literature, run the following line:</p>
-<pre class="{r}"><code><a href="https://rdrr.io/r/utils/citation.html">citation("sptotal")</a></code></pre>
+<pre class="{r}"><code><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"sptotal"</span><span class="op">)</span></span></code></pre>
 </div>
 
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=sptotal">https://​cloud.r-project.org/​package=sptotal</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/highamm/sptotal/">https://​github.com/​highamm/​sptotal/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/highamm/sptotal/issues">https://​github.com/​highamm/​sptotal/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=sptotal" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/highamm/sptotal/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/highamm/sptotal/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-2" class="external-link">GPL-2</a></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing sptotal</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Higham Matt <br><small class="roles"> Maintainer, author </small>  </li>
-<li>Ver Hoef Jay <br><small class="roles"> Author </small>  </li>
-<li>Frank Bryce <br><small class="roles"> Author </small>  </li>
-<li>Michael Dumelle <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3393-5529" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Matt Higham <br><small class="roles"> Maintainer, author </small>  </li>
+<li>Jay Ver Hoef <br><small class="roles"> Author </small>  </li>
+<li>Bryce Frank <br><small class="roles"> Author </small>  </li>
+<li>Michael Dumelle <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3393-5529" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Higham Matt, Ver Hoef Jay, Frank Bryce, Michael Dumelle.</p>
+  <p></p>
+<p>Developed by Matt Higham, Jay Ver Hoef, Bryce Frank, Michael Dumelle.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -177,6 +184,8 @@ pred &lt;- predict(mod)</a></code></pre>
 
   
 
+
+  
 
   </body>
 </html>
