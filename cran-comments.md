@@ -4,7 +4,8 @@
 
 ## Test Environments
 
-- local test on Mac OS X (`R` 4.2.1)
+- local test on Mac OS X (`R` 4.2.1).
+- R Hub with `devtools::check_rhub()` on December 6.
 - win-builder, both the development and release versions of `R` with `devtools::check_win_release()` and `devtools::check_win_devel()` on December 6.
 
 ## Check Results for R CMD
