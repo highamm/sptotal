@@ -4,7 +4,7 @@
 \alias{m2LL.FPBK.nodet}
 \title{Covariance Parameter Estimation Function.}
 \usage{
-m2LL.FPBK.nodet(theta, zcol, XDesign, xcoord, ycoord, CorModel, estmethod)
+m2LL.FPBK.nodet(theta, zcol, XDesign, distmat, CorModel, estmethod)
 }
 \arguments{
 \item{theta}{is the parameter vector of (nugget, partialsill, range)}
@@ -13,9 +13,7 @@ m2LL.FPBK.nodet(theta, zcol, XDesign, xcoord, ycoord, CorModel, estmethod)
 
 \item{XDesign}{is the design matrix containing the covariates used to predict animal or plant abundance (including a column of 1's for the intercept).}
 
-\item{xcoord}{is a vector of the x spatial coordinates (in UTM)}
-
-\item{ycoord}{is a vector of the y spatial coordinates (in UTM)}
+\item{distmat}{is the distance matrix of the sampled sites}
 
 \item{CorModel}{is the geostatistical spatial correlation model to be used. See the \code{corModels} documentation for possible models to use.}
 

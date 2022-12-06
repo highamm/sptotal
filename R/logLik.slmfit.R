@@ -13,7 +13,7 @@
 
 loglik.slmfit <- function(object, ...) {
 
-  if (class(object) != "slmfit") return("Not a slmfit object")
+  if (!inherits(object, "slmfit")) return("Not a slmfit object")
   0.5 * (-object$minus2loglike)
 
 }

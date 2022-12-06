@@ -28,10 +28,10 @@ in the \code{sptotal} package: \code{corModelExponential()},
 }
 \section{Functions}{
 \itemize{
-\item \code{corModelExponential}: Exponential Correlation Structure
+\item \code{corModelExponential()}: Exponential Correlation Structure
 
-\item \code{corModelGaussian}: Gaussian Correlation Structure
+\item \code{corModelGaussian()}: Gaussian Correlation Structure
 
-\item \code{corModelSpherical}: Spherical Correlation Structure
+\item \code{corModelSpherical()}: Spherical Correlation Structure
+
 }}
-
