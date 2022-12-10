@@ -1,7 +1,7 @@
 Package: sptotal
 Type: Package
 Title: Predicting Totals and Weighted Sums from Spatial Data
-Date: 2021-07-01
+Date: 2022-12-09
 Version: 1.0.1
 Authors@R: c(
     person("Matt", "Higham", email = "mhigham@stlawu.edu", role = c("cre", "aut")),

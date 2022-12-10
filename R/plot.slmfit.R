@@ -23,7 +23,6 @@
 #' strataobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset, stratacol = "strata",
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #' plot(strataobj[[1]])
-#' plot(strataobj[[2]])
 #' @export
 
 plot.slmfit <- function(x, ...) {
