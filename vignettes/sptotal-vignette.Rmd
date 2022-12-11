@@ -291,106 +291,26 @@ Recall that the true total for this small area was 273.4. We see that this is cl
 
 ## Moose Abundance from Aerial Surveys
 
-The simulated data example assumes that the coordinates are a Transverse Mercator projection (TM), that the vector of the response is numeric and has `NA` values for sites that were not sampled, and that the areas of each site sampled are all the same. If this isn't the case for the data set you are working with, the following moose abundance example can help prepare your data for the functions in `sptotal`.
-
-For this example, we consider a data set on moose abundance in Alaska obtained from [Alaska Department of Fish and Game, Division of Wildlife Conservation](https://www.adfg.alaska.gov/index.cfm?adfg=divisions.wcoverview). Each observation corresponds to a moose counted at a particular site, but operational constraints do not permit all sites to be counted. Begin by loading the data into `R`. Unlike the simulated data, `AKmoose` is an `sp` object. In order to use the functions in this package, we need to extract the coordinates and relevant data from the `sp` object and put this information into a rectangular data frame. The easy part is getting the data; the more difficult part is getting the coordinates into a usable form. 
-
-### Spatial Coordinates
-
-Our goal is to append the x and y-coordinates to the data frame with the survey data. 
+The simulated data example assumes that the coordinates are a Transverse Mercator projection (TM), that the vector of the response is numeric and has `NA` values for sites that were not sampled, and that the areas of each site sampled are all the same. For this example, we consider a data set on moose abundance in Alaska obtained from [Alaska Department of Fish and Game, Division of Wildlife Conservation](https://www.adfg.alaska.gov/index.cfm?adfg=divisions.wcoverview). Each observation corresponds to a moose counted at a particular site, but operational constraints do not permit all sites to be counted. We begin by loading the data into `R`. 
 
 ```{r, message = FALSE}
-data(AKmoose)
+data(AKmoose_df)
+AKmoose_df
 ```
 
-We want to get the centroids of each of the sites and combine the centroids with the survey data. To obtain centroids, we use the `rgeos` package.
+Some of the variables of interest include
 
-```{r, message = FALSE}
-require(rgeos)
-centroids <- data.frame(ID = AKmoose@data,
-  x = rgeos::gCentroid(AKmoose, byid=TRUE)@coords[ ,'x'],
-  y = rgeos::gCentroid(AKmoose, byid=TRUE)@coords[ ,'y'])
-```
-
-Next, for most spatial prediction, we want to use a transverse Mercator projection instead of latitude-longitude so that physical distance between two sites is accurately represented. The `LLtoTM()` function in this package provides a convenient way to convert latitude/longitude coordinates into user-defined transverse Mercator coordinates. 
-
-```{r}
-xy <- LLtoTM(mean(centroids$x), centroids$y, centroids$x)$xy
-```
-
-Transverse Mercator is based on minimizing distortion from a central meridian: the first argument specifies that the central meridian should be the mean longitude value in the data set. The second and third arguments to this function give the centroid latitude values and centroid longitude values. Finally, we add the transformed coordinates to our data frame with the survey data. We first extract the survey data from our `sp` object using
-
-```{r}
-moose_df <- AKmoose@data ## name the data set moose_df
-head(moose_df) ## look at the first 6 observations
-```
-
-We see that, in addition to the `total` column, which has counts of moose, the data set also has `strat`, a covariate that is either `L` for Low or `M` for medium, and `surveyed`, which is a `0` if the site wasn't sampled and a `1` if the site was sampled. 
-
-And then the transformed coordinates can be added to the survey data frame.
-
-```{r}
-moose_df$x = xy[ ,'x']
-moose_df$y = xy[ ,'y']
-```
-
-It might be helpful to compare the latitude and longitude coordinates of the original data frame to the transformed coordinates in the new data frame to make sure that the transformation seems reasonable:
-
-```{r, results = "hide"}
-cbind(moose_df$x, moose_df$y, centroids$x, centroids$y)
-```
-
-Now, the `moose_df` data frame is in a more workable form for the `sptotal` package. However, there are still a couple of issues involving how the count data is stored and which sites were sampled that may be somewhat common in real data sets, which we address next.
-
-### Count Vector Specifications
-
-Let's look specifically at the counts in this moose data set in the `total` column:
-
-```{r}
-head(moose_df)
-str(moose_df$total)
-```
-
-The first issue is that our original `sp` object had `total` as a factor, which `R` treats as a categorical variable. `total` should be numeric, and, in fact, the variable `surveyed` has the same issue. If we were to keep `total` as a factor and try to run `slmfit`, we would get a convenient error message, reminding us to make sure that our response variable is numeric, not a factor or character:
-
-```{r, error = TRUE, purl = FALSE}
-slmfit_out_moose <- slmfit(formula = total ~ strat, 
-  data = moose_df, xcoordcol = 'x', ycoordcol = 'y',
-  CorModel = "Exponential")
-```
-
-We first want to convert these two columns into numeric variables instead of factors. There are packages that can help with this conversion, like `dplyr` and `forcats`, but we opt for base `R` functions here.
-
-```{r}
-moose_df$surveyed <- as.numeric(levels(moose_df$surveyed))[moose_df$surveyed]
-moose_df$total <- as.numeric(levels(moose_df$total))[moose_df$total]
-```
-
-This may not be an issue with the data frame you are working with.. The `str()` command will tell you whether your variables are coded as factors or numeric.
-
-After conversion to numeric variables, note that the first 6 observations for the `total` variable are all 0, but, the first two sites and the fourth, fifth, and sixth sites weren't actually sampled. Without some modification to this variable, `sptotal` wouldn't be able to differentiate between zeroes that were zero due to a site really having 0 counts or 0 density at the site and zeroes that were zero due to the site not being sampled. The following code converts the `total` variable on sites that were __not__ surveyed (`surveyed` = `0`) to `NA`. 
-
-```{r}
-moose_df$total[moose_df$surveyed == 0] <- NA
-head(moose_df)
-```
-
-The `total` column now has `NA` for any site that was not sampled.
+* `total`, which has counts of moose (and is `NA` for all sites that were not surveyed).
+* `strat`, a covariate that is either `L` for Low or `M` for medium.
+* `surveyed`, which is a `0` if the site wasn't sampled and a `1` if the site was sampled.
+* `x` and `y`, the spatial coordinates for the centroids of the sites (in a user-defined Trans-Mercator projection).
 
 ### Fitting the Model and Obtaining Predictions
 
-Now that
-
-* we have x and y coordinates in TM format,
-
-* our response variable is numeric and not a factor, and
-
-* the column with our counts has `NA` values for sites that were not surveyed,
-
-we can proceed to use the functions in `sptotal` in a similar way to how the functions were used for the simulated data. To get a sense of the data, we first give a plot of the raw observed counts:
+We can now proceed to use the functions in `sptotal` in a similar way to how the functions were used for the simulated data. To get a sense of the data, we first give a plot of the raw observed counts:
 
 ```{r}
-ggplot(data = moose_df, aes(x = x, y = y)) +
+ggplot(data = AKmoose_df, aes(x = x, y = y)) +
   geom_point(aes(colour = total), size = 4) +
   scale_colour_viridis_c() +
   theme_bw()
@@ -400,13 +320,16 @@ where the grey circles are sites that have not been sampled.
 
 ```{r, results = "hide", fig.keep = "none"}
 slmfit_out_moose <- slmfit(formula = total ~ strat, 
-  data = moose_df, xcoordcol = 'x', ycoordcol = 'y',
+  data = AKmoose_df, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential")
 summary(slmfit_out_moose)
 plot(slmfit_out_moose)
-qplot(residuals(slmfit_out_moose, cross.validation = TRUE),
-      bins = 20) +
-  xlab("CV Residuals")
+
+resid_df <- data.frame(residuals = residuals(slmfit_out_moose,
+                                             cross.validation = TRUE))
+ggplot(data = resid_df, aes(x = residuals)) +
+  geom_histogram(colour = "black", fill = "white", bins  = 20) +
+  labs(x = "CV Residuals")
 
 pred_moose <- predict(slmfit_out_moose)
 pred_moose
@@ -421,7 +344,7 @@ Putting `strat` as a predictor in the model formula means that we are allowing e
 
 ```{r}
 slmfit_out_moose_strat <- slmfit(formula = total ~ 1, 
-  data = moose_df, xcoordcol = 'x', ycoordcol = 'y',
+  data = AKmoose_df, xcoordcol = 'x', ycoordcol = 'y',
   stratacol = "strat",
   CorModel = "Exponential")
 summary(slmfit_out_moose_strat)
@@ -442,21 +365,21 @@ plot(slmfit_out_moose_strat[[1]])
 plot(slmfit_out_moose_strat[[2]])
 ```
 
-We see that the fitted covariance parameters for each strata do look different in this example, as the scale on semi-variograms changes drastically. Therefore, for this example, it is probably more reasonable to allow the strata to have different covariance parameters and use the `stratacol` argument.
+We see that the fitted covariance parameters for each strata do look different in this example, as the scale on the semi-variograms changes drastically. Therefore, for this example, it is probably more reasonable to allow the strata to have different covariance parameters and use the `stratacol` argument.
 
 ### Sites with Different Areas
 
 Finally, throughout all of the above analyses, we have assumed that the areas of each site were equal. Though this assumption is not accurate for the moose data, due to slightly differing areas based on differing latitudes and longitudes, the assumption approximately holds so that any differences in the prediction that incorporates area is negligible. But, suppose we had sites with very different areas. To showcase how to incorporate site area into the functions in this package, let's first create a "fake" area variable that has the first 700 sites in the region have an area of 1 square kilometer and has the last 160 sites in the region have an area of 2 square kilometers. 
 
 ```{r}
-moose_df$fake_area <- c(rep(1, 700), rep(2, 160))
+AKmoose_df$fake_area <- c(rep(1, 700), rep(2, 160))
 ```
 
 For a spatial model, it makes much more sense to use density as the response variable instead of raw counts if the areas of the sites in the model are drastically different. By supplying an `areacol` argument to `slmfit`, the function converts counts to densities, and then gives regression parameters and covariance parameters for the _density_.
 
 ```{r}
 slmfit_out_moose_area <- slmfit(formula = total ~ strat, 
-  data = moose_df, xcoordcol = 'x', ycoordcol = 'y',
+  data = AKmoose_df, xcoordcol = 'x', ycoordcol = 'y',
   CorModel = "Exponential", areacol = 'fake_area')
 summary(slmfit_out_moose_area)
 ```

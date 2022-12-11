@@ -24,19 +24,24 @@
 #' A data set that can be used with the \code{sptotal} package. In
 #' this example, the counts are of moose on 860 sites of equal area.
 #'
-#' @format A SpatialPolygonsDataFrame object in the format of the (\code{sp}) package. The data frame \code{AKmoose@data} contains 860 rows and 4 columns:
+#' @format A dataframe object. The data frame \code{AKmoose_df} contains 860 rows and 4 columns:
 #' \describe{
-#'   \item{CENTRLAT}{The latitude of the centroid for each site}
-#'   \item{CENTRLON}{The latitude of the centroid for each site}
-#'   \item{STRAT}{A stratification variable}
-#'   \item{TOTAL}{The total moose count on each site}
+#'   \item{elev_mean}{The mean elevation for each sitefor each site}
+#'   \item{strat}{A stratification variable (either L or M)}
+#'   \item{surveyed}{Assigned a 1 if the site was surveyed and a 0 otherwise}
+#'   \item{total}{The total moose count on each site (\code{NA} if the site was not surveyed)}
+#'   \item{x}{the x-coordinate centroid of the site (TM)}
+#'   \item{y}{the y-coordinate centroid of the site (TM)}
+#'   \item{lon}{the longitudinal centroid of the site}
+#'   \item{lat}{the latitudinal centroid of the site}
+#'
 #' }
 #' @source \href{http://www.adfg.alaska.gov/index.cfm?adfg=hunting.main}{Alaska Department of Fish and Game, Division of Wildlife Conservation} has released this data set under the CC0 (creative commons) license. To the extent possible under law, Alaska Department of Fish and Game, Division of Wildlife Conservation waives all copyright and related or neighboring rights to An Alaskan GSPE (Geospatial Population Estimator) Survey of Moose, AKmoose.rda. This work is published from: United States.
 #' @examples
-#' data(AKmoose)
-#' names(AKmoose@data)
-#' summary(AKmoose@data)
-"AKmoose"
+#' data(AKmoose_df)
+#' names(AKmoose_df)
+#' summary(AKmoose_df)
+"AKmoose_df"
 
 #' Simulated Spatially Autocorrelated Data.
 #'

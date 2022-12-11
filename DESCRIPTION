@@ -25,10 +25,8 @@ Suggests:
     knitr,
     testthat,
     prettydoc,
-    rgeos,
     tibble,
-    gstat,
-    sp
+    gstat
 VignetteBuilder: knitr,
     rmarkdown
 URL: https://highamm.github.io/sptotal/index.html
