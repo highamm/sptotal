@@ -49,7 +49,6 @@ print.summary.slmfit <- function(x,
   print(x$CovarianceParms)
 
   cat("\nGeneralized R-squared:", x$GeneralizedR2,"\n")
-
 }
 
 #' Prints the fitted coefficient table of a fitted spatial linear model.

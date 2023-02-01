@@ -1,7 +1,7 @@
 ---
 title: "Inference for Totals and Weighted Sums from Finite Spatial Populations"
 author:
-  - Matt Higham, Jay M. Ver Hoef, Bryce M. Frank
+  - Matt Higham, Jay M. Ver Hoef, Bryce M. Frank, Michael Dumelle
 date: "`r Sys.Date()`"
 output:
   prettydoc::html_pretty:
@@ -295,7 +295,6 @@ The simulated data example assumes that the coordinates are a Transverse Mercato
 
 ```{r, message = FALSE}
 data(AKmoose_df)
-AKmoose_df
 ```
 
 Some of the variables of interest include
