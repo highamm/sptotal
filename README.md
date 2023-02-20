@@ -1,8 +1,18 @@
-`sptotal` implements finite population block kriging (Ver Hoef (2008)), a geostatistical approach to predicting means and totals of count data for finite populations.
+`sptotal` implements finite population block kriging (FPBK, Ver Hoef (2008)), a geostatistical approach to predicting means and totals of count data for finite populations.
 
-See [sptotal's Website](https://highamm.github.io/sptotal/index.html) for more information.
+See <a href="https://highamm.github.io/sptotal/index.html" target="_blank"> sptotal's Website </a> for more information.
 
-## Installation
+## Statement of Need
+
+The primary purpose of ``sptotal`` is to provide an implementation of the Finite Population Block Kriging (FPBK) methods developed in @ver2002sampling and @ver_hoef_spatial_2008. The method is useful when
+
+* there are a finite number of spatial locations (or sites) 
+* only a subset of the spatial locations are sampled
+* there is expected to be some spatial correlation
+
+Examples of settings where FPBK is useful include wildlife abundance surveys performed on a finite number of spatial locations. In these surveys, it is not uncommon to only sample a subset of the region.
+
+## Installation Instructions
 
 `sptotal` can be installed from CRAN
 
@@ -54,17 +64,13 @@ population block kriging to predict counts/densities at unobserved locations.
 A prediction for the total count as well as a prediction variance
 are given by default.
 
-For more details on how to use these functions, please see the Vignette by running
+For more details on how to use these functions and for a real world example applying the methods to a moose data set, please see the Vignette at <a href="https://highamm.github.io/sptotal/articles/sptotal-vignette.html
+" target="_blank">https://highamm.github.io/sptotal/articles/sptotal-vignette.html </a>.
 
-```{r}
-browseVignettes("sptotal")
-```
+## Community Guidelines
 
-and clicking `HTML`.
-
-The methods in this package are based on the following reference:
-
-Ver Hoef, Jay M. "Spatial methods for plot-based sampling of wildlife populations." \emph{Environmental and Ecological Statistics} 15, no. 1 (2008): 3-13.
+We encourage users submit GitHub issues and enhancement requests at <a href="https://github.com/highamm/sptotal
+" target="_blank">https://github.com/highamm/sptotal</a> so we may continue to improve ``sptotal``.
 
 ## Citation
 
@@ -74,5 +80,7 @@ To cite this package in the literature, run the following line:
 citation("sptotal")
 ```
 
+The methods in this package are based on the following reference:
 
+Ver Hoef, Jay M. "Spatial methods for plot-based sampling of wildlife populations." \emph{Environmental and Ecological Statistics} 15, no. 1 (2008): 3-13.
 
