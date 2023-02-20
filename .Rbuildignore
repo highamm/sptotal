@@ -5,6 +5,7 @@
 ^cran-comments\.md$
 ^_pkgdown\.yml$
 ^docs$
+^inst/paper$
 ^pkgdown$
 ^\.github$
 ^CRAN-RELEASE$
