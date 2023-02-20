@@ -21,7 +21,11 @@ GR2 <- function(object) {
   betahat <- object$CoefficientEsts
   muhat <- sum(Vi %*% z) / sum(Vi)
   ones <- matrix(1, ncol = 1, nrow = length(z))
-  1 - t(z - W %*% betahat) %*% Vi %*% (z - W %*% betahat) /
+  gr2 <- 1 - t(z - W %*% betahat) %*% Vi %*% (z - W %*% betahat) /
     t(z - ones %*% muhat) %*% Vi %*% (z - ones %*% muhat)
+  if (gr2 < 1e-8) {
+    gr2 <- 0
+  }
+  as.vector(gr2)
 }
 

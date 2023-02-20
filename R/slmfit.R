@@ -395,10 +395,3 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     return(obj)
   }
 }
-
-#library(tibble)
-# ex <- tibble(exampledataset, facttest = c(rep("A", 21), rep("B", 19)), pred1copy = pred1)
-# slmobj <- slmfit(formula = counts ~ pred1 + facttest, data = ex,
-# xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
-#   # summary(slmobj)
-#   #
