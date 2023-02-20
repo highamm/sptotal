@@ -78,10 +78,21 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<p><code>sptotal</code> implements finite population block kriging (Ver Hoef (2008)), a geostatistical approach to predicting means and totals of count data for finite populations.</p>
-<p>See <a href="https://highamm.github.io/sptotal/index.html" class="external-link">sptotal’s Website</a> for more information.</p>
+<p><code>sptotal</code> implements finite population block kriging (FPBK, Ver Hoef (2008)), a geostatistical approach to predicting means and totals of count data for finite populations.</p>
+<p>See <a href="https://highamm.github.io/sptotal/index.html" target="_blank" class="external-link"> sptotal’s Website </a> for more information.</p>
 <div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<h2 id="statement-of-need">Statement of Need<a class="anchor" aria-label="anchor" href="#statement-of-need"></a>
+</h2>
+<p>The primary purpose of <code>sptotal</code> is to provide an implementation of the Finite Population Block Kriging (FPBK) methods developed in @ver2002sampling and @ver_hoef_spatial_2008. The method is useful when</p>
+<ul>
+<li>there are a finite number of spatial locations (or sites)</li>
+<li>only a subset of the spatial locations are sampled</li>
+<li>there is expected to be some spatial correlation</li>
+</ul>
+<p>Examples of settings where FPBK is useful include wildlife abundance surveys performed on a finite number of spatial locations. In these surveys, it is not uncommon to only sample a subset of the region.</p>
+</div>
+<div class="section level2">
+<h2 id="installation-instructions">Installation Instructions<a class="anchor" aria-label="anchor" href="#installation-instructions"></a>
 </h2>
 <p><code>sptotal</code> can be installed from CRAN</p>
 <pre class="{r}"><code><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"sptotal"</span><span class="op">)</span></span></code></pre>
@@ -113,17 +124,20 @@
 <p><code>sptotal</code> Main Functions:</p>
 <p><code><a href="reference/slmfit.html">slmfit()</a></code> fits a spatial linear model to the response on the observed/sampled sites.  can be used to construct an empirical variogram of the residuals of the spatial linear model.</p>
 <p><code><a href="reference/predict.slmfit.html">predict.slmfit()</a></code> uses the spatial linear model fitted with <code><a href="reference/slmfit.html">slmfit()</a></code> and finite population block kriging to predict counts/densities at unobserved locations. A prediction for the total count as well as a prediction variance are given by default.</p>
-<p>For more details on how to use these functions, please see the Vignette by running</p>
-<pre class="{r}"><code><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"sptotal"</span><span class="op">)</span></span></code></pre>
-<p>and clicking <code>HTML</code>.</p>
-<p>The methods in this package are based on the following reference:</p>
-<p>Ver Hoef, Jay M. “Spatial methods for plot-based sampling of wildlife populations.”  15, no. 1 (2008): 3-13.</p>
+<p>For more details on how to use these functions and for a real world example applying the methods to a moose data set, please see the Vignette at <a href="https://highamm.github.io/sptotal/articles/sptotal-vignette.html%0A" target="_blank" class="external-link">https://highamm.github.io/sptotal/articles/sptotal-vignette.html </a>.</p>
+</div>
+<div class="section level2">
+<h2 id="community-guidelines">Community Guidelines<a class="anchor" aria-label="anchor" href="#community-guidelines"></a>
+</h2>
+<p>We encourage users submit GitHub issues and enhancement requests at <a href="https://github.com/highamm/sptotal%0A" target="_blank" class="external-link">https://github.com/highamm/sptotal</a> so we may continue to improve <code>sptotal</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>To cite this package in the literature, run the following line:</p>
 <pre class="{r}"><code><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"sptotal"</span><span class="op">)</span></span></code></pre>
+<p>The methods in this package are based on the following reference:</p>
+<p>Ver Hoef, Jay M. “Spatial methods for plot-based sampling of wildlife populations.”  15, no. 1 (2008): 3-13.</p>
 </div>
 
   </div>
