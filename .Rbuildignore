@@ -1,7 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.travis.yml$
-^\.travis\.yml$
 ^doc$
 ^Meta$
 ^cran-comments\.md$
