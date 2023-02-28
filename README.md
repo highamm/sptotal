@@ -4,7 +4,7 @@ See <a href="https://highamm.github.io/sptotal/index.html" target="_blank"> spto
 
 ## Statement of Need
 
-The primary purpose of ``sptotal`` is to provide an implementation of the Finite Population Block Kriging (FPBK) methods developed in @ver2002sampling and @ver_hoef_spatial_2008. The method is useful when
+The primary purpose of ``sptotal`` is to provide an implementation of the Finite Population Block Kriging (FPBK) methods developed in Ver Hoef (2002) and Ver Hoef (2008). The method is useful when
 
 * there are a finite number of spatial locations (or sites) 
 * only a subset of the spatial locations are sampled
@@ -80,7 +80,10 @@ To cite this package in the literature, run the following line:
 citation("sptotal")
 ```
 
-The methods in this package are based on the following reference:
+The methods in this package are based on the following references:
 
-Ver Hoef, Jay M. "Spatial methods for plot-based sampling of wildlife populations." \emph{Environmental and Ecological Statistics} 15, no. 1 (2008): 3-13.
+Ver Hoef, J. M. (2008). "Spatial methods for plot-based sampling of wildlife populations." _Environmental and Ecological Statistics_, __15__(1), 3–13.
+
+Ver Hoef, J. M. (2002). "Sampling and geostatistics for spatial data." _Ecoscience_, __9__(2), 152– 161.
+
 
