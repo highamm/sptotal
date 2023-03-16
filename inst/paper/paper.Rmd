@@ -105,7 +105,7 @@ predict(moose_mod_wts, wtscol = "wts")
 
 Design-based analysis and k-nearest neighbors [@fix1985discriminatory] are two approaches that can be used to compute a mean or total in a finite population. @dumelle2022comparison provide an overview of design-based spatial analysis and FPBK, showing that FPBK often outperforms the design-based analysis. @ver2013comparison show that FPBK often outperforms k-nearest-neighbors and highlight that quantifying uncertainty is much more challenging with k-nearest-neighbors.
 
-Note that there are many spatial packages in ``R`` that can be used to predict values at unobserved locations, including ``gstat`` [@pebesma2015package], ``geoR`` [@ribeiro2007geor], and ``spmodel`` [@dumelle2023spmodel], among others. What ``sptotal`` contributes is the ability to obtain the appropriate variance of a linear combination of predicted values that incorporates a variance reduction when sampling from a finite number of sampling units. 
+Note that there are many spatial packages in ``R`` that can be used to predict values at unobserved locations, including ``gstat`` [@pebesma2004multivariable], ``geoR`` [@ribeiro2007geor], and ``spmodel`` [@dumelle2023spmodel], among others. What ``sptotal`` contributes is the ability to obtain the appropriate variance of a linear combination of predicted values that incorporates a variance reduction when sampling from a finite number of sampling units. 
 
 # Past and Ongoing Research Projects
 
