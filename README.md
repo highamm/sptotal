@@ -69,7 +69,7 @@ For more details on how to use these functions and for a real world example appl
 
 ## Community Guidelines
 
-We encourage users submit GitHub issues and enhancement requests at <a href="https://github.com/highamm/sptotal
+We encourage users to submit GitHub issues and enhancement requests at <a href="https://github.com/highamm/sptotal
 " target="_blank">https://github.com/highamm/sptotal</a> so we may continue to improve ``sptotal``.
 
 ## Citation
