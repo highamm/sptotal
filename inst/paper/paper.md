@@ -37,13 +37,13 @@ journal: JOSS
 
 # Summary
 
-In ecological monitoring surveys of an animal population, a plant population, or an environmental resource, predicting the total abundance, the mean, or some other quantity in a finite region is often of interest. However, because of time and money constraints, sampling the entire region is often unfeasible. The purpose of the ``sptotal`` ``R`` package is to provide software that gives a prediction for a quantity of interest, such as a total, and an associated standard error for the prediction. The predictor, referred to as the Finite-Population-Block-Kriging (FPBK) predictor in the literature [@ver_hoef_spatial_2008], incorporates possible spatial correlation in the data and also incorporates an appropriate variance reduction for sampling from a finite population. 
+In ecological or environmental surveys, it is often desired to predict the mean or total of a variable in some finite region. However, because of time and money constraints, sampling the entire region is often unfeasible. The purpose of the ``sptotal`` ``R`` package is to provide software that gives a prediction for a quantity of interest, such as a total, and an associated standard error for the prediction. The predictor, referred to as the Finite-Population-Block-Kriging (FPBK) predictor in the literature [@ver_hoef_spatial_2008], incorporates possible spatial correlation in the data and also incorporates an appropriate variance reduction for sampling from a finite population. 
 
 In the remainder of the paper, we give an overview of both the background of the method and of the ``sptotal`` package. 
 
 # Statement of Need
 
-The primary purpose of ``sptotal`` is to provide an implementation of the Finite Population Block Kriging (FPBK) methods developed in @ver2002sampling and @ver_hoef_spatial_2008. While we refer the interested reader to those sources for the full development of the FPBK predictor, we provide a very short overview of the setting in which the predictor can be used.
+``sptotal`` provides an implementation of the Finite Population Block Kriging (FPBK) methods developed in @ver2002sampling and @ver_hoef_spatial_2008.  Next we provide a short overview of FPBK.
 
 Suppose that we have a response variable $Y(\mathbf{s}_{i})$, $i = 1, 2, \ldots, N$, where the vector $\mathbf{s}_i$ contains the coordinates for the $i^{th}$ spatial location and $N$ is a finite number of spatial locations. Then $\mathbf{y}$, a vector of the $Y(\mathbf{s}_{i})$, can be modeled with a spatial linear model
 \mbox{}
@@ -51,31 +51,21 @@ Suppose that we have a response variable $Y(\mathbf{s}_{i})$, $i = 1, 2, \ldots,
 \mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon},
 \end{equation}
 \noindent
-where $\mathbf{X}$ is a design matrix for the fixed effects and $\boldsymbol{\beta}$ is a parameter vector of fixed effects. The random errors, $\boldsymbol{\epsilon}(\mathbf{s}_{i})$, have a mean of $\mathbf{0}$ and a covariance of 
+where $\mathbf{X}$ is a design matrix for the fixed effects and $\boldsymbol{\beta}$ is a parameter vector of fixed effects. The vector of random errors has a mean of $\mathbf{0}$ and a covariance of 
 \mbox{}
 \begin{equation}
-\text{var}(\boldsymbol{\epsilon}) = \tau^2 \mathbf{I} + \sigma^2 \mathbf{R},
+\text{var}(\boldsymbol{\epsilon}) = \sigma^2 \mathbf{R} + \tau^2 \mathbf{I},
 \end{equation}
-
 \noindent
-where $\tau^2$ is the spatial independent error variance (commonly called the nugget), $\mathbf{I}$ is the identity matrix, $\sigma^2$ is the spatial dependent error variance (commonly called the partial sill), and $\mathbf{R}$ is a spatial correlation matrix. A common model used to generate $\mathbf{R}$ is the exponential correlation function [@cressie2015statistics]. 
+where $\sigma^2$ is the spatial dependent error variance (commonly called the partial sill), $\mathbf{R}$ is a spatial correlation matrix, $\tau^2$ is the spatial independent error variance (commonly called the nugget), and $\mathbf{I}$ is the identity matrix. A common model used to generate $\mathbf{R}$ is the exponential correlation function [@cressie2015statistics]. 
 
-<!-- For observations at spatial locations $i$ and $i'$ at $h_{ii'}$ distance apart, row $i$ and column $i'$ of $\mathbf{R}$ is equal to  -->
-<!-- \mbox{} -->
-<!-- \begin{equation} -->
-<!-- \mathbf{R}_{ii'} = \text{exp}(-h_{ii'} / \phi), -->
-<!-- \end{equation} -->
-<!-- \noindent -->
-<!-- where $\phi$ is the range parameter .  -->
+FPBK predicts some linear function of the response, $f(\mathbf{y}) = \mathbf{b}^\prime \mathbf{y}$, where $\mathbf{b}$ is a vector of weights. A common vector of weights is a vector of 1's so that the resulting prediction is for the total abundance across all sites. If only some of the values in $\mathbf{y}$ are observed, then the ``sptotal`` package can be used to find the the Best Linear Unbiased Predictor (BLUP) for $\mathbf{b}^\prime \mathbf{y}$, referred to as the FPBK predictor, along with its prediction variance.
 
-Our goal is to predict some linear function of the response, $f(\mathbf{y}) = \mathbf{b}^\prime \mathbf{y}$, where $\mathbf{b}$ is a vector of weights. A common vector of weights is a vector of 1's so that the resulting prediction is for the total abundance across all sites. In a finite population setting, if we are interested in predicting the realized total and we sampled all $N$ spatial locations, then we would simply add up the realized values of $Y(\mathbf{s}_i)$ across all $N$ locations. However, in many practical settings, we do not observe all $N$ locations and instead sample a subset of these locations.
+The primary functions in the ``sptotal`` package are described in the following section. In short, the FPBK method is implemented in ``sptotal``'s ``predict()`` generic function, which is used on a spatial model that is fit with ``sptotal::slmfit()``.
 
-If only some of the values in $\mathbf{y}$ are observed, then the ``sptotal`` package can be used to find the the Best Linear Unbiased Predictor (BLUP) for $\mathbf{b}^\prime \mathbf{y}$, referred to as the FPBK predictor, along with its prediction variance. When the number of sites sampled is equal to the total number of sites in the region, we know the realized total exactly and the prediction variance is equal to 0.
-
-<!-- The prediction variance incorporates a reduction for sampling from a finite population so that, for example, when the While the derivation is too long to include here, we emphasize two characteristics of the FPBK predictor. First, the predictor incorporates spatial correlation, which is a common feature of ecological data. Second, the predictor incorporates a reduction in the prediction variance for sampling from a finite population.  -->
 # Package Methods
 
-Before discussing comparable methods and ``R`` packages, we show how the main functions in ``sptotal`` can be used on a real data set to predict total abundance. We use the `AKmoose_df` data in the ``sptotal`` package, provided by the Alaska Department of Fish and Game. 
+Before discussing comparable methods and ``R`` packages, we show how the main functions in ``sptotal`` can be used on a real data set to predict total abundance of moose in a region of Alaska. We use the `AKmoose_df` data in the ``sptotal`` package, provided by the Alaska Department of Fish and Game. 
 
 
 ```r
@@ -85,7 +75,7 @@ data("AKmoose_df")
 
 The data contains a response variable `total`, x-coordinate centroid variable `x`, y-coordinate centroid variable `y`, and covariates `elev_mean` (the elevation) and `strat` (a stratification variable). There are a total of 860 rows of unique spatial locations. Locations that were not surveyed have an ``NA`` value for ``total``. 
 
-The two primary functions in ``sptotal`` are ``slmfit()``, which fits a spatial linear model, and ``predict.slmfit()``, which predicts a quantity of interest (such as a mean or total) using a fitted ``slmfit`` object. `slmfit()` has required arguments `formula`, `data`, `xcoordcol`, and `ycoordcol`. If `data` is a simple features object from the `sf` [@pebesma2018simple] package, then `xcoordcol` and `ycoordcol` are not required. The `CorModel` argument is the correlation model used for the errors.
+The two primary functions in ``sptotal`` are ``slmfit()``, which fits a spatial linear model, and ``predict.slmfit()``, which uses FPBK to predict a quantity of interest (such as a mean or total) using a fitted ``slmfit`` object. `slmfit()` has required arguments `formula`, `data`, `xcoordcol`, and `ycoordcol`. If `data` is a simple features object from the `sf` [@pebesma2018simple] package, then `xcoordcol` and `ycoordcol` are not required. The `CorModel` argument is the correlation model used for the errors.
 
 
 ```r
@@ -121,7 +111,7 @@ summary(moose_mod)
 ## Generalized R-squared: 0.03966569
 ```
 
-With the `summary()` generic, we obtain output similar to the summary output of a linear model fit with `lm()`, as well as a table of fitted covariance parameter estimates. Next, we use `predict()` to obtain a prediction for the total abundance across all spatial locations, along with a standard error for the prediction. By default, `predict()` gives a prediction for total abundance, though the default can be modified by specifying a column of prediction weights for the vector $\mathbf{b}$ with the `wtscol` argument.
+With the `summary()` generic, we obtain output similar to the summary output of a linear model fit with `lm()`, as well as a table of fitted covariance parameter estimates. Next, we use `predict()` to implement FPBK and obtain a prediction for the total abundance across all spatial locations, along with a standard error for the prediction. By default, `predict()` gives a prediction for total abundance, though the default can be modified by specifying a column of prediction weights for the vector $\mathbf{b}$ with the `wtscol` argument.
 
 
 ```r
@@ -138,21 +128,15 @@ predict(moose_mod)
 
 The output of printed `predict()` gives a table of prediction information, including the `Prediction` (a total abundance of 1610 moose, in this example), the `SE` (Standard Error) of the prediction, and bounds for a prediction interval (with a nominal level of 90% by default). Additionally, some summary information about the data set used is given.
 
-<!-- By default, `predict()` gives a prediction for the realized total in all spatial locations in the data frame used in `data` (i.e. by default, the $\mathbf{b}$ vector is a vector of 1's). If we want a prediction for a different quantity, such as a prediction for the total for the last 300 spatial locations in `AKmoose_df`, then we can manually construct a weights column to pass to `predict()` that contains a ``1`` for the last 300 rows and a ``0`` otherwise: -->
-
 
 
 ``sptotal`` also provides many helper generic functions for spatial linear models. The structure of the arguments and of the output of these generics often mirrors that of the generics used for base ``R`` linear models fit with ``lm()``. Examples (applied to the `moose_mod` object) include ``AIC(moose_mod)``, ``coef(moose_mod)``, ``fitted(moose_mod)``, ``plot(moose_mod)``, and ``residuals(moose_mod)``.
 
-<!-- , which gives raw residuals for the observed spatial locations and ``residuals(moose_mod, type = "normalized")``, which gives the normalized residuals for the observed spatial locations. -->
-
 # Comparable Methods and Related Work
 
-Methods that can also be used to predict a total, mean, or other quantity in a finite population include design-based methods. Design-based methods make inferences based on how the sample was selected. One example of a design-based sampling method for spatial data is the Generalized Random Tesselation Stratified (GRTS) spatially balanced sampling algorithm [@stevens2004spatially]. If a GRTS sample is taken, then an analysis using a local neighborhood variance estimator can be used to obtain a prediction for a population total or mean with a variance that has a finite population adjustment. @dumelle2022comparison show that FPBK outperforms the GRTS design-based analysis in simulations. 
+Design-based analysis and k-nearest neighbors [@fix1985discriminatory] are two approaches that can be used to compute a mean or total in a finite population. @dumelle2022comparison provide an overview of design-based spatial analysis and FPBK, showing that FPBK often outperforms the design-based analysis. @ver2013comparison show that FPBK often outperforms k-nearest-neighbors and highlight that quantifying uncertainty is much more challenging with k-nearest-neighbors.
 
-Statistical learning methods can also be applied to spatial data to obtain a prediction for a finite population total or mean. For example, k-nearest-neighbors [@fix1985discriminatory; knn] is a statistical learning algorithm popular in forestry applications that makes predictions at unobserved locations from the values of the closest observed locations. However, quantifying uncertainty in a prediction resulting from knn is much more challenging. Additionally, @ver2013comparison show that FPBK outperforms knn in many settings.
-
-Note that there are many spatial packages in ``R`` that can be used to predict values at unobserved locations, including ``gstat`` [@pebesma2015package], ``geoR`` [@ribeiro2007geor], and ``spmodel`` (INSERT CITATION), among other packages. What ``sptotal`` contributes is the ability to obtain a prediction variance that incorporates a variance reduction when sampling from a finite number of sampling units. 
+Note that there are many spatial packages in ``R`` that can be used to predict values at unobserved locations, including ``gstat`` [@pebesma2015package], ``geoR`` [@ribeiro2007geor], and ``spmodel`` [@dumelle2023spmodel], among others. What ``sptotal`` contributes is the ability to obtain the appropriate variance of a linear combination of predicted values that incorporates a variance reduction when sampling from a finite number of sampling units. 
 
 # Past and Ongoing Research Projects
 

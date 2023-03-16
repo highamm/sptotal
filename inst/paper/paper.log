@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2016.5.22)  24 FEB 2023 13:22
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016) (preloaded format=xelatex 2016.5.22)  16 MAR 2023 08:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1406,7 +1406,7 @@ Package hyperref Warning: Suppressing link with empty target on input line 299.
 Package hyperref Warning: Suppressing link with empty target on input line 299.
 
 
-LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 309
+LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 307
 .
 (/usr/local/texlive/2016/texmf-dist/tex/latex/euenc/eu1lmtt.fd
 File: eu1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -1423,7 +1423,7 @@ Package Fancyhdr Warning: \headheight is too small (62.59596pt):
  This may cause the page layout to be inconsistent, however.
 
 LaTeX Font Info:    Font shape `EU1/lmss/m/it' in size <8> not available
-(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 362.
+(Font)              Font shape `EU1/lmss/m/sl' tried instead on input line 357.
 
 [1
 
@@ -1464,11 +1464,11 @@ Package Fancyhdr Warning: \headheight is too small (62.59596pt):
  This may cause the page layout to be inconsistent, however.
 
 [4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 574.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 574.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 551.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 551.
 (./paper.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 574.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 574.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 551.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 551.
 Package logreq Info: Writing requests to 'paper.run.xml'.
 \openout1 = `paper.run.xml'.
 
@@ -1476,7 +1476,7 @@ Package logreq Info: Writing requests to 'paper.run.xml'.
 Here is how much of TeX's memory you used:
  43135 strings out of 493591
  817187 string characters out of 6143546
- 1189494 words of memory out of 5000000
+ 1188494 words of memory out of 5000000
  45995 multiletter control sequences out of 15000+600000
  13269 words of font info for 71 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
