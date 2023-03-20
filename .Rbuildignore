@@ -11,3 +11,4 @@
 ^CRAN-RELEASE$
 ^revdep$
 ^CRAN-SUBMISSION$
+^LICENSE\.md$
