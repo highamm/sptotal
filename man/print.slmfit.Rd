@@ -24,7 +24,8 @@ a list with \itemize{
 }
 }
 \description{
-This function uses the object that is output from \code{\link{slmfit}()} of class \code{slmfit}.
+This function uses the object that is output from
+\code{\link{slmfit}()} of class \code{slmfit}.
 }
 \examples{
 data(exampledataset) ## load a toy data set

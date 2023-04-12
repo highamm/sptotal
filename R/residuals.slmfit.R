@@ -1,12 +1,17 @@
 #' Extract Model Residuals from an \code{slmfit} object.
 #'
-#' @param object a \code{slmfit} object generated from the \code{\link{slmfit}()} function.
-#' @param type residual type: \code{"raw"} (the default) or \code{"normalized"}
+#' @param object a \code{slmfit} object generated from the
+#' \code{\link{slmfit}()} function.
+#' @param type residual type: \code{"raw"} (the default)
+#' or \code{"normalized"}
 #' @param cross.validation a logical (\code{TRUE} or \code{FALSE}) that
 #' indicates whether the residuals computed should be found using
 #' leave one out cross-validation. Set to \code{FALSE} by default.
 #' @param ... further arguments passed to or from other methods.
-#' @return a vector of residuals, consisting of each observed response/density minus the estimated mean, or, in the case of cross-validation, the observed response/density minus the leave-one-out-cross-validation prediction.
+#' @return a vector of residuals, consisting of each observed
+#' response/density minus the estimated mean, or, in the case of
+#' cross-validation, the observed response/density minus the
+#' leave-one-out-cross-validation prediction.
 #' @examples
 #' data(exampledataset) ## load a toy data set
 #' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
@@ -15,7 +20,8 @@
 #' residuals(slmobj, cross.validation = TRUE)
 #' @export
 
-residuals.slmfit <- function(object, type = "raw", cross.validation = FALSE, ...) {
+residuals.slmfit <- function(object, type = "raw",
+                             cross.validation = FALSE, ...) {
 
   resid.vec <- object$resids
 
@@ -53,6 +59,6 @@ residuals.slmfit <- function(object, type = "raw", cross.validation = FALSE, ...
     cholcov <- t(chol(object$FPBKpredobj$covmatsamp))
     resid.vec <- forwardsolve(cholcov, resid.vec)
   }
-  return(resid.vec)
+  return(as.vector(resid.vec))
 }
 

@@ -1,8 +1,10 @@
 #' Prints a short summary for the \code{\link{predict.stratafit}()} function.
 #'
-#' This function uses the object that is output from \code{\link{predict.stratafit}()} of class \code{predict.stratafit}..
+#' This function uses the object that is output from
+#' \code{\link{predict.stratafit}()} of class \code{predict.stratafit}.
 #'
-#' @param x is a prediction object generated from \code{\link{predict.stratafit}()}
+#' @param x is a prediction object generated from
+#' \code{\link{predict.stratafit}()}
 #' @param digits is the number of digits to be displayed in the
 #' model output
 #' @param ... further arguments passed to or from other methods.

@@ -484,7 +484,8 @@ slmfitout_exp_lakes <- slmfit(formula = DOC_RESULT ~ ELEVATION +
                                 RVFPUNDWOODY_RIP + FCIBIG_LIT +
                                 RVFCGNDBARE_RIP + RVFCGNDWOODY_RIP,
                               data = lakeobs, 
-                              xcoordcol = 'XCOORD', ycoordcol = 'YCOORD', CorModel = "Exponential")
+                              xcoordcol = 'XCOORD', ycoordcol = 'YCOORD',
+                              CorModel = "Exponential")
 summary(slmfitout_exp_lakes)
 ```
 

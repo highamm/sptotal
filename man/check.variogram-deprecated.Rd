@@ -11,15 +11,18 @@ check.variogram(object)
 \item{object}{is an object of class \code{\link{slmfit}}.}
 }
 \value{
-a plot of the empirical semi-variogram with the fitted model overlayed.
+a plot of the empirical semi-variogram with the fitted
+model overlayed.
 }
 \description{
-\code{check.variogram()} has been deprecated: use \code{\link{plot.slmfit}()} instead. Plots an empirical semi-variogram of the residuals from the spatial linear model
+\code{check.variogram()} has been deprecated:
+use \code{\link{plot.slmfit}()} instead. Plots an empirical
+semi-variogram of the residuals from the spatial linear model
 with the fitted parametric model as a curve overtop of the
-binned points. By default, the empirical semi-variogram only shows distances
-that are less than or equal to the maximum distance in the data
-set divided by 2. Therefore, it's possible that the REML-fitted model
-will not "fit" the points perfectly.
+binned points. By default, the empirical semi-variogram only
+shows distances that are less than or equal to the maximum
+distance in the data set divided by 2. Therefore, it's possible
+that the REML-fitted model will not "fit" the points perfectly.
 }
 \examples{
 data(exampledataset) ## load a toy data set

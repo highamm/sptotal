@@ -12,7 +12,8 @@
 )
 }
 \arguments{
-\item{x}{is an summary object generated from \code{\link{summary.slmfit}()}}
+\item{x}{is an summary object generated from
+\code{\link{summary.slmfit}()}}
 
 \item{digits}{is the number of digits to be displayed in the
 model output}
@@ -32,7 +33,8 @@ a list with \itemize{
 }
 }
 \description{
-This function uses the object that is output from \code{\link{summary.slmfit}()}.
+This function uses the object that is output from
+\code{\link{summary.slmfit}()}.
 }
 \examples{
 data(exampledataset) ## load a toy data set

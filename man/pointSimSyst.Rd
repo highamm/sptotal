@@ -30,8 +30,8 @@ pointSimSyst(
 A data.frame with x- and y-coordinates of simulated locations
 }
 \description{
-Creates a systematic grid of points. This function is only used
-in simulating data sets.
+Creates a systematic grid of points. This function is only
+used in simulating data sets.
 }
 \author{
 Jay Ver Hoef

@@ -5,12 +5,14 @@
 \alias{AKmoose_df}
 \title{Data Set with Alaska Moose Counts.}
 \format{
-A dataframe object. The data frame \code{AKmoose_df} contains 860 rows and 8 columns:
+A dataframe object. The data frame \code{AKmoose_df}
+contains 860 rows and 8 columns:
 \describe{
   \item{elev_mean}{The mean elevation for each sitefor each site}
   \item{strat}{A stratification variable (either L or M)}
   \item{surveyed}{Assigned a 1 if the site was surveyed and a 0 otherwise}
-  \item{total}{The total moose count on each site (\code{NA} if the site was not surveyed)}
+  \item{total}{The total moose count on each site (\code{NA}
+  if the site was not surveyed)}
   \item{x}{the x-coordinate centroid of the site (TM)}
   \item{y}{the y-coordinate centroid of the site (TM)}
   \item{lon}{the longitudinal centroid of the site}
@@ -19,7 +21,13 @@ A dataframe object. The data frame \code{AKmoose_df} contains 860 rows and 8 col
 }
 }
 \source{
-\href{http://www.adfg.alaska.gov/index.cfm?adfg=hunting.main}{Alaska Department of Fish and Game, Division of Wildlife Conservation} has released this data set under the CC0 (creative commons) license. To the extent possible under law, Alaska Department of Fish and Game, Division of Wildlife Conservation waives all copyright and related or neighboring rights to An Alaskan GSPE (Geospatial Population Estimator) Survey of Moose, AKmoose.rda. This work is published from: United States.
+\href{http://www.adfg.alaska.gov/index.cfm?adfg=hunting.main}{Alaska
+Department of Fish and Game, Division of Wildlife Conservation}
+has released this data set under the CC0 (creative commons) license.
+To the extent possible under law, Alaska Department of Fish and Game,
+Division of Wildlife Conservation waives all copyright and related or
+neighboring rights to An Alaskan GSPE (Geospatial Population Estimator)
+Survey of Moose, AKmoose_df.rda. This work is published from: United States.
 }
 \usage{
 AKmoose_df

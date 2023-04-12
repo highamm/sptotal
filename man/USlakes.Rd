@@ -7,25 +7,39 @@
 \format{
 A data frame with 1206 rows and 9 variables:
 \describe{
-  \item{XCOORD}{x-coordinate from US Contiguous Albers Equal Area Conic projection}
-  \item{YCOORD}{y-coordinate from US Contiguous Albers Equal Area Conic projection}
+  \item{XCOORD}{x-coordinate from US Contiguous Albers Equal
+  Area Conic projection}
+  \item{YCOORD}{y-coordinate from US Contiguous Albers Equal
+  Area Conic projection}
   \item{DOC_RESULT}{Analyte value, in mg/L, for Dissolved Organic Carbon}
-  \item{ELEVATION}{Elevation at lake coordinates (LAT_DD_N83, LON_DD_N83) from NHD Digital Elevation Map layer}
-  \item{FCIBIG_LIT}{Fish cover: index of fish cover due to large structures in the littoral zone}
-  \item{RVFCGNDBARE_RIP}{riparian zone and vegetation: fraction of ground lacking cover in the riparian zone}
-  \item{RVFCGNDWOODY_RIP}{riparian zone and vegetation: fraction of ground cover by woody vegetation in the riparian zone}
-  \item{RVFPUNDWOODY_RIP}{riparian zone and vegetation: fraction of understory with nonwoody cover present in the riparian zone}
+  \item{ELEVATION}{Elevation at lake coordinates
+  (LAT_DD_N83, LON_DD_N83) from NHD Digital Elevation Map layer}
+  \item{FCIBIG_LIT}{Fish cover: index of fish cover due to
+  large structures in the littoral zone}
+  \item{RVFCGNDBARE_RIP}{riparian zone and vegetation:
+  fraction of ground lacking cover in the riparian zone}
+  \item{RVFCGNDWOODY_RIP}{riparian zone and vegetation:
+  fraction of ground cover by woody vegetation in the riparian zone}
+  \item{RVFPUNDWOODY_RIP}{riparian zone and vegetation:
+  fraction of understory with nonwoody cover present in the
+  riparian zone}
   \item{UID}{A unique lake identifier in the EPA lake survey databases}
 }
 }
 \source{
-\href{https://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys}{National Aquatic Resource Surveys} webpage.  We combined \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_siteinfo_08232016.csv}{site data}, \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_waterchem_wide.csv}{DOC data}, and \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_phabmet_10202016.csv}{habitat metrics} to create a data set of 1206 lakes in the conterminous United States.
+\href{https://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys}{National
+Aquatic Resource Surveys} webpage.
+We combined \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_siteinfo_08232016.csv}{site data},
+\href{https://www.epa.gov/sites/production/files/2016-12/nla2012_waterchem_wide.csv}{DOC data},
+and \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_phabmet_10202016.csv}{habitat metrics}
+to create a data set of 1206 lakes in the conterminous United States.
 }
 \usage{
 USlakes
 }
 \description{
-These data contain dissolved organic carbon (DOC) in National Lakes Data from the U.S. Environmental Protection Agency
+These data contain dissolved organic carbon (DOC) in
+National Lakes Data from the U.S. Environmental Protection Agency
 }
 \examples{
 data(USlakes)

@@ -38,12 +38,13 @@
 #'   \item{lat}{the latitudinal centroid of the site}
 #'
 #' }
-#' @source \href{http://www.adfg.alaska.gov/index.cfm?adfg=hunting.main}{Alaska Department of Fish and Game, Division of Wildlife Conservation}
+#' @source \href{http://www.adfg.alaska.gov/index.cfm?adfg=hunting.main}{Alaska
+#' Department of Fish and Game, Division of Wildlife Conservation}
 #' has released this data set under the CC0 (creative commons) license.
 #' To the extent possible under law, Alaska Department of Fish and Game,
 #' Division of Wildlife Conservation waives all copyright and related or
 #' neighboring rights to An Alaskan GSPE (Geospatial Population Estimator)
-#' Survey of Moose, AKmoose.rda. This work is published from: United States.
+#' Survey of Moose, AKmoose_df.rda. This work is published from: United States.
 #' @examples
 #' data(AKmoose_df)
 #' names(AKmoose_df)
@@ -63,8 +64,10 @@
 #'   \item{X3}{Simulated independent variable to be used as a predictor}
 #'   \item{X4}{Simulated independent variable to be used as a predictor}
 #'   \item{X5}{Simulated independent variable to be used as a predictor}
-#'   \item{X6}{Simulated spatially correlated random variable to be used as a predictor}
-#'   \item{X7}{Simulated spatially correlated random variable to be used as a predictor}
+#'   \item{X6}{Simulated spatially correlated random variable
+#'   to be used as a predictor}
+#'   \item{X7}{Simulated spatially correlated random variable to be
+#'   used as a predictor}
 #'   \item{F1}{Simulated factor variable to be used as a predictor}
 #'   \item{F2}{Simulated factor variable to be used as a predictor}
 #'   \item{Z}{The simulated response variable.}
@@ -103,7 +106,8 @@
 #'   riparian zone}
 #'   \item{UID}{A unique lake identifier in the EPA lake survey databases}
 #' }
-#' @source \href{https://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys}{National Aquatic Resource Surveys} webpage.
+#' @source \href{https://www.epa.gov/national-aquatic-resource-surveys/data-national-aquatic-resource-surveys}{National
+#' Aquatic Resource Surveys} webpage.
 #' We combined \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_siteinfo_08232016.csv}{site data},
 #' \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_waterchem_wide.csv}{DOC data},
 #' and \href{https://www.epa.gov/sites/production/files/2016-12/nla2012_wide_phabmet_10202016.csv}{habitat metrics}

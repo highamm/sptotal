@@ -7,7 +7,8 @@
 \method{fitted}{slmfit}(object, ...)
 }
 \arguments{
-\item{object}{a \code{slmfit} object generated from the \code{\link{slmfit}()} function.}
+\item{object}{a \code{slmfit} object generated from the
+\code{\link{slmfit}()} function.}
 
 \item{...}{further arguments passed to or from other methods.}
 }

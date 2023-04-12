@@ -32,7 +32,9 @@
 #'   resids = residuals(slmobj)
 #' )
 #' svdata <- sv(svexample, "xcoords", "ycoords", "resids")
-sv <- function(data, xcoordcol, ycoordcol, residcol, bins = 15, cutoff = NULL, ...) {
+
+sv <- function(data, xcoordcol, ycoordcol, residcol,
+               bins = 15, cutoff = NULL, ...) {
 
   # compute spatial distances
   dists <- as.matrix(dist(cbind(data[[xcoordcol]], data[[ycoordcol]]), ...))

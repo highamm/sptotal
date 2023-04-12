@@ -1,8 +1,10 @@
 #' Prints the summary of a fitted spatial linear model.
 #'
-#' This function uses the object that is output from \code{\link{summary.slmfit}()}.
+#' This function uses the object that is output from
+#' \code{\link{summary.slmfit}()}.
 #'
-#' @param x is an summary object generated from \code{\link{summary.slmfit}()}
+#' @param x is an summary object generated from
+#' \code{\link{summary.slmfit}()}
 #' @param digits is the number of digits to be displayed in the
 #' model output
 #' @param signif.stars is an option to show which predictors
@@ -53,7 +55,8 @@ print.summary.slmfit <- function(x,
 
 #' Prints the fitted coefficient table of a fitted spatial linear model.
 #'
-#' This function uses the object that is output from \code{\link{slmfit}()} of class \code{slmfit}.
+#' This function uses the object that is output from
+#' \code{\link{slmfit}()} of class \code{slmfit}.
 #'
 #' @param x is an object generated from \code{\link{slmfit}()}
 #' @param digits is the number of digits to be displayed in the

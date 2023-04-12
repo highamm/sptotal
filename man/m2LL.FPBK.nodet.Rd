@@ -11,18 +11,26 @@ m2LL.FPBK.nodet(theta, zcol, XDesign, distmat, CorModel, estmethod)
 
 \item{zcol}{is the response vector of densities}
 
-\item{XDesign}{is the design matrix containing the covariates used to predict animal or plant abundance (including a column of 1's for the intercept).}
+\item{XDesign}{is the design matrix containing the covariates used
+to predict animal or plant abundance (including a column of 1's for
+the intercept).}
 
 \item{distmat}{is the distance matrix of the sampled sites}
 
-\item{CorModel}{is the geostatistical spatial correlation model to be used. See the \code{corModels} documentation for possible models to use.}
+\item{CorModel}{is the geostatistical spatial correlation model to
+be used. See the \code{corModels} documentation for possible
+models to use.}
 
-\item{estmethod}{is either "REML" for restricted maximum likelihood or "ML" for maximum likelihood.}
+\item{estmethod}{is either "REML" for restricted maximum
+likelihood or "ML" for maximum likelihood.}
 }
 \value{
-A numeric output of minus 2 times the restricted log likelihood to be minimized by `optim` to obtain spatial parameter estimates.
+A numeric output of minus 2 times the restricted log
+likelihood to be minimized by `optim` to obtain spatial
+parameter estimates.
 }
 \description{
-The primary purpose of \code{m2LL.FPBK.nodet()} is to estimate the spatial
-covariance parameters using REML. This is a helper function to \code{slmfit()}.
+The primary purpose of \code{m2LL.FPBK.nodet()} is to estimate
+the spatial covariance parameters using REML. This is a helper
+function to \code{slmfit()}.
 }

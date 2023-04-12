@@ -7,9 +7,11 @@
 \method{residuals}{slmfit}(object, type = "raw", cross.validation = FALSE, ...)
 }
 \arguments{
-\item{object}{a \code{slmfit} object generated from the \code{\link{slmfit}()} function.}
+\item{object}{a \code{slmfit} object generated from the
+\code{\link{slmfit}()} function.}
 
-\item{type}{residual type: \code{"raw"} (the default) or \code{"normalized"}}
+\item{type}{residual type: \code{"raw"} (the default)
+or \code{"normalized"}}
 
 \item{cross.validation}{a logical (\code{TRUE} or \code{FALSE}) that
 indicates whether the residuals computed should be found using
@@ -18,7 +20,10 @@ leave one out cross-validation. Set to \code{FALSE} by default.}
 \item{...}{further arguments passed to or from other methods.}
 }
 \value{
-a vector of residuals, consisting of each observed response/density minus the estimated mean, or, in the case of cross-validation, the observed response/density minus the leave-one-out-cross-validation prediction.
+a vector of residuals, consisting of each observed
+response/density minus the estimated mean, or, in the case of
+cross-validation, the observed response/density minus the
+leave-one-out-cross-validation prediction.
 }
 \description{
 Extract Model Residuals from an \code{slmfit} object.

@@ -13,7 +13,8 @@ pointSimCSR(
 )
 }
 \arguments{
-\item{npoints}{number of points to add that are completely spatially random (CSR), default = 100}
+\item{npoints}{number of points to add that are completely
+spatially random (CSR), default = 100}
 
 \item{lower_x_lim}{left limit of boundary, default = 0}
 
@@ -24,11 +25,12 @@ pointSimCSR(
 \item{upper_y_lim}{upper limit of boundary, default = 1}
 }
 \value{
-data.frame of two columns, x-coordinate in the first, and y-coordinate in the second.
+data.frame of two columns, x-coordinate in the first,
+and y-coordinate in the second.
 }
 \description{
-simulates a completely spatially random point patterns. This function is
-only used in simulating data sets.
+simulates a completely spatially random point patterns. This
+function is only used in simulating data sets.
 }
 \author{
 Jay Ver Hoef

@@ -18,9 +18,11 @@ geostatSim(
 )
 }
 \arguments{
-\item{loc.data}{data.frame with x- and y-coordinates of locations for simulated data}
+\item{loc.data}{data.frame with x- and y-coordinates of locations
+for simulated data}
 
-\item{xcol}{name of the column in loc.data with x-coordinates, default is "x"}
+\item{xcol}{name of the column in loc.data with x-coordinates,
+default is "x"}
 
 \item{ycol}{name of the column loc.data with y-coordinates, default is "y"}
 
@@ -30,20 +32,24 @@ geostatSim(
 
 \item{nugget}{range of autocorrelation model, default = 0}
 
-\item{minorp}{proportion of range in x direction to that of y direction for unrotated anisotropic model, default = 1}
+\item{minorp}{proportion of range in x direction to that of y
+direction for unrotated anisotropic model, default = 1}
 
 \item{rotate}{rotation of anisotropic axes, default = 90}
 
 \item{extrap}{extra covariance parameter}
 
-\item{CorModel}{autocorrelation model, default = "Exponential".  Other possibilities are "Spherical".}
+\item{CorModel}{autocorrelation model, default = "Exponential".
+Other possibilities are "Spherical".}
 }
 \value{
-data.frame of three columns, the original location data appended with a 3rd column of simulated geostatistical data
+data.frame of three columns, the original location data
+appended with a 3rd column of simulated geostatistical data
 }
 \description{
 Spatially correlated data are simulated assuming a multivariate normal
-random error vector. For simplicity, only \code{"Exponential"} and \code{"Spherical"} simulation options are given here.
+random error vector. For simplicity, only \code{"Exponential"} and
+ \code{"Spherical"} simulation options are given here.
 }
 \examples{
 locations <- expand.grid(1:10, 1:10)

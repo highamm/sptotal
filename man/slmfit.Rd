@@ -18,24 +18,32 @@ slmfit(
 }
 \arguments{
 \item{formula}{is an \code{R} linear model formula specifying the
-response variable as well as covariates for predicting the response on the unsampled sites.}
+response variable as well as covariates for predicting the
+response on the unsampled sites.}
 
-\item{data}{is a data frame or tibble with the response column, the covariates to
-be used for the block kriging, and the spatial coordinates for all of the sites. Alternatively, data can be an \code{sp} Spatial Points Data Frame or \code{sf} object with POINT geometry.}
+\item{data}{is a data frame or tibble with the response column,
+the covariates to be used for the block kriging, and the
+spatial coordinates for all of the sites. Alternatively, data can be
+an \code{sp} Spatial Points Data Frame or \code{sf} object with
+POINT geometry.}
 
-\item{xcoordcol}{is the name of the column in the data frame with x coordinates or longitudinal coordinates}
+\item{xcoordcol}{is the name of the column in the data frame with
+x coordinates or longitudinal coordinates}
 
-\item{ycoordcol}{is the name of the column in the data frame with y coordinates or latitudinal coordinates}
+\item{ycoordcol}{is the name of the column in the data frame with
+y coordinates or latitudinal coordinates}
 
-\item{areacol}{is the name of the column with the areas of the sites. By default, we assume that all sites have equal area, in which
+\item{areacol}{is the name of the column with the areas of the sites.
+By default, we assume that all sites have equal area, in which
 case a vector of 1's is used as the areas.}
 
 \item{stratacol}{is the name of the the column with the
 stratification variable, if strata are to be fit separately,
 with different covariance parameter estimates.}
 
-\item{CorModel}{is the covariance structure. By default, \code{CorModel} is
-Exponential but other options include the Spherical and Gaussian.}
+\item{CorModel}{is the covariance structure. By default,
+\code{CorModel} is Exponential but other options include the
+Spherical and Gaussian.}
 
 \item{estmethod}{is either the default \code{"REML"} for restricted
 maximum likelihood to estimate the covariance parameters and
@@ -43,7 +51,10 @@ regression coefficients or \code{"ML"} to estimate the covariance
 parameters and regression coefficients. This argument can also be set to
 \code{"None"}, in which case \code{covestimates} must be provided.}
 
-\item{covestimates}{is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and \code{estmethod = "None"}, the the provided vector are treated as the estimators to create the covariance structure.}
+\item{covestimates}{is an optional vector of covariance
+parameter estimates (nugget, partial sill, range). If these are
+given and \code{estmethod = "None"}, the the provided vector are
+treated as the estimators to create the covariance structure.}
 }
 \value{
 a list of class \code{slmfit} with \itemize{
@@ -82,7 +93,8 @@ summary(slmobj)
 
 data(exampledataset) ## load a toy data set
 exampledataset$strata <- c(rep("A", 19), rep("B", 21))
-strataobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset, stratacol = "strata",
+strataobj <- slmfit(formula = counts ~ pred1 + pred2,
+  data = exampledataset, stratacol = "strata",
 xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 summary(strataobj)
 }

@@ -19,15 +19,16 @@ observed/sampled sites.
 The function \code{\link{check.variogram}} can be used to construct
 an empirical variogram of the residuals of the spatial linear model.
 
-\code{\link{predict.slmfit}} uses the spatial linear model fit from \code{\link{slmfit}} and finite
-population block kriging to predict the response at unobserved locations.
-A prediction for the total response as well as a prediction variance
-are given by default.
+\code{\link{predict.slmfit}} uses the spatial linear model fit
+from \code{\link{slmfit}} and finite population block kriging to
+predict the response at unobserved locations. A prediction for the
+total response as well as a prediction variance are given by default.
 
-\code{\link{get.predinfo}} and \code{\link{get.predplot}} take the resulting object from
- \code{\link{predict.slmfit}} to construct (1) summary information, including the
- prediction, prediction variance, and a prediction interval as well as
- (2) a plot of the site-wise predictions.
+\code{\link{get.predinfo}} and \code{\link{get.predplot}} take
+the resulting object from \code{\link{predict.slmfit}} to
+construct (1) summary information, including the prediction,
+prediction variance, and a prediction interval as well as (2) a
+plot of the site-wise predictions.
 
 Most of the remaining functions in the package are either helper functions
 or extra optional functions to extract various specific things from an

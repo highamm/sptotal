@@ -1,14 +1,17 @@
 #' Plot an Empirical Semi-Variogram of Residuals
 #'
-#' \code{check.variogram()} has been deprecated: use \code{\link{plot.slmfit}()} instead. Plots an empirical semi-variogram of the residuals from the spatial linear model
+#' \code{check.variogram()} has been deprecated:
+#' use \code{\link{plot.slmfit}()} instead. Plots an empirical
+#' semi-variogram of the residuals from the spatial linear model
 #' with the fitted parametric model as a curve overtop of the
-#' binned points. By default, the empirical semi-variogram only shows distances
-#' that are less than or equal to the maximum distance in the data
-#' set divided by 2. Therefore, it's possible that the REML-fitted model
-#' will not "fit" the points perfectly.
+#' binned points. By default, the empirical semi-variogram only
+#' shows distances that are less than or equal to the maximum
+#' distance in the data set divided by 2. Therefore, it's possible
+#' that the REML-fitted model will not "fit" the points perfectly.
 #'
 #' @param object is an object of class \code{\link{slmfit}}.
-#' @return a plot of the empirical semi-variogram with the fitted model overlayed.
+#' @return a plot of the empirical semi-variogram with the fitted
+#' model overlayed.
 #' @name check.variogram-deprecated
 #' @rdname check.variogram-deprecated
 #' @import stats
@@ -76,10 +79,12 @@ check.variogram <- function(object) {
   df.plot <- as.data.frame(tab2)
 
   plot_out <- ggplot(data = vario_out,
-    aes_(x = ~dist, y = ~gamma)) +
-    geom_point(aes_(size = ~gstat::variogram(g_obj, cutoff = cutoff_point)$np)) +
+    aes(x = .data$dist, y = .data$gamma)) +
+    geom_point(aes(size = gstat::variogram(g_obj,
+                                             cutoff = cutoff_point)$np)) +
     ylim(0, max(c(maxy * (15 / 14), max(df.plot$v.modfit) * (15 / 14)))) +
-    geom_line(data = df.plot, aes_(x = ~x.dist.plot, y = ~v.modfit)) +
+    geom_line(data = df.plot, aes(x = .data$x.dist.plot,
+                                  y = .data$v.modfit)) +
     xlab("Distance (TM)") +
     ylab("Semi-Variance") +
     ggtitle(paste("Empirical Variogram with Fitted",

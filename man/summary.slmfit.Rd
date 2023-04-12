@@ -7,7 +7,8 @@
 \method{summary}{slmfit}(object, ...)
 }
 \arguments{
-\item{object}{is an object generated from \code{\link{slmfit}()} of class \code{slmfit}.}
+\item{object}{is an object generated from \code{\link{slmfit}()} of
+class \code{slmfit}.}
 
 \item{...}{further arguments passed to or from other methods.}
 }

@@ -7,7 +7,8 @@
 \method{print}{predict.stratafit}(x, digits = max(3L, getOption("digits") - 3L), ...)
 }
 \arguments{
-\item{x}{is a prediction object generated from \code{\link{predict.stratafit}()}}
+\item{x}{is a prediction object generated from
+\code{\link{predict.stratafit}()}}
 
 \item{digits}{is the number of digits to be displayed in the
 model output}
@@ -21,7 +22,8 @@ a list with \itemize{
 }
 }
 \description{
-This function uses the object that is output from \code{\link{predict.stratafit}()} of class \code{predict.stratafit}..
+This function uses the object that is output from
+\code{\link{predict.stratafit}()} of class \code{predict.stratafit}.
 }
 \examples{
 data(exampledataset) ## load a toy data set

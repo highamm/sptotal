@@ -15,7 +15,8 @@ model output}
 \item{...}{further arguments passed to or from other methods.}
 }
 \description{
-This function uses the object that is output from \code{\link{predict.slmfit}()} of class \code{predict.slmfit}.
+This function uses the object that is output
+from \code{\link{predict.slmfit}()} of class \code{predict.slmfit}.
 }
 \examples{
 data(exampledataset) ## load a toy data set

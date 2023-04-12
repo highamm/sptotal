@@ -39,3 +39,75 @@ test_that("Other covariance functions fit", {
   expect_error(slmobj_gau, NA)
   expect_error(slmobj_sph, NA)
 })
+
+
+exampledataset$pred_miss <- c(runif(30, 0, 1), rep(NA, 10))
+
+test_that("observations with missing predictors generate a warning", {
+  expect_warning(slmfit(formula = counts ~ pred_miss,
+                        data = exampledataset,
+                        xcoordcol = 'xcoords', ycoordcol = 'ycoords'),
+                 NULL)
+})
+
+test_that("xcoordcol and ycoordcol arguments give names of columns", {
+  expect_error(slmfit(formula = counts ~ pred1,
+                      data = exampledataset,
+                      xcoordcol = 'xcoords2', ycoordcol = 'ycoords'), NULL)
+
+  expect_error(slmfit(formula = counts ~ pred1,
+                      data = exampledataset,
+                      xcoordcol = exampledataset$xcoords,
+                      ycoordcol = 'ycoords'), NULL)
+
+  expect_error(slmfit(formula = counts ~ pred1,
+                      data = exampledataset,
+                      xcoordcol = 'xcoords',
+                      ycoordcol = exampledataset$ycoords), NULL)
+})
+
+test_that("covestimates must be length 3", {
+  expect_error(slmfit(formula = counts ~ pred1,
+                      data = exampledataset,
+                      xcoordcol = 'xcoords',
+                      ycoordcol = 'ycoords',
+                      covestimates = c(0.1, 150), estmethod = "None"), NULL)
+
+  expect_error(slmfit(formula = counts ~ pred1,
+                      data = exampledataset,
+                      xcoordcol = 'xcoords',
+                      ycoordcol = 'ycoords', estmethod = "None"), NULL)
+
+  expect_error(slmfit(formula = counts ~ pred1,
+                      data = exampledataset,
+                      xcoordcol = 'xcoords',
+                      ycoordcol = 'ycoords',
+                      covestimates = c(0.1, 150, NA),
+                      estmethod = "None"), NULL)
+})
+
+test_that("non-standard values for estmethod and CorModel generate an error", {
+  expect_error(slmfit(formula = counts ~ pred1,
+                      data = exampledataset,
+                      xcoordcol = 'xcoords',
+                      ycoordcol = 'ycoords',
+                      estmethod = "something_else"),
+               NULL)
+
+  expect_error(slmfit(formula = counts ~ pred1,
+                      data = exampledataset,
+                      xcoordcol = 'xcoords',
+                      ycoordcol = 'ycoords',
+                      CorModel = "something_else"),
+               NULL)
+})
+
+simdata$many_levels <- factor(sample(letters, size = nrow(simdata),
+                                     replace = TRUE))
+test_that("factors with a large number of levels generate a warning", {
+  expect_warning(slmfit(formula = Z ~ many_levels,
+         data = simdata,
+         xcoordcol = 'x',
+         ycoordcol = 'y'),
+         NULL)
+})

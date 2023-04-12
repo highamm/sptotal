@@ -27,8 +27,7 @@
 #'
 #' @examples
 #' ## Add transverse Mercator x and y coordinates to a data frame with
-#' ## latitude/longitude coordinates. Name these \code{xc_TM_}
-#'  and \code{yc_TM_}.
+#' ## latitude/longitude coordinates.
 #' exampledataset$xc_TM_ <- LLtoTM(cm = base::mean(exampledataset[ ,"xcoords"]),
 #'  lat = exampledataset[ ,"ycoords"],
 #'  lon = exampledataset[ ,"xcoords"])$xy[ ,1]

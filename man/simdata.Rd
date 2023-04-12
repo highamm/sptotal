@@ -14,13 +14,16 @@ A data frame object including:
   \item{X3}{Simulated independent variable to be used as a predictor}
   \item{X4}{Simulated independent variable to be used as a predictor}
   \item{X5}{Simulated independent variable to be used as a predictor}
-  \item{X6}{Simulated spatially correlated random variable to be used as a predictor}
-  \item{X7}{Simulated spatially correlated random variable to be used as a predictor}
+  \item{X6}{Simulated spatially correlated random variable
+  to be used as a predictor}
+  \item{X7}{Simulated spatially correlated random variable to be
+  used as a predictor}
   \item{F1}{Simulated factor variable to be used as a predictor}
   \item{F2}{Simulated factor variable to be used as a predictor}
   \item{Z}{The simulated response variable.}
   \item{wts1}{Prediction weights if estimating an overall mean}
-  \item{wts2}{Prediction weights for estimating a total over a subset of 25 contiguous plots}
+  \item{wts2}{Prediction weights for estimating a total over a
+  subset of 25 contiguous plots}
 }
 }
 \usage{

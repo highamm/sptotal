@@ -34,7 +34,10 @@ maximum likelihood to estimate the covariance parameters and
 regression coefficients or \code{"ML"} to estimate the covariance
 parameters and regression coefficients.}
 
-\item{covestimates}{is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and \code{estmethod = "None"}, the the provided vector are treated as the estimators to create the covariance structure.}
+\item{covestimates}{is an optional vector of covariance
+parameter estimates (nugget, partial sill, range). If these are
+given and \code{estmethod = "None"}, the the provided vector are
+treated as the estimators to create the covariance structure.}
 }
 \value{
 a list with \itemize{
@@ -42,16 +45,19 @@ a list with \itemize{
    \item \code{Sigma}, the fitted covariance matrix for all of the sites
    \item \code{qrV}, the qr decomposition
    \item \code{b.hat}, the vector of estimated fixed effect coefficients
-   \item \code{covbi}, the inverse of the covariance matrix for the fixed effects
+   \item \code{covbi}, the inverse of the covariance matrix for
+   the fixed effects
    \item \code{covb}, the covariance matrix for the fixed effects
-   \item \code{min2loglik}, minus two times the loglikelihood
+   \item \code{min2loglik}, minus two times the log-likelihood
 }
 }
 \description{
-Used to estimate spatial covariance parameters for a few different spatial models.
-Estimated parameters can then be used in \code{predict.slmfit()} to predict values at unobserved locations.
+Used to estimate spatial covariance parameters for a few
+different spatial models. Estimated parameters can then be used
+in \code{predict.slmfit()} to predict values at unobserved locations.
 }
 \details{
-The function is a helper function used internally in \code{predict.slmfit()}.
+The function is a helper function used internally
+in \code{predict.slmfit()}.
 }
 \keyword{internal}

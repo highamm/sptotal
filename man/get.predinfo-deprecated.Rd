@@ -8,26 +8,32 @@
 get.predinfo(x, conf_level = 0.9)
 }
 \arguments{
-\item{x}{the output of the \code{\link{predict.slmfit}()} function, of class \code{predict.slmfit}}
+\item{x}{the output of the \code{\link{predict.slmfit}()} function,
+of class \code{predict.slmfit}}
 
 \item{conf_level}{is the confidence level for a normal-based
 confidence interval (default = 0.90).}
 }
 \value{
 a list of three tables, including \itemize{
-\item \code{simptab}, which contains the prediction and its standard error,
-\item \code{confbounds}, which contains a confidence interval for the prediction, and
-\item \code{outptmat}, a table of sampling information, including the number of sites sampled, the total number of sites, the total observed response, and the
-observed average density (equal to the average response if all site areas are
-equal).
+\item \code{simptab}, which contains the prediction and its
+standard error,
+\item \code{confbounds}, which contains a confidence interval
+for the prediction, and
+\item \code{outptmat}, a table of sampling information,
+including the number of sites sampled, the total number of sites,
+the total observed response, and the
+observed average density (equal to the average response if all
+site areas are equal).
 }
 }
 \description{
 \code{get.predinfo()} has been deprecated. Information given
 is now provided in the basic print of a
-\code{\link{predict.slmfit}()} object. Creates a list of tables that shows the prediction, standard error, and
-confidence interval for the prediction, as well as some summary information
-about the sample.
+\code{\link{predict.slmfit}()} object. Creates a list of tables
+that shows the prediction, standard error, and
+confidence interval for the prediction, as well as some summary
+information about the sample.
 }
 \examples{
 data(exampledataset) ## load a toy data set

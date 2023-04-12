@@ -12,8 +12,12 @@
 \item{...}{further arguments passed to or from other methods.}
 }
 \value{
-The AIC value of the slmfit object.  Here, AIC is computed as 2 times the
-negative log-likelihood plus 2 times the number of model parameters for Maximum Likelihood (ML) and 2 times the negative log-likelihood for REML. For REML, AIC should only be used to compare two models with the same covariates but different spatial covariance structures.
+The AIC value of the slmfit object. Here,
+AIC is computed as 2 times the negative log-likelihood plus
+2 times the number of model parameters for Maximum Likelihood (ML)
+and 2 times the negative log-likelihood for REML. For REML,
+AIC should only be used to compare two models with the same
+covariates but different spatial covariance structures.
 }
 \description{
 Extract the AIC from a \code{\link{slmfit}} object for comparing models.

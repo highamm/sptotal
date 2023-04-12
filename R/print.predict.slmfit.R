@@ -1,6 +1,7 @@
 #' Prints a short summary for the \code{\link{predict.slmfit}()} function.
 #'
-#' This function uses the object that is output from \code{\link{predict.slmfit}()} of class \code{predict.slmfit}.
+#' This function uses the object that is output
+#' from \code{\link{predict.slmfit}()} of class \code{predict.slmfit}.
 #' @param x is a prediction object generated from \code{\link{predict.slmfit}()}
 #' @param digits is the number of digits to be displayed in the
 #' model output

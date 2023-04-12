@@ -12,13 +12,18 @@
 #' in \code{stratafit()}.
 #'
 #' @param formula is an \code{R} linear model formula specifying the
-#' response variable as well as covariates for predicting the response on the unsampled sites.
+#' response variable as well as covariates for predicting the
+#' response on the unsampled sites.
 #' @param data is the data set with the response column, the covariates to
-#' be used for the block kriging, and the spatial coordinates for all of the sites.
-#' @param xcoordcol is the name of the column in the data frame with x coordinates or longitudinal coordinates
-#' @param ycoordcol is the name of the column in the data frame with y coordinates or latitudinal coordinates
+#' be used for the block kriging, and the spatial coordinates for
+#' all of the sites.
+#' @param xcoordcol is the name of the column in the data frame with
+#' x coordinates or longitudinal coordinates
+#' @param ycoordcol is the name of the column in the data frame with
+#' y coordinates or latitudinal coordinates
 #' @param stratacol is the name of the stratification column
-#' @param areacol is the name of the column with the areas of the sites. By default, we assume that all sites have equal area, in which
+#' @param areacol is the name of the column with the areas of the sites.
+#' By default, we assume that all sites have equal area, in which
 #' case a vector of 1's is used as the areas.
 #' @param CorModel is the covariance structure. By default, \code{CorModel} is
 #' Exponential but other options include the Spherical and Gaussian.

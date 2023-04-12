@@ -4,24 +4,35 @@
 #' parameters, given spatial coordinates and a model formula.
 #'
 #' @param formula is an \code{R} linear model formula specifying the
-#' response variable as well as covariates for predicting the response on the unsampled sites.
-#' @param data is a data frame or tibble with the response column, the covariates to
-#' be used for the block kriging, and the spatial coordinates for all of the sites. Alternatively, data can be an \code{sp} Spatial Points Data Frame or \code{sf} object with POINT geometry.
-#' @param xcoordcol is the name of the column in the data frame with x coordinates or longitudinal coordinates
-#' @param ycoordcol is the name of the column in the data frame with y coordinates or latitudinal coordinates
-#' @param areacol is the name of the column with the areas of the sites. By default, we assume that all sites have equal area, in which
+#' response variable as well as covariates for predicting the
+#' response on the unsampled sites.
+#' @param data is a data frame or tibble with the response column,
+#' the covariates to be used for the block kriging, and the
+#' spatial coordinates for all of the sites. Alternatively, data can be
+#' an \code{sp} Spatial Points Data Frame or \code{sf} object with
+#' POINT geometry.
+#' @param xcoordcol is the name of the column in the data frame with
+#' x coordinates or longitudinal coordinates
+#' @param ycoordcol is the name of the column in the data frame with
+#' y coordinates or latitudinal coordinates
+#' @param areacol is the name of the column with the areas of the sites.
+#' By default, we assume that all sites have equal area, in which
 #' case a vector of 1's is used as the areas.
 #' @param stratacol is the name of the the column with the
 #' stratification variable, if strata are to be fit separately,
 #' with different covariance parameter estimates.
-#' @param CorModel is the covariance structure. By default, \code{CorModel} is
-#' Exponential but other options include the Spherical and Gaussian.
+#' @param CorModel is the covariance structure. By default,
+#' \code{CorModel} is Exponential but other options include the
+#' Spherical and Gaussian.
 #' @param estmethod is either the default \code{"REML"} for restricted
 #' maximum likelihood to estimate the covariance parameters and
 #' regression coefficients or \code{"ML"} to estimate the covariance
 #' parameters and regression coefficients. This argument can also be set to
 #' \code{"None"}, in which case \code{covestimates} must be provided.
-#' @param covestimates is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and \code{estmethod = "None"}, the the provided vector are treated as the estimators to create the covariance structure.
+#' @param covestimates is an optional vector of covariance
+#' parameter estimates (nugget, partial sill, range). If these are
+#' given and \code{estmethod = "None"}, the the provided vector are
+#' treated as the estimators to create the covariance structure.
 #' @return a list of class \code{slmfit} with \itemize{
 #'   \item the spatial covariance estimates
 #'   \item the regression coefficient estimates
@@ -53,7 +64,8 @@
 #'
 #' data(exampledataset) ## load a toy data set
 #' exampledataset$strata <- c(rep("A", 19), rep("B", 21))
-#' strataobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset, stratacol = "strata",
+#' strataobj <- slmfit(formula = counts ~ pred1 + pred2,
+#'   data = exampledataset, stratacol = "strata",
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #' summary(strataobj)
 #' @import stats
@@ -123,7 +135,12 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     colnames(datapredsonly) <- all.vars(formula)[-1]
 
     if(stratacol %in% colnames(datapredsonly) == TRUE) {
-      stop("The stratification variable cannot be specified in both the stratacol argument and in the model formula. Use the model formula if assuming strata have the same covariance parameters and use the stratacol argument if allowing strata to have different covariance parameter estimates.")
+      stop("The stratification variable cannot be specified in both
+           the stratacol argument and in the model formula. Use the
+           model formula if assuming strata have the same
+           covariance parameters and use the stratacol argument
+           if allowing strata to have different covariance
+           parameter estimates.")
     }
 
     stratafit(formula = formula, data = data,
@@ -198,23 +215,18 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
     if (ncol(datapredsonly) >= 1) {
 
-      ## problem: if there is another character variable in the
-      ## data set, then this won't work.
-      # if (sum(sapply(datapredsonly, is.character)) > 0) {
-      #   message("Note: At least one predictor variable is a character, which has been converted into a factor.")
-      #
-      # data[ ,sapply(data, is.character) & is.na(predictormatch) == FALSE] <- factor(data[ ,which(sapply(data, is.character))])
-      #
-      # }
-
 
       ## check to make sure number of factor levels is somewhat small.
       ## If not, return a warning.
 
-      if (sum(sapply(datapredsonly, is.factor)) >= 1) { ## check to
-        ## see if  there are any factors
-        if (max(sapply(datapredsonly[ ,sapply(datapredsonly, is.factor)], nlevels)) > 20) {
-          warning("At least one predictor variable has more than 20 factor levels.")
+      if (sum(vapply(datapredsonly, is.factor, numeric(1))) >= 1) {
+        ## check to see if there are any factors
+        if (max(vapply(datapredsonly[ ,vapply(datapredsonly,
+                                              is.factor,
+                                              numeric(1))], nlevels,
+                       numeric(1))) > 20) {
+          warning("At least one predictor variable has more
+                  than 20 factor levels.")
         }
       }
 
@@ -231,15 +243,21 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
 
     ## give a warning if some of the predictors have missing values.
     if (nmissing >= 1) {
-      warning(paste("There were", nmissing, "sites with predictors with missing values. These will be removed from the data set and further analysis will be completed without these observations."))
+      warning(paste("There were",
+      nmissing,
+      "sites with predictors
+      with missing values. These will be removed from
+      the data set and further analysis will be
+      completed without these observations."))
     }
 
     ## display error if any values in the area col are missing
     if (is.null(areacol) == FALSE) {
       if (is.numeric(datanomiss[[areacol]]) == FALSE |
           sum(is.na(datanomiss[[areacol]])) > 0) {
-        stop("'areacol' must specify the name of the column in the data set with the areas for each site. This column must be numeric
-        without any missing values.")
+        stop("'areacol' must specify the name of the column in the
+        data set with the areas for each site. This column must be
+        numeric without any missing values.")
       }
     }
 
@@ -251,7 +269,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     ycoordsTM <- datanomiss[[ycoordcol]]
 
 
-    ## create the design matrix for unsampled sites, for all of the sites, and for the sampled sites, respectively.
+    ## create the design matrix for unsampled sites, for all of the
+    ## sites, and for the sampled sites, respectively.
 
 
     if (is.null(areacol) == TRUE) {
@@ -267,7 +286,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     density <- yvar / areavar
 
     if (is.numeric(yvar) == FALSE) {
-      stop("Check to make sure response variable is numeric, not a factor or character.")
+      stop("Check to make sure response variable is numeric, not a
+           factor or character.")
     }
 
     ## remove any rows with missing values in any of the predictors
@@ -302,7 +322,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     Xs <- stats::model.matrix(formula, m.sa)
 
     if (abs(det(t(Xs) %*% Xs)) < 1e-10) {
-      stop("There are collinearity issues in the predictors. Remove collinear predictors and re-fit the model.")
+      stop("There are collinearity issues in the predictors.
+           Remove collinear predictors and re-fit the model.")
     }
 
     z.density <- z.sa / areavar[ind.sa]
@@ -375,7 +396,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     names(covparms) <- c("Nugget", "Partial Sill", "Range")
 
     FPBKpredobj <- list(formula, datanomiss, xcoordsTM, ycoordsTM,
-                        estmethod, CorModel, Sigma, Sigma.ssi, areavar, Sigma.ss)
+                        estmethod, CorModel, Sigma,
+                        Sigma.ssi, areavar, Sigma.ss)
     names(FPBKpredobj) <- c("formula", "data", "xcoordsTM",
                             "ycoordsTM",
                             "estmethod","correlationmod",

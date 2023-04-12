@@ -5,7 +5,8 @@
 #' of the stratification variable in the same style as the
 #' \code{\link{summary.slmfit}()} function.
 #'
-#' @param object is an object generated from \code{\link{slmfit}()} of class \code{slmfit}.
+#' @param object is an object generated from \code{\link{slmfit}()} of
+#' class \code{slmfit}.
 #' @param ... further arguments passed to or from other methods.
 #' @return a list with \itemize{
 #'   \item model formula

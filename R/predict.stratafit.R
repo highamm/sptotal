@@ -2,15 +2,17 @@
 #'
 #' Uses an object of class \code{stratafit} from the \code{\link{stratafit}()}
 #'  function to predict the response on the unsampled sites for separate strata.
-#' The column of the data set that has the response should have numeric values for the observed response
-#' on the sampled sites and `NA` for any site that was not sampled.
-#' Note that there is no \code{newdata} argument to
-#' \code{predict.stratafit()}: any point in space for which a prediction
-#' is needed should be included in the original data set in \code{\link{stratafit}()}
-#' with the response variable as \code{NA}.
+#' The column of the data set that has the response should have
+#' numeric values for the observed response on the sampled sites and
+#' `NA` for any site that was not sampled. Note that there is no
+#' \code{newdata} argument to \code{predict.stratafit()}: any point in
+#' space for which a prediction is needed should be included in the
+#' original data set in \code{\link{stratafit}()} with the response
+#' variable as \code{NA}.
 #'
 #' @param object is an object generated from \code{\link{stratafit}()}
-#' @param wtscol is the name of the column that contains the weights for prediction. The default setting predicts the population total
+#' @param wtscol is the name of the column that contains the weights
+#' for prediction. The default setting predicts the population total
 #' @param conf_level, by default, 0.90, this is the desired
 #' confidence level for a prediction interval
 #' @param ... further arguments passed to or from other methods.
@@ -24,7 +26,8 @@
 #'        \item count predictions
 #'        \item site-by-site density prediction variances
 #'        \item site-by-site count prediction variances
-#'        \item indicator variable for whether or not the each site was sampled
+#'        \item indicator variable for whether or not the
+#'        each site was sampled
 #'        \item estimated mean for each site
 #'        \item area of each site
 #'        }
