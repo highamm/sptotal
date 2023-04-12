@@ -82,7 +82,7 @@ Prior to using the `sptotal` package, the data needs to be in `R` in the proper 
 Data input for the `sptotal` package is a `data.frame`. The basic information required to fit a spatial linear model, and make predictions, are the response variable, covariates, the x- and y-coordinates, and a column of weights. You can envision your whole population of possible samples as a `data.frame` organized as follows,
 
 ```{r, echo = FALSE, message = FALSE, fig.align="center", cache = FALSE}
-old.par = par(mar = c(0,0,0,0))
+old.par <- par(mar = c(0,0,0,0))
 plot(c(0,1), c(0,1), type = 'n', bty = 'n', xaxt = 'n', yaxt = 'n', 
   xlab = '', ylab = '')
 rect(0, .7, .08, 1, col = rgb(228/255,26/255,28/255))
@@ -175,7 +175,7 @@ However, we will now sample from this population to provide a more realistic set
 ```{r}
 set.seed(1)
 # take a random sample of 100
-obsID <- sample(1:nrow(simdata), 100)
+obsID <- sample(seq_len(nrow(simdata)), 100)
 simobs <- simdata
 simobs$Z <- NA
 simobs[obsID, 'Z'] <- simdata[obsID, 'Z']
@@ -468,7 +468,7 @@ We will do the same thing that we did with the simulated data, and take a random
 
 ```{r}
 set.seed(2)
-LakeObsID <- sample(1:nrow(lakes), 500)
+LakeObsID <- sample(seq_len(nrow(lakes)), 500)
 lakeobs <- lakes
 lakeobs$DOC_RESULT <- NA
 lakeobs[LakeObsID, 'DOC_RESULT'] <- lakes[LakeObsID, 'DOC_RESULT']

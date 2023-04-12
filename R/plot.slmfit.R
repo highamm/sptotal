@@ -1,15 +1,16 @@
 #' Plot an Empirical Semi-Variogram of Residuals
 #'
-#' Plots an empirical semi-variogram of the residuals from the spatial linear model
-#' with the fitted parametric model as a curve overtop of the
-#' binned points. By default, the empirical semi-variogram only shows distances
-#' that are less than or equal to the maximum distance in the data
-#' set divided by 2. Therefore, it's possible that the REML-fitted model
-#' will not "fit" the points perfectly.
+#' Plots an empirical semi-variogram of the residuals from the
+#' spatial linear model with the fitted parametric model as a curve
+#' overtop of the binned points. By default, the empirical semi-variogram
+#' only shows distances that are less than or equal to the maximum
+#' distance in the data set divided by 2. Therefore, it's possible that
+#' the REML-fitted model will not "fit" the points perfectly.
 #'
 #' @param x is an object of class \code{\link{slmfit}}.
 #' @param ... further arguments passed to or from other methods.
-#' @return a plot of the empirical semi-variogram with the fitted model overlayed.
+#' @return a plot of the empirical semi-variogram with
+#'  the fitted model overlayed.
 #' @import stats
 #' @import ggplot2
 #' @examples
@@ -20,7 +21,8 @@
 #'
 #' data(exampledataset) ## load a toy data set
 #' exampledataset$strata <- c(rep("A", 19), rep("B", 21))
-#' strataobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset, stratacol = "strata",
+#' strataobj <- slmfit(formula = counts ~ pred1 + pred2,
+#'   data = exampledataset, stratacol = "strata",
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #' plot(strataobj[[1]])
 #' @export
@@ -70,11 +72,11 @@ plot.slmfit <- function(x, ...) {
   df.plot <- as.data.frame(tab2)
 
   plot_out <- ggplot(data = vario_out,
-                     aes_(x = ~dist, y = ~gamma)) +
-    geom_point(aes_(size = ~np)) +
+                     aes(x = .data$dist, y = .data$gamma)) +
+    geom_point(aes(size = .data$np)) +
     ylim(0, max(c(max(vario_out$gamma) * (15 / 14),
                   max(df.plot$v.modfit) * (15 / 14)))) +
-    geom_line(data = df.plot, aes_(x = ~x.dist.plot, y = ~v.modfit)) +
+    geom_line(data = df.plot, aes(x = .data$x.dist.plot, y = .data$v.modfit)) +
     xlab("Distance (TM)") +
     ylab("Semi-Variance") +
     ggtitle(paste("Empirical Variogram with Fitted",

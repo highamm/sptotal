@@ -14,14 +14,21 @@
 #' @param lon is the vector of longitudes
 #' @param xcol is the name of the output TM column of x coordinates
 #' @param ycol is the name of the output TM column of y coordinates
-#' @param minx is `NULL` by default and sets the minimum x-coordinate value to 0. This is an optional minimum value for the x-coordinate vector.
-#' @param miny is `NULL` by default and sets the minimum y-coordinate value to 0. This is an optional minimum value for the y-coordinate vector.
+#' @param minx is `NULL` by default and sets the minimum x-coordinate
+#' value to 0. This is an optional minimum value for the x-coordinate vector.
+#' @param miny is `NULL` by default and sets the minimum y-coordinate
+#' value to 0. This is an optional minimum value for the y-coordinate vector.
 #'
-#' @return A list with the TM coordinates as the first component of the list. The first component of the list contains x coordinates in the first column and y coordinates in the second column. The remaining elements of the list are the \code{cm}, \code{minx}, and \code{miny} values that were input.
+#' @return A list with the TM coordinates as the first component of the list.
+#'  The first component of the list contains x coordinates in the first
+#' column and y coordinates in the second column. The remaining elements of
+#' the list are the \code{cm}, \code{minx}, and \code{miny} values that
+#' were input.
 #'
 #' @examples
 #' ## Add transverse Mercator x and y coordinates to a data frame with
-#' ## latitude/longitude coordinates. Name these \code{xc_TM_} and \code{yc_TM_}.
+#' ## latitude/longitude coordinates. Name these \code{xc_TM_}
+#'  and \code{yc_TM_}.
 #' exampledataset$xc_TM_ <- LLtoTM(cm = base::mean(exampledataset[ ,"xcoords"]),
 #'  lat = exampledataset[ ,"ycoords"],
 #'  lon = exampledataset[ ,"xcoords"])$xy[ ,1]
@@ -30,8 +37,8 @@
 #'  lon = exampledataset[ ,"xcoords"])$xy[ ,2]
 #' @export LLtoTM
 
-LLtoTM <- function(cm, lat, lon, xcol = "x", ycol = "y", minx = NULL, miny = NULL)
-{
+LLtoTM <- function(cm, lat, lon, xcol = "x",
+                   ycol = "y", minx = NULL, miny = NULL) {
   # check if any longitude values straddle the -180, +180 longitude line
   # if so, convert minus longitude values to longitude values > 180
   if(any(lon > 90 & lon < 180) & any(lon > -180 & lon < -90))

@@ -1,12 +1,17 @@
 #' Create a default map from predictions
 #'
-#' Creates a default map for the predictions of unobserved sites. Note that all predictions are stored
-#' in a data frame in the output of \code{\link{predict.slmfit}()}. Therefore, if a user
+#' Creates a default map for the predictions of unobserved sites.
+#' Note that all predictions are stored in a data frame in the output of
+#' \code{\link{predict.slmfit}()}. Therefore, if a user
 #' would like to create his or her own plot, he or she can easily do so using
 #' this data frame.
 #'
-#' @param x the output of the \code{\link{predict.slmfit}()} function, of class \code{predict.slmfit}
-#' @return a plot with x-coordinates on the x-axis and y-coordinates on the y-axis that is coloured by predictions, with points with an X denoting that a site was sampled and filled circles denoting unsampled sites.
+#' @param x the output of the \code{\link{predict.slmfit}()} function,
+#' of class \code{predict.slmfit}
+#' @return a plot with x-coordinates on the x-axis and y-coordinates on
+#' the y-axis that is coloured by predictions, with points with an X
+#' denoting that a site was sampled and filled circles denoting
+#' unsampled sites.
 #' @name get.predplot-deprecated
 #' @rdname get.predplot-deprecated
 #' @examples
@@ -21,7 +26,7 @@
 #' @import ggplot2
 #' @export
 
-get.predplot = function(x) {
+get.predplot <- function(x) {
 
   .Deprecated("plot.predict.slmfit")
 

@@ -43,7 +43,7 @@ summary.slmfit <- function(object, ...) {
   fixed.eff.est <- data.frame(##FactorLevel = predictornames,
     Estimate = regcoefs,
     std.err = sereg, t.value = tvec, prob.t = pvec)
-  fixed.effects.estimates = fixed.eff.est
+  fixed.effects.estimates <- fixed.eff.est
 
   covmodels <- object$SpatialParmEsts
   covmodelout <- data.frame(covmodels)

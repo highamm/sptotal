@@ -2,19 +2,25 @@
 #'
 #' \code{get.predinfo()} has been deprecated. Information given
 #' is now provided in the basic print of a
-#' \code{\link{predict.slmfit}()} object. Creates a list of tables that shows the prediction, standard error, and
-#' confidence interval for the prediction, as well as some summary information
-#' about the sample.
+#' \code{\link{predict.slmfit}()} object. Creates a list of tables
+#' that shows the prediction, standard error, and
+#' confidence interval for the prediction, as well as some summary
+#' information about the sample.
 #'
-#' @param x the output of the \code{\link{predict.slmfit}()} function, of class \code{predict.slmfit}
+#' @param x the output of the \code{\link{predict.slmfit}()} function,
+#' of class \code{predict.slmfit}
 #' @param conf_level is the confidence level for a normal-based
 #' confidence interval (default = 0.90).
 #' @return a list of three tables, including \itemize{
-#' \item \code{simptab}, which contains the prediction and its standard error,
-#' \item \code{confbounds}, which contains a confidence interval for the prediction, and
-#' \item \code{outptmat}, a table of sampling information, including the number of sites sampled, the total number of sites, the total observed response, and the
-#' observed average density (equal to the average response if all site areas are
-#' equal).
+#' \item \code{simptab}, which contains the prediction and its
+#' standard error,
+#' \item \code{confbounds}, which contains a confidence interval
+#' for the prediction, and
+#' \item \code{outptmat}, a table of sampling information,
+#' including the number of sites sampled, the total number of sites,
+#' the total observed response, and the
+#' observed average density (equal to the average response if all
+#' site areas are equal).
 #' }
 #' @name get.predinfo-deprecated
 #' @rdname get.predinfo-deprecated

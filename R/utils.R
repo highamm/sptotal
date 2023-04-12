@@ -201,7 +201,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
   }
 
   # #get Sigma for sampled sites only
-  Sigma_samp = Sigma[ind.sa, ind.sa]
+  Sigma_samp <- Sigma[ind.sa, ind.sa]
 
 
   qrV <- qr(Sigma_samp)
@@ -225,8 +225,8 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
 
   if(estmethod == "REML") {
 
-    sill = n * sill/(n - p)
-    min2loglik = (n - p) * log(sill) +
+    sill <- n * sill/(n - p)
+    min2loglik <- (n - p) * log(sill) +
       sum(log(abs(diag(qr.R(qrV))))) +
       as.numeric(crossprod(r, solve(qrV,r))) / sill +
       (n - p) * log(2 * pi) +

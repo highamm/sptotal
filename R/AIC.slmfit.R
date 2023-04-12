@@ -2,8 +2,12 @@
 #'
 #' @param object a \code{\link{slmfit}} object
 #' @param ... further arguments passed to or from other methods.
-#' @return The AIC value of the slmfit object.  Here, AIC is computed as 2 times the
-#' negative log-likelihood plus 2 times the number of model parameters for Maximum Likelihood (ML) and 2 times the negative log-likelihood for REML. For REML, AIC should only be used to compare two models with the same covariates but different spatial covariance structures.
+#' @return The AIC value of the slmfit object. Here,
+#' AIC is computed as 2 times the negative log-likelihood plus
+#' 2 times the number of model parameters for Maximum Likelihood (ML)
+#' and 2 times the negative log-likelihood for REML. For REML,
+#' AIC should only be used to compare two models with the same
+#' covariates but different spatial covariance structures.
 #' @examples
 #' data(exampledataset) ## load a toy data set
 #' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,

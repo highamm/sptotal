@@ -1,13 +1,18 @@
 #' Create a default map from predictions
 #'
-#' Creates a default map for the predictions of unobserved sites. Note that all predictions are stored
-#' in a data frame in the output of \code{\link{predict.slmfit}()}. Therefore, if a user
+#' Creates a default map for the predictions of unobserved sites.
+#'  Note that all predictions are stored in a data frame in the output
+#' of \code{\link{predict.slmfit}()}. Therefore, if a user
 #' would like to create his or her own plot, they can easily do so using
 #' this data frame.
 #'
-#' @param x the output of the \code{\link{predict.slmfit}()} function, of class \code{predict.slmfit}
+#' @param x the output of the \code{\link{predict.slmfit}()} function,
+#' of class \code{predict.slmfit}
 #' @param ... further arguments passed to or from other methods.
-#' @return a plot with x-coordinates on the x-axis and y-coordinates on the y-axis that is coloured by predictions, with points with an X denoting that a site was sampled and filled circles denoting unsampled sites.
+#' @return a plot with x-coordinates on the x-axis and y-coordinates on
+#' the y-axis that is coloured by predictions, with points with an X
+#' denoting that a site was sampled and filled circles denoting
+#' unsampled sites.
 #' @examples
 #' data(exampledataset) ## load a toy data set
 #' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
@@ -36,8 +41,9 @@ plot.predict.slmfit <- function(x, ...) {
   pcolname <- paste(base::all.vars(formula)[1], "_pred_count",
                     sep = "")
 
-  p3 <- ggplot2::ggplot(data = pred.vals, aes_(x = ~xcoordsTM_,
-                                               y = ~ycoordsTM_, shape = ~sampindfact_)) +  ##)) +
+  p3 <- ggplot2::ggplot(data = pred.vals, aes(x = .data$xcoordsTM_,
+                                               y = .data$ycoordsTM_,
+                                              shape = .data$sampindfact_)) +
     geom_point(aes(colour = preds), size = 3, stroke = 2) +
     #, ##size = pointsize,
     ## stroke = 3) +

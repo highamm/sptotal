@@ -1,13 +1,14 @@
 #' Perform Finite Population Block Kriging
 #'
 #' Uses an object of class \code{slmfit} from the \code{\link{slmfit}()}
-#'  function to predict the response on the unsampled sites.
-#' The column of the data set that has the response should have numeric values for the observed response
-#' on the sampled sites and `NA` for any site that was not sampled.
+#' function to predict the response on the unsampled sites.
+#' The column of the data set that has the response should have
+#' numeric values for the observed response on the sampled sites
+#' and `NA` for any site that was not sampled.
 #' Note that there is no \code{newdata} argument to
 #' \code{predict.slmfit()}: any point in space for which a prediction
-#' is needed should be included in the original data set in \code{\link{slmfit}()}
-#' with the response variable as \code{NA}.
+#' is needed should be included in the original data set in
+#'  \code{\link{slmfit}()} with the response variable as \code{NA}.
 #'
 #' @param object is an object generated from \code{\link{slmfit}()}
 #' @param wtscol is the name of the column that contains the weights
@@ -49,7 +50,8 @@ predict.slmfit <- function(object, wtscol = NULL,
   ## check to make sure object is of class `slmfit`
 
   if (!inherits(object, "slmfit")) {
-    stop("object must be of class 'slmfit' generated from the 'slmfit' function")
+    stop("object must be of class 'slmfit' generated from the
+         'slmfit' function")
   }
   ## if wtscol is left out, we are predicting the population total.
   ## Otherwise, wtscol is the name of the column in the data set
@@ -66,13 +68,17 @@ predict.slmfit <- function(object, wtscol = NULL,
 
   if (is.null(wtscol) == FALSE) {
     if (sum(names(data) == wtscol) == 0) {
-    stop("wtscol must be the name of the column (in quotes) in the data used in 'slmfit' that specifies the column with the prediction weights. ")
+    stop("wtscol must be the name of the column (in quotes) in
+         the data used in 'slmfit' that specifies the column with
+         the prediction weights. ")
     }
   }
 
   # if (is.null(wtscol) == FALSE) {
   #   if (wtscol %in% names(data) == FALSE) {
-  #   stop("wtscol must be the name of the column (in quotes) in the data used in 'slmfit' that specifies the column with the prediction weights. ")
+  #   stop("wtscol must be the name of the column (in quotes) in the
+  #  data used in 'slmfit' that specifies the column with the
+  #  prediction weights. ")
   #   }
   # }
 
@@ -102,7 +108,9 @@ predict.slmfit <- function(object, wtscol = NULL,
 
   ## make sure that some of the response values are missing
   if (sum(ind.un) == 0) {
-    stop("None of the values for the response variable are missing (NA). Therefore, prediction cannot be performed for any values of the response.")
+    stop("None of the values for the response variable are missing (NA).
+         Therefore, prediction cannot be performed for any values
+         of the response.")
   }
 
   data.sa <- data[ind.sa, , drop = FALSE]

@@ -33,7 +33,7 @@ print.summary.slmfit <- function(x,
     "\n", sep = "")
 
   cat("\nResiduals:\n")
-  resQ = c(min(x$Residuals), quantile(x$Residuals,
+  resQ <- c(min(x$Residuals), quantile(x$Residuals,
     p = c(0.25, 0.5, 0.75),
     na.rm = TRUE), max(x$Residuals))
   names(resQ) <- c("Min", "1Q", "Median", "3Q", "Max")

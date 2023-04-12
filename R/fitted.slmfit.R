@@ -1,6 +1,7 @@
 #' Extract Fitted Values from an \code{slmfit} object.
 #'
-#' @param object a \code{slmfit} object generated from the \code{\link{slmfit}()} function.
+#' @param object a \code{slmfit} object generated from the
+#'  \code{\link{slmfit}()} function.
 #' @param ... further arguments passed to or from other methods.
 #'
 #' @return a vector of fitted values (estimated means)

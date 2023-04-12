@@ -5,7 +5,7 @@
 \alias{AKmoose_df}
 \title{Data Set with Alaska Moose Counts.}
 \format{
-A dataframe object. The data frame \code{AKmoose_df} contains 860 rows and 4 columns:
+A dataframe object. The data frame \code{AKmoose_df} contains 860 rows and 8 columns:
 \describe{
   \item{elev_mean}{The mean elevation for each sitefor each site}
   \item{strat}{A stratification variable (either L or M)}
