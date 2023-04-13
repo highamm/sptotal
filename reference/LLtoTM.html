@@ -94,18 +94,24 @@ mean of the longitude values in your data set</p></dd>
 
 
 <dt>minx</dt>
-<dd><p>is `NULL` by default and sets the minimum x-coordinate value to 0. This is an optional minimum value for the x-coordinate vector.</p></dd>
+<dd><p>is `NULL` by default and sets the minimum x-coordinate
+value to 0. This is an optional minimum value for the x-coordinate vector.</p></dd>
 
 
 <dt>miny</dt>
-<dd><p>is `NULL` by default and sets the minimum y-coordinate value to 0. This is an optional minimum value for the y-coordinate vector.</p></dd>
+<dd><p>is `NULL` by default and sets the minimum y-coordinate
+value to 0. This is an optional minimum value for the y-coordinate vector.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>A list with the TM coordinates as the first component of the list. The first component of the list contains x coordinates in the first column and y coordinates in the second column. The remaining elements of the list are the <code>cm</code>, <code>minx</code>, and <code>miny</code> values that were input.</p>
+<p>A list with the TM coordinates as the first component of the list.
+ The first component of the list contains x coordinates in the first
+column and y coordinates in the second column. The remaining elements of
+the list are the <code>cm</code>, <code>minx</code>, and <code>miny</code> values that
+were input.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -117,7 +123,7 @@ that both the minimum x and y-coordinate values are 0 scaled to 1 km.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Add transverse Mercator x and y coordinates to a data frame with</span></span></span>
-<span class="r-in"><span><span class="co">## latitude/longitude coordinates. Name these \code{xc_TM_} and \code{yc_TM_}.</span></span></span>
+<span class="r-in"><span><span class="co">## latitude/longitude coordinates.</span></span></span>
 <span class="r-in"><span><span class="va">exampledataset</span><span class="op">$</span><span class="va">xc_TM_</span> <span class="op">&lt;-</span> <span class="fu">LLtoTM</span><span class="op">(</span>cm <span class="op">=</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">exampledataset</span><span class="op">[</span> ,<span class="st">"xcoords"</span><span class="op">]</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span> lat <span class="op">=</span> <span class="va">exampledataset</span><span class="op">[</span> ,<span class="st">"ycoords"</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span> lon <span class="op">=</span> <span class="va">exampledataset</span><span class="op">[</span> ,<span class="st">"xcoords"</span><span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">xy</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span></span></span>

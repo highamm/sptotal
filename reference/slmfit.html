@@ -82,24 +82,31 @@ parameters, given spatial coordinates and a model formula.</p>
     <h2>Arguments</h2>
     <dl><dt>formula</dt>
 <dd><p>is an <code>R</code> linear model formula specifying the
-response variable as well as covariates for predicting the response on the unsampled sites.</p></dd>
+response variable as well as covariates for predicting the
+response on the unsampled sites.</p></dd>
 
 
 <dt>data</dt>
-<dd><p>is a data frame or tibble with the response column, the covariates to
-be used for the block kriging, and the spatial coordinates for all of the sites. Alternatively, data can be an <code>sp</code> Spatial Points Data Frame or <code>sf</code> object with POINT geometry.</p></dd>
+<dd><p>is a data frame or tibble with the response column,
+the covariates to be used for the block kriging, and the
+spatial coordinates for all of the sites. Alternatively, data can be
+an <code>sp</code> Spatial Points Data Frame or <code>sf</code> object with
+POINT geometry.</p></dd>
 
 
 <dt>xcoordcol</dt>
-<dd><p>is the name of the column in the data frame with x coordinates or longitudinal coordinates</p></dd>
+<dd><p>is the name of the column in the data frame with
+x coordinates or longitudinal coordinates</p></dd>
 
 
 <dt>ycoordcol</dt>
-<dd><p>is the name of the column in the data frame with y coordinates or latitudinal coordinates</p></dd>
+<dd><p>is the name of the column in the data frame with
+y coordinates or latitudinal coordinates</p></dd>
 
 
 <dt>areacol</dt>
-<dd><p>is the name of the column with the areas of the sites. By default, we assume that all sites have equal area, in which
+<dd><p>is the name of the column with the areas of the sites.
+By default, we assume that all sites have equal area, in which
 case a vector of 1's is used as the areas.</p></dd>
 
 
@@ -110,8 +117,9 @@ with different covariance parameter estimates.</p></dd>
 
 
 <dt>CorModel</dt>
-<dd><p>is the covariance structure. By default, <code>CorModel</code> is
-Exponential but other options include the Spherical and Gaussian.</p></dd>
+<dd><p>is the covariance structure. By default,
+<code>CorModel</code> is Exponential but other options include the
+Spherical and Gaussian.</p></dd>
 
 
 <dt>estmethod</dt>
@@ -123,7 +131,10 @@ parameters and regression coefficients. This argument can also be set to
 
 
 <dt>covestimates</dt>
-<dd><p>is an optional vector of covariance parameter estimates (nugget, partial sill, range). If these are given and <code>estmethod = "None"</code>, the the provided vector are treated as the estimators to create the covariance structure.</p></dd>
+<dd><p>is an optional vector of covariance
+parameter estimates (nugget, partial sill, range). If these are
+given and <code>estmethod = "None"</code>, the the provided vector are
+treated as the estimators to create the covariance structure.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -184,7 +195,8 @@ parameters and regression coefficients. This argument can also be set to
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">exampledataset</span><span class="op">)</span> <span class="co">## load a toy data set</span></span></span>
 <span class="r-in"><span><span class="va">exampledataset</span><span class="op">$</span><span class="va">strata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">19</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="fl">21</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">strataobj</span> <span class="op">&lt;-</span> <span class="fu">slmfit</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">counts</span> <span class="op">~</span> <span class="va">pred1</span> <span class="op">+</span> <span class="va">pred2</span>, data <span class="op">=</span> <span class="va">exampledataset</span>, stratacol <span class="op">=</span> <span class="st">"strata"</span>,</span></span>
+<span class="r-in"><span><span class="va">strataobj</span> <span class="op">&lt;-</span> <span class="fu">slmfit</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">counts</span> <span class="op">~</span> <span class="va">pred1</span> <span class="op">+</span> <span class="va">pred2</span>,</span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="va">exampledataset</span>, stratacol <span class="op">=</span> <span class="st">"strata"</span>,</span></span>
 <span class="r-in"><span>xcoordcol <span class="op">=</span> <span class="st">'xcoords'</span>, ycoordcol <span class="op">=</span> <span class="st">'ycoords'</span>, areacol <span class="op">=</span> <span class="st">'areavar'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">strataobj</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A</span>

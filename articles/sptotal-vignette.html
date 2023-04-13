@@ -83,7 +83,7 @@ Finite Spatial Populations</h1>
                         <h4 data-toc-skip class="author">Matt Higham,
 Jay M. Ver Hoef, Bryce M. Frank, Michael Dumelle</h4>
             
-            <h4 data-toc-skip class="date">2023-04-11</h4>
+            <h4 data-toc-skip class="date">2023-04-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/highamm/sptotal/blob/HEAD/vignettes/sptotal-vignette.Rmd" class="external-link"><code>vignettes/sptotal-vignette.Rmd</code></a></small>
       <div class="hidden name"><code>sptotal-vignette.Rmd</code></div>
@@ -314,7 +314,7 @@ represent the unsampled sites.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co"># take a random sample of 100</span></span>
-<span><span class="va">obsID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">)</span>, <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">obsID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">)</span><span class="op">)</span>, <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">simobs</span> <span class="op">&lt;-</span> <span class="va">simdata</span></span>
 <span><span class="va">simobs</span><span class="op">$</span><span class="va">Z</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
 <span><span class="va">simobs</span><span class="op">[</span><span class="va">obsID</span>, <span class="st">'Z'</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">simdata</span><span class="op">[</span><span class="va">obsID</span>, <span class="st">'Z'</span><span class="op">]</span></span></code></pre></div>
@@ -871,7 +871,7 @@ not a total, we will create a weights column for the
 <code>lakeobs</code> data set, with each element <span class="math inline">\(1/N\)</span>, where, here, <span class="math inline">\(N = 1204\)</span>.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="va">LakeObsID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">lakes</span><span class="op">)</span>, <span class="fl">500</span><span class="op">)</span></span>
+<span><span class="va">LakeObsID</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">lakes</span><span class="op">)</span><span class="op">)</span>, <span class="fl">500</span><span class="op">)</span></span>
 <span><span class="va">lakeobs</span> <span class="op">&lt;-</span> <span class="va">lakes</span></span>
 <span><span class="va">lakeobs</span><span class="op">$</span><span class="va">DOC_RESULT</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
 <span><span class="va">lakeobs</span><span class="op">[</span><span class="va">LakeObsID</span>, <span class="st">'DOC_RESULT'</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">lakes</span><span class="op">[</span><span class="va">LakeObsID</span>, <span class="st">'DOC_RESULT'</span><span class="op">]</span></span>
@@ -892,7 +892,8 @@ rely on robustness of the method. Let’s see how this works.</p>
 <span>                                <span class="va">RVFPUNDWOODY_RIP</span> <span class="op">+</span> <span class="va">FCIBIG_LIT</span> <span class="op">+</span></span>
 <span>                                <span class="va">RVFCGNDBARE_RIP</span> <span class="op">+</span> <span class="va">RVFCGNDWOODY_RIP</span>,</span>
 <span>                              data <span class="op">=</span> <span class="va">lakeobs</span>, </span>
-<span>                              xcoordcol <span class="op">=</span> <span class="st">'XCOORD'</span>, ycoordcol <span class="op">=</span> <span class="st">'YCOORD'</span>, CorModel <span class="op">=</span> <span class="st">"Exponential"</span><span class="op">)</span></span>
+<span>                              xcoordcol <span class="op">=</span> <span class="st">'XCOORD'</span>, ycoordcol <span class="op">=</span> <span class="st">'YCOORD'</span>,</span>
+<span>                              CorModel <span class="op">=</span> <span class="st">"Exponential"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">slmfitout_exp_lakes</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call:</span></span>
@@ -1019,7 +1020,9 @@ are contained in Ver Hoef and Temesgen (2013) and Temesgen and Ver Hoef
 </h2>
 <p>To cite this package, type</p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"sptotal"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"sptotal"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in citation("sptotal"): no date field in DESCRIPTION file of package</span></span>
+<span><span class="co">#&gt; 'sptotal'</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
