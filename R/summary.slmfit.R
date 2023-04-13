@@ -18,7 +18,6 @@
 #' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #' summary(slmobj)
-#' @import stats
 #' @export
 
 summary.slmfit <- function(object, ...) {
@@ -38,7 +37,7 @@ summary.slmfit <- function(object, ...) {
   tvec <- NAvec
   tvec <- regcoefs / sereg
   pvec <- NAvec
-  pvec <- round(100000 * (1 - pt(abs(regcoefs / sereg),
+  pvec <- round(100000 * (1 - stats::pt(abs(regcoefs / sereg),
     df = n - p)) * 2) / 100000
 
   fixed.eff.est <- data.frame(##FactorLevel = predictornames,

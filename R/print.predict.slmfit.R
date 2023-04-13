@@ -11,7 +11,6 @@
 #' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #' print(predict(slmobj), digits = 4)
-#' @import stats
 #' @export
 
 print.predict.slmfit <- function(x, digits =

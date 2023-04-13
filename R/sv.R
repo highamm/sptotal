@@ -18,7 +18,6 @@
 #'
 #' @return A data frame with the average distance in each bin (dist), the
 #' semivariance (gamma), and the number of unique pairs in each bin (np)
-#' @import stats
 #' @export
 #'
 #' @examples
@@ -65,6 +64,6 @@ sv <- function(data, xcoordcol, ycoordcol, residcol,
   # return output
   sv_out <- data.frame(dist, gamma, np)
   # remove NA
-  sv_out <- na.omit(sv_out)
+  sv_out <- stats::na.omit(sv_out)
   return(sv_out)
 }

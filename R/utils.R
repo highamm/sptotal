@@ -118,7 +118,7 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
     max.lik.obs <- which(m2loglik == min(m2loglik))
 
     ## optimize using Nelder-Mead
-    parmest <- optim(theta[max.lik.obs, ], m2LL.FPBK.nodet,
+    parmest <- stats::optim(theta[max.lik.obs, ], m2LL.FPBK.nodet,
       zcol = response[ind.sa],
       XDesign = as.matrix(designmatrixsa),
       distmat = distmat,
@@ -227,9 +227,6 @@ estcovparm <- function(response, designmatrix, xcoordsvec, ycoordsvec,
 #' @return A numeric output of minus 2 times the restricted log
 #' likelihood to be minimized by `optim` to obtain spatial
 #' parameter estimates.
-#' @importFrom stats optim
-#' @importFrom stats glm
-#' @importFrom stats rbinom
 
 m2LL.FPBK.nodet <- function(theta, zcol, XDesign, distmat,
   CorModel, estmethod) {
@@ -495,8 +492,8 @@ pointSimCSR <- function(npoints = 100, lower_x_lim = 0, upper_x_lim = 1,
 {
   x_range <- upper_x_lim - lower_x_lim
   y_range <- upper_y_lim - lower_y_lim
-  tibble::data_frame(x=lower_x_lim + runif(npoints)*x_range,
-    y=lower_y_lim + runif(npoints)*y_range)
+  tibble::data_frame(x=lower_x_lim + stats::runif(npoints) * x_range,
+    y=lower_y_lim + stats::runif(npoints)*y_range)
 }
 
 #' Creates a systematic grid of points.

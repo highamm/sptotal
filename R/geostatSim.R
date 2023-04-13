@@ -75,6 +75,6 @@ geostatSim <- function(loc.data, xcol = "x", ycol = "y",
 #		if(CorModel == "Circular") CovMat <- CorModel.Circular(dismat)
 		if(CorModel == "Spherical") CovMat <- corModelSpherical(dismat, 1)
 	CovMat <- parsil * CovMat + diag(nugget, nrow = n, ncol = n)
-	data.frame(loc.data, z = t(chol(CovMat)) %*% rnorm(n))
+	data.frame(loc.data, z = t(chol(CovMat)) %*% stats::rnorm(n))
 }
 

@@ -14,8 +14,9 @@
 #' model overlayed.
 #' @name check.variogram-deprecated
 #' @rdname check.variogram-deprecated
-#' @import stats
-#' @import ggplot2
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 .data
 #' @examples
 #' data(exampledataset) ## load a toy data set
 #' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
@@ -48,7 +49,7 @@ check.variogram <- function(object) {
     data = df)
 
   ## use h / 2 as cutoff, where h is max distance in data set
-  cutoff_point <- max(dist(cbind(xcoords, ycoords))) / 2
+  cutoff_point <- max(stats::dist(cbind(xcoords, ycoords))) / 2
 
   vario_out <- gstat::variogram(g_obj, cutoff = cutoff_point)
   maxy <- max(vario_out$gamma)
@@ -80,16 +81,16 @@ check.variogram <- function(object) {
 
   plot_out <- ggplot(data = vario_out,
     aes(x = .data$dist, y = .data$gamma)) +
-    geom_point(aes(size = gstat::variogram(g_obj,
+    ggplot2::geom_point(aes(size = gstat::variogram(g_obj,
                                              cutoff = cutoff_point)$np)) +
-    ylim(0, max(c(maxy * (15 / 14), max(df.plot$v.modfit) * (15 / 14)))) +
-    geom_line(data = df.plot, aes(x = .data$x.dist.plot,
+    ggplot2::ylim(0, max(c(maxy * (15 / 14), max(df.plot$v.modfit) * (15 / 14)))) +
+    ggplot2::geom_line(data = df.plot, aes(x = .data$x.dist.plot,
                                   y = .data$v.modfit)) +
-    xlab("Distance (TM)") +
-    ylab("Semi-Variance") +
-    ggtitle(paste("Empirical Variogram with Fitted",
+    ggplot2::xlab("Distance (TM)") +
+    ggplot2::ylab("Semi-Variance") +
+    ggplot2::ggtitle(paste("Empirical Variogram with Fitted",
       covmod, "Model")) +
-    scale_size_continuous("Number of Pairs")
+    ggplot2::scale_size_continuous("Number of Pairs")
 
   print(plot_out)
 }

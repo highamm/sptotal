@@ -11,8 +11,9 @@
 #' @param ... further arguments passed to or from other methods.
 #' @return a plot of the empirical semi-variogram with
 #'  the fitted model overlayed.
-#' @import stats
-#' @import ggplot2
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 .data
 #' @examples
 #' data(exampledataset) ## load a toy data set
 #' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
@@ -73,15 +74,16 @@ plot.slmfit <- function(x, ...) {
 
   plot_out <- ggplot(data = vario_out,
                      aes(x = .data$dist, y = .data$gamma)) +
-    geom_point(aes(size = .data$np)) +
-    ylim(0, max(c(max(vario_out$gamma) * (15 / 14),
+    ggplot2::geom_point(aes(size = .data$np)) +
+    ggplot2::ylim(0, max(c(max(vario_out$gamma) * (15 / 14),
                   max(df.plot$v.modfit) * (15 / 14)))) +
-    geom_line(data = df.plot, aes(x = .data$x.dist.plot, y = .data$v.modfit)) +
-    xlab("Distance (TM)") +
-    ylab("Semi-Variance") +
-    ggtitle(paste("Empirical Variogram with Fitted",
+    ggplot2::geom_line(data = df.plot,
+                       aes(x = .data$x.dist.plot, y = .data$v.modfit)) +
+    ggplot2::xlab("Distance (TM)") +
+    ggplot2::ylab("Semi-Variance") +
+    ggplot2::ggtitle(paste("Empirical Variogram with Fitted",
                   covmod, "Model")) +
-    scale_size_continuous("Number of Pairs")
+    ggplot2::scale_size_continuous("Number of Pairs")
 
   print(plot_out)
 

@@ -22,7 +22,6 @@
 #'  data = exampledataset, stratacol = "strata",
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #' summary(strataobj)
-#' @import stats
 #' @export
 
 summary.stratafit <- function(object, ...) {

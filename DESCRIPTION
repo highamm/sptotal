@@ -16,16 +16,15 @@ LazyData: true
 RoxygenNote: 7.2.1
 BugReports: https://github.com/highamm/sptotal/issues
 Imports: ggplot2,
-    stats,
-    viridis,
-    graphics
+    stats
 Suggests: 
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
     prettydoc,
     tibble,
-    gstat
+    gstat,
+    graphics
 VignetteBuilder: knitr,
     rmarkdown
 URL: https://highamm.github.io/sptotal/index.html

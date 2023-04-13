@@ -19,9 +19,10 @@
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #' predobj <- predict(slmobj)
 #' plot(predobj)
-#' @importFrom viridis viridis
-#' @import graphics
-#' @import ggplot2
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 element_blank
+#' @importFrom ggplot2 .data
 #' @export
 
 plot.predict.slmfit <- function(x, ...) {
@@ -41,21 +42,22 @@ plot.predict.slmfit <- function(x, ...) {
   pcolname <- paste(base::all.vars(formula)[1], "_pred_count",
                     sep = "")
 
-  p3 <- ggplot2::ggplot(data = pred.vals, aes(x = .data$xcoordsTM_,
+  p3 <- ggplot(data = pred.vals, aes(x = .data$xcoordsTM_,
                                                y = .data$ycoordsTM_,
                                               shape = .data$sampindfact_)) +
-    geom_point(aes(colour = preds), size = 3, stroke = 2) +
+    ggplot2::geom_point(aes(colour = preds), size = 3, stroke = 2) +
     #, ##size = pointsize,
     ## stroke = 3) +
-    scale_fill_viridis_c() +
-    scale_colour_viridis_c(name = "Response") +
-    theme_bw() +
-    scale_shape_manual("Samp Indicator",
-                       labels = c("Unsampled", "Sampled"), values = shapevals) +
-    theme(panel.background = element_blank(),
+    ggplot2::scale_fill_viridis_c() +
+    ggplot2::scale_colour_viridis_c(name = "Response") +
+    ggplot2::theme_bw() +
+    ggplot2::scale_shape_manual("Samp Indicator",
+                       labels = c("Unsampled", "Sampled"),
+                       values = shapevals) +
+    ggplot2::theme(panel.background = element_blank(),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank()) +
-    xlab("") + ylab("")
+    ggplot2::xlab("") + ggplot2::ylab("")
 
   print(p3)
 }

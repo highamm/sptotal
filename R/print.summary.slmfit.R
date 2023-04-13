@@ -22,7 +22,6 @@
 #' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #' print(summary(slmobj))
-#' @import stats
 #' @export
 
 print.summary.slmfit <- function(x,
@@ -35,7 +34,7 @@ print.summary.slmfit <- function(x,
     "\n", sep = "")
 
   cat("\nResiduals:\n")
-  resQ <- c(min(x$Residuals), quantile(x$Residuals,
+  resQ <- c(min(x$Residuals), stats::quantile(x$Residuals,
     p = c(0.25, 0.5, 0.75),
     na.rm = TRUE), max(x$Residuals))
   names(resQ) <- c("Min", "1Q", "Median", "3Q", "Max")
@@ -44,7 +43,7 @@ print.summary.slmfit <- function(x,
   cat("\nCoefficients:\n")
   coefs <- x$FixedEffects
   colnames(coefs) <- c("Estimate", "Std. Error", "t value", "Pr(>|t|)")
-  printCoefmat(coefs, digits = digits, signif.stars = signif.stars,
+  stats::printCoefmat(coefs, digits = digits, signif.stars = signif.stars,
     na.print = "NA", ...)
 
   cat("\nCovariance Parameters:\n")
@@ -74,7 +73,6 @@ print.summary.slmfit <- function(x,
 #' slmobj <- slmfit(formula = counts ~ pred1 + pred2, data = exampledataset,
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #' print(slmobj)
-#' @import stats
 #' @export
 
 print.slmfit <- function(x,

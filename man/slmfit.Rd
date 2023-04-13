@@ -97,4 +97,5 @@ strataobj <- slmfit(formula = counts ~ pred1 + pred2,
   data = exampledataset, stratacol = "strata",
 xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 summary(strataobj)
+
 }

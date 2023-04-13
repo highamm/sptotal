@@ -68,7 +68,9 @@
 #'   data = exampledataset, stratacol = "strata",
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #' summary(strataobj)
-#' @import stats
+#'
+#' @importFrom stats model.matrix
+#' @importFrom stats model.frame
 #' @export slmfit
 
 slmfit <- function(formula, data, xcoordcol, ycoordcol,
@@ -306,8 +308,8 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     data.sa <- datanomiss[ind.sa, ]
     data.un <- datanomiss[ind.un, ]
 
-    m.un <- stats::model.frame(formula, data.un, na.action =
-                                 stats::na.pass)
+    m.un <- model.frame(formula, data.un, na.action =
+                          stats::na.pass)
 
 
     Xu <- model.matrix(formula.onlypreds,
@@ -319,7 +321,7 @@ slmfit <- function(formula, data, xcoordcol, ycoordcol,
     m.sa <- stats::model.frame(formula, data.sa, na.action =
                                  stats::na.omit)
     z.sa <- stats::model.response(m.sa)
-    Xs <- stats::model.matrix(formula, m.sa)
+    Xs <- model.matrix(formula, m.sa)
 
     if (abs(det(t(Xs) %*% Xs)) < 1e-10) {
       stop("There are collinearity issues in the predictors.

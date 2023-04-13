@@ -82,22 +82,22 @@ Prior to using the `sptotal` package, the data needs to be in `R` in the proper 
 Data input for the `sptotal` package is a `data.frame`. The basic information required to fit a spatial linear model, and make predictions, are the response variable, covariates, the x- and y-coordinates, and a column of weights. You can envision your whole population of possible samples as a `data.frame` organized as follows,
 
 ```{r, echo = FALSE, message = FALSE, fig.align="center", cache = FALSE}
-old.par <- par(mar = c(0,0,0,0))
+old.par <- graphics::par(mar = c(0,0,0,0))
 plot(c(0,1), c(0,1), type = 'n', bty = 'n', xaxt = 'n', yaxt = 'n', 
   xlab = '', ylab = '')
-rect(0, .7, .08, 1, col = rgb(228/255,26/255,28/255))
-rect(0, 0, .08, .68, col = 'white')
-rect(.1, .7, .48, 1, col = rgb(55/255,126/255,184/255))
-rect(.1, 0, .48, .68, col = rgb(55/255,126/255,184/255, alpha = .3))
-rect(.5, .7, .58, 1, col = rgb(77/255,175/255,74/255))
-rect(.6, .7, .68, 1, col = rgb(77/255,175/255,74/255))
-rect(.5, 0, .58, .68, col = rgb(77/255,175/255,74/255, alpha = .3))
-rect(.6, 0, .68, .68, col = rgb(77/255,175/255,74/255, alpha = .3))
-rect(.7, .7, .78, 1, col = rgb(152/255,78/255,163/255))
-rect(.7, 0, .78, .68, col = rgb(152/255,78/255,163/255, alpha = .3))
-rect(.8, .7, 1, 1, col = rgb(255/255,127/255,0/255))
-rect(.8, 0, 1, .68, col = rgb(255/255,127/255,0/255, alpha = .3))
-par(old.par)
+graphics::rect(0, .7, .08, 1, col = rgb(228/255,26/255,28/255))
+graphics::rect(0, 0, .08, .68, col = 'white')
+graphics::rect(.1, .7, .48, 1, col = rgb(55/255,126/255,184/255))
+graphics::rect(.1, 0, .48, .68, col = rgb(55/255,126/255,184/255, alpha = .3))
+graphics::rect(.5, .7, .58, 1, col = rgb(77/255,175/255,74/255))
+graphics::rect(.6, .7, .68, 1, col = rgb(77/255,175/255,74/255))
+graphics::rect(.5, 0, .58, .68, col = rgb(77/255,175/255,74/255, alpha = .3))
+graphics::rect(.6, 0, .68, .68, col = rgb(77/255,175/255,74/255, alpha = .3))
+graphics::rect(.7, .7, .78, 1, col = rgb(152/255,78/255,163/255))
+graphics::rect(.7, 0, .78, .68, col = rgb(152/255,78/255,163/255, alpha = .3))
+graphics::rect(.8, .7, 1, 1, col = rgb(255/255,127/255,0/255))
+graphics::rect(.8, 0, 1, .68, col = rgb(255/255,127/255,0/255, alpha = .3))
+graphics::par(old.par)
 ```
 
 where the red rectangle represents the column of the response variable, and the top part, colored in red, are observed locations, and the lower part, colored in white, are the unobserved values. To the right, colored in blue, are possibly several columns containing covariates thought to be _predictive_ for the response value at each location. Covariates must be known for both observed and unobserved locations, and the covariates for unobserved locations are shown as pale blue below the darker blue covariates for observed locations above. It is also possible that there are no available covariates. 

@@ -19,7 +19,6 @@
 #'  data = exampledataset, stratacol = "strata",
 #' xcoordcol = 'xcoords', ycoordcol = 'ycoords', areacol = 'areavar')
 #' predict(strataobj)
-#' @import stats
 #' @export
 
 print.predict.stratafit <- function(x, digits =
