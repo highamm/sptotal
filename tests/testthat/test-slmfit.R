@@ -102,6 +102,16 @@ test_that("non-standard values for estmethod and CorModel generate an error", {
                NULL)
 })
 
+exampledataset$pred1_col <- exampledataset$pred1 * 2
+test_that("collinear predictors give an error", {
+  expect_error(slmfit(formula = counts ~ pred1 + pred1_col,
+                      data = exampledataset,
+                      xcoordcol = 'xcoords',
+                      ycoordcol = 'ycoords')
+  )
+})
+
+
 simdata$many_levels <- factor(sample(letters, size = nrow(simdata),
                                      replace = TRUE))
 test_that("factors with a large number of levels generate a warning", {
@@ -111,3 +121,5 @@ test_that("factors with a large number of levels generate a warning", {
          ycoordcol = 'y'),
          NULL)
 })
+
+

@@ -83,6 +83,17 @@ test_that("deprecated predict function generates warning", {
   expect_warning(get.predinfo(predobj), NULL)
 })
 
+exampledataset$counts_nomiss <- rpois(n = nrow(exampledataset), 5)
+mod_nomiss <- slmfit(counts_nomiss ~ 1,
+                     data = exampledataset, xcoordcol = "xcoords",
+                     ycoordcol = "ycoords")
+
+test_that("message is returned when none of the response values are missing", {
+  expect_error(predict(mod_nomiss), NULL)
+})
+
+
+
 
 
 

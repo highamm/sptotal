@@ -1,4 +1,4 @@
-# Stratification summary output does not change
+# including stratacol in slmfit analyzes strata separately
 
     Code
       summary(stratamod)

@@ -492,8 +492,8 @@ pointSimCSR <- function(npoints = 100, lower_x_lim = 0, upper_x_lim = 1,
 {
   x_range <- upper_x_lim - lower_x_lim
   y_range <- upper_y_lim - lower_y_lim
-  tibble::data_frame(x=lower_x_lim + stats::runif(npoints) * x_range,
-    y=lower_y_lim + stats::runif(npoints)*y_range)
+  tibble::tibble(x = lower_x_lim + stats::runif(npoints) * x_range,
+    y = lower_y_lim + stats::runif(npoints) * y_range)
 }
 
 #' Creates a systematic grid of points.
