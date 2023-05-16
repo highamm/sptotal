@@ -45,21 +45,21 @@ In the remainder of the paper, we give an overview of both the background of the
 
 ``sptotal`` provides an implementation of the Finite Population Block Kriging (FPBK) methods developed in @ver2002sampling and @ver_hoef_spatial_2008.  Next we provide a short overview of FPBK.
 
-Suppose that we have a response variable $Y(\mathbf{s}_{i})$, $i = 1, 2, \ldots, N$, where the vector $\mathbf{s}_i$ contains the coordinates for the $i^{th}$ spatial location and $N$ is a finite number of spatial locations. Then $\mathbf{y}$, a vector of the $Y(\mathbf{s}_{i})$, can be modeled with a spatial linear model
+Suppose that we have a response variable $Y(\mathbf{s}_{i})$, $i = 1, 2, \ldots, N$, where the vector $\mathbf{s}_i$ contains the coordinates for the $i^{th}$ spatial location and $N$ is a finite number of spatial locations. Then $\mathbf{y}$, an $N$-length column vector of the $Y(\mathbf{s}_{i})$, can be modeled with a spatial linear model
 \mbox{}
 \begin{equation}
 \mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\epsilon},
 \end{equation}
 \noindent
-where $\mathbf{X}$ is a design matrix for the fixed effects and $\boldsymbol{\beta}$ is a parameter vector of fixed effects. The vector of random errors has a mean of $\mathbf{0}$ and a covariance of 
+where $\mathbf{X}$ is a design matrix for the fixed effects and $\boldsymbol{\beta}$ is a parameter vector of fixed effects. The vector of random errors follows a multivariate normal distribution with a mean vector of $\mathbf{0}$ and a covariance of 
 \mbox{}
 \begin{equation}
 \text{var}(\boldsymbol{\epsilon}) = \sigma^2 \mathbf{R} + \tau^2 \mathbf{I},
 \end{equation}
 \noindent
-where $\sigma^2$ is the spatial dependent error variance (commonly called the partial sill), $\mathbf{R}$ is a spatial correlation matrix, $\tau^2$ is the spatial independent error variance (commonly called the nugget), and $\mathbf{I}$ is the identity matrix. A common model used to generate $\mathbf{R}$ is the exponential correlation function [@cressie2015statistics]. 
+where $\sigma^2$ is the spatial dependent error variance (commonly called the partial sill), $\tau^2$ is the spatial independent error variance (commonly called the nugget), and $\mathbf{I}$ is the identity matrix. The $i^{th}$ row and $j^{th}$ column of the $N \times N$ spatial correlation matrix $\mathbf{R}$ contains the correlation between the random error of the $i^{th}$ spatial location, $\epsilon_i$, and the random error of the $j^{th}$ spatial location, $\epsilon_j$. A common model used to generate $\mathbf{R}$ is the exponential correlation function [@cressie2015statistics].
 
-FPBK predicts some linear function of the response, $f(\mathbf{y}) = \mathbf{b}^\prime \mathbf{y}$, where $\mathbf{b}$ is a vector of weights. A common vector of weights is a vector of 1's so that the resulting prediction is for the total abundance across all sites. If only some of the values in $\mathbf{y}$ are observed, then the ``sptotal`` package can be used to find the the Best Linear Unbiased Predictor (BLUP) for $\mathbf{b}^\prime \mathbf{y}$, referred to as the FPBK predictor, along with its prediction variance.
+FPBK predicts some linear function of the response, $f(\mathbf{y}) = \mathbf{b}^\prime \mathbf{y}$, where $\mathbf{b}$ is an $N$-length column vector of weights. A common vector of weights is a vector of 1's so that the resulting prediction is for the total abundance across all sites. If only some of the values in $\mathbf{y}$ are observed, then the ``sptotal`` package can be used to find the the Best Linear Unbiased Predictor (BLUP) for $\mathbf{b}^\prime \mathbf{y}$, referred to as the FPBK predictor, along with its prediction variance.
 
 The primary functions in the ``sptotal`` package are described in the following section. In short, the FPBK method is implemented in ``sptotal``'s ``predict()`` generic function, which is used on a spatial model that is fit with ``sptotal::slmfit()``.
 
@@ -141,6 +141,10 @@ Note that there are many spatial packages in ``R`` that can be used to predict v
 # Past and Ongoing Research Projects
 
 @dumelle2022comparison used the ``sptotal`` package to compare model-based and design-based approaches for analysis of spatial data. Currently, a ``Shiny`` app is in development at the Alaska Department of Fish and Game that uses ``sptotal`` to predict abundance from moose surveys conducted in Alaska. 
+
+# Disclaimer
+
+The views expressed in this article are those of the author(s) and do not necessarily represent the views or policies of the U.S. Environmental Protection Agency. Mention of trade names or commercial products does not constitute endorsement or recommendation for use.
 
 # References
 
