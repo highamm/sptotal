@@ -2,6 +2,10 @@
 
 See <a href="https://highamm.github.io/sptotal/index.html" target="_blank"> sptotal's Website </a> for more information.
 
+The accepted Journal of Open Source Software paper on `sptotal` can be found at [![DOI](https://joss.theoj.org/papers/10.21105/joss.05363/status.svg)](https://doi.org/10.21105/joss.05363)
+
+
+   
 ## Statement of Need
 
 The primary purpose of ``sptotal`` is to provide an implementation of the Finite Population Block Kriging (FPBK) methods developed in Ver Hoef (2002) and Ver Hoef (2008). The method is useful when
