@@ -12,6 +12,21 @@ test_that("Stratification fits", {
   expect_error(stratamod, NA)
 })
 
+test_that("Stratification yields same results as fitting one stratum individually", {
+  stratamod <- stratafit(counts ~ pred1, data = exampledataset,
+                         xcoordcol = "xcoords", ycoordcol = "ycoords",
+                         stratacol = "stratavar", areacol = "areavar",
+                         CorModel = "Spherical", estmethod = "ML")
+
+  exampledataset_b <- subset(exampledataset, stratavar == "B")
+  nonstratamod <- slmfit(counts ~ pred1, data = exampledataset_b,
+                         xcoordcol = "xcoords", ycoordcol = "ycoords",
+                         areacol = "areavar",
+                         CorModel = "Spherical", estmethod = "ML")
+
+  expect_equal(stratamod[[2]], nonstratamod)
+})
+
 
 
 test_that("including stratacol in slmfit analyzes strata separately", {

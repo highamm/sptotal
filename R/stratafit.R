@@ -70,7 +70,9 @@ stratafit <- function(formula, data, xcoordcol, ycoordcol,
   both_df <- split(data, data[[stratacol]])
   slm_outs <- lapply(both_df, FUN = slmfit,
                      formula = formula,
-                     xcoordcol = xcoordcol, ycoordcol = ycoordcol)
+                     xcoordcol = xcoordcol, ycoordcol = ycoordcol,
+                     areacol = areacol,
+                     CorModel = CorModel, estmethod = estmethod)
   class(slm_outs) <- "stratafit"
   return(slm_outs)
 }
