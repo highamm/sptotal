@@ -1,132 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/sptotal-vignette.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/AIC.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/AKmoose_df.html</loc>
-  </url>
-  <url>
-    <loc>/reference/GR2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/LLtoTM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/USlakes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/check.variogram-deprecated.html</loc>
-  </url>
-  <url>
-    <loc>/reference/coef.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/corModelExponential.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estcovparm.html</loc>
-  </url>
-  <url>
-    <loc>/reference/exampledataset.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fitted.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/geostatSim.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get.predinfo-deprecated.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get.predplot-deprecated.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/logLik.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/m2LL.FPBK.nodet.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mginv.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.predict.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pointSimCSR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pointSimSyst.html</loc>
-  </url>
-  <url>
-    <loc>/reference/predict.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/predict.stratafit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.predict.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.predict.stratafit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/print.summary.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/residuals.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/simdata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sptotal.html</loc>
-  </url>
-  <url>
-    <loc>/reference/stratafit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.slmfit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.stratafit.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sv.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/sptotal-vignette.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/AIC.slmfit.html</loc></url>
+<url><loc>/reference/AKmoose_df.html</loc></url>
+<url><loc>/reference/GR2.html</loc></url>
+<url><loc>/reference/LLtoTM.html</loc></url>
+<url><loc>/reference/USlakes.html</loc></url>
+<url><loc>/reference/check.variogram-deprecated.html</loc></url>
+<url><loc>/reference/coef.slmfit.html</loc></url>
+<url><loc>/reference/corModelExponential.html</loc></url>
+<url><loc>/reference/estcovparm.html</loc></url>
+<url><loc>/reference/exampledataset.html</loc></url>
+<url><loc>/reference/fitted.slmfit.html</loc></url>
+<url><loc>/reference/geostatSim.html</loc></url>
+<url><loc>/reference/get.predinfo-deprecated.html</loc></url>
+<url><loc>/reference/get.predplot-deprecated.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/logLik.slmfit.html</loc></url>
+<url><loc>/reference/m2LL.FPBK.nodet.html</loc></url>
+<url><loc>/reference/mginv.html</loc></url>
+<url><loc>/reference/plot.predict.slmfit.html</loc></url>
+<url><loc>/reference/plot.slmfit.html</loc></url>
+<url><loc>/reference/pointSimCSR.html</loc></url>
+<url><loc>/reference/pointSimSyst.html</loc></url>
+<url><loc>/reference/predict.slmfit.html</loc></url>
+<url><loc>/reference/predict.stratafit.html</loc></url>
+<url><loc>/reference/print.predict.slmfit.html</loc></url>
+<url><loc>/reference/print.predict.stratafit.html</loc></url>
+<url><loc>/reference/print.slmfit.html</loc></url>
+<url><loc>/reference/print.summary.slmfit.html</loc></url>
+<url><loc>/reference/residuals.slmfit.html</loc></url>
+<url><loc>/reference/simdata.html</loc></url>
+<url><loc>/reference/slmfit.html</loc></url>
+<url><loc>/reference/sptotal.html</loc></url>
+<url><loc>/reference/stratafit.html</loc></url>
+<url><loc>/reference/summary.slmfit.html</loc></url>
+<url><loc>/reference/summary.stratafit.html</loc></url>
+<url><loc>/reference/sv.html</loc></url>
 </urlset>
+
